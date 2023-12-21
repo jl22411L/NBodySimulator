@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\SimTest.dir/objects.a
+C:\MinGW\bin\ar.exe qc CMakeFiles\SimTest.dir/objects.a @CMakeFiles\SimTest.dir\objects1.rsp
+g++ -g -Wl,--whole-archive CMakeFiles\SimTest.dir/objects.a -Wl,--no-whole-archive -o SimTest.exe -Wl,--out-implib,libSimTest.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\SimTest.dir\linkLibs.rsp
