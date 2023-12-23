@@ -23,7 +23,7 @@ typedef struct dictionaryStruct
   char  *section;
   char **key;
   char **value;
-  int   *size;
+  int    nKeys;
 } dictionary;
 
 #endif /* H_GPARSER_DICTIONARY_H */

@@ -1,7 +1,7 @@
 /*
  *    @File:         GParser_loadingSection.c
  *
- *    @ Brief:       //TODO
+ *    @ Brief:       This loads section buffer of params struct
  *
  *    @ Date:        20/12/2023
  *
@@ -20,6 +20,9 @@
 #include "GConst/GConst.h"
 #include "GLog/GLog.h"
 
+/*
+ *  Refer to respective header file for function description
+ */
 int GParser_loadingSection(
     uint8_t       *p_state,
     GParser_State *p_stateStruct,

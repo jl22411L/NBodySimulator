@@ -15,7 +15,7 @@
 
 set -e
 
-if [ -f BuildCode/* ] || [-d BuildCode/* ]; then
+if [[ -d BuildCode/CMakeFiles ]]; then
   echo "[MSG] Removing contents within BuildCode..."
   rm -r BuildCode/*
   echo "[...] Contents removed"

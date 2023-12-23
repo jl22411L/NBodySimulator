@@ -1,7 +1,7 @@
 /*
  *    @File:         GParser_waitingValue.c
  *
- *    @ Brief:       //TODO
+ *    @ Brief:       Waiting for value to be inputted in parsing
  *
  *    @ Date:        20/12/2023
  *
@@ -20,6 +20,9 @@
 #include "GConst/GConst.h"
 #include "GLog/GLog.h"
 
+/*
+ *  Refer to respective header file for function description
+ */
 int GParser_waitingValue(
     uint8_t       *p_state,
     GParser_State *p_stateStruct,

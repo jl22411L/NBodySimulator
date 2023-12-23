@@ -21,18 +21,24 @@ set(SRC_DIRECTORY ${ROOT_DIRECTORY}/SourceCode)
 # Set relative directories within project
 set(GENERIC_PATH ${SRC_DIRECTORY}/GenericLibraries)
 set(MODULES_PATH ${SRC_DIRECTORY}/Modules)
+set(TEST_PATH ${SRC_DIRECTORY}/TestCase)
+set(UNITTEST_PATH ${SRC_DIRECTORY}/TestCase/UnitTest)
 
 # Directories to be included in scripts
 include_directories(${MODULES_PATH})
 include_directories(${GENERIC_PATH})
+include_directories(${TEST_PATH})
+include_directories(${UNITTEST_PATH})
 
-
-include_directories(/SourceCode/GenericLibraries)
+# include_directories(/SourceCode/GenericLibraries)
 
 # ---- Add subdirectories which contain CMakeLists.txt file ---- #
 
-# Modules
+# Generic Libraries
 add_subdirectory(${GENERIC_PATH}/GParser)
+add_subdirectory(${GENERIC_PATH}/GConversions)
+
+# Modules
 
 # Test Cases
 add_subdirectory(${SRC_DIRECTORY}/TestCase/SimTest)

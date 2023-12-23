@@ -8,6 +8,7 @@ add_executable(GParser_UnitTest
 
 set(LIB_LIST
   GParser
+  GConversions
 )
 
 target_link_libraries(GParser_UnitTest ${LIB_LIST})

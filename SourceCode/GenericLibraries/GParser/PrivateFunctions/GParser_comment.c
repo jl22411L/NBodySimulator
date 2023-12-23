@@ -20,7 +20,9 @@
 #include "GConst/GConst.h"
 #include "GLog/GLog.h"
 
-// TODO: add error cases for !£$%^&*()-+=?/\<>etc...
+/*
+ *  Refer to respective header file for function description
+ */
 int GParser_comment(
     uint8_t       *p_state,
     GParser_State *p_stateStruct,

@@ -11,6 +11,10 @@ add_library(GParser
   PrivateFunctions/GParser_waitingForCommand.c
   PrivateFunctions/GParser_waitingForNewLine.c
   PrivateFunctions/GParser_waitingValue.c
+  PublicFunctions/GParser_loadDouble.c
+  PublicFunctions/GParser_loadFloat.c
+  PublicFunctions/GParser_loadInt.c
   PublicFunctions/GParser_loadParams.c
+  PublicFunctions/GParser_loadString.c
 )
 

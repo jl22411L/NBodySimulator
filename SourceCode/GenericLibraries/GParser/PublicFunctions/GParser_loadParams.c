@@ -3,7 +3,7 @@
  *
  *   @ Brief:       Loads Params from ini file into a dictionary
  *
- *   @ Description: //TODO
+ *   @ Date:        20/12/2023
  *
  */
 
@@ -26,17 +26,21 @@
 #include "GLog/GLog.h"
 #include "GZero/GZero.h"
 
-int GParser_loadParams(const char *filePath, dictionary **p_dic)
+/*
+ *  Refer to respective header file for function description
+ */
+dictionary **GParser_loadParams(const char *filePath)
 {
   /* Defining Local Variables */
-  FILE         *file;
-  GParser_State GParser_state;
-  uint8_t       state;
+  dictionary **p_dic;
+  FILE        *file;
+  uint8_t      state;
 
   char cursor;
 
   /* Clearing Data values */
   GZero(&GParser_state, GParser_State);
+  p_dic = NULL;
 
   /* Initializing Values */
   GParser_state.sectionCounter = 0;
@@ -66,7 +70,6 @@ int GParser_loadParams(const char *filePath, dictionary **p_dic)
   {
     /* Get next cursor*/
     cursor = fgetc(file);
-    printf("%c", cursor);
 
     if (cursor == EOF)
     {
@@ -119,5 +122,5 @@ int GParser_loadParams(const char *filePath, dictionary **p_dic)
     }
   }
 
-  return GCONST_TRUE;
+  return p_dic;
 }

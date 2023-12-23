@@ -88,6 +88,9 @@ dictionary *GParser_loadDictionary(GParser_State *p_stateStruct)
 
     /* copy tmp key buffer to the key member*/
     strcpy(*(p_dic_section->value + i), tmpValueBuffer);
+
+    /* set number of keys in a section */
+    p_dic_section->nKeys = p_stateStruct->sizeIndex;
   }
 
   return p_dic_section;

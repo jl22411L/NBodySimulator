@@ -1,0 +1,89 @@
+/*
+ *    @File:         GConversion_string2float.c
+ *
+ *    @ Brief:       Converts strings to floats
+ *
+ *    @ Date:        23/12/2023
+ *
+ */
+
+/* Function Includes */
+/* None */
+
+/* Structure Include */
+/* None */
+
+/* Data include */
+/* None */
+
+/* Generic Libraries */
+#include "GConst/GConst.h"
+
+int GConversion_string2float(float *p_dataDestination, char **p_dataSource)
+{
+  /* Defining local variables */
+  float integer;
+  float decimal;
+  char  cursor;
+  int   sign;
+  int   endOfString;
+  int   decimalPosition;
+  int   sizeString;
+  int   i;
+
+  /* Checking the sign of the input */
+  cursor = *(*(p_dataSource) + 0);
+  switch (cursor)
+  {
+  case ('-'):
+    sign = -1;
+    i    = 1;
+    break;
+  case ('+'):
+    sign = 1;
+    i    = 1;
+    break;
+  default:
+    sign = 1;
+    i    = 0;
+    break;
+  }
+
+  /* Find position of decimal and number of elements in string */
+  decimalPosition = -1;
+  for (sizeString = 0; (cursor = *(*(p_dataSource) + sizeString)) != '\0';
+       sizeString++)
+  {
+    if (cursor == '.')
+    {
+      decimalPosition = sizeString;
+    }
+  }
+
+  /* It is assumed that if there is no decimal point that it is a float */
+  if (decimalPosition == -1)
+  {
+    decimalPosition = sizeString;
+  }
+
+  /* Finding the integer value and shifting left */
+  integer = 0;
+  for (i; i < decimalPosition; i++)
+  {
+    cursor  = *(*(p_dataSource) + i);
+    integer = integer * 10 + (cursor - '0');
+  }
+
+  /* Finding the decimal value and shifting right */
+  decimal = 0;
+  for (i = sizeString - 1; i > decimalPosition; i--)
+  {
+    cursor  = *(*(p_dataSource) + i);
+    decimal = decimal / 10.0 + (float)(cursor - '0');
+  }
+
+  /* Outputting result */
+  *p_dataDestination = sign * (integer + decimal / 10);
+
+  return GCONST_TRUE;
+}

@@ -30,4 +30,6 @@
 #define GCONST_EXIT_SUCCESS (0)
 #define GCONST_EXIT_FAILURE (1)
 
+#define GCONST_UNIT_EMPTY   (-1)
+
 #endif /* H_GCONST_H */

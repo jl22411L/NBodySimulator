@@ -50,4 +50,6 @@ typedef struct GParser_stateStruct
 
 } GParser_State;
 
+GParser_State GParser_state;
+
 #endif /* H_GPARSER_STATESTRUCT_H */

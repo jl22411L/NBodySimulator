@@ -1,3 +1,0 @@
-"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\GParser_UnitTest.dir/objects.a
-C:\MinGW\bin\ar.exe qc CMakeFiles\GParser_UnitTest.dir/objects.a @CMakeFiles\GParser_UnitTest.dir\objects1.rsp
-g++ -g -Wl,--whole-archive CMakeFiles\GParser_UnitTest.dir/objects.a -Wl,--no-whole-archive -o GParser_UnitTest.exe -Wl,--out-implib,libGParser_UnitTest.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\GParser_UnitTest.dir\linkLibs.rsp
