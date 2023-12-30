@@ -10,6 +10,10 @@
 #ifndef H_GPARSER_UNITTEST_PARAMSSTRUCT_H
 #define H_GPARSER_UNITTEST_PARAMSSTRUCT_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* Function Includes */
 /* None */
 
@@ -35,5 +39,9 @@ typedef struct GParserTest_ParamsStruct
   double doubleNumber;
 
 } GParserTest_Params;
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* H_GPARSER_UNITTEST_PARAMSSTRUCT_H */

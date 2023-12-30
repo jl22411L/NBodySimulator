@@ -10,6 +10,10 @@
 #ifndef H_GPARSER_CONSTANTDEFS_H
 #define H_GPARSER_CONSTANTDEFS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* Function Includes */
 /* None */
 
@@ -34,5 +38,9 @@
 #define GPARSER_STATE_LOADING_VALUE          (23)
 #define GPARSER_STATE_LOADING_STRING_VALUE   (24)
 #define GPARSER_STATE_FINISHED               (99)
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* H_GPARSER_CONSTANTDEFS_H */

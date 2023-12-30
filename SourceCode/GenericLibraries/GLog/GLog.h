@@ -10,6 +10,10 @@
 #ifndef H_GLOG_H
 #define H_GLOG_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -50,5 +54,9 @@
                     (exit(GCONST_EXIT_FAILURE))
 
 // clang-format on
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* H_GLOG_H */

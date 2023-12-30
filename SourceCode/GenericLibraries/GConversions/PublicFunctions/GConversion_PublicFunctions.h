@@ -10,6 +10,10 @@
 #ifndef H_GCONVERSION_PUBLICFUNCTIONS_H
 #define H_GCONVERSION_PUBLICFUNCTIONS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* Function Includes */
 /* None */
 
@@ -32,5 +36,9 @@ extern int
 
 // TODO
 extern int GConversion_string2int(int *p_dataDestination, char **p_dataSource);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* H_GCONVERSION_PUBLICFUNCTIONS_H */

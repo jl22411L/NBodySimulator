@@ -10,6 +10,10 @@
 #ifndef H_ZERO_H
 #define H_ZERO_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <string.h>
 
 /* Function Includes */
@@ -44,5 +48,9 @@
 #define GClear(p_data, n_elements ,dataType) (memset(p_data, 0, n_elements*sizeof(dataType)))
 
 // clang-format on
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* H_GLOG_H */

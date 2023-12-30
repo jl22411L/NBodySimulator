@@ -8,6 +8,10 @@
 #ifndef H_GPARSER_PUBLICFUNCTIONS_h
 #define H_GPARSER_PUBLICFUNCTIONS_h
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* Function Includes */
 /* None */
 
@@ -47,5 +51,9 @@ extern int GParser_loadString(
     char       **p_dataDestination,
     char        *p_dataFromIni,
     dictionary **p_dic);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* H_GPARSER_PUBLICFUNCTIONS_h */

@@ -10,6 +10,10 @@
 #ifndef H_GCONST_H
 #define H_GCONST_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* Function Includes */
 /* None */
 
@@ -31,5 +35,9 @@
 #define GCONST_EXIT_FAILURE (1)
 
 #define GCONST_UNIT_EMPTY   (-1)
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* H_GCONST_H */

@@ -11,6 +11,10 @@
 #ifndef H_GPARSER_PRIVATE_FUNCTIONS_H
 #define H_GPARSER_PRIVATE_FUNCTIONS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 #include <stdio.h>
 
@@ -80,5 +84,9 @@ extern int GParser_waitingValue(
     uint8_t       *p_state,
     GParser_State *p_stateStruct,
     const char     cursor);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* H_GPARSER_PRIVATE_FUNCTIONS_H */

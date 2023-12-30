@@ -8,6 +8,10 @@
 #ifndef H_GPARSER_STATESTRUCT_H
 #define H_GPARSER_STATESTRUCT_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 
 /* Function Includes */
@@ -51,5 +55,9 @@ typedef struct GParser_stateStruct
 } GParser_State;
 
 GParser_State GParser_state;
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* H_GPARSER_STATESTRUCT_H */

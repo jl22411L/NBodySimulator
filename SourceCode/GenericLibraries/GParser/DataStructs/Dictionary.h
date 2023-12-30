@@ -8,6 +8,10 @@
 #ifndef H_GPARSER_DICTIONARY_H
 #define H_GPARSER_DICTIONARY_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* Function Includes */
 
 /* Structure Include */
@@ -25,5 +29,9 @@ typedef struct dictionaryStruct
   char **value;
   int    nKeys;
 } dictionary;
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* H_GPARSER_DICTIONARY_H */

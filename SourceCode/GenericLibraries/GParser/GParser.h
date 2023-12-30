@@ -8,6 +8,10 @@
 #ifndef H_GPARSER_H
 #define H_GPARSER_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* Function Includes */
 #include "PrivateFunctions/GParser_PrivateFunctions.h"
 #include "PublicFunctions/GParser_PublicFunctions.h"
@@ -21,5 +25,9 @@
 
 /* Generic Libraries */
 /* None */
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
