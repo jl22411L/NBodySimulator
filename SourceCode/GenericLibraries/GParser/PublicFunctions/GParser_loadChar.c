@@ -1,5 +1,5 @@
 /*
- *    @File:         GParser_loadFloat.c
+ *    @File:         GParser_loadString.c
  *
  *    @ Brief:       loads a string into a params struct
  *
@@ -22,22 +22,17 @@
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
-#include "GConversions/GConversions.h"
 #include "GLog/GLog.h"
 
-int GParser_loadDouble(double *p_dataDestination, char *p_dataFromIni, dictionary **p_dic)
+int GParser_loadChar(char *p_dataDestination, char *p_dataFromIni, dictionary **p_dic)
 {
   /* Defining local variables */
   dictionary *p_dic_tmp;
   char        section_buffer[256];
   char        key_buffer[256];
   int         numberOfKeys;
-  float       integerPart;
-  float       decimalPart;
-  int         currentLoadingInteger;
   int         i;
   int         j;
-  int         k;
 
   /* Clearing Buffers */
   memset(&section_buffer, 0, 256 * sizeof(char));
@@ -45,24 +40,23 @@ int GParser_loadDouble(double *p_dataDestination, char *p_dataFromIni, dictionar
   p_dic_tmp = NULL;
 
   /* Declaring local variables */
-  i                     = 0;
-  j                     = 0;
-  k                     = 0;
-  integerPart           = 0;
-  decimalPart           = 0;
-  currentLoadingInteger = 1;
+  *p_dataDestination = '\0';
+  i                  = 0;
+  j                  = 0;
 
   /* Parsing data input for section */
-  for (i = 0; *(p_dataFromIni + i) != ':'; i++)
+  while (!(*(p_dataFromIni + i) == ':'))
   {
     section_buffer[i] = *(p_dataFromIni + i);
+    i++;
   }
 
   /* Parsing data input for key */
-  for (i; *(p_dataFromIni + i) != '\0'; i++)
+  while (!(*(p_dataFromIni + i + 1) == '\0'))
   {
     key_buffer[j] = *(p_dataFromIni + i + 1);
     j++;
+    i++;
   }
 
   /* Cycling through sections in dictionary */
@@ -74,12 +68,12 @@ int GParser_loadDouble(double *p_dataDestination, char *p_dataFromIni, dictionar
     /* check to see if section name matches */
     if (strcmp(p_dic_tmp->section, section_buffer) == 0)
     {
-      /* if key was found, break main for loop */
+      /* If section was found break for loop */
       break;
     }
   }
 
-  /* Check to see if section was found */
+  /* If section was not found throw an error */
   if (i == GParser_state.maxNumberSection)
   {
     GMsg(p_dataFromIni);
@@ -92,8 +86,8 @@ int GParser_loadDouble(double *p_dataDestination, char *p_dataFromIni, dictionar
     /* See if key matches with key inputted */
     if (strcmp(*(p_dic_tmp->key + i), key_buffer) == 0)
     {
-      /* If key matches, store convert value to int and store in member */
-      GConversion_string2double(p_dataDestination, (p_dic_tmp->value + i));
+      /* If key matches, store value of key */
+      *p_dataDestination = (char)*(p_dic_tmp->value + i);
       break;
     }
   }
@@ -103,6 +97,12 @@ int GParser_loadDouble(double *p_dataDestination, char *p_dataFromIni, dictionar
   {
     GMsg(p_dataFromIni);
     GError("Key not found in section");
+  }
+
+  /* Check that parameter was loaded and if not return GCONST_FALSE */
+  if (*p_dataDestination == '\0')
+  {
+    GError("Data was not loaded in corrcetly");
   }
 
   return GCONST_TRUE;

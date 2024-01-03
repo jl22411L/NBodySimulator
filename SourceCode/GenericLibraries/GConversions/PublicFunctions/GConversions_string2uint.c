@@ -18,8 +18,9 @@
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
+#include "GLog/GLog.h"
 
-GConversion_string2int(int *p_dataDestination, char **p_dataSource)
+GConversion_string2uint(int *p_dataDestination, char **p_dataSource)
 {
   /* Defining local variables */
   int  number;
@@ -32,16 +33,7 @@ GConversion_string2int(int *p_dataDestination, char **p_dataSource)
   switch (cursor)
   {
   case ('-'):
-    sign = -1;
-    i    = 1;
-    break;
-  case ('+'):
-    sign = 1;
-    i    = 1;
-    break;
-  default:
-    sign = 1;
-    i    = 0;
+    GError("Unsigned int can not have a negative sign");
     break;
   }
 
@@ -49,11 +41,12 @@ GConversion_string2int(int *p_dataDestination, char **p_dataSource)
   number = 0;
   for (i; (cursor = *(*(p_dataSource) + i)) != '\0'; i++)
   {
+
     number = number * 10 + (int)(cursor - '0');
   }
 
   /* Outputting result */
-  *p_dataDestination = sign * number;
+  *p_dataDestination = number;
 
   return GCONST_TRUE;
 }

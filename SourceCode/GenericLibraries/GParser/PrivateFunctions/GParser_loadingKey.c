@@ -23,15 +23,15 @@
 /*
  *  Refer to respective header file for function description
  */
-int GParser_loadingKey(
-    uint8_t       *p_state,
-    GParser_State *p_stateStruct,
-    const char     cursor)
+int GParser_loadingKey(uint8_t *p_state, GParser_State *p_stateStruct, const char cursor)
 {
   switch (cursor)
   {
   case (' '):
     *p_state = GPARSER_STATE_KEY_WAITING_FOR_EQUALS;
+    break;
+  case ('='):
+    *p_state = GPARSER_STATE_WAITING_VALUE;
     break;
   case ('\t'):
     *p_state = GPARSER_STATE_KEY_WAITING_FOR_EQUALS;

@@ -14,6 +14,8 @@
 extern "C" {
 #endif
 
+#include <stdint.h>
+
 /* Function Includes */
 /* None */
 
@@ -37,6 +39,16 @@ typedef struct GParserTest_ParamsStruct
   float floatingNumber;
 
   double doubleNumber;
+
+  int dcm[3][3];
+
+  float dcm2[3][3];
+
+  int row[3];
+
+  unsigned int unsignedInt;
+
+  int8_t integer_8;
 
 } GParserTest_Params;
 

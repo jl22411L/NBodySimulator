@@ -1,5 +1,5 @@
 /*
- *    @File:         GParser_loadFloat.c
+ *    @File:         GParser_loadInt.c
  *
  *    @ Brief:       loads a string into a params struct
  *
@@ -7,6 +7,7 @@
  *
  */
 
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -25,16 +26,13 @@
 #include "GConversions/GConversions.h"
 #include "GLog/GLog.h"
 
-int GParser_loadDouble(double *p_dataDestination, char *p_dataFromIni, dictionary **p_dic)
+int GParser_loadInt_8(int8_t *p_dataDestination, char *p_dataFromIni, dictionary **p_dic)
 {
   /* Defining local variables */
   dictionary *p_dic_tmp;
   char        section_buffer[256];
   char        key_buffer[256];
   int         numberOfKeys;
-  float       integerPart;
-  float       decimalPart;
-  int         currentLoadingInteger;
   int         i;
   int         j;
   int         k;
@@ -42,15 +40,9 @@ int GParser_loadDouble(double *p_dataDestination, char *p_dataFromIni, dictionar
   /* Clearing Buffers */
   memset(&section_buffer, 0, 256 * sizeof(char));
   memset(&key_buffer, 0, 256 * sizeof(char));
-  p_dic_tmp = NULL;
-
-  /* Declaring local variables */
-  i                     = 0;
-  j                     = 0;
-  k                     = 0;
-  integerPart           = 0;
-  decimalPart           = 0;
-  currentLoadingInteger = 1;
+  *p_dataDestination = 0;
+  p_dic_tmp          = NULL;
+  j                  = 0;
 
   /* Parsing data input for section */
   for (i = 0; *(p_dataFromIni + i) != ':'; i++)
@@ -71,15 +63,14 @@ int GParser_loadDouble(double *p_dataDestination, char *p_dataFromIni, dictionar
     /* load tempory dictionary */
     p_dic_tmp = *(p_dic + i);
 
-    /* check to see if section name matches */
+    /* If section if found break for loop */
     if (strcmp(p_dic_tmp->section, section_buffer) == 0)
     {
-      /* if key was found, break main for loop */
       break;
     }
   }
 
-  /* Check to see if section was found */
+  /* Check to see if a section was found */
   if (i == GParser_state.maxNumberSection)
   {
     GMsg(p_dataFromIni);
@@ -93,7 +84,7 @@ int GParser_loadDouble(double *p_dataDestination, char *p_dataFromIni, dictionar
     if (strcmp(*(p_dic_tmp->key + i), key_buffer) == 0)
     {
       /* If key matches, store convert value to int and store in member */
-      GConversion_string2double(p_dataDestination, (p_dic_tmp->value + i));
+      GConversion_string2int_8(p_dataDestination, (p_dic_tmp->value + i));
       break;
     }
   }

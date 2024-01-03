@@ -35,55 +35,33 @@ extern "C" {
 
 extern int GParser_clearBuffers(GParser_State *p_stateStruct);
 
-extern int GParser_comment(
-    uint8_t       *p_state,
-    GParser_State *p_stateStruct,
-    const char     cursor);
+extern int GParser_comment(uint8_t *p_state, GParser_State *p_stateStruct, const char cursor);
 
-extern int
-    GParser_findNumberOfSections(FILE *file, uint8_t *p_maxNumberSection_out);
+extern int GParser_findIndex(int *col, int *row, char *key, int startPosition);
+
+extern int GParser_findNumberOfSections(FILE *file, uint8_t *p_maxNumberSection_out);
 
 extern dictionary *GParser_loadDictionary(GParser_State *p_stateStruct);
 
-extern int GParser_loadingKey(
-    uint8_t       *p_state,
-    GParser_State *p_stateStruct,
-    const char     cursor);
+extern int GParser_loadingKey(uint8_t *p_state, GParser_State *p_stateStruct, const char cursor);
 
-extern int GParser_loadingSection(
-    uint8_t       *p_state,
-    GParser_State *p_stateStruct,
-    const char     cursor);
+extern int
+    GParser_loadingSection(uint8_t *p_state, GParser_State *p_stateStruct, const char cursor);
 
-extern int GParser_loadingStringValue(
-    uint8_t       *p_state,
-    GParser_State *p_stateStruct,
-    const char     cursor);
+extern int
+    GParser_loadingStringValue(uint8_t *p_state, GParser_State *p_stateStruct, const char cursor);
 
-extern int GParser_loadingValue(
-    uint8_t       *p_state,
-    GParser_State *p_stateStruct,
-    const char     cursor);
+extern int GParser_loadingValue(uint8_t *p_state, GParser_State *p_stateStruct, const char cursor);
 
-extern int GParser_waitingEquals(
-    uint8_t       *p_state,
-    GParser_State *p_stateStruct,
-    const char     cursor);
+extern int GParser_waitingEquals(uint8_t *p_state, GParser_State *p_stateStruct, const char cursor);
 
-extern int GParser_waitingForCommand(
-    uint8_t       *p_state,
-    GParser_State *p_stateStruct,
-    const char     cursor);
+extern int
+    GParser_waitingForCommand(uint8_t *p_state, GParser_State *p_stateStruct, const char cursor);
 
-extern int GParser_waitingForNewLine(
-    uint8_t       *p_state,
-    GParser_State *p_stateStruct,
-    const char     cursor);
+extern int
+    GParser_waitingForNewLine(uint8_t *p_state, GParser_State *p_stateStruct, const char cursor);
 
-extern int GParser_waitingValue(
-    uint8_t       *p_state,
-    GParser_State *p_stateStruct,
-    const char     cursor);
+extern int GParser_waitingValue(uint8_t *p_state, GParser_State *p_stateStruct, const char cursor);
 
 #ifdef __cplusplus
 }

@@ -24,10 +24,7 @@
 #include "GConst/GConst.h"
 #include "GLog/GLog.h"
 
-int GParser_loadString(
-    char       **p_dataDestination,
-    char        *p_dataFromIni,
-    dictionary **p_dic)
+int GParser_loadString(char **p_dataDestination, char *p_dataFromIni, dictionary **p_dic)
 {
   /* Defining local variables */
   dictionary *p_dic_tmp;
@@ -41,25 +38,19 @@ int GParser_loadString(
   memset(&section_buffer, 0, 256 * sizeof(char));
   memset(&key_buffer, 0, 256 * sizeof(char));
   p_dic_tmp = NULL;
-
-  /* Declaring local variables */
-  *p_dataDestination = '\0';
-  i                  = 0;
-  j                  = 0;
+  j         = 0;
 
   /* Parsing data input for section */
-  while (!(*(p_dataFromIni + i) == ':'))
+  for (i = 0; *(p_dataFromIni + i) != ':'; i++)
   {
     section_buffer[i] = *(p_dataFromIni + i);
-    i++;
   }
 
   /* Parsing data input for key */
-  while (!(*(p_dataFromIni + i + 1) == '\0'))
+  for (i; *(p_dataFromIni + i + 1) != '\0'; i++)
   {
     key_buffer[j] = *(p_dataFromIni + i + 1);
     j++;
-    i++;
   }
 
   /* Cycling through sections in dictionary */
@@ -71,41 +62,34 @@ int GParser_loadString(
     /* check to see if section name matches */
     if (strcmp(p_dic_tmp->section, section_buffer) == 0)
     {
-
-      /* Cycle thorugh keys */
-      for (j = 0; j < p_dic_tmp->nKeys; j++)
-      {
-        /* See if key matches with key inputted */
-        if (strcmp(*(p_dic_tmp->key + j), key_buffer) == 0)
-        {
-          /* If key matches, store value of key */
-          *p_dataDestination = *(p_dic_tmp->value + j);
-          break;
-        }
-      }
-
-      /* Throw an error if no key was found */
-      if (j == p_dic_tmp->nKeys)
-      {
-        GMsg(p_dataFromIni);
-        GError("Key not found in section");
-      }
-
-      /* if key was found, break main for loop */
       break;
     }
   }
 
+  /* Check if section was found */
   if (i == GParser_state.maxNumberSection)
   {
     GMsg(p_dataFromIni);
     GError("Section not found");
   }
 
-  /* Check that parameter was loaded and if not return GCONST_FALSE */
-  if (*p_dataDestination == '\0')
+  /* Cycle thorugh keys */
+  for (i = 0; i < p_dic_tmp->nKeys; i++)
   {
-    GError("Data was not loaded in corrcetly");
+    /* See if key matches with key inputted */
+    if (strcmp(*(p_dic_tmp->key + i), key_buffer) == 0)
+    {
+      /* If key matches, store value of key */
+      *p_dataDestination = *(p_dic_tmp->value + i);
+      break;
+    }
+  }
+
+  /* Throw an error if no key was found */
+  if (i == p_dic_tmp->nKeys)
+  {
+    GMsg(p_dataFromIni);
+    GError("Key not found in section");
   }
 
   return GCONST_TRUE;
