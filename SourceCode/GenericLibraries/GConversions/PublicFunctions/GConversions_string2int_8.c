@@ -7,6 +7,8 @@
  *
  */
 
+#include <stdint.h>
+
 /* Function Includes */
 /* None */
 
@@ -19,13 +21,13 @@
 /* Generic Libraries */
 #include "GConst/GConst.h"
 
-GConversion_string2int(int *p_dataDestination, char **p_dataSource)
+GConversion_string2int_8(int8_t *p_dataDestination, char **p_dataSource)
 {
   /* Defining local variables */
-  int  number;
-  char cursor;
-  int  sign;
-  int  i;
+  int8_t number;
+  char   cursor;
+  int8_t sign;
+  int8_t i;
 
   /* Checking the sign of the input */
   cursor = *(*(p_dataSource) + 0);

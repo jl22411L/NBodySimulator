@@ -5,8 +5,8 @@
  *
  */
 
-#ifndef H_GPARSER_PUBLICFUNCTIONS_h
-#define H_GPARSER_PUBLICFUNCTIONS_h
+#ifndef H_GPARSER_PUBLICFUNCTIONS_H
+#define H_GPARSER_PUBLICFUNCTIONS_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -26,34 +26,44 @@ extern "C" {
 /* None */
 
 // TODO
-extern int GParser_loadDouble(
-    double      *p_dataDestination,
-    char        *p_dataFromIni,
-    dictionary **p_dic);
+extern int GParser_loadDouble(double *p_dataDestination, char *p_dataFromIni, dictionary **p_dic);
 
 // TODO
-extern int GParser_loadFloat(
+extern int GParser_loadFloat(float *p_dataDestination, char *p_dataFromIni, dictionary **p_dic);
+
+// TODO
+extern int GParser_loadFloatArray(
     float       *p_dataDestination,
     char        *p_dataFromIni,
+    int          nCols,
+    int          nRows,
     dictionary **p_dic);
 
 // TODO
-extern int GParser_loadInt(
+extern int GParser_loadInt_8(int8_t *p_dataDestination, char *p_dataFromIni, dictionary **p_dic);
+
+// TODO
+extern int GParser_loadInt(int *p_dataDestination, char *p_dataFromIni, dictionary **p_dic);
+
+// TODO
+extern int GParser_loadIntArray(
     int         *p_dataDestination,
     char        *p_dataFromIni,
+    int          nCols,
+    int          nRows,
     dictionary **p_dic);
 
 // TODO
 extern dictionary **GParser_loadParams(const char *filePath);
 
 // TODO
-extern int GParser_loadString(
-    char       **p_dataDestination,
-    char        *p_dataFromIni,
-    dictionary **p_dic);
+extern int GParser_loadString(char **p_dataDestination, char *p_dataFromIni, dictionary **p_dic);
+
+// TODO
+extern int GParser_loadUInt(int *p_dataDestination, char *p_dataFromIni, dictionary **p_dic);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* H_GPARSER_PUBLICFUNCTIONS_h */
+#endif /* H_GPARSER_PUBLICFUNCTIONS_H */

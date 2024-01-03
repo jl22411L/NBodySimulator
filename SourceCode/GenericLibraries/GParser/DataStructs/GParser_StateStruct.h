@@ -51,6 +51,8 @@ typedef struct GParser_stateStruct
 
   /* Flags */
   uint8_t loadDictionaryEnabled;
+  uint8_t indexLoaded;
+  uint8_t array2D;
 
 } GParser_State;
 

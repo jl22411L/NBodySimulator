@@ -1,9 +1,9 @@
 /*
- *    @File:         GParser_loadFloat.c
+ *    @File:         GParser_loadUInt.c
  *
  *    @ Brief:       loads a string into a params struct
  *
- *    @ Date:        23/12/2023
+ *    @ Date:        01/01/2024
  *
  */
 
@@ -25,16 +25,13 @@
 #include "GConversions/GConversions.h"
 #include "GLog/GLog.h"
 
-int GParser_loadDouble(double *p_dataDestination, char *p_dataFromIni, dictionary **p_dic)
+int GParser_loadUInt(int *p_dataDestination, char *p_dataFromIni, dictionary **p_dic)
 {
   /* Defining local variables */
   dictionary *p_dic_tmp;
   char        section_buffer[256];
   char        key_buffer[256];
   int         numberOfKeys;
-  float       integerPart;
-  float       decimalPart;
-  int         currentLoadingInteger;
   int         i;
   int         j;
   int         k;
@@ -42,15 +39,9 @@ int GParser_loadDouble(double *p_dataDestination, char *p_dataFromIni, dictionar
   /* Clearing Buffers */
   memset(&section_buffer, 0, 256 * sizeof(char));
   memset(&key_buffer, 0, 256 * sizeof(char));
-  p_dic_tmp = NULL;
-
-  /* Declaring local variables */
-  i                     = 0;
-  j                     = 0;
-  k                     = 0;
-  integerPart           = 0;
-  decimalPart           = 0;
-  currentLoadingInteger = 1;
+  *p_dataDestination = 0;
+  p_dic_tmp          = NULL;
+  j                  = 0;
 
   /* Parsing data input for section */
   for (i = 0; *(p_dataFromIni + i) != ':'; i++)
@@ -59,7 +50,7 @@ int GParser_loadDouble(double *p_dataDestination, char *p_dataFromIni, dictionar
   }
 
   /* Parsing data input for key */
-  for (i; *(p_dataFromIni + i) != '\0'; i++)
+  for (i; *(p_dataFromIni + i + 1) != '\0'; i++)
   {
     key_buffer[j] = *(p_dataFromIni + i + 1);
     j++;
@@ -93,7 +84,7 @@ int GParser_loadDouble(double *p_dataDestination, char *p_dataFromIni, dictionar
     if (strcmp(*(p_dic_tmp->key + i), key_buffer) == 0)
     {
       /* If key matches, store convert value to int and store in member */
-      GConversion_string2double(p_dataDestination, (p_dic_tmp->value + i));
+      GConversion_string2uint(p_dataDestination, (p_dic_tmp->value + i));
       break;
     }
   }

@@ -25,35 +25,20 @@
 #include "GConversions/GConversions.h"
 #include "GLog/GLog.h"
 
-int GParser_loadFloat(
-    float       *p_dataDestination,
-    char        *p_dataFromIni,
-    dictionary **p_dic)
+int GParser_loadFloat(float *p_dataDestination, char *p_dataFromIni, dictionary **p_dic)
 {
   /* Defining local variables */
   dictionary *p_dic_tmp;
   char        section_buffer[256];
   char        key_buffer[256];
-  int         numberOfKeys;
-  float       integerPart;
-  float       decimalPart;
-  int         currentLoadingInteger;
   int         i;
   int         j;
-  int         k;
 
   /* Clearing Buffers */
   memset(&section_buffer, 0, 256 * sizeof(char));
   memset(&key_buffer, 0, 256 * sizeof(char));
   p_dic_tmp = NULL;
-
-  /* Declaring local variables */
-  i                     = 0;
-  j                     = 0;
-  k                     = 0;
-  integerPart           = 0;
-  decimalPart           = 0;
-  currentLoadingInteger = 1;
+  j         = 0;
 
   /* Parsing data input for section */
   for (i = 0; *(p_dataFromIni + i) != ':'; i++)
@@ -77,35 +62,35 @@ int GParser_loadFloat(
     /* check to see if section name matches */
     if (strcmp(p_dic_tmp->section, section_buffer) == 0)
     {
-
-      /* Cycle thorugh keys */
-      for (j = 0; j < p_dic_tmp->nKeys; j++)
-      {
-        /* See if key matches with key inputted */
-        if (strcmp(*(p_dic_tmp->key + j), key_buffer) == 0)
-        {
-          /* If key matches, store convert value to int and store in member */
-          GConversion_string2float(p_dataDestination, (p_dic_tmp->value + j));
-          break;
-        }
-      }
-
-      /* Throw an error if no key was found */
-      if (j == p_dic_tmp->nKeys)
-      {
-        GMsg(p_dataFromIni);
-        GError("Key not found in section");
-      }
-
-      /* if key was found, break main for loop */
+      /* If key was found, break main for loop */
       break;
     }
   }
 
+  /* Check to see if section was found */
   if (i == GParser_state.maxNumberSection)
   {
     GMsg(p_dataFromIni);
     GError("Section not found");
+  }
+
+  /* Cycle thorugh keys */
+  for (i = 0; i < p_dic_tmp->nKeys; i++)
+  {
+    /* See if key matches with key inputted */
+    if (strcmp(*(p_dic_tmp->key + i), key_buffer) == 0)
+    {
+      /* If key matches, store convert value to int and store in member */
+      GConversion_string2float(p_dataDestination, (p_dic_tmp->value + i));
+      break;
+    }
+  }
+
+  /* Throw an error if no key was found */
+  if (i == p_dic_tmp->nKeys)
+  {
+    GMsg(p_dataFromIni);
+    GError("Key not found in section");
   }
 
   return GCONST_TRUE;
