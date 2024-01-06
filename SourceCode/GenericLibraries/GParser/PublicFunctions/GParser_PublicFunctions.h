@@ -26,6 +26,9 @@ extern "C" {
 /* None */
 
 // TODO
+extern int GParser_closeParams(dictionary **p_dic);
+
+// TODO
 extern int GParser_loadDouble(double *p_dataDestination, char *p_dataFromIni, dictionary **p_dic);
 
 // TODO

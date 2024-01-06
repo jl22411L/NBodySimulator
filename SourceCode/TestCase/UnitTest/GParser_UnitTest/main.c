@@ -51,5 +51,7 @@ int main()
   printf("%f \n", GParserTest_params.floatingNumber);
   printf("%lf \n", GParserTest_params.doubleNumber);
 
+  GParser_closeParams(p_dic);
+
   return GCONST_EXIT_SUCCESS;
 }
