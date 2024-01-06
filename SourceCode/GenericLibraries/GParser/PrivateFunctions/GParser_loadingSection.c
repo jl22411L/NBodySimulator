@@ -23,10 +23,7 @@
 /*
  *  Refer to respective header file for function description
  */
-int GParser_loadingSection(
-    uint8_t       *p_state,
-    GParser_State *p_stateStruct,
-    const char     cursor)
+int GParser_loadingSection(GParser_State *p_GParser_state, uint8_t *p_state, const char cursor)
 {
   switch (cursor)
   {
@@ -46,13 +43,13 @@ int GParser_loadingSection(
     GError("Can't have ; in section name");
     break;
   case (']'):
-    p_stateStruct->sectionCounter++;
+    p_GParser_state->sectionCounter++;
     *p_state = GPARSER_STATE_WAITING_NEWLINE;
     break;
   default:
-    *(p_stateStruct->sectionBuffer + p_stateStruct->sectionIndex) = cursor;
-    p_stateStruct->sectionIndex++;
-    p_stateStruct->sectionSize++;
+    *(p_GParser_state->sectionBuffer + p_GParser_state->sectionIndex) = cursor;
+    p_GParser_state->sectionIndex++;
+    p_GParser_state->sectionSize++;
   }
 
   return GCONST_TRUE;

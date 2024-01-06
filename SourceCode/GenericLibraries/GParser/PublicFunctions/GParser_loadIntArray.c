@@ -26,11 +26,12 @@
 #include "GLog/GLog.h"
 
 int GParser_loadIntArray(
-    int         *p_dataDestination,
-    char        *p_dataFromIni,
-    int          nCols,
-    int          nRows,
-    dictionary **p_dic)
+    GParser_State *p_GParser_state,
+    dictionary   **p_dic,
+    int           *p_dataDestination,
+    char          *p_dataFromIni,
+    int            nCols,
+    int            nRows)
 {
   /* Defining local variables */
   dictionary *p_dic_tmp;
@@ -65,7 +66,7 @@ int GParser_loadIntArray(
   }
 
   /* Find dictionary for coresponding section */
-  for (i = 0; i < GParser_state.maxNumberSection; i++)
+  for (i = 0; i < p_GParser_state->maxNumberSection; i++)
   {
     /* load tempory dictionary */
     p_dic_tmp = *(p_dic + i);
@@ -77,7 +78,7 @@ int GParser_loadIntArray(
     }
   }
 
-  if (i == GParser_state.maxNumberSection)
+  if (i == p_GParser_state->maxNumberSection)
   {
     GMsg(p_dataFromIni);
     GError("Section not found");
@@ -92,7 +93,7 @@ int GParser_loadIntArray(
       /* If present, find index */
       if (*(*(p_dic_tmp->key + i) + j) == '[')
       {
-        GParser_findIndex(&col, &row, *(p_dic_tmp->key + i), j);
+        GParser_findIndex(p_GParser_state, &col, &row, *(p_dic_tmp->key + i), j);
         break;
       }
 
@@ -101,7 +102,7 @@ int GParser_loadIntArray(
     }
 
     /* Compare keyInput and keyIni */
-    if (strcmp(key_iniBuffer, key_inputBuffer) == 0 && GParser_state.indexLoaded)
+    if (strcmp(key_iniBuffer, key_inputBuffer) == 0 && p_GParser_state->indexLoaded)
     {
       GConversion_string2int((p_dataDestination + col + row * nCols), (p_dic_tmp->value + i));
     }

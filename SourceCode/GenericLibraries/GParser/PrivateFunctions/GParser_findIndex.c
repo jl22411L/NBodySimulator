@@ -22,7 +22,12 @@
 #include "GLog/GLog.h"
 #include "GZero/GZero.h"
 
-int GParser_findIndex(int *col_out, int *row_out, char *key, int startPosition)
+int GParser_findIndex(
+    GParser_State *p_GParser_state,
+    int           *col_out,
+    int           *row_out,
+    char          *key,
+    int            startPosition)
 {
   /* Defining Local Vairables */
   char *colValue;
@@ -46,13 +51,13 @@ int GParser_findIndex(int *col_out, int *row_out, char *key, int startPosition)
   }
 
   /* Loading colValue and rowValue */
-  GParser_state.array2D = GCONST_FALSE;
+  p_GParser_state->array2D = GCONST_FALSE;
   for (i = startPosition; *(key + i) != '\0'; i++)
   {
     switch (*(key + i))
     {
     case ('['):
-      switch (GParser_state.array2D)
+      switch (p_GParser_state->array2D)
       {
       case (GCONST_TRUE):
         /* Setting row values */
@@ -68,7 +73,7 @@ int GParser_findIndex(int *col_out, int *row_out, char *key, int startPosition)
       }
       break;
     case (']'):
-      GParser_state.array2D = GCONST_TRUE;
+      p_GParser_state->array2D = GCONST_TRUE;
       break;
     case (','):
       break;
@@ -80,7 +85,7 @@ int GParser_findIndex(int *col_out, int *row_out, char *key, int startPosition)
       GError("Can't have a new line in index");
       break;
     default:
-      switch (GParser_state.array2D)
+      switch (p_GParser_state->array2D)
       {
       case (GCONST_TRUE):
         *(colValue + colIndex) = *(key + i);
@@ -102,8 +107,8 @@ int GParser_findIndex(int *col_out, int *row_out, char *key, int startPosition)
   memcpy(col_out, &col, sizeof(int *));
   memcpy(row_out, &row, sizeof(int *));
 
-  GParser_state.array2D     = GCONST_FALSE;
-  GParser_state.indexLoaded = GCONST_TRUE;
+  p_GParser_state->array2D     = GCONST_FALSE;
+  p_GParser_state->indexLoaded = GCONST_TRUE;
 
   return GCONST_TRUE;
 }

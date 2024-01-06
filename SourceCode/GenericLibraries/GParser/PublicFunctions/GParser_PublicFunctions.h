@@ -26,44 +26,70 @@ extern "C" {
 /* None */
 
 // TODO
-extern int GParser_closeParams(dictionary **p_dic);
+extern int GParser_closeParams(GParser_State *p_GParser_state, dictionary **p_dic);
 
 // TODO
-extern int GParser_loadDouble(double *p_dataDestination, char *p_dataFromIni, dictionary **p_dic);
+extern int GParser_loadDouble(
+    GParser_State *p_GParser_state,
+    dictionary   **p_dic,
+    double        *p_dataDestination,
+    char          *p_dataFromIni);
 
 // TODO
-extern int GParser_loadFloat(float *p_dataDestination, char *p_dataFromIni, dictionary **p_dic);
+extern int GParser_loadFloat(
+    GParser_State *p_GParser_state,
+    dictionary   **p_dic,
+    float         *p_dataDestination,
+    char          *p_dataFromIni);
 
 // TODO
 extern int GParser_loadFloatArray(
-    float       *p_dataDestination,
-    char        *p_dataFromIni,
-    int          nCols,
-    int          nRows,
-    dictionary **p_dic);
+    GParser_State *p_GParser_state,
+    dictionary   **p_dic,
+    float         *p_dataDestination,
+    char          *p_dataFromIni,
+    int            nCols,
+    int            nRows);
 
 // TODO
-extern int GParser_loadInt_8(int8_t *p_dataDestination, char *p_dataFromIni, dictionary **p_dic);
+extern int GParser_loadInt_8(
+    GParser_State *p_GParser_state,
+    dictionary   **p_dic,
+    int8_t        *p_dataDestination,
+    char          *p_dataFromIni);
 
 // TODO
-extern int GParser_loadInt(int *p_dataDestination, char *p_dataFromIni, dictionary **p_dic);
+extern int GParser_loadInt(
+    GParser_State *p_GParser_state,
+    dictionary   **p_dic,
+    int           *p_dataDestination,
+    char          *p_dataFromIni);
 
 // TODO
 extern int GParser_loadIntArray(
-    int         *p_dataDestination,
-    char        *p_dataFromIni,
-    int          nCols,
-    int          nRows,
-    dictionary **p_dic);
+    GParser_State *p_GParser_state,
+    dictionary   **p_dic,
+    int           *p_dataDestination,
+    char          *p_dataFromIni,
+    int            nCols,
+    int            nRows);
 
 // TODO
-extern dictionary **GParser_loadParams(const char *filePath);
+extern dictionary **GParser_loadParams(GParser_State *p_GParser_state, const char *filePath);
 
 // TODO
-extern int GParser_loadString(char **p_dataDestination, char *p_dataFromIni, dictionary **p_dic);
+extern int GParser_loadString(
+    GParser_State *p_GParser_state,
+    dictionary   **p_dic,
+    char         **p_dataDestination,
+    char          *p_dataFromIni);
 
 // TODO
-extern int GParser_loadUInt(int *p_dataDestination, char *p_dataFromIni, dictionary **p_dic);
+extern int GParser_loadUInt(
+    GParser_State *p_GParser_state,
+    dictionary   **p_dic,
+    int           *p_dataDestination,
+    char          *p_dataFromIni);
 
 #ifdef __cplusplus
 }

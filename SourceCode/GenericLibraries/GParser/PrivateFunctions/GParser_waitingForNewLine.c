@@ -23,10 +23,7 @@
 /*
  *  Refer to respective header file for function description
  */
-int GParser_waitingForNewLine(
-    uint8_t       *p_state,
-    GParser_State *p_stateStruct,
-    const char     cursor)
+int GParser_waitingForNewLine(GParser_State *p_GParser_state, uint8_t *p_state, const char cursor)
 {
   switch (cursor)
   {

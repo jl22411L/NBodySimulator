@@ -29,7 +29,7 @@
 /*
  *  Refer to respective header file for function description
  */
-dictionary **GParser_loadParams(const char *filePath)
+dictionary **GParser_loadParams(GParser_State *p_GParser_state, const char *filePath)
 {
   /* Defining Local Variables */
   dictionary **p_dic;
@@ -39,14 +39,14 @@ dictionary **GParser_loadParams(const char *filePath)
   char cursor;
 
   /* Clearing Data values */
-  GZero(&GParser_state, GParser_State);
+  GZero(p_GParser_state, GParser_State *);
   p_dic = NULL;
 
   /* Initializing Values */
-  GParser_state.sectionCounter = 0;
-  GParser_state.keyIndex       = 0;
-  GParser_state.valueIndex     = 0;
-  GParser_state.sizeIndex      = 0;
+  p_GParser_state->sectionCounter = 0;
+  p_GParser_state->keyIndex       = 0;
+  p_GParser_state->valueIndex     = 0;
+  p_GParser_state->sizeIndex      = 0;
 
   /* Opening file */
   file = fopen(filePath, "r");
@@ -57,12 +57,10 @@ dictionary **GParser_loadParams(const char *filePath)
   }
 
   /* Finding number of Sections */
-  GParser_findNumberOfSections(file, &GParser_state.maxNumberSection);
+  GParser_findNumberOfSections(file, &p_GParser_state->maxNumberSection);
 
   /* Assigning Memory to Dictionary */
-  p_dic = (dictionary **)calloc(
-      GParser_state.maxNumberSection,
-      sizeof(dictionary *));
+  p_dic = (dictionary **)calloc(p_GParser_state->maxNumberSection, sizeof(dictionary *));
 
   /* Run through file */
   state = GPARSER_STATE_WAITING_FOR_COMMAND;
@@ -75,50 +73,48 @@ dictionary **GParser_loadParams(const char *filePath)
     {
       state = GPARSER_STATE_FINISHED;
 
-      GParser_state.loadDictionaryEnabled = GCONST_TRUE;
+      p_GParser_state->loadDictionaryEnabled = GCONST_TRUE;
     }
 
     /* Check the state */
     switch (state)
     {
     case (GPARSER_STATE_WAITING_FOR_COMMAND):
-      GParser_waitingForCommand(&state, &GParser_state, cursor);
+      GParser_waitingForCommand(p_GParser_state, &state, cursor);
       break;
     case (GPARSER_STATE_WAITING_NEWLINE):
-      GParser_waitingForNewLine(&state, &GParser_state, cursor);
+      GParser_waitingForNewLine(p_GParser_state, &state, cursor);
       break;
     case (GPARSER_STATE_COMMENT):
-      GParser_comment(&state, &GParser_state, cursor);
+      GParser_comment(p_GParser_state, &state, cursor);
       break;
     case (GPARSER_STATE_LOADING_SECTION):
-      GParser_loadingSection(&state, &GParser_state, cursor);
+      GParser_loadingSection(p_GParser_state, &state, cursor);
       break;
     case (GPARSER_STATE_LOADING_KEY):
-      GParser_loadingKey(&state, &GParser_state, cursor);
+      GParser_loadingKey(p_GParser_state, &state, cursor);
       break;
     case (GPARSER_STATE_KEY_WAITING_FOR_EQUALS):
-      GParser_waitingEquals(&state, &GParser_state, cursor);
+      GParser_waitingEquals(p_GParser_state, &state, cursor);
       break;
     case (GPARSER_STATE_WAITING_VALUE):
-      GParser_waitingValue(&state, &GParser_state, cursor);
+      GParser_waitingValue(p_GParser_state, &state, cursor);
       break;
     case (GPARSER_STATE_LOADING_VALUE):
-      GParser_loadingValue(&state, &GParser_state, cursor);
+      GParser_loadingValue(p_GParser_state, &state, cursor);
       break;
     case (GPARSER_STATE_LOADING_STRING_VALUE):
-      GParser_loadingStringValue(&state, &GParser_state, cursor);
+      GParser_loadingStringValue(p_GParser_state, &state, cursor);
       break;
     }
-    char a = cursor;
 
-    if (GParser_state.loadDictionaryEnabled)
+    if (p_GParser_state->loadDictionaryEnabled)
     {
-      *(p_dic + GParser_state.sectionCounter - 1) =
-          GParser_loadDictionary(&GParser_state);
+      *(p_dic + p_GParser_state->sectionCounter - 1) = GParser_loadDictionary(p_GParser_state);
 
-      GParser_clearBuffers(&GParser_state);
+      GParser_clearBuffers(p_GParser_state);
 
-      GParser_state.loadDictionaryEnabled = GCONST_FALSE;
+      p_GParser_state->loadDictionaryEnabled = GCONST_FALSE;
     }
   }
 

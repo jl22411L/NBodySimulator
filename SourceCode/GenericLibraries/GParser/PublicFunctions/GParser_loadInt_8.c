@@ -26,7 +26,11 @@
 #include "GConversions/GConversions.h"
 #include "GLog/GLog.h"
 
-int GParser_loadInt_8(int8_t *p_dataDestination, char *p_dataFromIni, dictionary **p_dic)
+int GParser_loadInt_8(
+    GParser_State *p_GParser_state,
+    dictionary   **p_dic,
+    int8_t        *p_dataDestination,
+    char          *p_dataFromIni)
 {
   /* Defining local variables */
   dictionary *p_dic_tmp;
@@ -58,7 +62,7 @@ int GParser_loadInt_8(int8_t *p_dataDestination, char *p_dataFromIni, dictionary
   }
 
   /* Cycling through sections in dictionary */
-  for (i = 0; i < GParser_state.maxNumberSection; i++)
+  for (i = 0; i < p_GParser_state->maxNumberSection; i++)
   {
     /* load tempory dictionary */
     p_dic_tmp = *(p_dic + i);
@@ -71,7 +75,7 @@ int GParser_loadInt_8(int8_t *p_dataDestination, char *p_dataFromIni, dictionary
   }
 
   /* Check to see if a section was found */
-  if (i == GParser_state.maxNumberSection)
+  if (i == p_GParser_state->maxNumberSection)
   {
     GMsg(p_dataFromIni);
     GError("Section not found");

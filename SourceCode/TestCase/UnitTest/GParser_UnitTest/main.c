@@ -25,33 +25,35 @@
 int main()
 {
   GParserTest_Params GParserTest_params;
+  GParser_State      GParser_state;
   dictionary       **p_dic;
 
   GZero(&GParserTest_params, GParserTest_Params);
+  GZero(&GParser_state, GParser_State);
 
   /* Loading Dictionary */
-  if ((p_dic = GParser_loadParams("Parameters/test.ini")) == NULL)
+  if ((p_dic = GParser_loadParams(&GParser_state, "Parameters/test.ini")) == NULL)
   {
     GError("Parameters did not open corrcetly");
   }
 
   /* Loading params struct */
-  GParser_loadDouble(&GParserTest_params.doubleNumber, "owner:double", p_dic);
-  GParser_loadFloat(&GParserTest_params.floatingNumber, "owner:float", p_dic);
-  GParser_loadInt(&GParserTest_params.integer, "owner:integer", p_dic);
-  GParser_loadIntArray(&GParserTest_params.dcm[0][0], "Test:dcm", 3, 3, p_dic);
-  GParser_loadFloatArray(&GParserTest_params.dcm2[0][0], "Test:dcm2", 3, 3, p_dic);
-  GParser_loadIntArray(&GParserTest_params.row[0], "Test:row", 3, 1, p_dic);
-  GParser_loadInt_8(&GParserTest_params.integer_8, "owner:integer", p_dic);
-
-  GParser_loadString(&GParserTest_params.name, "owner:name", p_dic);
-  GParser_loadUInt(&GParserTest_params.unsignedInt, "Test:int8", p_dic);
+  GParser_loadDouble(&GParser_state, p_dic, &GParserTest_params.doubleNumber, "owner:double");
+  GParser_loadFloat(&GParser_state, p_dic, &GParserTest_params.floatingNumber, "owner:float");
+  GParser_loadInt(&GParser_state, p_dic, &GParserTest_params.integer, "owner:integer");
+  GParser_loadIntArray(&GParser_state, p_dic, &GParserTest_params.dcm[0][0], "Test:dcm", 3, 3);
+  GParser_loadFloatArray(&GParser_state, p_dic, &GParserTest_params.dcm2[0][0], "Test:dcm2", 3, 3);
+  GParser_loadIntArray(&GParser_state, p_dic, &GParserTest_params.row[0], "Test:row", 3, 1);
+  GParser_loadInt_8(&GParser_state, p_dic, &GParserTest_params.integer_8, "owner:integer");
+  GParser_loadString(&GParser_state, p_dic, &GParserTest_params.organisation, "owner:organization");
+  GParser_loadString(&GParser_state, p_dic, &GParserTest_params.name, "owner:name");
+  GParser_loadUInt(&GParser_state, p_dic, &GParserTest_params.unsignedInt, "Test:int8");
 
   printf("%d \n", GParserTest_params.integer);
   printf("%f \n", GParserTest_params.floatingNumber);
   printf("%lf \n", GParserTest_params.doubleNumber);
 
-  GParser_closeParams(p_dic);
+  GParser_closeParams(&GParser_state, p_dic);
 
   return GCONST_EXIT_SUCCESS;
 }

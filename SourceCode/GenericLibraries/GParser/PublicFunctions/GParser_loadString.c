@@ -24,7 +24,11 @@
 #include "GConst/GConst.h"
 #include "GLog/GLog.h"
 
-int GParser_loadString(char **p_dataDestination, char *p_dataFromIni, dictionary **p_dic)
+int GParser_loadString(
+    GParser_State *p_GParser_state,
+    dictionary   **p_dic,
+    char         **p_dataDestination,
+    char          *p_dataFromIni)
 {
   /* Defining local variables */
   dictionary *p_dic_tmp;
@@ -54,7 +58,7 @@ int GParser_loadString(char **p_dataDestination, char *p_dataFromIni, dictionary
   }
 
   /* Cycling through sections in dictionary */
-  for (i = 0; i < GParser_state.maxNumberSection; i++)
+  for (i = 0; i < p_GParser_state->maxNumberSection; i++)
   {
     /* load tempory dictionary */
     p_dic_tmp = *(p_dic + i);
@@ -67,7 +71,7 @@ int GParser_loadString(char **p_dataDestination, char *p_dataFromIni, dictionary
   }
 
   /* Check if section was found */
-  if (i == GParser_state.maxNumberSection)
+  if (i == p_GParser_state->maxNumberSection)
   {
     GMsg(p_dataFromIni);
     GError("Section not found");

@@ -26,7 +26,6 @@ int GParser_closeParams(dictionary **p_dic)
 {
   /* Clearing memory */
   free(p_dic);
-  free(&GParser_state);
 
   return GCONST_TRUE;
 }

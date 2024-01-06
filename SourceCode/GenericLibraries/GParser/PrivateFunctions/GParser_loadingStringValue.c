@@ -23,10 +23,7 @@
 /*
  *  Refer to respective header file for function description
  */
-int GParser_loadingStringValue(
-    uint8_t       *p_state,
-    GParser_State *p_stateStruct,
-    const char     cursor)
+int GParser_loadingStringValue(GParser_State *p_GParser_state, uint8_t *p_state, const char cursor)
 {
   switch (cursor)
   {
@@ -34,13 +31,13 @@ int GParser_loadingStringValue(
     GError("Can't have a newline before string is closed with \"");
     break;
   case ('\"'):
-    p_stateStruct->sizeIndex++;
+    p_GParser_state->sizeIndex++;
     *p_state = GPARSER_STATE_WAITING_NEWLINE;
     break;
   default:
-    *(p_stateStruct->valueBuffer + p_stateStruct->valueIndex) = cursor;
-    p_stateStruct->valueIndex++;
-    p_stateStruct->valueSize[p_stateStruct->sizeIndex]++;
+    *(p_GParser_state->valueBuffer + p_GParser_state->valueIndex) = cursor;
+    p_GParser_state->valueIndex++;
+    p_GParser_state->valueSize[p_GParser_state->sizeIndex]++;
     break;
   }
 

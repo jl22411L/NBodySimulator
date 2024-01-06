@@ -28,10 +28,7 @@
 /*
  *  Refer to respective header file for function description
  */
-int GParser_waitingForCommand(
-    uint8_t       *p_state,
-    GParser_State *p_stateStruct,
-    const char     cursor)
+int GParser_waitingForCommand(GParser_State *p_GParser_state, uint8_t *p_state, const char cursor)
 {
   switch (cursor)
   {
@@ -42,12 +39,12 @@ int GParser_waitingForCommand(
   case ('\n'):
     break;
   case ('['):
-    switch (p_stateStruct->sectionCounter)
+    switch (p_GParser_state->sectionCounter)
     {
     case (0):
       break;
     default:
-      p_stateStruct->loadDictionaryEnabled = GCONST_TRUE;
+      p_GParser_state->loadDictionaryEnabled = GCONST_TRUE;
     }
     *p_state = GPARSER_STATE_LOADING_SECTION;
     break;
@@ -61,16 +58,16 @@ int GParser_waitingForCommand(
     *p_state = GPARSER_STATE_FINISHED;
     break;
   default:
-    switch (p_stateStruct->sectionCounter)
+    switch (p_GParser_state->sectionCounter)
     {
     case (0):
       GError("Can't have a key with no section");
       break;
     default:
-      *p_state = GPARSER_STATE_LOADING_KEY;
-      *(p_stateStruct->keyBuffer + p_stateStruct->keyIndex) = cursor;
-      p_stateStruct->keyIndex++;
-      p_stateStruct->keySize[p_stateStruct->sizeIndex]++;
+      *p_state                                                  = GPARSER_STATE_LOADING_KEY;
+      *(p_GParser_state->keyBuffer + p_GParser_state->keyIndex) = cursor;
+      p_GParser_state->keyIndex++;
+      p_GParser_state->keySize[p_GParser_state->sizeIndex]++;
       break;
     }
   }
