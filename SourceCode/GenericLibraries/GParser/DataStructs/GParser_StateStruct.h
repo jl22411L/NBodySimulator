@@ -26,27 +26,26 @@ extern "C" {
 
 typedef struct GParser_stateStruct
 {
-  /* Buffers */
+  /* Buffers used for loading data */
   char sectionBuffer[1024];
   char keyBuffer[1024];
   char valueBuffer[1024];
 
-  /* Index's */
+  /* Variables to keep track of index's for array's */
   uint8_t sectionIndex;
   uint8_t keyIndex;
   uint8_t valueIndex;
-
   uint8_t sizeIndex;
 
-  /* Sizes */
+  /* Variables to keep track of sizes */
   int sectionSize;
   int keySize[256];
   int valueSize[256];
 
-  /* Counters */
+  /* Variable to keep track of number of Sections */
   uint8_t sectionCounter;
 
-  /* Number of Sections */
+  /* Variable to keep track of the total Number of Sections */
   uint8_t maxNumberSection;
 
   /* Flags */
@@ -54,9 +53,10 @@ typedef struct GParser_stateStruct
   uint8_t indexLoaded;
   uint8_t array2D;
 
-} GParser_State;
+  /* State Variable */
+  uint8_t loadParamsState;
 
-GParser_State GParser_state;
+} GParser_State;
 
 #ifdef __cplusplus
 }

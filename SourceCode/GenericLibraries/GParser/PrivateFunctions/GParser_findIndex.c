@@ -22,6 +22,9 @@
 #include "GLog/GLog.h"
 #include "GZero/GZero.h"
 
+/*
+ *  Refer to respective header file for function description
+ */
 int GParser_findIndex(
     GParser_State *p_GParser_state,
     int           *col_out,
@@ -34,15 +37,13 @@ int GParser_findIndex(
   char *rowValue;
   int   col;
   int   row;
-  int   colIndex;
-  int   rowIndex;
+  int   index;
   int   i;
 
   /* Decalring Local Variables */
   colValue = (char *)calloc(256, sizeof(char));
   rowValue = (char *)calloc(256, sizeof(char));
-  GZero(&colIndex, sizeof(int));
-  GZero(&rowIndex, sizeof(int));
+  GZero(&index, sizeof(int));
 
   /* Check to make sure there is an index */
   if (*(key + startPosition) != '[')
@@ -57,45 +58,44 @@ int GParser_findIndex(
     switch (*(key + i))
     {
     case ('['):
+      /* Check to see if array is 1D or 2D */
       switch (p_GParser_state->array2D)
       {
+      /* If Array is 2D: */
       case (GCONST_TRUE):
-        /* Setting row values */
+        /* Copying col values to row values */
         memcpy(rowValue, colValue, 256 * sizeof(char));
-        rowIndex = colIndex;
 
         /* Clearing column values */
         GZero(colValue, char *);
-        GZero(&colIndex, int);
+        GZero(&index, int);
         break;
+      /* If Array is 1D: */
       case (GCONST_FALSE):
+        /* DO NOTHING */
         break;
       }
       break;
     case (']'):
+      /* Update array2D flag */
       p_GParser_state->array2D = GCONST_TRUE;
       break;
     case (','):
+      /* DO NOTHING */
       break;
     case (' '):
+      /* DO NOTHING */
       break;
     case ('\t'):
+      /* DO NOTHING */
       break;
     case ('\n'):
       GError("Can't have a new line in index");
       break;
     default:
-      switch (p_GParser_state->array2D)
-      {
-      case (GCONST_TRUE):
-        *(colValue + colIndex) = *(key + i);
-        rowIndex++;
-        break;
-      case (GCONST_FALSE):
-        *(colValue + colIndex) = *(key + i);
-        colIndex++;
-        break;
-      }
+      /* Loading column */
+      *(colValue + index) = *(key + i);
+      index++;
       break;
     }
   }
@@ -109,6 +109,10 @@ int GParser_findIndex(
 
   p_GParser_state->array2D     = GCONST_FALSE;
   p_GParser_state->indexLoaded = GCONST_TRUE;
+
+  /* Freeing heap memory */
+  free(colValue);
+  free(rowValue);
 
   return GCONST_TRUE;
 }

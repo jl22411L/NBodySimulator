@@ -22,9 +22,12 @@
 /* Generic Libraries */
 #include "GConst/GConst.h"
 
+/*
+ *  Refer to respective header file for function description
+ */
 int GParser_closeParams(dictionary **p_dic)
 {
-  /* Clearing memory */
+  /* Clearing dictionary from heap memory */
   free(p_dic);
 
   return GCONST_TRUE;

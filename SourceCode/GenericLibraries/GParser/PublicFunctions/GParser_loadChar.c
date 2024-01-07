@@ -24,6 +24,9 @@
 #include "GConst/GConst.h"
 #include "GLog/GLog.h"
 
+/*
+ *  Refer to respective header file for function description
+ */
 int GParser_loadChar(
     GParser_State *p_GParser_state,
     dictionary   **p_dic,

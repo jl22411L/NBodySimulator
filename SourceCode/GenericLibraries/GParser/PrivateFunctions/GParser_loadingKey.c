@@ -23,25 +23,33 @@
 /*
  *  Refer to respective header file for function description
  */
-int GParser_loadingKey(GParser_State *p_GParser_state, uint8_t *p_state, const char cursor)
+int GParser_loadingKey(GParser_State *p_GParser_state, const char cursor)
 {
   switch (cursor)
   {
   case (' '):
-    *p_state = GPARSER_STATE_KEY_WAITING_FOR_EQUALS;
+    /* Update state */
+    p_GParser_state->loadParamsState = GPARSER_STATE_KEY_WAITING_FOR_EQUALS;
     break;
   case ('='):
-    *p_state = GPARSER_STATE_WAITING_VALUE;
+    /* Update state */
+    p_GParser_state->loadParamsState = GPARSER_STATE_WAITING_VALUE;
     break;
   case ('\t'):
-    *p_state = GPARSER_STATE_KEY_WAITING_FOR_EQUALS;
+    /* Update state */
+    p_GParser_state->loadParamsState = GPARSER_STATE_KEY_WAITING_FOR_EQUALS;
     break;
   case ('\n'):
     GError("Value not inputted into key");
     break;
   default:
+    /* Load key buffer with cursor */
     *(p_GParser_state->keyBuffer + p_GParser_state->keyIndex) = cursor;
+
+    /* Incriment index */
     p_GParser_state->keyIndex++;
+
+    /* Incriment key size */
     p_GParser_state->keySize[p_GParser_state->sizeIndex]++;
     break;
   }

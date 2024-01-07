@@ -25,6 +25,9 @@
 #include "GConversions/GConversions.h"
 #include "GLog/GLog.h"
 
+/*
+ *  Refer to respective header file for function description
+ */
 int GParser_loadInt(
     GParser_State *p_GParser_state,
     dictionary   **p_dic,
@@ -35,17 +38,14 @@ int GParser_loadInt(
   dictionary *p_dic_tmp;
   char        section_buffer[256];
   char        key_buffer[256];
-  int         numberOfKeys;
   int         i;
   int         j;
-  int         k;
 
   /* Clearing Buffers */
   memset(&section_buffer, 0, 256 * sizeof(char));
   memset(&key_buffer, 0, 256 * sizeof(char));
-  *p_dataDestination = 0;
-  p_dic_tmp          = NULL;
-  j                  = 0;
+  p_dic_tmp = NULL;
+  j         = 0;
 
   /* Parsing data input for section */
   for (i = 0; *(p_dataFromIni + i) != ':'; i++)

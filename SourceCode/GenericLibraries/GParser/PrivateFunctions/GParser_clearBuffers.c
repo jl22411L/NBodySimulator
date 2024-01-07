@@ -22,6 +22,9 @@
 #include "GConst/GConst.h"
 #include "GZero/GZero.h"
 
+/*
+ *  Refer to respective header file for function description
+ */
 int GParser_clearBuffers(GParser_State *p_GParser_state)
 {
   /* Clear Buffers */
@@ -29,12 +32,13 @@ int GParser_clearBuffers(GParser_State *p_GParser_state)
   GClear(p_GParser_state->keyBuffer, 1024, char);
   GClear(p_GParser_state->valueBuffer, 1024, char);
 
-  /* Clear Indexes */
+  /* Clear Index's */
   GZero(&p_GParser_state->sizeIndex, uint8_t);
   GZero(&p_GParser_state->sectionIndex, uint8_t);
   GZero(&p_GParser_state->valueIndex, uint8_t);
   GZero(&p_GParser_state->keyIndex, uint8_t);
 
+  /* Clear size variables */
   GClear(&p_GParser_state->keySize, 256, int);
   GClear(&p_GParser_state->valueSize, 256, int);
   GClear(&p_GParser_state->sectionSize, 1, int);

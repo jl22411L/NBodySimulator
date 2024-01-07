@@ -25,6 +25,9 @@
 #include "GConversions/GConversions.h"
 #include "GLog/GLog.h"
 
+/*
+ *  Refer to respective header file for function description
+ */
 int GParser_loadUInt(
     GParser_State *p_GParser_state,
     dictionary   **p_dic,
@@ -38,7 +41,6 @@ int GParser_loadUInt(
   int         numberOfKeys;
   int         i;
   int         j;
-  int         k;
 
   /* Clearing Buffers */
   memset(&section_buffer, 0, 256 * sizeof(char));

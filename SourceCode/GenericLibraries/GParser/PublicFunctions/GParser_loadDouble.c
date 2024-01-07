@@ -25,6 +25,9 @@
 #include "GConversions/GConversions.h"
 #include "GLog/GLog.h"
 
+/*
+ *  Refer to respective header file for function description
+ */
 int GParser_loadDouble(
     GParser_State *p_GParser_state,
     dictionary   **p_dic,
@@ -35,13 +38,8 @@ int GParser_loadDouble(
   dictionary *p_dic_tmp;
   char        section_buffer[256];
   char        key_buffer[256];
-  int         numberOfKeys;
-  float       integerPart;
-  float       decimalPart;
-  int         currentLoadingInteger;
   int         i;
   int         j;
-  int         k;
 
   /* Clearing Buffers */
   memset(&section_buffer, 0, 256 * sizeof(char));
@@ -49,12 +47,8 @@ int GParser_loadDouble(
   p_dic_tmp = NULL;
 
   /* Declaring local variables */
-  i                     = 0;
-  j                     = 0;
-  k                     = 0;
-  integerPart           = 0;
-  decimalPart           = 0;
-  currentLoadingInteger = 1;
+  i = 0;
+  j = 0;
 
   /* Parsing data input for section */
   for (i = 0; *(p_dataFromIni + i) != ':'; i++)

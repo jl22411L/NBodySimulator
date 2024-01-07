@@ -26,7 +26,7 @@ extern "C" {
 /* Generic Libraries */
 /* None */
 
-/* ------------------------------- CONSTANTS ------------------------------- */
+/* ---------------------- LOAD PARAMS STATE CONSTANTS ---------------------- */
 
 #define GPARSER_STATE_WAITING_FOR_COMMAND    (0)
 #define GPARSER_STATE_WAITING_NEWLINE        (1)

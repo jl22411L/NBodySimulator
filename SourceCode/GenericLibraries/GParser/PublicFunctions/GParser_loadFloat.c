@@ -25,6 +25,9 @@
 #include "GConversions/GConversions.h"
 #include "GLog/GLog.h"
 
+/*
+ *  Refer to respective header file for function description
+ */
 int GParser_loadFloat(
     GParser_State *p_GParser_state,
     dictionary   **p_dic,

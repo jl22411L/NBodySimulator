@@ -25,6 +25,9 @@
 #include "GConversions/GConversions.h"
 #include "GLog/GLog.h"
 
+/*
+ *  Refer to respective header file for function description
+ */
 int GParser_loadIntArray(
     GParser_State *p_GParser_state,
     dictionary   **p_dic,
@@ -93,7 +96,12 @@ int GParser_loadIntArray(
       /* If present, find index */
       if (*(*(p_dic_tmp->key + i) + j) == '[')
       {
-        GParser_findIndex(p_GParser_state, &col, &row, *(p_dic_tmp->key + i), j);
+        GParser_findIndex(
+            p_GParser_state,
+            &col,
+            &row,
+            *(p_dic_tmp->key + i),
+            j);
         break;
       }
 
@@ -102,9 +110,12 @@ int GParser_loadIntArray(
     }
 
     /* Compare keyInput and keyIni */
-    if (strcmp(key_iniBuffer, key_inputBuffer) == 0 && p_GParser_state->indexLoaded)
+    if (strcmp(key_iniBuffer, key_inputBuffer) == 0 &&
+        p_GParser_state->indexLoaded)
     {
-      GConversion_string2int((p_dataDestination + col + row * nCols), (p_dic_tmp->value + i));
+      GConversion_string2int(
+          (p_dataDestination + col + row * nCols),
+          (p_dic_tmp->value + i));
     }
 
     /* Clear buffer */

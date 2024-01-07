@@ -23,33 +23,53 @@
 /*
  *  Refer to respective header file for function description
  */
-int GParser_loadingValue(GParser_State *p_GParser_state, uint8_t *p_state, const char cursor)
+int GParser_loadingValue(GParser_State *p_GParser_state, const char cursor)
 {
   switch (cursor)
   {
   case (' '):
+    /* Incriment size Index */
     p_GParser_state->sizeIndex++;
-    *p_state = GPARSER_STATE_WAITING_NEWLINE;
+
+    /* Update State */
+    p_GParser_state->loadParamsState = GPARSER_STATE_WAITING_NEWLINE;
     break;
   case ('\t'):
+    /* Incriment size Index */
     p_GParser_state->sizeIndex++;
-    *p_state = GPARSER_STATE_WAITING_NEWLINE;
+
+    /* Update State */
+    p_GParser_state->loadParamsState = GPARSER_STATE_WAITING_NEWLINE;
     break;
   case ('\n'):
+    /* Incriment size Index */
     p_GParser_state->sizeIndex++;
-    *p_state = GPARSER_STATE_WAITING_FOR_COMMAND;
+
+    /* Update State */
+    p_GParser_state->loadParamsState = GPARSER_STATE_WAITING_FOR_COMMAND;
     break;
   case ('#'):
+    /* Incriment size Index */
     p_GParser_state->sizeIndex++;
-    *p_state = GPARSER_STATE_COMMENT;
+
+    /* Update State */
+    p_GParser_state->loadParamsState = GPARSER_STATE_COMMENT;
     break;
   case (';'):
+    /* Incriment size Index */
     p_GParser_state->sizeIndex++;
-    *p_state = GPARSER_STATE_COMMENT;
+
+    /* Update State */
+    p_GParser_state->loadParamsState = GPARSER_STATE_COMMENT;
     break;
   default:
+    /* Load value buffer with cursor */
     *(p_GParser_state->valueBuffer + p_GParser_state->valueIndex) = cursor;
+
+    /* Incriment value index */
     p_GParser_state->valueIndex++;
+
+    /* incriment value size value */
     p_GParser_state->valueSize[p_GParser_state->sizeIndex]++;
     break;
   }

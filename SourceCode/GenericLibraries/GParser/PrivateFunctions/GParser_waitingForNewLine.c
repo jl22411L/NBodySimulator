@@ -23,21 +23,29 @@
 /*
  *  Refer to respective header file for function description
  */
-int GParser_waitingForNewLine(GParser_State *p_GParser_state, uint8_t *p_state, const char cursor)
+int GParser_waitingForNewLine(
+    GParser_State *p_GParser_state,
+    uint8_t       *p_state,
+    const char     cursor)
 {
   switch (cursor)
   {
   case (' '):
+    /* DO NOTHING */
     break;
   case ('\t'):
+    /* DO NOTHING */
     break;
   case ('\n'):
+    /* Update the state */
     *p_state = GPARSER_STATE_WAITING_FOR_COMMAND;
     break;
   case ('#'):
+    /* Update the state */
     *p_state = GPARSER_STATE_COMMENT;
     break;
   case (';'):
+    /* Update the state */
     *p_state = GPARSER_STATE_COMMENT;
     break;
   default:
