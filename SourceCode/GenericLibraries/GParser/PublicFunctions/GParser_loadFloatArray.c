@@ -98,10 +98,10 @@ int GParser_loadFloatArray(
       {
         GParser_findIndex(
             p_GParser_state,
-            &col,
-            &row,
             *(p_dic_tmp->key + i),
-            j);
+            j,
+            &col,
+            &row);
         break;
       }
 

@@ -13,7 +13,6 @@ add_library(GParser
   PrivateFunctions/GParser_waitingForNewLine.c
   PrivateFunctions/GParser_waitingValue.c
   PublicFunctions/GParser_closeParams.c
-  PublicFunctions/GParser_loadChar.c
   PublicFunctions/GParser_loadDouble.c
   PublicFunctions/GParser_loadFloat.c
   PublicFunctions/GParser_loadFloatArray.c

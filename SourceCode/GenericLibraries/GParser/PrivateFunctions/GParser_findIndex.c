@@ -27,10 +27,10 @@
  */
 int GParser_findIndex(
     GParser_State *p_GParser_state,
-    int           *col_out,
-    int           *row_out,
-    char          *key,
-    int            startPosition)
+    char          *p_key_in,
+    int            startPosition_in,
+    int           *p_col_out,
+    int           *p_row_out)
 {
   /* Defining Local Vairables */
   char *colValue;
@@ -46,16 +46,16 @@ int GParser_findIndex(
   GZero(&index, sizeof(int));
 
   /* Check to make sure there is an index */
-  if (*(key + startPosition) != '[')
+  if (*(p_key_in + startPosition_in) != '[')
   {
     GError("Start  position of key is not a '['.");
   }
 
   /* Loading colValue and rowValue */
   p_GParser_state->array2D = GCONST_FALSE;
-  for (i = startPosition; *(key + i) != '\0'; i++)
+  for (i = startPosition_in; *(p_key_in + i) != '\0'; i++)
   {
-    switch (*(key + i))
+    switch (*(p_key_in + i))
     {
     case ('['):
       /* Check to see if array is 1D or 2D */
@@ -94,18 +94,19 @@ int GParser_findIndex(
       break;
     default:
       /* Loading column */
-      *(colValue + index) = *(key + i);
+      *(colValue + index) = *(p_key_in + i);
       index++;
       break;
     }
   }
 
+  /* Take the string values and output to integer values*/
   GConversion_string2int(&col, &colValue);
   GConversion_string2int(&row, &rowValue);
 
   /* Copying data to output */
-  memcpy(col_out, &col, sizeof(int *));
-  memcpy(row_out, &row, sizeof(int *));
+  memcpy(p_col_out, &col, sizeof(int *));
+  memcpy(p_row_out, &row, sizeof(int *));
 
   p_GParser_state->array2D     = GCONST_FALSE;
   p_GParser_state->indexLoaded = GCONST_TRUE;

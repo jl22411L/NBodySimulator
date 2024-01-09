@@ -23,10 +23,7 @@
 /*
  *  Refer to respective header file for function description
  */
-int GParser_waitingValue(
-    GParser_State *p_GParser_state,
-    uint8_t       *p_state,
-    const char     cursor)
+int GParser_waitingValue(GParser_State *p_GParser_state, const char cursor)
 {
   switch (cursor)
   {
@@ -47,7 +44,7 @@ int GParser_waitingValue(
     break;
   case ('\"'):
     /* Update State */
-    *p_state = GPARSER_STATE_LOADING_STRING_VALUE;
+    p_GParser_state->loadParamsState = GPARSER_STATE_LOADING_STRING_VALUE;
     break;
   default:
     /* Load value buffer with cursor */
@@ -60,7 +57,7 @@ int GParser_waitingValue(
     p_GParser_state->valueSize[p_GParser_state->sizeIndex]++;
 
     /* Update state */
-    *p_state = GPARSER_STATE_LOADING_VALUE;
+    p_GParser_state->loadParamsState = GPARSER_STATE_LOADING_VALUE;
     break;
   }
 

@@ -23,9 +23,9 @@
 /*
  *  Refer to respective header file for function description
  */
-int GParser_comment(GParser_State *p_GParser_state, const char cursor)
+int GParser_comment(GParser_State *p_GParser_state, const char cursor_in)
 {
-  switch (cursor)
+  switch (cursor_in)
   {
   case ('\n'):
     /* Updating the state */
