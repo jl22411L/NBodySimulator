@@ -53,4 +53,8 @@ for i in '**.sh'; do
   chmod +755 $i
 done
 
+for i in '.git/hooks/**'; do
+  chmod +755 $i
+done
+
 echo "[MSG] Permissions changed successfully"
