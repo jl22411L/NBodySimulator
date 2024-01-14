@@ -36,4 +36,25 @@ mkdir .git/hooks
 
 # Move hooks
 echo "[MSG] Copying hooks:"
+echo ""
 cp -v .Configuration/GitHooks/* .git/hooks/
+echo ""
+
+#--------------------------- SETTING UP PERMISSIONS --------------------------#
+
+#
+# This will change the permissions of bash scrits to make them executables
+#
+
+echo "[MSG] Changine permissions of bash scripts to +755"
+
+# Change permissions of bash scripts so that they are executable
+for i in '**.sh'; do
+  chmod +755 $i
+done
+
+for i in '.git/hooks/**'; do
+  chmod +755 $i
+done
+
+echo "[MSG] Permissions changed successfully"
