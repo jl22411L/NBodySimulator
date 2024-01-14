@@ -19,16 +19,52 @@ echo "$1"
 echo "[MSG] Building Code Base"
 echo "[...] Setting Source and Build directories..."
 
-if [ "$1" == "Debug" ]; then
-  echo "[MSG] Building in Debug mode"
+# Setting variable which will contain arguments for CMAKE
+additional_arguments=""
 
-  echo "[...] # ------------------------------ SETTING DIRECTORIES ------------------------------ # "
-  cmake -S SourceCode -B BuildCode -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug
-else
-  echo "[...] # ----------------------------- SETTING DIRECTORIES ----------------------------- # "
+#---------------------------- SETTING DIRECTORIES ----------------------------#
 
-  cmake -S SourceCode -B BuildCode -G "MinGW Makefiles"
-fi
+# Setting Source directory
+source_dir_argument="-S SourceCode"
+
+# Setting Build Directory
+build_dir_argument="-B BuildCode"
+
+# Adding directory arguments to additional arguments
+additional_arguments="${additional_arguments} ${source_dir_argument} ${build_dir_argument}"
+
+
+#------------------------- CHECKING PARSED ARGUMENTS -------------------------#
+
+for input in $@; do
+  case ${input} in
+    Debug*)   additional_arguments="${additional_arguments} -DCMAKE_BUILD_TYPE=Debug"
+    ;;
+
+    *)        echo "[ERR] Unknown input: ${input}"
+              exit 1
+  esac
+done
+
+#------------------------------- RUNNING CMAKE -------------------------------#
+
+# Find the name of the operating system
+operating_system="$(uname -s)"
+
+# Run cmake depending on the system being run on
+case "${operating_system}" in
+  Linux*)   cmake -G "Unix Makefiles" ${additional_arguments}
+  ;;
+
+  MINGW*)   cmake -G "MinGW Makefiles" ${additional_arguments}
+  ;;
+
+  *)        echo "[ERR] Could not recognize operating system"
+            echo "[...] operating_system_argument: ${operating_system_argument}"
+            exit 1
+esac
+
+
 echo "[...] # ------------------------------------ BUILDING ----------------------------------- # "
 
 cmake --build BuildCode
