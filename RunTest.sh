@@ -132,8 +132,8 @@ echo "[INF] Executable Copies Successfully"
 echo "[MSG] # ------------------------------ COPYING PARAMETERS ------------------------------ #"
 
 # Copying Generic Parameters
-cp -r Parameters/ModelParameters/. ${PATH_TO_TEST_RUN}/Parameters/
-cp -r Parameters/TestParameters/. ${PATH_TO_TEST_RUN}/Parameters/
+cp -r Parameters/ModelParameters/* ${PATH_TO_TEST_RUN}/Parameters/
+cp -r Parameters/TestParameters/* ${PATH_TO_TEST_RUN}/Parameters/
 
 # Check if Specific parameters exist then copy
 if [ -e Parameters/SpecificParameters/${PATH_TO_TEST_RUN}/ModelParameters/*.ini ]; then
