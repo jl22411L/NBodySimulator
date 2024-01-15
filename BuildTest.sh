@@ -14,31 +14,14 @@
 
 set -e
 
-echo "$1"
-
 echo "[MSG] Building Code Base"
 echo "[...] Setting Source and Build directories..."
-
-# Setting variable which will contain arguments for CMAKE
-additional_arguments=""
-
-#---------------------------- SETTING DIRECTORIES ----------------------------#
-
-# Setting Source directory
-source_dir_argument="-S SourceCode"
-
-# Setting Build Directory
-build_dir_argument="-B BuildCode"
-
-# Adding directory arguments to additional arguments
-additional_arguments="${additional_arguments} ${source_dir_argument} ${build_dir_argument}"
-
 
 #------------------------- CHECKING PARSED ARGUMENTS -------------------------#
 
 for input in $@; do
   case ${input} in
-    Debug*)   additional_arguments="${additional_arguments} -DCMAKE_BUILD_TYPE=Debug"
+    -d|--debug*)   additional_arguments="${additional_arguments} -DCMAKE_BUILD_TYPE=Debug"
     ;;
 
     *)        echo "[ERR] Unknown input: ${input}"
@@ -53,7 +36,7 @@ operating_system="$(uname -s)"
 
 # Run cmake depending on the system being run on
 case "${operating_system}" in
-  Linux*)   cmake -G "Unix Makefiles" ${additional_arguments}
+  Linux*)   cmake -S SourceCode -B BuildCode -G "Unix Makefiles" ${additional_arguments}
   ;;
 
   MINGW*)   cmake -G "MinGW Makefiles" ${additional_arguments}
