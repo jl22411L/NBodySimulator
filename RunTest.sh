@@ -36,7 +36,7 @@ POSITIONAL_ARGUMENTS=""
 for input in "${@}"; do
   case ${input} in
     -d|--debug)
-      debugFlag=True
+      DEBUG_FLAG=True
       ;;
     -*|--*)
       echo "[ERR] Unknown argument ${input}"
@@ -128,8 +128,6 @@ if [ ${DEBUG_FLAG} == True ]; then
   cd ${PATH_TO_ROOT}
 else 
   cd "${PATH_TO_TEST_RUN}"
-  ls -l
-  echo $EXECUTABLE_NAME
   ./${EXECUTABLE_NAME}
   cd ${PATH_TO_ROOT}
 fi
