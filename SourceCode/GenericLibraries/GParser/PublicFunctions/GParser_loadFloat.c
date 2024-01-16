@@ -24,6 +24,7 @@
 #include "GConst/GConst.h"
 #include "GConversions/GConversions.h"
 #include "GLog/GLog.h"
+#include "GZero/GZero.h"
 
 /*
  *  Refer to respective header file for function description
@@ -42,9 +43,10 @@ int GParser_loadFloat(
   int         j;
 
   /* Clearing Buffers */
-  memset(&section_buffer, 0, 256 * sizeof(char));
-  memset(&key_buffer, 0, 256 * sizeof(char));
+  GZero(&section_buffer, char[256]);
+  GZero(&key_buffer, char[256]);
   p_dic_tmp = NULL;
+  i         = 0;
   j         = 0;
 
   /* Parsing data input for section */
