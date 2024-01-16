@@ -28,9 +28,9 @@
 int GParser_clearBuffers(GParser_State *p_GParser_state)
 {
   /* Clear Buffers */
-  GClear(p_GParser_state->sectionBuffer, 1024, char);
-  GClear(p_GParser_state->keyBuffer, 1024, char);
-  GClear(p_GParser_state->valueBuffer, 1024, char);
+  GZero(p_GParser_state->sectionBuffer, char[1024]);
+  GZero(p_GParser_state->keyBuffer, char[1024]);
+  GZero(p_GParser_state->valueBuffer, char[1024]);
 
   /* Clear Index's */
   GZero(&p_GParser_state->sizeIndex, uint8_t);
@@ -39,9 +39,9 @@ int GParser_clearBuffers(GParser_State *p_GParser_state)
   GZero(&p_GParser_state->keyIndex, uint8_t);
 
   /* Clear size variables */
-  GClear(&p_GParser_state->keySize, 256, int);
-  GClear(&p_GParser_state->valueSize, 256, int);
-  GClear(&p_GParser_state->sectionSize, 1, int);
+  GZero(&p_GParser_state->keySize, int[256]);
+  GZero(&p_GParser_state->valueSize, int[256]);
+  GZero(&p_GParser_state->sectionSize, int);
 
   return GCONST_TRUE;
 }

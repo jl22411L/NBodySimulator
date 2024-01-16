@@ -19,9 +19,10 @@ echo "[...] Setting Source and Build directories..."
 
 #------------------------- CHECKING PARSED ARGUMENTS -------------------------#
 
+debug_argument=""
 for input in $@; do
   case ${input} in
-    -d|--debug*)   additional_arguments="${additional_arguments} -DCMAKE_BUILD_TYPE=Debug"
+    -d|--debug*)   debug_argument="-DCMAKE_BUILD_TYPE=Debug"
     ;;
 
     *)        echo "[ERR] Unknown input: ${input}"
@@ -36,10 +37,10 @@ operating_system="$(uname -s)"
 
 # Run cmake depending on the system being run on
 case "${operating_system}" in
-  Linux*)   cmake -S SourceCode -B BuildCode -G "Unix Makefiles" ${additional_arguments}
+  Linux*)   cmake -S SourceCode -B BuildCode ${debug_argument} -G "Unix Makefiles"
   ;;
 
-  MINGW*)   cmake -G "MinGW Makefiles" ${additional_arguments}
+  MINGW*)   cmake -S SourceCode -B BuildCode ${debug_argument} -G "MinGW Makefiles"
   ;;
 
   *)        echo "[ERR] Could not recognize operating system"

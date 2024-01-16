@@ -28,26 +28,17 @@ extern "C" {
 /* Generic Libraries */
 /* None */
 
-// clang-format off
-
-/* ---------------------------------- GMsg ---------------------------------- */
- 
-
-/* --------------------------------- GError --------------------------------- */
-
-/*
- *    @Description: Sets inputted Data to zero
+/*!
+ *  @description: Sets inputted Data to zero
+ *
+ *  @param[in]    p_data
+ *                Pointer to the data that will have its memory be set to zero
+ *
+ * @param[in]     dataType
+ *                Data type of data thats memory will be set to zero.
  *
  */
-#define GZero(p_data ,dataType) (memset(p_data, 0, sizeof(dataType)))
-
-/*
- *    @Description: Clears Data of arrays to 0
- *
- */
-#define GClear(p_data, n_elements ,dataType) (memset(p_data, 0, n_elements*sizeof(dataType)))
-
-// clang-format on
+#define GZero(p_data, dataType) (memset(p_data, 0, sizeof(dataType)))
 
 #ifdef __cplusplus
 }
