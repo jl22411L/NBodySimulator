@@ -16,10 +16,6 @@
 set -e
 
 
-
-
-
-
 #------------------------------- SET VARIABLES -------------------------------#
 
 # Flag to indicate if to run test in gdb
@@ -47,7 +43,7 @@ for input in "${@}"; do
       exit 1
       ;;
     *)
-      POSITIONAL_ARGUMENTS="${POSITIONAL_ARGUMENTS}/${input}"
+      POSITIONAL_ARGUMENTS="${POSITIONAL_ARGUMENTS}${input}/"
       ;;
   esac
 done
@@ -81,74 +77,40 @@ TEST_DATE="`date +%Y_%m_%d_%H_%M_%S`"
 
 # Defining path variables
 PATH_TO_ROOT=${PWD}
-PATH_TO_TEST_SOURCE_CODE="SourceCode/TestCase${RELATIVE_PATH_TO_TEST}"
-PATH_TO_TEST_BUILD_CODE="BuildCode/TestCase${RELATIVE_PATH_TO_TEST}"
-PATH_TO_TEST_EXECUTABLE="${PATH_TO_TEST_BUILD_CODE}/${EXECUTABLE_NAME}"
-PATH_TO_TEST_RUN="TestRuns${RELATIVE_PATH_TO_TEST}/${TEST_CASE}_${TEST_DATE}"
-
-# Checking path to Source Code exists
-if [ ! -d "${PATH_TO_TEST_SOURCE_CODE}" ]; then
-  echo "[ERR] Path \"${PATH_TO_TEST_SOURCE_CODE}\" does not exist."
-  exit 1
-else
-  echo "[MSG] Path to test declaration:   ${PATH_TO_TEST_SOURCE_CODE}"
-fi
+PATH_TO_TEST_EXECUTABLE="BuildCode/TestCase/${RELATIVE_PATH_TO_TEST}${EXECUTABLE_NAME}"
+PATH_TO_TEST_RUN="TestRuns/${RELATIVE_PATH_TO_TEST}${TEST_CASE}_${TEST_DATE}/"
 
 # Checking path to Build Code exists
-if [ ! -d "${PATH_TO_TEST_BUILD_CODE}" ]; then
-  echo "[ERR] Path \"${PATH_TO_TEST_BUILD_CODE}\" does not exist."
-  exit 1
-else
-  echo "[MSG] Path to executable folder:  ${PATH_TO_TEST_BUILD_CODE}"
-fi
-
-# Checking path to executable exists
-if [ ! -f "${PATH_TO_TEST_EXECUTABLE}" ]; then
+if [ ! -x "${PATH_TO_TEST_EXECUTABLE}" ]; then
   echo "[ERR] Path \"${PATH_TO_TEST_EXECUTABLE}\" does not exist."
   exit 1
 else
-  echo "[MSG] Path to executable file:    ${PATH_TO_TEST_EXECUTABLE}"
+  echo "[MSG] Path to executable folder:  ${PATH_TO_TEST_EXECUTABLE}"
 fi
-
-echo "[INF] Paths checked successfully"
 
 # Creating Test Case folder
 echo "[MSG] # -------------------------------- CREATING FILES -------------------------------- #"
 
-mkdir -p ${PATH_TO_TEST_RUN}
+mkdir -p ${PATH_TO_TEST_RUN}/Parameters
 echo "[MSG] Created directory: ${PATH_TO_TEST_RUN}"
-
-echo "[INF] Created files correctly"
 
 # Copying Executable
 echo "[MSG] # ------------------------------ COPYING EXECUTABLE ------------------------------ #"
 
-cp ${PATH_TO_TEST_EXECUTABLE} ${PATH_TO_TEST_RUN}
-chmod 755 ${PATH_TO_TEST_RUN}/${EXECUTABLE_NAME}
+cp ${PATH_TO_TEST_EXECUTABLE} ${PATH_TO_TEST_RUN}/
 
-echo "[INF] Executable Copies Successfully"
+echo "[INF] Executable Copied Successfully"
 
 # Copying Parameters
 echo "[MSG] # ------------------------------ COPYING PARAMETERS ------------------------------ #"
 
 # Copying Generic Parameters
-cp -r Parameters/ModelParameters/* ${PATH_TO_TEST_RUN}/Parameters/
-cp -r Parameters/TestParameters/* ${PATH_TO_TEST_RUN}/Parameters/
+cp -r Parameters/ModelParameters/. ${PATH_TO_TEST_RUN}/Parameters/
+cp -r Parameters/TestParameters/. ${PATH_TO_TEST_RUN}/Parameters/
 
-# Check if Specific parameters exist then copy
-if [ -e Parameters/SpecificParameters/${PATH_TO_TEST_RUN}/ModelParameters/*.ini ]; then
-  for file in Parameters/SpecificParameters/${PATH_TO_TEST_RUN}/ModelParameters/*.ini; do
-    cp ${file} ${PATH_TO_TEST_RUN}/Parameters/
-    chmod +775 ${PATH_TO_TEST_RUN}/Parameters/${file}
-  done
-fi
 
-if [ -e Parameters/SpecificParameters/${PATH_TO_TEST_RUN}/TestParameters/*.ini ]; then
-  for file in Parameters/SpecificParameters/${PATH_TO_TEST_RUN}/TestParameters/*.ini; do
-    cp ${file} ${PATH_TO_TEST_RUN}/Parameters/
-    chmod +775 ${PATH_TO_TEST_RUN}/Parameters/${file} 
-  done
-fi
+# Copy Specific Parameters
+# TODO
 echo "[MSG] Specific Test Parameters copied successfully"
 
 
@@ -157,7 +119,7 @@ echo "[INF] Parameters copied succesfully"
 # Running Executable
 echo "[MSG] # ------------------------------ RUINNING EXECUTABLE ----------------------------- #"
 
-echo "[...] Running executable: ${PATH_TO_TEST_RUN}/${EXECUTABLE_NAME}"
+echo "[...] Running executable: ${PATH_TO_TEST_RUN}${EXECUTABLE_NAME}"
 
 if [ ${DEBUG_FLAG} == True ]; then
   cd "${PATH_TO_TEST_RUN}"
@@ -166,6 +128,8 @@ if [ ${DEBUG_FLAG} == True ]; then
   cd ${PATH_TO_ROOT}
 else 
   cd "${PATH_TO_TEST_RUN}"
+  ls -l
+  echo $EXECUTABLE_NAME
   ./${EXECUTABLE_NAME}
   cd ${PATH_TO_ROOT}
 fi

@@ -38,8 +38,6 @@ int main()
     GError("Parameters did not open corrcetly");
   }
 
-  printf("lllll");
-
   /* Loading params struct */
   GParser_loadDouble(
       &GParser_state,
