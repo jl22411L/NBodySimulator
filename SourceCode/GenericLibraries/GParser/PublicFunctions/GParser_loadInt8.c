@@ -25,15 +25,16 @@
 #include "GConst/GConst.h"
 #include "GConversions/GConversions.h"
 #include "GLog/GLog.h"
+#include "GZero/GZero.h"
 
 /*
  *  Refer to respective header file for function description
  */
-int GParser_loadInt_8(
+int GParser_loadInt8(
     GParser_State *p_GParser_state,
     dictionary   **p_dic,
-    int8_t        *p_dataDestination,
-    char          *p_dataFromIni)
+    int8_t        *p_dataDestination_out,
+    char          *p_dataFromIni_in)
 {
   /* Defining local variables */
   dictionary *p_dic_tmp;
@@ -42,25 +43,26 @@ int GParser_loadInt_8(
   int         numberOfKeys;
   int         i;
   int         j;
-  int         k;
 
   /* Clearing Buffers */
-  memset(&section_buffer, 0, 256 * sizeof(char));
-  memset(&key_buffer, 0, 256 * sizeof(char));
-  *p_dataDestination = 0;
-  p_dic_tmp          = NULL;
-  j                  = 0;
+  GZero(&section_buffer, char[256]);
+  GZero(&key_buffer, char[256]);
+  p_dic_tmp = NULL;
+
+  /* Declaring local variables */
+  i = 0;
+  j = 0;
 
   /* Parsing data input for section */
-  for (i = 0; *(p_dataFromIni + i) != ':'; i++)
+  for (i = 0; *(p_dataFromIni_in + i) != ':'; i++)
   {
-    section_buffer[i] = *(p_dataFromIni + i);
+    section_buffer[i] = *(p_dataFromIni_in + i);
   }
 
   /* Parsing data input for key */
-  for (i; *(p_dataFromIni + i) != '\0'; i++)
+  for (i; *(p_dataFromIni_in + i) != '\0'; i++)
   {
-    key_buffer[j] = *(p_dataFromIni + i + 1);
+    key_buffer[j] = *(p_dataFromIni_in + i + 1);
     j++;
   }
 
@@ -90,7 +92,7 @@ int GParser_loadInt_8(
     if (strcmp(*(p_dic_tmp->key + i), key_buffer) == 0)
     {
       /* If key matches, store convert value to int and store in member */
-      GConversion_string2int_8(p_dataDestination, (p_dic_tmp->value + i));
+      GConversion_string2int_8(p_dataDestination_out, (p_dic_tmp->value + i));
       break;
     }
   }

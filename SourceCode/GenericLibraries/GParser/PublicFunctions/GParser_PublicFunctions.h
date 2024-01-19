@@ -29,18 +29,173 @@ extern "C" {
 extern int
     GParser_closeParams(GParser_State *p_GParser_state, dictionary **p_dic);
 
-// TODO
+/*!
+ * @details         Function which will load a double into a data destionation.
+ *
+ * @param[in]       p_GParser_state
+ *                  Pointer to state struct for GParser module
+ *
+ * @param[in]       p_dic
+ *                  Pointer to dictionary with sections laoded
+ *
+ * @param[in]       p_dataDestination_out
+ *                  Pointer with the address to store the data in from the ini
+ *                  file.
+ *
+ * @param[in]       p_dataFromIni_in
+ *                  String which contains the name of the section and key for
+ *                  which to load the data from. The format of the string should
+ *                  be:
+ *
+ *                  <SETION>:<KEY>
+ *
+ * @return          Upon a successful completion, the fucntion will return a
+ *                  GCONST_TRUE
+ *
+ *                  If an error in the codes execution occurs, the function will
+ *                  return a GCONST_FALSE
+ */
 extern int GParser_loadDouble(
     GParser_State *p_GParser_state,
     dictionary   **p_dic,
-    double        *p_dataDestination,
-    char          *p_dataFromIni);
+    double        *p_dataDestination_out,
+    char          *p_dataFromIni_in);
 
-// TODO
+/*!
+ * @details         Function which will load a float into a data destionation.
+ *
+ * @param[in]       p_GParser_state
+ *                  Pointer to state struct for GParser module
+ *
+ * @param[in]       p_dic
+ *                  Pointer to dictionary with sections laoded
+ *
+ * @param[in]       p_dataDestination_out
+ *                  Pointer with the address to store the data in from the ini
+ *                  file.
+ *
+ * @param[in]       p_dataFromIni_in
+ *                  String which contains the name of the section and key for
+ *                  which to load the data from. The format of the string should
+ *                  be:
+ *
+ *                  <SETION>:<KEY>
+ *
+ * @return          Upon a successful completion, the fucntion will return a
+ *                  GCONST_TRUE
+ *
+ *                  If an error in the codes execution occurs, the function will
+ *                  return a GCONST_FALSE
+ */
 extern int GParser_loadFloat(
     GParser_State *p_GParser_state,
     dictionary   **p_dic,
-    float         *p_dataDestination,
+    float         *p_dataDestination_out,
+    char          *p_dataFromIni_in);
+
+/*!
+ * @description:    This function will load a 2D array of any size from an ini
+ *                  file.
+ *
+ * @param[in]       p_GParser_state
+ *                  Pointer to a GParser state struct for the ini parser
+ *
+ * @param[in]       p_dic
+ *                  Dictioanry with the sections loaded form the ini parser
+ *
+ * @param[in]       p_dataDestination_out
+ *                  Pointer containig the address of the array to load the data
+ *                  into.
+ *
+ * @param[in]       p_dataFromIni_in
+ *                  String which contains the name of the section and key for
+ *                  which to load the data from. The format of the string should
+ *                  be:
+ *
+ *                  <SETION>:<KEY>
+ *
+ * @param[in]       nCols_in
+ *                  Number of columns in the array to load
+ *
+ * @param[in]       nRows_in
+ *                  Number of rows in the array to load
+ *
+ * @return           Upon a successful completion, the fucntion will return a
+ *                   GCONST_TRUE
+ *
+ *                   If an error in the codes execution occurs, the function
+ *                   will return a GCONST_FALSE
+ */
+extern int GParser_loadFloatArray(
+    GParser_State *p_GParser_state,
+    dictionary   **p_dic,
+    float         *p_dataDestination_out,
+    char          *p_dataFromIni_in,
+    int            nCols_in,
+    int            nRows_in);
+
+/*!
+ * @details         Function which will load a int8 into a data destionation.
+ *
+ * @param[in]       p_GParser_state
+ *                  Pointer to state struct for GParser module
+ *
+ * @param[in]       p_dic
+ *                  Pointer to dictionary with sections laoded
+ *
+ * @param[in]       p_dataDestination_out
+ *                  Pointer with the address to store the data in from the ini
+ *                  file.
+ *
+ * @param[in]       p_dataFromIni_in
+ *                  String which contains the name of the section and key for
+ *                  which to load the data from. The format of the string should
+ *                  be:
+ *
+ *                  <SETION>:<KEY>
+ *
+ * @return          Upon a successful completion, the fucntion will return a
+ *                  GCONST_TRUE
+ *
+ *                  If an error in the codes execution occurs, the function will
+ *                  return a GCONST_FALSE
+ */
+extern int GParser_loadInt8(
+    GParser_State *p_GParser_state,
+    dictionary   **p_dic,
+    int8_t        *p_dataDestination_out,
+    char          *p_dataFromIni_in);
+
+/*!
+ * @details         Function which will load a int into a data destionation.
+ *
+ * @param[in]       p_GParser_state
+ *                  Pointer to state struct for GParser module
+ *
+ * @param[in]       p_dic
+ *                  Pointer to dictionary with sections laoded
+ *
+ * @param[in]       p_dataDestination_out
+ *                  Pointer with the address to store the data in from the ini
+ *                  file.
+ *
+ * @param[in]       p_dataFromIni_in
+ *                  String which contains the name of the section and key for
+ *                  which to load the data from. The format of the string should
+ *                  be:
+ *
+ *                  <SETION>:<KEY>
+ *
+ * @return          Upon a successful completion, the fucntion will return a
+ *                  GCONST_TRUE
+ *
+ *                  If an error in the codes execution occurs, the function will
+ *                  return a GCONST_FALSE
+ */
+extern int GParser_loadInt(
+    GParser_State *p_GParser_state,
+    dictionary   **p_dic,
+    int           *p_dataDestination,
     char          *p_dataFromIni);
 
 /*!
@@ -69,35 +224,18 @@ extern int GParser_loadFloat(
  *
  * @param[in]       nRows_in
  *                  Number of rows in the array to load
+ *
+ * @return           Upon a successful completion, the fucntion will return a
+ *                   GCONST_TRUE
+ *
+ *                   If an error in the codes execution occurs, the function
+ *                   will return a GCONST_FALSE
  */
-extern int GParser_loadFloatArray(
-    GParser_State *p_GParser_state,
-    dictionary   **p_dic,
-    float         *p_dataDestination_out,
-    char          *p_dataFromIni_in,
-    int            nCols_in,
-    int            nRows_in);
-
-// TODO
-extern int GParser_loadInt_8(
-    GParser_State *p_GParser_state,
-    dictionary   **p_dic,
-    int8_t        *p_dataDestination,
-    char          *p_dataFromIni);
-
-// TODO
-extern int GParser_loadInt(
-    GParser_State *p_GParser_state,
-    dictionary   **p_dic,
-    int           *p_dataDestination,
-    char          *p_dataFromIni);
-
-// TODO
 extern int GParser_loadIntArray(
     GParser_State *p_GParser_state,
     dictionary   **p_dic,
-    int           *p_dataDestination,
-    char          *p_dataFromIni,
+    int           *p_dataDestination_out,
+    char          *p_dataFromIni_in,
     int            nCols,
     int            nRows);
 
@@ -123,19 +261,70 @@ extern int GParser_loadIntArray(
 extern dictionary **
     GParser_loadParams(GParser_State *p_GParser_state, const char *filePath);
 
-// TODO
+/*!
+ * @details         Function which will load a string into a data destionation.
+ *
+ * @param[in]       p_GParser_state
+ *                  Pointer to state struct for GParser module
+ *
+ * @param[in]       p_dic
+ *                  Pointer to dictionary with sections laoded
+ *
+ * @param[in]       p_dataDestination_out
+ *                  Pointer with the address to store the data in from the ini
+ *                  file.
+ *
+ * @param[in]       p_dataFromIni_in
+ *                  String which contains the name of the section and key for
+ *                  which to load the data from. The format of the string should
+ *                  be:
+ *
+ *                  <SETION>:<KEY>
+ *
+ * @return          Upon a successful completion, the fucntion will return a
+ *                  GCONST_TRUE
+ *
+ *                  If an error in the codes execution occurs, the function will
+ *                  return a GCONST_FALSE
+ */
 extern int GParser_loadString(
     GParser_State *p_GParser_state,
     dictionary   **p_dic,
-    char         **p_dataDestination,
-    char          *p_dataFromIni);
+    char         **p_dataDestination_out,
+    char          *p_dataFromIni_in);
 
-// TODO
+/*!
+ * @details         Function which will load a unsigned integer into a data
+ *                  destionation.
+ *
+ * @param[in]       p_GParser_state
+ *                  Pointer to state struct for GParser module
+ *
+ * @param[in]       p_dic
+ *                  Pointer to dictionary with sections laoded
+ *
+ * @param[in]       p_dataDestination_out
+ *                  Pointer with the address to store the data in from the ini
+ *                  file.
+ *
+ * @param[in]       p_dataFromIni_in
+ *                  String which contains the name of the section and key for
+ *                  which to load the data from. The format of the string should
+ *                  be:
+ *
+ *                  <SETION>:<KEY>
+ *
+ * @return          Upon a successful completion, the fucntion will return a
+ *                  GCONST_TRUE
+ *
+ *                  If an error in the codes execution occurs, the function will
+ *                  return a GCONST_FALSE
+ */
 extern int GParser_loadUInt(
     GParser_State *p_GParser_state,
     dictionary   **p_dic,
-    int           *p_dataDestination,
-    char          *p_dataFromIni);
+    int           *p_dataDestination_out,
+    char          *p_dataFromIni_in);
 
 #ifdef __cplusplus
 }

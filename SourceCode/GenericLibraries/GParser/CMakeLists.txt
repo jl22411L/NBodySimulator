@@ -15,7 +15,7 @@ add_library(GParser
   PublicFunctions/GParser_loadDouble.c
   PublicFunctions/GParser_loadFloat.c
   PublicFunctions/GParser_loadFloatArray.c
-  PublicFunctions/GParser_loadInt_8.c
+  PublicFunctions/GParser_loadInt8.c
   PublicFunctions/GParser_loadInt.c
   PublicFunctions/GParser_loadIntArray.c
   PublicFunctions/GParser_loadParams.c

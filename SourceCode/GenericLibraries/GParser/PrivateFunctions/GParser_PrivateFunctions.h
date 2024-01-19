@@ -44,6 +44,9 @@ extern "C" {
  *
  * @return       Upon a successful completion, the fucntion will return a
  *               GCONST_TRUE
+ *
+ *              If an error in the codes execution occurs, the function will
+ *              return a GCONST_FALSE
  */
 extern int GParser_clearBuffers(GParser_State *p_GParser_state);
 
@@ -61,6 +64,9 @@ extern int GParser_clearBuffers(GParser_State *p_GParser_state);
  *
  * @return       Upon a successful completion, the fucntion will return a
  *               GCONST_TRUE
+ *
+ *              If an error in the codes execution occurs, the function will
+ *              return a GCONST_FALSE
  */
 extern int
     GParser_comment(GParser_State *p_GParser_state, const char cursor_in);
@@ -77,6 +83,9 @@ extern int
  *
  * @return       Upon a successful completion, the fucntion will return a
  *               GCONST_TRUE
+ *
+ *              If an error in the codes execution occurs, the function will
+ *              return a GCONST_FALSE
  */
 extern int
     GParser_findNumberOfSections(FILE *file, uint8_t *p_maxNumberSection_out);
@@ -110,6 +119,9 @@ extern dictionary *GParser_loadDictionary(GParser_State *p_GParser_state);
  *
  * @return       Upon a successful completion, the fucntion will return a
  *               GCONST_TRUE
+ *
+ *              If an error in the codes execution occurs, the function will
+ *              return a GCONST_FALSE
  */
 extern int
     GParser_loadingKey(GParser_State *p_GParser_state, const char cursor_in);
@@ -128,6 +140,9 @@ extern int
  *
  * @return       Upon a successful completion, the fucntion will return a
  *               GCONST_TRUE
+ *
+ *              If an error in the codes execution occurs, the function will
+ *              return a GCONST_FALSE
  */
 extern int GParser_loadingSection(
     GParser_State *p_GParser_state,
@@ -146,6 +161,9 @@ extern int GParser_loadingSection(
  *
  * @return       Upon a successful completion, the fucntion will return a
  *               GCONST_TRUE
+ *
+ *              If an error in the codes execution occurs, the function will
+ *              return a GCONST_FALSE
  */
 extern int GParser_loadingStringValue(
     GParser_State *p_GParser_state,
@@ -165,6 +183,9 @@ extern int GParser_loadingStringValue(
  *
  * @return       Upon a successful completion, the fucntion will return a
  *               GCONST_TRUE
+ *
+ *              If an error in the codes execution occurs, the function will
+ *              return a GCONST_FALSE
  */
 extern int
     GParser_loadingValue(GParser_State *p_GParser_state, const char cursor_in);
@@ -182,6 +203,9 @@ extern int
  *
  * @return       Upon a successful completion, the fucntion will return a
  *               GCONST_TRUE
+ *
+ *              If an error in the codes execution occurs, the function will
+ *              return a GCONST_FALSE
  */
 extern int
     GParser_waitingEquals(GParser_State *p_GParser_state, const char cursor_in);
@@ -199,6 +223,9 @@ extern int
  *
  * @return       Upon a successful completion, the fucntion will return a
  *               GCONST_TRUE
+ *
+ *              If an error in the codes execution occurs, the function will
+ *              return a GCONST_FALSE
  */
 extern int GParser_waitingForCommand(
     GParser_State *p_GParser_state,
@@ -217,6 +244,9 @@ extern int GParser_waitingForCommand(
  *
  * @return       Upon a successful completion, the fucntion will return a
  *               GCONST_TRUE
+ *
+ *              If an error in the codes execution occurs, the function will
+ *              return a GCONST_FALSE
  */
 extern int GParser_waitingForNewLine(
     GParser_State *p_GParser_state,
@@ -235,6 +265,9 @@ extern int GParser_waitingForNewLine(
  *
  * @return       Upon a successful completion, the fucntion will return a
  *               GCONST_TRUE
+ *
+ *              If an error in the codes execution occurs, the function will
+ *              return a GCONST_FALSE
  */
 extern int
     GParser_waitingValue(GParser_State *p_GParser_state, const char cursor);

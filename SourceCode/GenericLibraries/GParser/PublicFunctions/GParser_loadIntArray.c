@@ -33,12 +33,12 @@
 int GParser_loadIntArray(
     GParser_State *p_GParser_state,
     dictionary   **p_dic,
-    int           *p_dataDestination,
-    char          *p_dataFromIni,
+    int           *p_dataDestination_out,
+    char          *p_dataFromIni_in,
     int            nCols,
     int            nRows)
 {
-  /* Defining local variables */
+  /* Declaring local variables */
   dictionary *p_dic_tmp;
   char        section_buffer[256];
   char        key_inputBuffer[256];
@@ -54,21 +54,22 @@ int GParser_loadIntArray(
   GZero(&key_inputBuffer, char[256]);
   GZero(&key_iniBuffer, char[256]);
   GZero(&indexBuffer, char[256]);
-
   p_dic_tmp = NULL;
-  i         = 0;
-  j         = 0;
+
+  /* Defining local variables */
+  i = 0;
+  j = 0;
 
   /* Parsing data input for section */
-  for (i = 0; *(p_dataFromIni + i) != ':'; i++)
+  for (i = 0; *(p_dataFromIni_in + i) != ':'; i++)
   {
-    section_buffer[i] = *(p_dataFromIni + i);
+    section_buffer[i] = *(p_dataFromIni_in + i);
   }
 
   /* Parsing data input for key */
-  for (i; *(p_dataFromIni + i + 1) != '\0'; i++)
+  for (i; *(p_dataFromIni_in + i + 1) != '\0'; i++)
   {
-    key_inputBuffer[j] = *(p_dataFromIni + i + 1);
+    key_inputBuffer[j] = *(p_dataFromIni_in + i + 1);
     j++;
   }
 
@@ -91,7 +92,6 @@ int GParser_loadIntArray(
     GError("Section not found: %s", section_buffer);
   }
 
-  int flag = 0;
   /* Cycle through keys */
   for (i = 0; i < p_dic_tmp->nKeys; i++)
   {
@@ -109,6 +109,7 @@ int GParser_loadIntArray(
             &row);
         break;
       }
+
       /* Load key_iniBuffer */
       key_iniBuffer[j] = *(*(p_dic_tmp->key + i) + j);
     }
@@ -118,7 +119,7 @@ int GParser_loadIntArray(
         p_GParser_state->indexLoaded)
     {
       GConversion_string2int(
-          (p_dataDestination + col + row * nCols),
+          (p_dataDestination_out + col + row * nCols),
           (p_dic_tmp->value + i));
     }
 
