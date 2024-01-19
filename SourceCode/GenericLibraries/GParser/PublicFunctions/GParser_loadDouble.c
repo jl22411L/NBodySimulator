@@ -80,8 +80,7 @@ int GParser_loadDouble(
   /* Check to see if section was found */
   if (i == p_GParser_state->maxNumberSection)
   {
-    GMsg(p_dataFromIni);
-    GError("Section not found");
+    GError("Section not found: %s", section_buffer);
   }
 
   /* Cycle thorugh keys */
@@ -99,8 +98,7 @@ int GParser_loadDouble(
   /* Throw an error if no key was found */
   if (i == p_dic_tmp->nKeys)
   {
-    GMsg(p_dataFromIni);
-    GError("Key not found in section");
+    GError("Key not found in section: %s", key_buffer);
   }
 
   return GCONST_TRUE;

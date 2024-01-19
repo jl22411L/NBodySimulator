@@ -1,7 +1,6 @@
 add_library(GParser
   PrivateFunctions/GParser_clearBuffers.c
   PrivateFunctions/GParser_comment.c
-  PrivateFunctions/GParser_findIndex.c
   PrivateFunctions/GParser_findNumberOfSections.c
   PrivateFunctions/GParser_loadDictionary.c
   PrivateFunctions/GParser_loadingKey.c

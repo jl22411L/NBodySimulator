@@ -5,10 +5,10 @@ cmake_minimum_required(VERSION 3.5)
 project(NBodySim)
 
 # Set C compiler
-#et(CMAKE_C_COMPILER gcc)
+set(CMAKE_C_COMPILER gcc)
 
 # Set C++ compiler
-#set(CMAKE_CXX_COMPILER g++)
+set(CMAKE_CXX_COMPILER g++)
 
 # Set C standard
 set(CMAKE_C_STANDARD 90)

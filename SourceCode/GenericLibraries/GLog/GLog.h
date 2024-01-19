@@ -37,7 +37,9 @@ extern "C" {
  *    @Description: Outputs a msg to the console
  *
  */
-#define GMsg(msg) (printf("[MSG] %s", msg))
+#define GMsg(...) (printf("[MSG] ")),    \
+                  (printf(__VA_ARGS__)), \
+                  (printf("\n"))
 
 /* --------------------------------- GError --------------------------------- */
 
@@ -45,12 +47,13 @@ extern "C" {
  *    @Description: Throw an error, outputting the file and line of the file.
  *
  */
-#define GError(msg) (printf("\n[ERR] ERROR OCCURED:   %s\n", msg)), \
-                    (printf("[...] \n")),                           \
-                    (printf("[MSG]    FILE: %s\n", __FILE__)),      \
-                    (printf("[MSG]    LINE: %d\n", __LINE__)),      \
-                    (printf("[...] \n")),                           \
-                    (printf("[...] exiting programme...\n")),          \
+#define GError(...) (printf("\n[ERR] ")),                      \
+                    (printf(__VA_ARGS__)),                     \
+                    (printf("[...] \n")),                      \
+                    (printf("[MSG]    FILE: %s\n", __FILE__)), \
+                    (printf("[MSG]    LINE: %d\n", __LINE__)), \
+                    (printf("[...] \n")),                      \
+                    (printf("[...] exiting programme...\n")),  \
                     (exit(GCONST_EXIT_FAILURE))
 
 // clang-format on

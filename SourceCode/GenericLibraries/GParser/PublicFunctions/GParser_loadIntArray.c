@@ -12,6 +12,7 @@
 
 /* Function Includes */
 #include "GParser/PrivateFunctions/GParser_PrivateFunctions.h"
+#include "GParser/PrivateInlineFunctions/GParser_findIndex.h"
 
 /* Structure Include */
 #include "GParser/DataStructs/Dictionary.h"
@@ -24,6 +25,7 @@
 #include "GConst/GConst.h"
 #include "GConversions/GConversions.h"
 #include "GLog/GLog.h"
+#include "GZero/GZero.h"
 
 /*
  *  Refer to respective header file for function description
@@ -42,17 +44,19 @@ int GParser_loadIntArray(
   char        key_inputBuffer[256];
   char        key_iniBuffer[256];
   char        indexBuffer[256];
-  int         col;
-  int         row;
-  int         i;
-  int         j;
+  int16_t     col;
+  int16_t     row;
+  int16_t     i;
+  int16_t     j;
 
   /* Clearing Buffers */
-  memset(&section_buffer, 0, 256 * sizeof(char));
-  memset(&key_inputBuffer, 0, 256 * sizeof(char));
-  memset(&key_iniBuffer, 0, 256 * sizeof(char));
-  memset(&indexBuffer, 0, 256 * sizeof(char));
+  GZero(&section_buffer, char[256]);
+  GZero(&key_inputBuffer, char[256]);
+  GZero(&key_iniBuffer, char[256]);
+  GZero(&indexBuffer, char[256]);
+
   p_dic_tmp = NULL;
+  i         = 0;
   j         = 0;
 
   /* Parsing data input for section */
@@ -81,12 +85,13 @@ int GParser_loadIntArray(
     }
   }
 
+  /* Check to see if section exists */
   if (i == p_GParser_state->maxNumberSection)
   {
-    GMsg(p_dataFromIni);
-    GError("Section not found");
+    GError("Section not found: %s", section_buffer);
   }
 
+  int flag = 0;
   /* Cycle through keys */
   for (i = 0; i < p_dic_tmp->nKeys; i++)
   {
@@ -104,7 +109,6 @@ int GParser_loadIntArray(
             &row);
         break;
       }
-
       /* Load key_iniBuffer */
       key_iniBuffer[j] = *(*(p_dic_tmp->key + i) + j);
     }
@@ -119,7 +123,7 @@ int GParser_loadIntArray(
     }
 
     /* Clear buffer */
-    memset(&key_iniBuffer, 0, 256 * sizeof(char));
+    GZero(&key_iniBuffer, char[256]);
   }
 
   return GCONST_TRUE;

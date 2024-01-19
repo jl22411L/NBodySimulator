@@ -66,50 +66,6 @@ extern int
     GParser_comment(GParser_State *p_GParser_state, const char cursor_in);
 
 /*!
- *
- * @description: This functionb finds the index from a key in an ini file. This
- *               is called once the key from the correct section has been
- *               found. It first assumes that the array is 1D and finds its
- *               column position. If there are two '[', it is assumed that the
- *               array is 2D. Hence the column value is moved to the row value,
- *               and cleared to make way for the 2D column value. Once this is
- *               done, the values are converted from there respective string
- *               values to in values.
- *
- *               If the array is 1D, the row value is set to 0. Currently, can
- *               not do arrays with dimensions greater then 2D.
- *
- * @param[in]    p_GParser_state
- *               Pointer to GParser State Struct which contains the information
- *               used in the GParser module to load the ini file.
- *
- * @param[in]    p_key_in
- *               pointer to the key value for which the index is trying to be
- *               found.
- *
- * @param[in]    startPosition
- *               Integer which indicated where the first '[' is located in the
- *               key. This is so that only the index part of the key is parsed.
- *
- * @param[out]   p_col_out
- *               pointer to where the output value for the column index should
- *               be stored.
- *
- * @param[out]   p_row_out
- *               pointer to where the output value for the row index should be
- *               stored.
- *
- * @return       Upon a successful completion, the fucntion will return a
- *               GCONST_TRUE
- */
-extern int GParser_findIndex(
-    GParser_State *p_GParser_state,
-    char          *p_key_in,
-    int            startPosition_in,
-    int           *p_col_out,
-    int           *p_row_out);
-
-/*!
  * @description: This function finds the total number of sections within an ini
  *               file.
  *

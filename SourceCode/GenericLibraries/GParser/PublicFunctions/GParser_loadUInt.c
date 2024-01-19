@@ -79,8 +79,7 @@ int GParser_loadUInt(
   /* Check to see if section was found */
   if (i == p_GParser_state->maxNumberSection)
   {
-    GMsg(p_dataFromIni);
-    GError("Section not found");
+    GError("Section not found: %s", p_dataFromIni);
   }
 
   /* Cycle thorugh keys */
@@ -98,8 +97,7 @@ int GParser_loadUInt(
   /* Throw an error if no key was found */
   if (i == p_dic_tmp->nKeys)
   {
-    GMsg(p_dataFromIni);
-    GError("Key not found in section");
+    GError("Key not found in section: %s", p_dataFromIni);
   }
 
   return GCONST_TRUE;

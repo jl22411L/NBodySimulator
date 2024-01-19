@@ -35,23 +35,16 @@ dictionary **
   /* Defining Local Variables */
   dictionary **p_dic;
   FILE        *file;
-  uint8_t      state;
-
-  char cursor;
+  char         cursor;
 
   /* Clearing Data values */
-  GZero(p_GParser_state, GParser_State *);
+  GZero(p_GParser_state, GParser_State);
   p_dic = NULL;
-
-  /* Initializing Values */
-  p_GParser_state->sectionCounter = 0;
-  p_GParser_state->keyIndex       = 0;
-  p_GParser_state->valueIndex     = 0;
-  p_GParser_state->sizeIndex      = 0;
 
   /* Opening file */
   file = fopen(filePath, "r");
 
+  /* Check to make sure that the file was opened corectly */
   if (file == NULL)
   {
     GError("No file was able to open");
@@ -76,8 +69,10 @@ dictionary **
 
     if (cursor == EOF)
     {
+      /* Update state to finidh reading */
       p_GParser_state->loadParamsState = GPARSER_STATE_FINISHED;
 
+      /* Set flag to load dictionary */
       p_GParser_state->loadDictionaryEnabled = GCONST_TRUE;
     }
 
