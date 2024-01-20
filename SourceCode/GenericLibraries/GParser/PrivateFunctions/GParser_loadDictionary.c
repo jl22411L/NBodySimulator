@@ -97,19 +97,5 @@ dictionary *GParser_loadDictionary(GParser_State *p_GParser_state)
     p_dic_section->nKeys = p_GParser_state->sizeIndex;
   }
 
-  /* Freeing Heap Memory */
-  // free(p_dic_section);
-  // free(p_dic_section->section);
-  // free(p_dic_section->key);
-  // free(p_dic_section->value);
-
-  // for (i = 0; i < p_GParser_state->sizeIndex; i++)
-  // {
-  //   free(*(p_dic_section->key + i));
-  //   free(*(p_dic_section->value + i));
-  //   free(tmpKeyBuffer);
-  //   free(tmpValueBuffer);
-  // }
-
   return p_dic_section;
 }

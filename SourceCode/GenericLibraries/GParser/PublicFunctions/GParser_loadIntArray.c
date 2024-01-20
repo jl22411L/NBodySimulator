@@ -7,12 +7,12 @@
  *
  */
 
-#include <stdio.h>
 #include <string.h>
 
 /* Function Includes */
 #include "GParser/PrivateFunctions/GParser_PrivateFunctions.h"
 #include "GParser/PrivateInlineFunctions/GParser_findIndex.h"
+#include "GParser/PublicFunctions/GParser_PublicFunctions.h"
 
 /* Structure Include */
 #include "GParser/DataStructs/Dictionary.h"
@@ -43,17 +43,18 @@ int GParser_loadIntArray(
   char        section_buffer[256];
   char        key_inputBuffer[256];
   char        key_iniBuffer[256];
-  char        indexBuffer[256];
+  char        dataToLoad_buffer[256];
   int16_t     col;
   int16_t     row;
   int16_t     i;
   int16_t     j;
+  int16_t     k;
 
   /* Clearing Buffers */
   GZero(&section_buffer, char[256]);
   GZero(&key_inputBuffer, char[256]);
+  GZero(&dataToLoad_buffer, char[256]);
   GZero(&key_iniBuffer, char[256]);
-  GZero(&indexBuffer, char[256]);
   p_dic_tmp = NULL;
 
   /* Defining local variables */
@@ -92,40 +93,57 @@ int GParser_loadIntArray(
     GError("Section not found: %s", section_buffer);
   }
 
-  /* Cycle through keys */
-  for (i = 0; i < p_dic_tmp->nKeys; i++)
+  /* ---------------------------- LOAD ARRAY ----------------------------- */
+
+  /* Load key for 1D array */
+  if (nRows == 1)
   {
-    /* Cycle through key characters */
-    for (j = 0; *(*(p_dic_tmp->key + i) + j) != '\0'; j++)
+    for (i = 0; i < nCols; i++)
     {
-      /* If present, find index */
-      if (*(*(p_dic_tmp->key + i) + j) == '[')
-      {
-        GParser_findIndex(
-            p_GParser_state,
-            *(p_dic_tmp->key + i),
-            j,
-            &col,
-            &row);
-        break;
-      }
+      /* Find the name of the key */
+      snprintf(
+          dataToLoad_buffer,
+          256,
+          "%s:%s[%d]",
+          section_buffer,
+          key_inputBuffer,
+          i);
 
-      /* Load key_iniBuffer */
-      key_iniBuffer[j] = *(*(p_dic_tmp->key + i) + j);
+      /* Load the key into the memory address */
+      GParser_loadInt(
+          p_GParser_state,
+          p_dic,
+          (p_dataDestination_out + j + i * nCols),
+          dataToLoad_buffer);
     }
-
-    /* Compare keyInput and keyIni */
-    if (strcmp(key_iniBuffer, key_inputBuffer) == 0 &&
-        p_GParser_state->indexLoaded)
-    {
-      GConversion_string2int(
-          (p_dataDestination_out + col + row * nCols),
-          (p_dic_tmp->value + i));
-    }
-
-    /* Clear buffer */
-    GZero(&key_iniBuffer, char[256]);
   }
+  /* Load key for 2D array */
+  else
+  {
+    for (i = 0; i < nRows; i++)
+    {
+      for (j = 0; j < nCols; j++)
+      {
+        snprintf(
+            dataToLoad_buffer,
+            256,
+            "%s:%s[%d][%d]",
+            section_buffer,
+            key_inputBuffer,
+            i,
+            j);
+
+        GParser_loadInt(
+            p_GParser_state,
+            p_dic,
+            (p_dataDestination_out + j + i * nCols),
+            dataToLoad_buffer);
+      }
+    }
+  }
+
+  /* Clear buffer */
+  GZero(&key_iniBuffer, char[256]);
 
   return GCONST_TRUE;
 }

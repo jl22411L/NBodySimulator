@@ -25,7 +25,22 @@ extern "C" {
 /* Generic Libraries */
 /* None */
 
-// TODO
+/*!
+ * @details         This function runs throught the dictionary and sets all the
+ *                  memory to 0, before freeing the pointer.
+ *
+ * @param[in]       p_GParser_state
+ *                  Pointer to state struct for GParser module
+ *
+ * @param[in]       p_dic
+ *                  Pointer to dictionary with sections laoded
+ *
+ * @return          Upon a successful completion, the fucntion will return a
+ *                  GCONST_TRUE
+ *
+ *                  If an error in the codes execution occurs, the function will
+ *                  return a GCONST_FALSE
+ */
 extern int
     GParser_closeParams(GParser_State *p_GParser_state, dictionary **p_dic);
 
@@ -131,8 +146,8 @@ extern int GParser_loadFloatArray(
     dictionary   **p_dic,
     float         *p_dataDestination_out,
     char          *p_dataFromIni_in,
-    int            nCols_in,
-    int            nRows_in);
+    int            nCols,
+    int            nRows);
 
 /*!
  * @details         Function which will load a int8 into a data destionation.

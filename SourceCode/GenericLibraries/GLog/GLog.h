@@ -49,6 +49,7 @@ extern "C" {
  */
 #define GError(...) (printf("\n[ERR] ")),                      \
                     (printf(__VA_ARGS__)),                     \
+                    (printf("\n")),                            \
                     (printf("[...] \n")),                      \
                     (printf("[MSG]    FILE: %s\n", __FILE__)), \
                     (printf("[MSG]    LINE: %d\n", __LINE__)), \

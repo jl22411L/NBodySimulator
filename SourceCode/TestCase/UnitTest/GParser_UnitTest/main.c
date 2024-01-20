@@ -121,5 +121,7 @@ int main()
       &GParserTest_params.unsignedInt,
       "Test:int8");
 
+  GParser_closeParams(&GParser_state, p_dic);
+
   return GCONST_EXIT_SUCCESS;
 }
