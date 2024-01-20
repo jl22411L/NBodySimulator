@@ -11,7 +11,6 @@
 
 /* Function Includes */
 #include "GParser/PrivateFunctions/GParser_PrivateFunctions.h"
-#include "GParser/PrivateInlineFunctions/GParser_findIndex.h"
 #include "GParser/PublicFunctions/GParser_PublicFunctions.h"
 
 /* Structure Include */
