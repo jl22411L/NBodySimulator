@@ -16,41 +16,86 @@
 #include "GParser/DataStructs/GParser_StateStruct.h"
 
 /* Data include */
-/* None */
+#include "GParser/ConstandDefs/GParser_Const.h"
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
 #include "GLog/GLog.h"
 
+/*
+ *  Refer to respective header file for function description
+ */
 int GParser_findNumberOfSections(FILE *file, uint8_t *p_maxNumberSection_out)
 {
+  /* Defining Local Variables */
   char    cursor;
-  uint8_t sectionOpenCounter;
-  uint8_t sectionCloseCounter;
+  char    cursor_prev;
+  uint8_t sectionCounter;
+  uint8_t sectionCounterEnabled;
+  uint8_t state;
 
-  sectionOpenCounter  = 0;
-  sectionCloseCounter = 0;
+  /* Declaring Local Variables */
+  cursor_prev           = '\0';
+  sectionCounter        = 0;
+  sectionCounterEnabled = GCONST_FALSE;
+  state                 = GPARSER_STATE_WAITING_FOR_COMMAND;
+
+  /* Run through file */
   while ((cursor = fgetc(file)) != EOF)
   {
-    switch (cursor)
+    switch (state)
     {
-    case ('['):
-      sectionOpenCounter++;
-      break;
-    case (']'):
-      sectionCloseCounter++;
+    case (GPARSER_STATE_WAITING_FOR_COMMAND):
+      switch (cursor)
+      {
+      case ('['):
+        /* If previous cursor is a space or a new line, section is assumed */
+        switch (cursor_prev)
+        {
+        case (' '):
+          sectionCounterEnabled = GCONST_TRUE;
+          break;
+        case ('\n'):
+          sectionCounterEnabled = GCONST_TRUE;
+          break;
+        }
+        break;
+      /* Ignores [ in comments */
+      case (';'):
+        state = GPARSER_STATE_COMMENT;
+        break;
+      case ('#'):
+        state = GPARSER_STATE_COMMENT;
+        break;
+      }
+    case (GPARSER_STATE_COMMENT):
+      switch (cursor)
+      {
+      case ('\n'):
+        /* Update State */
+        state = GPARSER_STATE_WAITING_FOR_COMMAND;
+        break;
+      }
+    }
+
+    /* Add to section counter if section is to be counted */
+    switch (sectionCounterEnabled)
+    {
+    case (GCONST_TRUE):
+      sectionCounter++;
+      sectionCounterEnabled = GCONST_FALSE;
       break;
     }
+
+    /* Incriment cursor */
+    cursor_prev = cursor;
   }
 
-  if (sectionOpenCounter != sectionCloseCounter)
-  {
-    GError("The amount of [ does not match the amount of ] in ini file");
-  }
-
+  /* Set file back to beginning */
   rewind(file);
 
-  *p_maxNumberSection_out = sectionOpenCounter;
+  /* Output max number of sections */
+  *p_maxNumberSection_out = sectionCounter;
 
   return GCONST_TRUE;
 }

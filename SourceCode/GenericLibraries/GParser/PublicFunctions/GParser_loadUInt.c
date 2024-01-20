@@ -24,40 +24,49 @@
 #include "GConst/GConst.h"
 #include "GConversions/GConversions.h"
 #include "GLog/GLog.h"
+#include "GZero/GZero.h"
 
-int GParser_loadUInt(int *p_dataDestination, char *p_dataFromIni, dictionary **p_dic)
+/*
+ *  Refer to respective header file for function description
+ */
+int GParser_loadUInt(
+    GParser_State *p_GParser_state,
+    dictionary   **p_dic,
+    int           *p_dataDestination_out,
+    char          *p_dataFromIni_in)
 {
-  /* Defining local variables */
+  /* Declaring local variables */
   dictionary *p_dic_tmp;
   char        section_buffer[256];
   char        key_buffer[256];
   int         numberOfKeys;
   int         i;
   int         j;
-  int         k;
 
   /* Clearing Buffers */
-  memset(&section_buffer, 0, 256 * sizeof(char));
-  memset(&key_buffer, 0, 256 * sizeof(char));
-  *p_dataDestination = 0;
-  p_dic_tmp          = NULL;
-  j                  = 0;
+  GZero(&section_buffer, char[256]);
+  GZero(&key_buffer, char[256]);
+  p_dic_tmp = NULL;
+
+  /* Defining local variables */
+  i = 0;
+  j = 0;
 
   /* Parsing data input for section */
-  for (i = 0; *(p_dataFromIni + i) != ':'; i++)
+  for (i = 0; *(p_dataFromIni_in + i) != ':'; i++)
   {
-    section_buffer[i] = *(p_dataFromIni + i);
+    section_buffer[i] = *(p_dataFromIni_in + i);
   }
 
   /* Parsing data input for key */
-  for (i; *(p_dataFromIni + i + 1) != '\0'; i++)
+  for (i; *(p_dataFromIni_in + i + 1) != '\0'; i++)
   {
-    key_buffer[j] = *(p_dataFromIni + i + 1);
+    key_buffer[j] = *(p_dataFromIni_in + i + 1);
     j++;
   }
 
   /* Cycling through sections in dictionary */
-  for (i = 0; i < GParser_state.maxNumberSection; i++)
+  for (i = 0; i < p_GParser_state->maxNumberSection; i++)
   {
     /* load tempory dictionary */
     p_dic_tmp = *(p_dic + i);
@@ -71,10 +80,9 @@ int GParser_loadUInt(int *p_dataDestination, char *p_dataFromIni, dictionary **p
   }
 
   /* Check to see if section was found */
-  if (i == GParser_state.maxNumberSection)
+  if (i == p_GParser_state->maxNumberSection)
   {
-    GMsg(p_dataFromIni);
-    GError("Section not found");
+    GError("Section not found: %s", p_dataFromIni_in);
   }
 
   /* Cycle thorugh keys */
@@ -84,7 +92,7 @@ int GParser_loadUInt(int *p_dataDestination, char *p_dataFromIni, dictionary **p
     if (strcmp(*(p_dic_tmp->key + i), key_buffer) == 0)
     {
       /* If key matches, store convert value to int and store in member */
-      GConversion_string2uint(p_dataDestination, (p_dic_tmp->value + i));
+      GConversion_string2uint(p_dataDestination_out, (p_dic_tmp->value + i));
       break;
     }
   }
@@ -92,8 +100,7 @@ int GParser_loadUInt(int *p_dataDestination, char *p_dataFromIni, dictionary **p
   /* Throw an error if no key was found */
   if (i == p_dic_tmp->nKeys)
   {
-    GMsg(p_dataFromIni);
-    GError("Key not found in section");
+    GError("Key not found in section: %s", p_dataFromIni_in);
   }
 
   return GCONST_TRUE;

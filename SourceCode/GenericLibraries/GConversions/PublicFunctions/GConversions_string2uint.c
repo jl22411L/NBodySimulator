@@ -20,13 +20,13 @@
 #include "GConst/GConst.h"
 #include "GLog/GLog.h"
 
-GConversion_string2uint(int *p_dataDestination, char **p_dataSource)
+GConversion_string2uint(unsigned int *p_dataDestination, char **p_dataSource)
 {
   /* Defining local variables */
-  int  number;
-  char cursor;
-  int  sign;
-  int  i;
+  unsigned int number;
+  char         cursor;
+  int          sign;
+  int          i;
 
   /* Checking the sign of the input */
   cursor = *(*(p_dataSource) + 0);
@@ -39,7 +39,7 @@ GConversion_string2uint(int *p_dataDestination, char **p_dataSource)
 
   /* Finding the integer value and shifting left */
   number = 0;
-  for (i; (cursor = *(*(p_dataSource) + i)) != '\0'; i++)
+  for (i = 0; (cursor = *(*(p_dataSource) + i)) != '\0'; i++)
   {
 
     number = number * 10 + (int)(cursor - '0');

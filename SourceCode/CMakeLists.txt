@@ -13,10 +13,8 @@ set(CMAKE_CXX_COMPILER g++)
 # Set C standard
 set(CMAKE_C_STANDARD 90)
 
-# Set Root Directory
-set(ROOT_DIRECTORY C:/Users/jason/Desktop/Projects/NBodySimulator)
-set(SRC_DIRECTORY ${ROOT_DIRECTORY}/SourceCode)
-
+# Set Source Directory
+set(SRC_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Set relative directories within project
 set(GENERIC_PATH ${SRC_DIRECTORY}/GenericLibraries)

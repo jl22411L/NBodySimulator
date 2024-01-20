@@ -28,49 +28,66 @@
 /*
  *  Refer to respective header file for function description
  */
-int GParser_waitingForCommand(
-    uint8_t       *p_state,
-    GParser_State *p_stateStruct,
-    const char     cursor)
+int GParser_waitingForCommand(GParser_State *p_GParser_state, const char cursor)
 {
   switch (cursor)
   {
   case ('\t'):
+    /* DO NOTHING */
     break;
   case (' '):
+    /* DO NOTHING */
     break;
   case ('\n'):
+    /* DO NOTHING */
     break;
   case ('['):
-    switch (p_stateStruct->sectionCounter)
+    /* Check to see if dictionary should be loaded */
+    switch (p_GParser_state->sectionCounter)
     {
-    case (0):
+    case (GCONST_FALSE):
+      /* DO NOTHING */
       break;
     default:
-      p_stateStruct->loadDictionaryEnabled = GCONST_TRUE;
+      /* set load dictionary flag to True */
+      p_GParser_state->loadDictionaryEnabled = GCONST_TRUE;
     }
-    *p_state = GPARSER_STATE_LOADING_SECTION;
+
+    /* Updating State */
+    p_GParser_state->loadParamsState = GPARSER_STATE_LOADING_SECTION;
     break;
   case ('#'):
-    *p_state = GPARSER_STATE_COMMENT;
+    /* Updating State */
+    p_GParser_state->loadParamsState = GPARSER_STATE_COMMENT;
     break;
   case (';'):
-    *p_state = GPARSER_STATE_COMMENT;
+    /* Updating State */
+    p_GParser_state->loadParamsState = GPARSER_STATE_COMMENT;
     break;
   case (EOF):
-    *p_state = GPARSER_STATE_FINISHED;
+    /* Updating State */
+    p_GParser_state->loadParamsState = GPARSER_STATE_FINISHED;
     break;
   default:
-    switch (p_stateStruct->sectionCounter)
+    /* Cursor must be representing key, check to make sure there is a section */
+    switch (p_GParser_state->sectionCounter)
     {
-    case (0):
+      /* If no section has been loaded throw an error */
+    case (GCONST_FALSE):
       GError("Can't have a key with no section");
       break;
     default:
-      *p_state = GPARSER_STATE_LOADING_KEY;
-      *(p_stateStruct->keyBuffer + p_stateStruct->keyIndex) = cursor;
-      p_stateStruct->keyIndex++;
-      p_stateStruct->keySize[p_stateStruct->sizeIndex]++;
+      /* Setting the State */
+      p_GParser_state->loadParamsState = GPARSER_STATE_LOADING_KEY;
+
+      /* Loading the key with the cursor */
+      *(p_GParser_state->keyBuffer + p_GParser_state->keyIndex) = cursor;
+
+      /* Incrimenting the key index */
+      p_GParser_state->keyIndex++;
+
+      /* Incrimenting the key size*/
+      p_GParser_state->keySize[p_GParser_state->sizeIndex]++;
       break;
     }
   }

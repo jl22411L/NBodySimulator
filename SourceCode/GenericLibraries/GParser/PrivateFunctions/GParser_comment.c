@@ -23,17 +23,16 @@
 /*
  *  Refer to respective header file for function description
  */
-int GParser_comment(
-    uint8_t       *p_state,
-    GParser_State *p_stateStruct,
-    const char     cursor)
+int GParser_comment(GParser_State *p_GParser_state, const char cursor_in)
 {
-  switch (cursor)
+  switch (cursor_in)
   {
   case ('\n'):
-    *p_state = GPARSER_STATE_WAITING_FOR_COMMAND;
+    /* Updating the state */
+    p_GParser_state->loadParamsState = GPARSER_STATE_WAITING_FOR_COMMAND;
     break;
   default:
+    /* DO NOTHING */
     break;
   }
 

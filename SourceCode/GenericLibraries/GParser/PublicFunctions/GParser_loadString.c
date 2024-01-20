@@ -23,10 +23,18 @@
 /* Generic Libraries */
 #include "GConst/GConst.h"
 #include "GLog/GLog.h"
+#include "GZero/GZero.h"
 
-int GParser_loadString(char **p_dataDestination, char *p_dataFromIni, dictionary **p_dic)
+/*
+ * Refer to respective header file for function description
+ */
+int GParser_loadString(
+    GParser_State *p_GParser_state,
+    dictionary   **p_dic,
+    char         **p_dataDestination_out,
+    char          *p_dataFromIni_in)
 {
-  /* Defining local variables */
+  /* Declaring local variables */
   dictionary *p_dic_tmp;
   char        section_buffer[256];
   char        key_buffer[256];
@@ -35,26 +43,29 @@ int GParser_loadString(char **p_dataDestination, char *p_dataFromIni, dictionary
   int         j;
 
   /* Clearing Buffers */
-  memset(&section_buffer, 0, 256 * sizeof(char));
-  memset(&key_buffer, 0, 256 * sizeof(char));
+  GZero(&section_buffer, char[256]);
+  GZero(&key_buffer, char[256]);
   p_dic_tmp = NULL;
-  j         = 0;
+
+  /* Defining Local variables */
+  i = 0;
+  j = 0;
 
   /* Parsing data input for section */
-  for (i = 0; *(p_dataFromIni + i) != ':'; i++)
+  for (i = 0; *(p_dataFromIni_in + i) != ':'; i++)
   {
-    section_buffer[i] = *(p_dataFromIni + i);
+    section_buffer[i] = *(p_dataFromIni_in + i);
   }
 
   /* Parsing data input for key */
-  for (i; *(p_dataFromIni + i + 1) != '\0'; i++)
+  for (i; *(p_dataFromIni_in + i + 1) != '\0'; i++)
   {
-    key_buffer[j] = *(p_dataFromIni + i + 1);
+    key_buffer[j] = *(p_dataFromIni_in + i + 1);
     j++;
   }
 
   /* Cycling through sections in dictionary */
-  for (i = 0; i < GParser_state.maxNumberSection; i++)
+  for (i = 0; i < p_GParser_state->maxNumberSection; i++)
   {
     /* load tempory dictionary */
     p_dic_tmp = *(p_dic + i);
@@ -67,10 +78,9 @@ int GParser_loadString(char **p_dataDestination, char *p_dataFromIni, dictionary
   }
 
   /* Check if section was found */
-  if (i == GParser_state.maxNumberSection)
+  if (i == p_GParser_state->maxNumberSection)
   {
-    GMsg(p_dataFromIni);
-    GError("Section not found");
+    GError("Section not found: %s", section_buffer);
   }
 
   /* Cycle thorugh keys */
@@ -80,7 +90,7 @@ int GParser_loadString(char **p_dataDestination, char *p_dataFromIni, dictionary
     if (strcmp(*(p_dic_tmp->key + i), key_buffer) == 0)
     {
       /* If key matches, store value of key */
-      *p_dataDestination = *(p_dic_tmp->value + i);
+      *p_dataDestination_out = *(p_dic_tmp->value + i);
       break;
     }
   }
@@ -88,8 +98,7 @@ int GParser_loadString(char **p_dataDestination, char *p_dataFromIni, dictionary
   /* Throw an error if no key was found */
   if (i == p_dic_tmp->nKeys)
   {
-    GMsg(p_dataFromIni);
-    GError("Key not found in section");
+    GError("Key not found in section: %s", key_buffer);
   }
 
   return GCONST_TRUE;

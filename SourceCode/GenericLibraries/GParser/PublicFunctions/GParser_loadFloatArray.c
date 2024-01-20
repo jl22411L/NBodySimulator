@@ -1,17 +1,17 @@
 /*
- *    @File:         GParser_loadInt.c
+ *    @File:         GParser_loadFloatArray.c
  *
- *    @ Brief:       loads a string into a params struct
+ *    @ Brief:       Loads an array of floats
  *
  *    @ Date:        23/12/2023
  *
  */
 
-#include <stdio.h>
 #include <string.h>
 
 /* Function Includes */
 #include "GParser/PrivateFunctions/GParser_PrivateFunctions.h"
+#include "GParser/PublicFunctions/GParser_PublicFunctions.h"
 
 /* Structure Include */
 #include "GParser/DataStructs/Dictionary.h"
@@ -24,48 +24,57 @@
 #include "GConst/GConst.h"
 #include "GConversions/GConversions.h"
 #include "GLog/GLog.h"
+#include "GZero/GZero.h"
 
+/*
+ *  Refer to respective header file for function description
+ */
 int GParser_loadFloatArray(
-    float       *p_dataDestination,
-    char        *p_dataFromIni,
-    int          nCols,
-    int          nRows,
-    dictionary **p_dic)
+    GParser_State *p_GParser_state,
+    dictionary   **p_dic,
+    float         *p_dataDestination_out,
+    char          *p_dataFromIni_in,
+    int            nCols,
+    int            nRows)
 {
-  /* Defining local variables */
+  /* Declaring local variables */
   dictionary *p_dic_tmp;
   char        section_buffer[256];
   char        key_inputBuffer[256];
   char        key_iniBuffer[256];
-  char        indexBuffer[256];
-  int         col;
-  int         row;
-  int         i;
-  int         j;
+  char        dataToLoad_buffer[256];
+  int16_t     col;
+  int16_t     row;
+  int16_t     i;
+  int16_t     j;
+  int16_t     k;
 
   /* Clearing Buffers */
-  memset(&section_buffer, 0, 256 * sizeof(char));
-  memset(&key_inputBuffer, 0, 256 * sizeof(char));
-  memset(&key_iniBuffer, 0, 256 * sizeof(char));
-  memset(&indexBuffer, 0, 256 * sizeof(char));
+  GZero(&section_buffer, char[256]);
+  GZero(&key_inputBuffer, char[256]);
+  GZero(&dataToLoad_buffer, char[256]);
+  GZero(&key_iniBuffer, char[256]);
   p_dic_tmp = NULL;
-  j         = 0;
+
+  /* Defining local variables */
+  i = 0;
+  j = 0;
 
   /* Parsing data input for section */
-  for (i = 0; *(p_dataFromIni + i) != ':'; i++)
+  for (i = 0; *(p_dataFromIni_in + i) != ':'; i++)
   {
-    section_buffer[i] = *(p_dataFromIni + i);
+    section_buffer[i] = *(p_dataFromIni_in + i);
   }
 
   /* Parsing data input for key */
-  for (i; *(p_dataFromIni + i + 1) != '\0'; i++)
+  for (i; *(p_dataFromIni_in + i + 1) != '\0'; i++)
   {
-    key_inputBuffer[j] = *(p_dataFromIni + i + 1);
+    key_inputBuffer[j] = *(p_dataFromIni_in + i + 1);
     j++;
   }
 
   /* Find dictionary for coresponding section */
-  for (i = 0; i < GParser_state.maxNumberSection; i++)
+  for (i = 0; i < p_GParser_state->maxNumberSection; i++)
   {
     /* load tempory dictionary */
     p_dic_tmp = *(p_dic + i);
@@ -77,38 +86,63 @@ int GParser_loadFloatArray(
     }
   }
 
-  if (i == GParser_state.maxNumberSection)
+  /* Check to see if section exists */
+  if (i == p_GParser_state->maxNumberSection)
   {
-    GMsg(p_dataFromIni);
-    GError("Section not found");
+    GError("Section not found: %s", section_buffer);
   }
 
-  /* Cycle through keys */
-  for (i = 0; i < p_dic_tmp->nKeys; i++)
+  /* ---------------------------- LOAD ARRAY ----------------------------- */
+
+  /* Load key for 1D array */
+  if (nRows == 1)
   {
-    /* Cycle through key characters */
-    for (j = 0; *(*(p_dic_tmp->key + i) + j) != '\0'; j++)
+    for (i = 0; i < nCols; i++)
     {
-      /* If present, find index */
-      if (*(*(p_dic_tmp->key + i) + j) == '[')
+      /* Find the name of the key */
+      snprintf(
+          dataToLoad_buffer,
+          256,
+          "%s:%s[%d]",
+          section_buffer,
+          key_inputBuffer,
+          j);
+
+      /* Load the key into the memory address */
+      GParser_loadFloat(
+          p_GParser_state,
+          p_dic,
+          (p_dataDestination_out + j + i * nCols),
+          dataToLoad_buffer);
+    }
+  }
+  /* Load key for 2D array */
+  else
+  {
+    for (i = 0; i < nRows; i++)
+    {
+      for (j = 0; j < nCols; j++)
       {
-        GParser_findIndex(&col, &row, *(p_dic_tmp->key + i), j);
-        break;
+        snprintf(
+            dataToLoad_buffer,
+            256,
+            "%s:%s[%d][%d]",
+            section_buffer,
+            key_inputBuffer,
+            i,
+            j);
+
+        GParser_loadFloat(
+            p_GParser_state,
+            p_dic,
+            (p_dataDestination_out + j + i * nCols),
+            dataToLoad_buffer);
       }
-
-      /* Load key_iniBuffer */
-      key_iniBuffer[j] = *(*(p_dic_tmp->key + i) + j);
     }
-
-    /* Compare keyInput and keyIni */
-    if (strcmp(key_iniBuffer, key_inputBuffer) == 0 && GParser_state.indexLoaded)
-    {
-      GConversion_string2float((p_dataDestination + col + row * nCols), (p_dic_tmp->value + i));
-    }
-
-    /* Clear buffer */
-    memset(&key_iniBuffer, 0, 256 * sizeof(char));
   }
+
+  /* Clear buffer */
+  GZero(&key_iniBuffer, char[256]);
 
   return GCONST_TRUE;
 }

@@ -22,22 +22,26 @@
 #include "GConst/GConst.h"
 #include "GZero/GZero.h"
 
-int GParser_clearBuffers(GParser_State *p_stateStruct)
+/*
+ *  Refer to respective header file for function description
+ */
+int GParser_clearBuffers(GParser_State *p_GParser_state)
 {
   /* Clear Buffers */
-  GClear(&p_stateStruct->sectionBuffer, 1024, char);
-  GClear(&p_stateStruct->keyBuffer, 1024, char);
-  GClear(&p_stateStruct->valueBuffer, 1024, char);
+  GZero(p_GParser_state->sectionBuffer, char[1024]);
+  GZero(p_GParser_state->keyBuffer, char[1024]);
+  GZero(p_GParser_state->valueBuffer, char[1024]);
 
-  /* Clear Indexes */
-  GZero(&p_stateStruct->sizeIndex, uint8_t);
-  GZero(&p_stateStruct->sectionIndex, uint8_t);
-  GZero(&p_stateStruct->valueIndex, uint8_t);
-  GZero(&p_stateStruct->keyIndex, uint8_t);
+  /* Clear Index's */
+  GZero(&p_GParser_state->sizeIndex, uint8_t);
+  GZero(&p_GParser_state->sectionIndex, uint8_t);
+  GZero(&p_GParser_state->valueIndex, uint8_t);
+  GZero(&p_GParser_state->keyIndex, uint8_t);
 
-  GClear(&p_stateStruct->keySize, 256, int);
-  GClear(&p_stateStruct->valueSize, 256, int);
-  GZero(&p_stateStruct->sectionSize, int);
+  /* Clear size variables */
+  GZero(&p_GParser_state->keySize, int[256]);
+  GZero(&p_GParser_state->valueSize, int[256]);
+  GZero(&p_GParser_state->sectionSize, int);
 
   return GCONST_TRUE;
 }

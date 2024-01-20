@@ -1,7 +1,6 @@
 add_library(GParser
   PrivateFunctions/GParser_clearBuffers.c
   PrivateFunctions/GParser_comment.c
-  PrivateFunctions/GParser_findIndex.c
   PrivateFunctions/GParser_findNumberOfSections.c
   PrivateFunctions/GParser_loadDictionary.c
   PrivateFunctions/GParser_loadingKey.c
@@ -13,11 +12,10 @@ add_library(GParser
   PrivateFunctions/GParser_waitingForNewLine.c
   PrivateFunctions/GParser_waitingValue.c
   PublicFunctions/GParser_closeParams.c
-  PublicFunctions/GParser_loadChar.c
   PublicFunctions/GParser_loadDouble.c
   PublicFunctions/GParser_loadFloat.c
   PublicFunctions/GParser_loadFloatArray.c
-  PublicFunctions/GParser_loadInt_8.c
+  PublicFunctions/GParser_loadInt8.c
   PublicFunctions/GParser_loadInt.c
   PublicFunctions/GParser_loadIntArray.c
   PublicFunctions/GParser_loadParams.c

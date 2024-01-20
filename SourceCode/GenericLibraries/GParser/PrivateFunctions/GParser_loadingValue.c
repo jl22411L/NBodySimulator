@@ -23,37 +23,54 @@
 /*
  *  Refer to respective header file for function description
  */
-int GParser_loadingValue(
-    uint8_t       *p_state,
-    GParser_State *p_stateStruct,
-    const char     cursor)
+int GParser_loadingValue(GParser_State *p_GParser_state, const char cursor)
 {
   switch (cursor)
   {
   case (' '):
-    p_stateStruct->sizeIndex++;
-    *p_state = GPARSER_STATE_WAITING_NEWLINE;
+    /* Incriment size Index */
+    p_GParser_state->sizeIndex++;
+
+    /* Update State */
+    p_GParser_state->loadParamsState = GPARSER_STATE_WAITING_NEWLINE;
     break;
   case ('\t'):
-    p_stateStruct->sizeIndex++;
-    *p_state = GPARSER_STATE_WAITING_NEWLINE;
+    /* Incriment size Index */
+    p_GParser_state->sizeIndex++;
+
+    /* Update State */
+    p_GParser_state->loadParamsState = GPARSER_STATE_WAITING_NEWLINE;
     break;
   case ('\n'):
-    p_stateStruct->sizeIndex++;
-    *p_state = GPARSER_STATE_WAITING_FOR_COMMAND;
+    /* Incriment size Index */
+    p_GParser_state->sizeIndex++;
+
+    /* Update State */
+    p_GParser_state->loadParamsState = GPARSER_STATE_WAITING_FOR_COMMAND;
     break;
   case ('#'):
-    p_stateStruct->sizeIndex++;
-    *p_state = GPARSER_STATE_COMMENT;
+    /* Incriment size Index */
+    p_GParser_state->sizeIndex++;
+
+    /* Update State */
+    p_GParser_state->loadParamsState = GPARSER_STATE_COMMENT;
     break;
   case (';'):
-    p_stateStruct->sizeIndex++;
-    *p_state = GPARSER_STATE_COMMENT;
+    /* Incriment size Index */
+    p_GParser_state->sizeIndex++;
+
+    /* Update State */
+    p_GParser_state->loadParamsState = GPARSER_STATE_COMMENT;
     break;
   default:
-    *(p_stateStruct->valueBuffer + p_stateStruct->valueIndex) = cursor;
-    p_stateStruct->valueIndex++;
-    p_stateStruct->valueSize[p_stateStruct->sizeIndex]++;
+    /* Load value buffer with cursor */
+    *(p_GParser_state->valueBuffer + p_GParser_state->valueIndex) = cursor;
+
+    /* Incriment value index */
+    p_GParser_state->valueIndex++;
+
+    /* incriment value size value */
+    p_GParser_state->valueSize[p_GParser_state->sizeIndex]++;
     break;
   }
 

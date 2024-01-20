@@ -23,22 +23,22 @@
 /*
  *  Refer to respective header file for function description
  */
-int GParser_waitingEquals(
-    uint8_t       *p_state,
-    GParser_State *p_stateStruct,
-    const char     cursor)
+int GParser_waitingEquals(GParser_State *p_GParser_state, const char cursor)
 {
   switch (cursor)
   {
   case (' '):
+    /* DO NOTHING */
     break;
   case ('\t'):
+    /* DO NOTHING */
     break;
   case ('\n'):
     GError("No value inputted to key before new line");
     break;
   case ('='):
-    *p_state = GPARSER_STATE_WAITING_VALUE;
+    /* Update State */
+    p_GParser_state->loadParamsState = GPARSER_STATE_WAITING_VALUE;
     break;
   default:
     GError("Unkown Input");

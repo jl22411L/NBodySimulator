@@ -23,25 +23,27 @@
 /*
  *  Refer to respective header file for function description
  */
-int GParser_waitingForNewLine(
-    uint8_t       *p_state,
-    GParser_State *p_stateStruct,
-    const char     cursor)
+int GParser_waitingForNewLine(GParser_State *p_GParser_state, const char cursor)
 {
   switch (cursor)
   {
   case (' '):
+    /* DO NOTHING */
     break;
   case ('\t'):
+    /* DO NOTHING */
     break;
   case ('\n'):
-    *p_state = GPARSER_STATE_WAITING_FOR_COMMAND;
+    /* Update the state */
+    p_GParser_state->loadParamsState = GPARSER_STATE_WAITING_FOR_COMMAND;
     break;
   case ('#'):
-    *p_state = GPARSER_STATE_COMMENT;
+    /* Update the state */
+    p_GParser_state->loadParamsState = GPARSER_STATE_COMMENT;
     break;
   case (';'):
-    *p_state = GPARSER_STATE_COMMENT;
+    /* Update the state */
+    p_GParser_state->loadParamsState = GPARSER_STATE_COMMENT;
     break;
   default:
     GError("Invalid expression");

@@ -7,6 +7,7 @@
  *
  */
 
+#include <stdio.h>
 #include <stdlib.h>
 
 /* Function Includes */
@@ -21,12 +22,22 @@
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
+#include "GZero/GZero.h"
 
-int GParser_closeParams(dictionary **p_dic)
+/*
+ *  Refer to respective header file for function description
+ */
+int GParser_closeParams(GParser_State *p_GParser_state, dictionary **p_dic)
 {
-  /* Clearing memory */
+  /* Declaring local variables */
+  int16_t i;
+
+  for (i = 0; i < p_GParser_state->maxNumberSection; i++)
+  {
+    GZero(*(p_dic + i), dictionary);
+  }
+
   free(p_dic);
-  free(&GParser_state);
 
   return GCONST_TRUE;
 }
