@@ -23,11 +23,14 @@
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
+#include "GUtilities/GUtilities.h"
 
 int main()
 {
   /* Declaring local variables */
   RigidBody_State RigidBody_state;
+
+  GUtilities_init("parameters/SimulationParameters.ini");
 
   RigidBody_init(&RigidBody_state);
 

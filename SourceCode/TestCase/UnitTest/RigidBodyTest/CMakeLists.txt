@@ -10,6 +10,7 @@ set(LIB_LIST
   RigidBody
   GParser
   GConversions
+  GUtilities
 )
 
 target_link_libraries(RigidBodyTest ${LIB_LIST})
