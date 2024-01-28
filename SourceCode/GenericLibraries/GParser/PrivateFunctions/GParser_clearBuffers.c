@@ -33,10 +33,10 @@ int GParser_clearBuffers(GParser_State *p_GParser_state)
   GZero(p_GParser_state->valueBuffer, char[1024]);
 
   /* Clear Index's */
-  GZero(&p_GParser_state->sizeIndex, uint8_t);
-  GZero(&p_GParser_state->sectionIndex, uint8_t);
-  GZero(&p_GParser_state->valueIndex, uint8_t);
-  GZero(&p_GParser_state->keyIndex, uint8_t);
+  GZero(&p_GParser_state->sizeIndex, uint16_t);
+  GZero(&p_GParser_state->sectionIndex, uint32_t);
+  GZero(&p_GParser_state->valueIndex, uint32_t);
+  GZero(&p_GParser_state->keyIndex, uint32_t);
 
   /* Clear size variables */
   GZero(&p_GParser_state->keySize, int[256]);

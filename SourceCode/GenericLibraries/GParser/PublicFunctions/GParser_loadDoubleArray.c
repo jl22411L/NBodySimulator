@@ -1,7 +1,7 @@
 /*
- *    @File:         GParser_loadFloatArray.c
+ *    @File:         GParser_loadDoubleArray.c
  *
- *    @ Brief:       Loads an array of floats
+ *    @ Brief:       Loads an array of doubless
  *
  *    @ Date:        23/12/2023
  *
@@ -29,10 +29,10 @@
 /*
  *  Refer to respective header file for function description
  */
-int GParser_loadFloatArray(
+int GParser_loadDoubleArray(
     GParser_State *p_GParser_state,
     dictionary   **p_dic,
-    float         *p_dataDestination_out,
+    double        *p_dataDestination_out,
     char          *p_dataFromIni_in,
     int            nCols,
     int            nRows)
@@ -106,13 +106,13 @@ int GParser_loadFloatArray(
           "%s:%s[%d]",
           section_buffer,
           key_inputBuffer,
-          j);
+          i);
 
       /* Load the key into the memory address */
-      GParser_loadFloat(
+      GParser_loadDouble(
           p_GParser_state,
           p_dic,
-          (p_dataDestination_out + j + i * nCols),
+          (p_dataDestination_out + i),
           dataToLoad_buffer);
     }
   }
@@ -132,7 +132,7 @@ int GParser_loadFloatArray(
             i,
             j);
 
-        GParser_loadFloat(
+        GParser_loadDouble(
             p_GParser_state,
             p_dic,
             (p_dataDestination_out + j + i * nCols),

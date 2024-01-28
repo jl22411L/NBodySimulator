@@ -21,7 +21,7 @@ extern "C" {
 #include "DataStructs/GParser_StateStruct.h"
 
 /* Data include */
-#include "ConstandDefs/GParser_Const.h"
+#include "ConstantDefs/GParser_Const.h"
 
 /* Generic Libraries */
 /* None */
@@ -30,4 +30,4 @@ extern "C" {
 }
 #endif
 
-#endif
+#endif /* H_GPARSER_H */

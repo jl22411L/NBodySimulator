@@ -26,6 +26,8 @@ extern "C" {
 /* Generic Libraries */
 /* None */
 
+#define GPARSER_BUFFERSIZE                   (2048)
+
 /* ---------------------- LOAD PARAMS STATE CONSTANTS ---------------------- */
 
 #define GPARSER_STATE_WAITING_FOR_COMMAND    (0)

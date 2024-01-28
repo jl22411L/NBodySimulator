@@ -19,7 +19,7 @@
 #include "GParser/DataStructs/GParser_StateStruct.h"
 
 /* Data include */
-#include "GParser/ConstandDefs/GParser_Const.h"
+#include "GParser/ConstantDefs/GParser_Const.h"
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
@@ -69,6 +69,16 @@ dictionary **
 
     if (cursor == EOF)
     {
+      /* Check to see if file ends on a key, incriment size index */
+      switch (p_GParser_state->loadParamsState)
+      {
+      case (GPARSER_STATE_LOADING_VALUE):
+        p_GParser_state->sizeIndex++;
+        break;
+      case (GPARSER_STATE_LOADING_STRING_VALUE):
+        p_GParser_state->sizeIndex++;
+        break;
+      }
       /* Update state to finidh reading */
       p_GParser_state->loadParamsState = GPARSER_STATE_FINISHED;
 
@@ -79,40 +89,40 @@ dictionary **
     /* Check the state */
     switch (p_GParser_state->loadParamsState)
     {
-    /* Waiting for next commamnd */
     case (GPARSER_STATE_WAITING_FOR_COMMAND):
+      /* Waiting for next commamnd */
       GParser_waitingForCommand(p_GParser_state, cursor);
       break;
-    /* Waiting for a new line */
     case (GPARSER_STATE_WAITING_NEWLINE):
+      /* Waiting for a new line */
       GParser_waitingForNewLine(p_GParser_state, cursor);
       break;
-    /* Parsing a comment section */
     case (GPARSER_STATE_COMMENT):
+      /* Parsing a comment section */
       GParser_comment(p_GParser_state, cursor);
       break;
-    /* Loading a section */
     case (GPARSER_STATE_LOADING_SECTION):
+      /* Loading a section */
       GParser_loadingSection(p_GParser_state, cursor);
       break;
-    /* Loading key into buffer */
     case (GPARSER_STATE_LOADING_KEY):
+      /* Loading key into buffer */
       GParser_loadingKey(p_GParser_state, cursor);
       break;
-    /* Waiting for equals after the key */
     case (GPARSER_STATE_KEY_WAITING_FOR_EQUALS):
+      /* Waiting for equals after the key */
       GParser_waitingEquals(p_GParser_state, cursor);
       break;
-    /* Waiting for value to be loaded */
     case (GPARSER_STATE_WAITING_VALUE):
+      /* Waiting for value to be loaded */
       GParser_waitingValue(p_GParser_state, cursor);
       break;
-    /* Loading value into buffers */
     case (GPARSER_STATE_LOADING_VALUE):
+      /* Loading value into buffers */
       GParser_loadingValue(p_GParser_state, cursor);
       break;
-    /* Loading a string value into buffers */
     case (GPARSER_STATE_LOADING_STRING_VALUE):
+      /* Loading a string value into buffers */
       GParser_loadingStringValue(p_GParser_state, cursor);
       break;
     }

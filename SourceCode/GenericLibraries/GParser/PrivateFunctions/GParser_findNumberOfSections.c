@@ -16,7 +16,7 @@
 #include "GParser/DataStructs/GParser_StateStruct.h"
 
 /* Data include */
-#include "GParser/ConstandDefs/GParser_Const.h"
+#include "GParser/ConstantDefs/GParser_Const.h"
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
