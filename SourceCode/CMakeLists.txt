@@ -38,6 +38,8 @@ include_directories(${UNITTEST_PATH})
 add_subdirectory(${GENERIC_PATH}/GParser)
 add_subdirectory(${GENERIC_PATH}/GConversions)
 add_subdirectory(${GENERIC_PATH}/GUtilities)
+add_subdirectory(${GENERIC_PATH}/GMath)
+add_subdirectory(${GENERIC_PATH}/GIntegral)
 
 # Bodies
 add_subdirectory(${BODIES_PATH}/RigidBody)

@@ -72,7 +72,7 @@ int RigidBody_init(RigidBody_State *p_Rigidbody_state)
   GParser_loadDoubleArray(
       &GParser_state,
       dic,
-      &(p_Rigidbody_state->RigidBody_fixedFrameAcceleration_ms2[0]),
+      &(p_Rigidbody_state->fixedFrameAcceleration_ms2[0]),
       "TranslationalProperties:fixedFrameAcceleration",
       3,
       1);
@@ -81,7 +81,7 @@ int RigidBody_init(RigidBody_State *p_Rigidbody_state)
   GParser_loadDoubleArray(
       &GParser_state,
       dic,
-      &(p_Rigidbody_state->RigidBody_fixedFrameVeclocity_ms[0]),
+      &(p_Rigidbody_state->fixedFrameVeclocity_ms[0]),
       "TranslationalProperties:fixedFrameVelocity",
       3,
       1);
@@ -90,7 +90,7 @@ int RigidBody_init(RigidBody_State *p_Rigidbody_state)
   GParser_loadDoubleArray(
       &GParser_state,
       dic,
-      &(p_Rigidbody_state->RigidBody_position_m[0]),
+      &(p_Rigidbody_state->position_m[0]),
       "TranslationalProperties:position",
       3,
       1);
@@ -99,7 +99,7 @@ int RigidBody_init(RigidBody_State *p_Rigidbody_state)
   GParser_loadDoubleArray(
       &GParser_state,
       dic,
-      &(p_Rigidbody_state->RigidBody_angularAcceleration_rads2[0]),
+      &(p_Rigidbody_state->angularAcceleration_rads2[0]),
       "AngularProperties:angularAcceleration",
       3,
       1);
@@ -108,7 +108,7 @@ int RigidBody_init(RigidBody_State *p_Rigidbody_state)
   GParser_loadDoubleArray(
       &GParser_state,
       dic,
-      &(p_Rigidbody_state->RigidBody_angularVelocity_rads[0]),
+      &(p_Rigidbody_state->angularVelocity_rads[0]),
       "AngularProperties:angularVelocity",
       3,
       1);
@@ -117,7 +117,7 @@ int RigidBody_init(RigidBody_State *p_Rigidbody_state)
   GParser_loadDoubleArray(
       &GParser_state,
       dic,
-      &(p_Rigidbody_state->RigidBody_quaternionRateFixed2Body[0]),
+      &(p_Rigidbody_state->quaternionRateFixed2Body[0]),
       "AngularProperties:quaternionRate",
       4,
       1);
@@ -126,7 +126,7 @@ int RigidBody_init(RigidBody_State *p_Rigidbody_state)
   GParser_loadDoubleArray(
       &GParser_state,
       dic,
-      &(p_Rigidbody_state->RigidBody_quaternionFixed2Body[0]),
+      &(p_Rigidbody_state->quaternionFixed2Body[0]),
       "AngularProperties:quaternion",
       4,
       1);

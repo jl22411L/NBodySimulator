@@ -11,6 +11,8 @@ set(LIB_LIST
   GParser
   GConversions
   GUtilities
+  GIntegral
+  GMath
 )
 
 target_link_libraries(RigidBodyTest ${LIB_LIST})
