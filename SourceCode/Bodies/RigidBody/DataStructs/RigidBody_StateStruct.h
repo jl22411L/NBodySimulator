@@ -16,6 +16,8 @@
 extern "C" {
 #endif
 
+#include <stdio.h>
+
 /* Function Includes */
 /* None */
 
@@ -135,6 +137,17 @@ typedef struct RigidBody_StateStruct
    * @frame     Fixed Frame -> Body Frame
    */
   double quaternionFixed2Body[3];
+
+  /*!
+   * @details   Pointer containing address to the file which the data will be
+   *            archived for the rigid body.
+   *
+   * @unit      N/A
+   * @frame     N/A
+   * @sense     N/A
+   */
+  FILE *p_rigidBodyArchiveFile;
+
 } RigidBody_State;
 
 #ifdef __cplusplus

@@ -15,6 +15,8 @@
 extern "C" {
 #endif
 
+#include <stdio.h>
+
 /* Function Includes */
 /* None */
 
@@ -28,18 +30,32 @@ extern "C" {
 /* None */
 
 /*!
- * @details   Function which initiates the GArchive module. This creates the
- *            directories within the Test Run directory.
+ * @brief         Function will initialise an archive. Takes the name of the
+ *                data that is being archived and also a pointer to a FILE
+ *                pointer which to sotre that file in. The directory is then
+ *                created and a csv file is open to write in. The file should
+ *                then be closed at the end of a simulation.
  *
- * @return    Upon a successful completion, the fucntion will return a
- *            GCONST_TRUE
+ *                Note: Archived data should be streamed out at every time step.
+ *                This is different to outputData which is archived when the
+ *                sensor is meant to output data.
  *
- *            If an error in the codes execution occurs, the function will
- *            return a GCONST_FALSE
+ * @param[in]     p_archiveDataFilename_in
+ *                String containting path to which the data will be archived.
+ *                (e.g ArchiveData/RigidBody)
+ *
+ * @param[out]    p_archiveFilePath_out
+ *                Pointer to a csv file which the data will be written to.
+ *
+ * @return        Upon a successful completion, the fucntion will return a
+ *                GCONST_TRUE
+ *
+ *                If an error in the codes execution occurs, the function will
+ *                return a GCONST_FALSE
  */
-extern int GArchive_init();
-
-extern int GArchive_double();
+extern int GArchive_init(
+    const char *p_archiveDataFilename_in,
+    FILE       *p_archiveDataFile_out);
 
 #ifdef __cplusplus
 }
