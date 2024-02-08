@@ -19,7 +19,9 @@
 /* Generic Libraries */
 #include "GConst/GConst.h"
 
-int GConversion_string2float(float *p_dataDestination, char **p_dataSource)
+int GConversion_string2float(
+    float *p_dataDestination_out,
+    char **p_dataSource_in)
 {
   /* Defining local variables */
   float integer;
@@ -32,7 +34,7 @@ int GConversion_string2float(float *p_dataDestination, char **p_dataSource)
   int   i;
 
   /* Checking the sign of the input */
-  cursor = *(*(p_dataSource) + 0);
+  cursor = *(*(p_dataSource_in) + 0);
   switch (cursor)
   {
   case ('-'):
@@ -51,7 +53,7 @@ int GConversion_string2float(float *p_dataDestination, char **p_dataSource)
 
   /* Find position of decimal and number of elements in string */
   decimalPosition = -1;
-  for (sizeString = 0; (cursor = *(*(p_dataSource) + sizeString)) != '\0';
+  for (sizeString = 0; (cursor = *(*(p_dataSource_in) + sizeString)) != '\0';
        sizeString++)
   {
     if (cursor == '.')
@@ -70,7 +72,7 @@ int GConversion_string2float(float *p_dataDestination, char **p_dataSource)
   integer = 0;
   for (i; i < decimalPosition; i++)
   {
-    cursor  = *(*(p_dataSource) + i);
+    cursor  = *(*(p_dataSource_in) + i);
     integer = integer * 10 + (cursor - '0');
   }
 
@@ -78,12 +80,12 @@ int GConversion_string2float(float *p_dataDestination, char **p_dataSource)
   decimal = 0;
   for (i = sizeString - 1; i > decimalPosition; i--)
   {
-    cursor  = *(*(p_dataSource) + i);
+    cursor  = *(*(p_dataSource_in) + i);
     decimal = decimal / 10.0 + (float)(cursor - '0');
   }
 
   /* Outputting result */
-  *p_dataDestination = sign * (integer + decimal / 10);
+  *p_dataDestination_out = sign * (integer + decimal / 10);
 
   return GCONST_TRUE;
 }

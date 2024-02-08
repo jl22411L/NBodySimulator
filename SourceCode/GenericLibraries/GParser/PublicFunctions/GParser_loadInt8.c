@@ -92,7 +92,7 @@ int GParser_loadInt8(
     if (strcmp(*(p_dic_tmp->key + i), key_buffer) == 0)
     {
       /* If key matches, store convert value to int and store in member */
-      GConversion_string2int_8(p_dataDestination_out, (p_dic_tmp->value + i));
+      GConversion_string2int8(p_dataDestination_out, (p_dic_tmp->value + i));
       break;
     }
   }
