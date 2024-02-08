@@ -65,10 +65,8 @@ extern int
  *                  <SETION>:<KEY>
  *
  * @return          Upon a successful completion, the fucntion will return a
- *                  GCONST_TRUE
- *
- *                  If an error in the codes execution occurs, the function will
- *                  return a GCONST_FALSE
+ *                  GCONST_TRUE. If an error in the codes execution occurs, the
+ *                  function will return a GCONST_FALSE
  */
 extern int GParser_loadDouble(
     GParser_State *p_GParser_state,

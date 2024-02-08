@@ -26,19 +26,88 @@ extern "C" {
 /* Generic Libraries */
 /* None */
 
-// TODO
-extern int GConversion_string2double(double *p_dataDestination, char **p_dataSource);
+/*!
+ * @brief           Function which converts a string to a double
+ *
+ * @param[out]      p_dataDestination_out
+ *                  Pointer to the variable which data will be outputted
+ *
+ * @param[in]       p_dataSource_in
+ *                  Pointer to string which containing value
+ *
+ * @return          Upon a successful completion, the fucntion will return a
+ *                  GCONST_TRUE. If an error in the codes execution occurs, the
+ *                  function will return a GCONST_FALSE
+ */
+extern int GConversion_string2double(
+    double *p_dataDestination_out,
+    char  **p_dataSource_in);
 
-// TODO
-extern int GConversion_string2float(float *p_dataDestination, char **p_dataSource);
+/*!
+ * @brief           Function which converts a string to a float
+ *
+ * @param[out]      p_dataDestination_out
+ *                  Pointer to the variable which data will be outputted
+ *
+ * @param[in]       p_dataSource_in
+ *                  Pointer to string which containing value
+ *
+ * @return          Upon a successful completion, the fucntion will return a
+ *                  GCONST_TRUE. If an error in the codes execution occurs, the
+ *                  function will return a GCONST_FALSE
+ */
+extern int GConversion_string2float(
+    float *p_dataDestination_out,
+    char **p_dataSource_in);
 
-// TODO
-extern int GConversion_string2int_8(int8_t *p_dataDestination, char **p_dataSource);
+/*!
+ * @brief           Function which converts a string to a int8
+ *
+ * @param[out]      p_dataDestination_out
+ *                  Pointer to the variable which data will be outputted
+ *
+ * @param[in]       p_dataSource_in
+ *                  Pointer to string which containing value
+ *
+ * @return          Upon a successful completion, the fucntion will return a
+ *                  GCONST_TRUE. If an error in the codes execution occurs, the
+ *                  function will return a GCONST_FALSE
+ */
+extern int GConversion_string2int8(
+    int8_t *p_dataDestination_out,
+    char  **p_dataSource_in);
 
-// TODO
-extern int GConversion_string2int(int *p_dataDestination, char **p_dataSource);
+/*!
+ * @brief           Function which converts a string to an int
+ *
+ * @param[out]      p_dataDestination_out
+ *                  Pointer to the variable which data will be outputted
+ *
+ * @param[in]       p_dataSource_in
+ *                  Pointer to string which containing value
+ *
+ * @return          Upon a successful completion, the fucntion will return a
+ *                  GCONST_TRUE. If an error in the codes execution occurs, the
+ *                  function will return a GCONST_FALSE
+ */
+extern int
+    GConversion_string2int(int *p_dataDestination_out, char **p_dataSource_in);
 
-extern int GConversion_string2uint(int *p_dataDestination, char **p_dataSource);
+/*!
+ * @brief           Function which converts a string to a unsigned int
+ *
+ * @param[out]      p_dataDestination_out
+ *                  Pointer to the variable which data will be outputted
+ *
+ * @param[in]       p_dataSource_in
+ *                  Pointer to string which containing value
+ *
+ * @return          Upon a successful completion, the fucntion will return a
+ *                  GCONST_TRUE. If an error in the codes execution occurs, the
+ *                  function will return a GCONST_FALSE
+ */
+extern int
+    GConversion_string2uint(int *p_dataDestination_out, char **p_dataSource_in);
 
 #ifdef __cplusplus
 }
