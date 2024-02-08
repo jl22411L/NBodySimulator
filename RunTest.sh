@@ -97,6 +97,9 @@ mkdir -p ${PATH_TO_TEST_RUN}/Parameters
 # Creating Output Directory
 mkdir -p ${PATH_TO_TEST_RUN}/OutputData
 
+# Creating Archive Directory
+mkdir -p ${PATH_TO_TEST_RUN}/ArchiveData
+
 echo "[MSG] Created test run: ${PATH_TO_TEST_RUN}"
 
 # Copying Executable

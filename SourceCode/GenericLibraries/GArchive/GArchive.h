@@ -15,13 +15,14 @@ extern "C" {
 #endif
 
 /* Function Includes */
-#include "PublicFunctions/GArchive_PublicFunctions.h"
+#include "GArchive/PrivateFunctions/GArchive_PrivateFunctions.h"
+#include "GArchive/PublicFunctions/GArchive_PublicFunctions.h"
 
 /* Structure Include */
-/* None */
+#include "GArchive/DataStructs/GArchive_Struct.h"
 
 /* Data include */
-/* None */
+#include "GArchive/ConstantDefs/GArchive_Constants.h"
 
 /* Generic Libraries */
 /* None */

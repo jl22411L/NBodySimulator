@@ -35,6 +35,7 @@ include_directories(${UNITTEST_PATH})
 # ---- Add subdirectories which contain CMakeLists.txt file ---- #
 
 # Generic Libraries
+add_subdirectory(${GENERIC_PATH}/GArchive)
 add_subdirectory(${GENERIC_PATH}/GParser)
 add_subdirectory(${GENERIC_PATH}/GConversions)
 add_subdirectory(${GENERIC_PATH}/GUtilities)

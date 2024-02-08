@@ -21,7 +21,7 @@ extern "C" {
 /* None */
 
 /* Structure Include */
-/* None */
+#include "GArchive/DataStructs/GArchive_Struct.h"
 
 /* Data include */
 /* None */
@@ -30,32 +30,92 @@ extern "C" {
 /* None */
 
 /*!
- * @brief         Function will initialise an archive. Takes the name of the
- *                data that is being archived and also a pointer to a FILE
- *                pointer which to sotre that file in. The directory is then
- *                created and a csv file is open to write in. The file should
- *                then be closed at the end of a simulation.
+ * @brief          Adds column to the archive struct which will be outputted in
+ *                 the archive struct.
  *
- *                Note: Archived data should be streamed out at every time step.
- *                This is different to outputData which is archived when the
- *                sensor is meant to output data.
+ * @param[in,out]  p_archive_inout
+ *                 Pointer to GArchive struct which will the column names will
+ *                 be written towards.
+ *
+ * @param[in]      p_colName_in
+ *                 Name of column to add to archive struct.
+ *
+ * @param[in]     nColsAdd_in
+ *                Number of columns to add. If this is greater than 1, it is
+ *                assumed that an array is being added and will have the
+ *                appropraite index added. Whether it is 2D or 1D depends on the
+ *                nRowsAdd_in input.
+ *
+ * @param[in]     nRowsAdd_in
+ *                Number of rows to add. If this is greater than 1, it is
+ *                assumed that a 2D array is being added and will have an
+ *                appropriate index added.
+ *
+ * @return        Upon a successful completion, the fucntion will return a
+ *                GCONST_TRUE. If an error in the codes execution occurs, the
+ *                function will return a GCONST_FALSE
+ */
+extern int GArchive_addCol(
+    GArchive   *p_archive_inout,
+    const char *p_colName_in,
+    uint8_t     nColsAdd_in,
+    uint8_t     nRowsAdd_in);
+
+/*!
+ * @brief          Adds a value to archive struct which will be written to the
+ *                 archive folder.
+ *
+ * @param[in]      p_archive_in
+ *                 Pointer to archive to write the value too.
+ *
+ * @param[in]      archiveValue_in
+ *                 Value to write to archive struct.
+ *
+ * @return         Upon a successful completion, the fucntion will return a
+ *                 GCONST_TRUE. If an error in the codes execution occurs, the
+ *                 function will return a GCONST_FALSE
+ */
+extern int GArchive_addVal(GArchive *p_archive_in, double archiveValue_in);
+
+/*!
+ * @brief         Closes the archive file and sets all members to zero.
+
+ * @param[in]     p_archive_in
+ *                Pointer to archive struct
+ *
+ * @return        Upon a successful completion, the fucntion will return a
+ *                GCONST_TRUE. If an error in the codes execution occurs, the
+ *                function will return a GCONST_FALSE
+ */
+extern int GArchive_close(GArchive *p_archive_in);
+
+/*!
+ * @brief         This function will create the archive folder for which the
+ *                data will be saved in.
  *
  * @param[in]     p_archiveDataFilename_in
  *                String containting path to which the data will be archived.
  *                (e.g ArchiveData/RigidBody)
  *
- * @param[out]    p_archiveFilePath_out
- *                Pointer to a csv file which the data will be written to.
- *
  * @return        Upon a successful completion, the fucntion will return a
- *                GCONST_TRUE
- *
- *                If an error in the codes execution occurs, the function will
- *                return a GCONST_FALSE
+ *                GCONST_TRUE. If an error in the codes execution occurs, the
+ *                function will return a GCONST_FALSE
  */
-extern int GArchive_init(
-    const char *p_archiveDataFilename_in,
-    FILE       *p_archiveDataFile_out);
+extern int
+    GArchive_init(GArchive *p_archive_in, char *p_archiveDataFilename_in);
+
+/*!
+ * @brief          Writes the data in the archive struct to the Archive folder.
+ *
+ * @param[in]      p_archive_in
+ *                 Pointer to the archive struct which contains data to be
+ *                 archived.
+ *
+ * @return         Upon a successful completion, the fucntion will return a
+ *                 GCONST_TRUE. If an error in the codes execution occurs, the
+ *                 function will return a GCONST_FALSE
+ */
+extern int GArchive_writeLine(GArchive *p_archive_in);
 
 #ifdef __cplusplus
 }

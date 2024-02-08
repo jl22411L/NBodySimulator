@@ -32,6 +32,11 @@ int main()
   RigidBody_State RigidBody;
 
   /*-------------------------------------------------------------------------*
+   *                            CREATE ARCHIVES                              *
+   *-------------------------------------------------------------------------*/
+  GArchive_init(&RigidBody.rigidBodyArchive, "ArchiveData/RigidBody");
+
+  /*-------------------------------------------------------------------------*
    *                         INITIALIZE STRUCTURES                           *
    *-------------------------------------------------------------------------*/
 
@@ -44,15 +49,20 @@ int main()
    *-------------------------------------------------------------------------*/
   do
   {
+    /*------------------------------------------------------------------------*
+     *                                ARCHIVE                                 *
+     *------------------------------------------------------------------------*/
+    RigidBody_archiveData(&RigidBody);
+
     /* Integrate body - Translational */
     GIntegral_3x1Double(
-        &RigidBody.position_m,
-        &RigidBody.fixedFrameVeclocity_ms,
+        &RigidBody.position_m[0],
+        &RigidBody.fixedFrameVeclocity_ms[0],
         Utilities.simTimeStep_s);
 
     GIntegral_3x1Double(
-        &RigidBody.fixedFrameVeclocity_ms,
-        &RigidBody.fixedFrameAcceleration_ms2,
+        &RigidBody.fixedFrameVeclocity_ms[0],
+        &RigidBody.fixedFrameAcceleration_ms2[0],
         Utilities.simTimeStep_s);
 
     RigidBody.fixedFrameAcceleration_ms2[0] = 0;
@@ -61,18 +71,18 @@ int main()
 
     /* Integrate body - Angular */
     GMath_quaternionRateCalc(
-        &RigidBody.quaternionRateFixed2Body,
-        &RigidBody.quaternionFixed2Body,
-        &RigidBody.angularVelocity_rads);
+        &RigidBody.quaternionRateFixed2Body[0],
+        &RigidBody.quaternionFixed2Body[0],
+        &RigidBody.angularVelocity_rads[0]);
 
     GIntegral_4x1Double(
-        &RigidBody.quaternionFixed2Body,
-        &RigidBody.quaternionRateFixed2Body,
+        &RigidBody.quaternionFixed2Body[0],
+        &RigidBody.quaternionRateFixed2Body[0],
         Utilities.simTimeStep_s);
 
     GIntegral_3x1Double(
-        &RigidBody.angularVelocity_rads,
-        &RigidBody.angularAcceleration_rads2,
+        &RigidBody.angularVelocity_rads[0],
+        &RigidBody.angularAcceleration_rads2[0],
         Utilities.simTimeStep_s);
 
     RigidBody.angularAcceleration_rads2[0] = 0;
@@ -83,6 +93,11 @@ int main()
     Utilities.simTime_s += Utilities.simTimeStep_s;
   }
   while (Utilities.simTime_s <= Utilities.simTimeDuration_s);
+
+  /*-------------------------------------------------------------------------*
+   *                             CLOSE ARCHIVES                              *
+   *-------------------------------------------------------------------------*/
+  GArchive_close(&RigidBody.rigidBodyArchive);
 
   return GCONST_EXIT_SUCCESS;
 }

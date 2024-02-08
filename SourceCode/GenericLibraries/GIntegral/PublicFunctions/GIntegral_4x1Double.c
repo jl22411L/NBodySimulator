@@ -30,6 +30,7 @@ int GIntegral_4x1Double(
   *(p_array_out + 0) += *(p_arrayDerivitive_in + 0) * timeStep_in;
   *(p_array_out + 1) += *(p_arrayDerivitive_in + 1) * timeStep_in;
   *(p_array_out + 2) += *(p_arrayDerivitive_in + 2) * timeStep_in;
+  *(p_array_out + 3) += *(p_arrayDerivitive_in + 3) * timeStep_in;
 
   return GCONST_TRUE;
 }

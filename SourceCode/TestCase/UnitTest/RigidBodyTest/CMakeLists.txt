@@ -8,7 +8,6 @@ add_executable(RigidBodyTest
 
 set(LIB_LIST
   RigidBody
-  GParser
   GConversions
   GUtilities
   GIntegral

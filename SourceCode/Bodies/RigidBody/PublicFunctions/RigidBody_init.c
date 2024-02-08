@@ -8,6 +8,7 @@
  */
 
 /* Function Includes */
+#include "RigidBody/PrivateFunctions/RigidBody_createArchives.c"
 #include "RigidBody/PublicFunctions/RigidBody_PublicFunctions.h"
 
 /* Structure Include */
@@ -17,11 +18,12 @@
 /* None */
 
 /* Generic Libraries */
+#include "GArchive/GArchive.h"
 #include "GConst/GConst.h"
 #include "GParser/GParser.h"
 #include "GZero/GZero.h"
 
-int RigidBody_init(RigidBody_State *p_Rigidbody_state)
+int RigidBody_init(RigidBody_State *p_rigidBody_state_in)
 {
   /* Declare local variables */
   dictionary  **dic;
@@ -31,6 +33,8 @@ int RigidBody_init(RigidBody_State *p_Rigidbody_state)
   GZero(&GParser_state, GParser_State);
   GZero(&dic, dictionary **);
 
+  /*---------------------------- LOAD PARAMETERS ----------------------------*/
+
   /* Load parameters of the body */
   dic = GParser_loadParams(&GParser_state, "Parameters/RigidBody_params.ini");
 
@@ -38,14 +42,14 @@ int RigidBody_init(RigidBody_State *p_Rigidbody_state)
   GParser_loadDouble(
       &GParser_state,
       dic,
-      &(p_Rigidbody_state->RigidBody_mass),
+      &(p_rigidBody_state_in->mass),
       "InertiaProperties:mass");
 
   /* Load Inertia matrix into body */
   GParser_loadDoubleArray(
       &GParser_state,
       dic,
-      &(p_Rigidbody_state->RigidBody_inertiaMatrix[0][0]),
+      &(p_rigidBody_state_in->inertiaMatrix[0][0]),
       "InertiaProperties:Inertia",
       3,
       3);
@@ -54,7 +58,7 @@ int RigidBody_init(RigidBody_State *p_Rigidbody_state)
   GParser_loadDoubleArray(
       &GParser_state,
       dic,
-      &(p_Rigidbody_state->RigidBody_bodyFrameAcceleration_ms2[0]),
+      &(p_rigidBody_state_in->bodyFrameAcceleration_ms2[0]),
       "TranslationalProperties:bodyFrameAcceleration",
       3,
       1);
@@ -63,7 +67,7 @@ int RigidBody_init(RigidBody_State *p_Rigidbody_state)
   GParser_loadDoubleArray(
       &GParser_state,
       dic,
-      &(p_Rigidbody_state->RigidBody_bodyFrameVeclocity_ms[0]),
+      &(p_rigidBody_state_in->bodyFrameVeclocity_ms[0]),
       "TranslationalProperties:bodyFrameVelocity",
       3,
       1);
@@ -72,7 +76,7 @@ int RigidBody_init(RigidBody_State *p_Rigidbody_state)
   GParser_loadDoubleArray(
       &GParser_state,
       dic,
-      &(p_Rigidbody_state->fixedFrameAcceleration_ms2[0]),
+      &(p_rigidBody_state_in->fixedFrameAcceleration_ms2[0]),
       "TranslationalProperties:fixedFrameAcceleration",
       3,
       1);
@@ -81,7 +85,7 @@ int RigidBody_init(RigidBody_State *p_Rigidbody_state)
   GParser_loadDoubleArray(
       &GParser_state,
       dic,
-      &(p_Rigidbody_state->fixedFrameVeclocity_ms[0]),
+      &(p_rigidBody_state_in->fixedFrameVeclocity_ms[0]),
       "TranslationalProperties:fixedFrameVelocity",
       3,
       1);
@@ -90,7 +94,7 @@ int RigidBody_init(RigidBody_State *p_Rigidbody_state)
   GParser_loadDoubleArray(
       &GParser_state,
       dic,
-      &(p_Rigidbody_state->position_m[0]),
+      &(p_rigidBody_state_in->position_m[0]),
       "TranslationalProperties:position",
       3,
       1);
@@ -99,7 +103,7 @@ int RigidBody_init(RigidBody_State *p_Rigidbody_state)
   GParser_loadDoubleArray(
       &GParser_state,
       dic,
-      &(p_Rigidbody_state->angularAcceleration_rads2[0]),
+      &(p_rigidBody_state_in->angularAcceleration_rads2[0]),
       "AngularProperties:angularAcceleration",
       3,
       1);
@@ -108,7 +112,7 @@ int RigidBody_init(RigidBody_State *p_Rigidbody_state)
   GParser_loadDoubleArray(
       &GParser_state,
       dic,
-      &(p_Rigidbody_state->angularVelocity_rads[0]),
+      &(p_rigidBody_state_in->angularVelocity_rads[0]),
       "AngularProperties:angularVelocity",
       3,
       1);
@@ -117,7 +121,7 @@ int RigidBody_init(RigidBody_State *p_Rigidbody_state)
   GParser_loadDoubleArray(
       &GParser_state,
       dic,
-      &(p_Rigidbody_state->quaternionRateFixed2Body[0]),
+      &(p_rigidBody_state_in->quaternionRateFixed2Body[0]),
       "AngularProperties:quaternionRate",
       4,
       1);
@@ -126,12 +130,17 @@ int RigidBody_init(RigidBody_State *p_Rigidbody_state)
   GParser_loadDoubleArray(
       &GParser_state,
       dic,
-      &(p_Rigidbody_state->quaternionFixed2Body[0]),
+      &(p_rigidBody_state_in->quaternionFixed2Body[0]),
       "AngularProperties:quaternion",
       4,
       1);
 
   GParser_closeParams(&GParser_state, dic);
+
+  /*---------------------------- CREATE ARCHIVES ----------------------------*/
+
+  /* Create archives */
+  RigidBody_createArchives(p_rigidBody_state_in);
 
   return GCONST_TRUE;
 }

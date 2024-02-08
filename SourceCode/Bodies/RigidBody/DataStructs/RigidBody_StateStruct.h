@@ -28,7 +28,7 @@ extern "C" {
 /* None */
 
 /* Generic Libraries */
-/* None */
+#include "GArchive/GArchive.h"
 
 /*!
  * @brief      Structure containint the params for the rigid body
@@ -41,7 +41,7 @@ typedef struct RigidBody_StateStruct
    * @unit      Kg
    * @Frame     N/A
    */
-  double RigidBody_mass;
+  double mass;
 
   /*!
    * @details   Inertia matrix for the rigid body. The matrix is defined as:
@@ -53,7 +53,7 @@ typedef struct RigidBody_StateStruct
    * @unit      Kgm^2
    * @frame     Body Frame
    */
-  double RigidBody_inertiaMatrix[3][3];
+  double inertiaMatrix[3][3];
 
   /*!
    * @details   Body acceleration vector of rigid body
@@ -61,7 +61,7 @@ typedef struct RigidBody_StateStruct
    * @unit      ms^-2
    * @frame     Rigid Body body frame
    */
-  double RigidBody_bodyFrameAcceleration_ms2[3];
+  double bodyFrameAcceleration_ms2[3];
 
   /*!
    * @details   Body velocity vector of rigid body
@@ -69,7 +69,7 @@ typedef struct RigidBody_StateStruct
    * @unit      ms^-1
    * @frame     Rigid Body body frame
    */
-  double RigidBody_bodyFrameVeclocity_ms[3];
+  double bodyFrameVeclocity_ms[3];
 
   /*!
    * @details   Body acceleration vector of rigid body
@@ -123,7 +123,7 @@ typedef struct RigidBody_StateStruct
    * @unit      N/A
    * @frame     Fixed Frame -> Body Frame
    */
-  double quaternionRateFixed2Body[3];
+  double quaternionRateFixed2Body[4];
 
   /*!
    * @details   Quaternion to translate from the fixed frame to the body frame
@@ -136,17 +136,15 @@ typedef struct RigidBody_StateStruct
    * @unit      N/A
    * @frame     Fixed Frame -> Body Frame
    */
-  double quaternionFixed2Body[3];
+  double quaternionFixed2Body[4];
 
   /*!
-   * @details   Pointer containing address to the file which the data will be
-   *            archived for the rigid body.
+   * @details   Archive struct for RigidBody.
    *
    * @unit      N/A
    * @frame     N/A
-   * @sense     N/A
    */
-  FILE *p_rigidBodyArchiveFile;
+  GArchive rigidBodyArchive;
 
 } RigidBody_State;
 

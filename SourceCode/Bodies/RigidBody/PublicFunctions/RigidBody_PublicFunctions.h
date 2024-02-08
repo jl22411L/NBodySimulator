@@ -28,15 +28,16 @@ extern "C" {
 #include "GConst/GConst.h"
 #include "GParser/GParser.h"
 
-
 /*!
  * @details     Function which loads the parameters into the Rigid Body
  *
- * @param[in]   p_RigidBody_state
+ * @param[in]   p_rigidBody_state_in
  *              Pointer to a rigid body state struct, which will be loaded with
  * the initial conditions of the simulation.
  */
-int RigidBody_init(RigidBody_State *p_Rigidbody_state);
+extern int RigidBody_init(RigidBody_State *p_rigidBody_state_in);
+
+extern int RigidBody_archiveData(RigidBody_State *p_rigidBody_state_in);
 
 #ifdef __cplusplus
 }
