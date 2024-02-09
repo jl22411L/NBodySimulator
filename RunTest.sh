@@ -91,8 +91,16 @@ fi
 # Creating Test Case folder
 echo "[MSG] # -------------------------------- CREATING FILES -------------------------------- #"
 
+# Creating Parameters Directory
 mkdir -p ${PATH_TO_TEST_RUN}/Parameters
-echo "[MSG] Created directory: ${PATH_TO_TEST_RUN}"
+
+# Creating Output Directory
+mkdir -p ${PATH_TO_TEST_RUN}/OutputData
+
+# Creating Archive Directory
+mkdir -p ${PATH_TO_TEST_RUN}/ArchiveData
+
+echo "[MSG] Created test run: ${PATH_TO_TEST_RUN}"
 
 # Copying Executable
 echo "[MSG] # ------------------------------ COPYING EXECUTABLE ------------------------------ #"

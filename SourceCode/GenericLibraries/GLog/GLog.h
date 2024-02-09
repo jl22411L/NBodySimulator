@@ -33,8 +33,8 @@ extern "C" {
 
 /* ---------------------------------- GMsg ---------------------------------- */
  
-/*
- *    @Description: Outputs a msg to the console
+/*!
+ * @brief Outputs a msg to the console
  *
  */
 #define GMsg(...) (printf("[MSG] ")),    \
@@ -43,19 +43,29 @@ extern "C" {
 
 /* --------------------------------- GError --------------------------------- */
 
-/*
- *    @Description: Throw an error, outputting the file and line of the file.
+/*!
+ * @brief This will highlight that an error has occured but won't stop the
+ *        running of the code. This should be used in tandem with GError
+ *        to allow for neater formatting on the terminal.
  *
  */
-#define GError(...) (printf("\n[ERR] ")),                      \
-                    (printf(__VA_ARGS__)),                     \
-                    (printf("\n")),                            \
-                    (printf("[...] \n")),                      \
-                    (printf("[MSG]    FILE: %s\n", __FILE__)), \
-                    (printf("[MSG]    LINE: %d\n", __LINE__)), \
-                    (printf("[...] \n")),                      \
-                    (printf("[...] exiting programme...\n")),  \
+#define GThrow(...) (printf("[ERR] %s: %d \n", __FILE__, __LINE__)), \
+                    (printf("[ERR] ")),                              \
+                    (printf(__VA_ARGS__)),                           \
+                    (printf("\n"))                                   
+
+/*!
+ * @brief Throw an error, outputting the file and line of the file.
+ *
+ */
+#define GError(...) (printf("[ERR] %s: %d \n", __FILE__, __LINE__)), \
+                    (printf("[ERR] ")),                              \
+                    (printf(__VA_ARGS__)),                           \
+                    (printf("[...] exiting programme...\n")),        \
                     (exit(GCONST_EXIT_FAILURE))
+
+#define GAssess(Test) (if(Test != GCONST_TRUE)),                               \
+                      ({GError("Function failed to complete successfully");})
 
 // clang-format on
 

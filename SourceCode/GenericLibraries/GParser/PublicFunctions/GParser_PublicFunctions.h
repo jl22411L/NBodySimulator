@@ -12,6 +12,8 @@
 extern "C" {
 #endif
 
+#include "GParser/GParser.h"
+
 /* Function Includes */
 /* None */
 
@@ -77,6 +79,41 @@ extern int GParser_loadDouble(
     char          *p_dataFromIni_in);
 
 /*!
+ * @details         Function which will load a double array into a data
+ * destionation.
+ *
+ * @param[in]       p_GParser_state
+ *                  Pointer to state struct for GParser module
+ *
+ * @param[in]       p_dic
+ *                  Pointer to dictionary with sections laoded
+ *
+ * @param[in]       p_dataDestination_out
+ *                  Pointer with the address to store the data in from the ini
+ *                  file.
+ *
+ * @param[in]       p_dataFromIni_in
+ *                  String which contains the name of the section and key for
+ *                  which to load the data from. The format of the string should
+ *                  be:
+ *
+ *                  <SETION>:<KEY>
+ *
+ * @return          Upon a successful completion, the fucntion will return a
+ *                  GCONST_TRUE
+ *
+ *                  If an error in the codes execution occurs, the function will
+ *                  return a GCONST_FALSE
+ */
+extern int GParser_loadDoubleArray(
+    GParser_State *p_GParser_state,
+    dictionary   **p_dic,
+    double        *p_dataDestination_out,
+    char          *p_dataFromIni_in,
+    int            nCols,
+    int            nRows);
+
+/*!
  * @details         Function which will load a float into a data destionation.
  *
  * @param[in]       p_GParser_state
@@ -135,11 +172,11 @@ extern int GParser_loadFloat(
  * @param[in]       nRows_in
  *                  Number of rows in the array to load
  *
- * @return           Upon a successful completion, the fucntion will return a
- *                   GCONST_TRUE
+ * @return          Upon a successful completion, the fucntion will return a
+ *                  GCONST_TRUE
  *
- *                   If an error in the codes execution occurs, the function
- *                   will return a GCONST_FALSE
+ *                  If an error in the codes execution occurs, the function
+ *                  will return a GCONST_FALSE
  */
 extern int GParser_loadFloatArray(
     GParser_State *p_GParser_state,

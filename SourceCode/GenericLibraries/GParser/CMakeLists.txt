@@ -13,6 +13,7 @@ add_library(GParser
   PrivateFunctions/GParser_waitingValue.c
   PublicFunctions/GParser_closeParams.c
   PublicFunctions/GParser_loadDouble.c
+  PublicFunctions/GParser_loadDoubleArray.c
   PublicFunctions/GParser_loadFloat.c
   PublicFunctions/GParser_loadFloatArray.c
   PublicFunctions/GParser_loadInt8.c
@@ -23,3 +24,6 @@ add_library(GParser
   PublicFunctions/GParser_loadUInt.c
 )
 
+target_link_libraries(GParser
+    PRIVATE GConversions
+)
