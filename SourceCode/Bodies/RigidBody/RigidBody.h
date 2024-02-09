@@ -24,8 +24,7 @@ extern "C" {
 /* None */
 
 /* Generic Libraries */
-#include "GParser/GParser.h"
-
+/* None */
 #ifdef __cplusplus
 }
 #endif
