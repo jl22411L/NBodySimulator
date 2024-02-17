@@ -61,6 +61,7 @@ extern "C" {
 #define GError(...) (printf("[ERR] %s: %d \n", __FILE__, __LINE__)), \
                     (printf("[ERR] ")),                              \
                     (printf(__VA_ARGS__)),                           \
+                    (printf("\n")),                                  \
                     (printf("[...] exiting programme...\n")),        \
                     (exit(GCONST_EXIT_FAILURE))
 
