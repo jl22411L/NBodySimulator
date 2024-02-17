@@ -76,5 +76,6 @@
   "warning",
   "note",
 ],
-"C_Cpp.simplifyStructuredComments": false
+"C_Cpp.simplifyStructuredComments": false,
+"cmake.sourceDirectory": "C:/Users/jason/Desktop/Projects/NBodySimulator/SourceCode"
 }

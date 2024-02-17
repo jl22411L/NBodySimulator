@@ -47,7 +47,7 @@ dictionary **
   /* Check to make sure that the file was opened corectly */
   if (file == NULL)
   {
-    GError("No file was able to open");
+    GError("No file was able to open, filePath = %s", filePath);
   }
 
   /* Finding number of Sections */

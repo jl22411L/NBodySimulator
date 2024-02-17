@@ -42,7 +42,7 @@ int RigidBody_createArchives(RigidBody_State *p_rigidBody_state_in)
   /* Add body frame velocities columns */
   GArchive_addCol(
       &p_rigidBody_state_in->rigidBodyArchive,
-      "bodyFrameVeclocity_ms",
+      "bodyFrameVelocity_ms",
       3,
       1);
 
@@ -56,7 +56,7 @@ int RigidBody_createArchives(RigidBody_State *p_rigidBody_state_in)
   /* Add fixed frame velocities columns */
   GArchive_addCol(
       &p_rigidBody_state_in->rigidBodyArchive,
-      "fixedFrameVeclocity_ms",
+      "fixedFrameVelocity_ms",
       3,
       1);
 

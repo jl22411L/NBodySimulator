@@ -65,9 +65,9 @@ int main()
         &RigidBody.fixedFrameAcceleration_ms2[0],
         Utilities.simTimeStep_s);
 
-    RigidBody.fixedFrameAcceleration_ms2[0] = 0;
-    RigidBody.fixedFrameAcceleration_ms2[1] = 0;
-    RigidBody.fixedFrameAcceleration_ms2[2] = 0;
+    RigidBody.fixedFrameAcceleration_ms2[0] = 0.1;
+    RigidBody.fixedFrameAcceleration_ms2[1] = 0.1;
+    RigidBody.fixedFrameAcceleration_ms2[2] = 0.1;
 
     /* Integrate body - Angular */
     GMath_quaternionRateCalc(
@@ -80,14 +80,20 @@ int main()
         &RigidBody.quaternionRateFixed2Body[0],
         Utilities.simTimeStep_s);
 
+    /* Stabalize the quaternion, making it into a unit quaternion */
+    GMath_vectorNorm(
+        &RigidBody.quaternionFixed2Body[0],
+        &RigidBody.quaternionFixed2Body[0],
+        4);
+
     GIntegral_3x1Double(
         &RigidBody.angularVelocity_rads[0],
         &RigidBody.angularAcceleration_rads2[0],
         Utilities.simTimeStep_s);
 
-    RigidBody.angularAcceleration_rads2[0] = 0;
-    RigidBody.angularAcceleration_rads2[0] = 0;
-    RigidBody.angularAcceleration_rads2[0] = 0;
+    RigidBody.angularAcceleration_rads2[0] = 0.1;
+    RigidBody.angularAcceleration_rads2[1] = 0.1;
+    RigidBody.angularAcceleration_rads2[2] = 0.1;
 
     /* Step time forward a step */
     Utilities.simTime_s += Utilities.simTimeStep_s;
