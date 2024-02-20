@@ -2,6 +2,7 @@ add_library(RigidBody
   PrivateFunctions/RigidBody_createArchives.c
   PublicFunctions/RigidBody_archiveData.c
   PublicFunctions/RigidBody_init.c
+  PublicFunctions/RigidBody_step.c
 )
 
 target_link_libraries(RigidBody

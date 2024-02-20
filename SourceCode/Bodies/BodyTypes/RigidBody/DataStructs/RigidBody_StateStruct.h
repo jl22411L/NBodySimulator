@@ -59,22 +59,6 @@ typedef struct RigidBody_StateStruct
    * @details   Body acceleration vector of rigid body
    *
    * @unit      ms^-2
-   * @frame     Rigid Body body frame
-   */
-  double bodyFrameAcceleration_ms2[3];
-
-  /*!
-   * @details   Body velocity vector of rigid body
-   *
-   * @unit      ms^-1
-   * @frame     Rigid Body body frame
-   */
-  double bodyFrameVeclocity_ms[3];
-
-  /*!
-   * @details   Body acceleration vector of rigid body
-   *
-   * @unit      ms^-2
    * @frame     Rigid Body fixed frame
    */
   double fixedFrameAcceleration_ms2[3];

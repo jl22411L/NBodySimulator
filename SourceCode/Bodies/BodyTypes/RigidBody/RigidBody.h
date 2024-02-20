@@ -15,7 +15,9 @@ extern "C" {
 #endif
 
 /* Function Includes */
+#include "PrivateFunctions/RigidBody_PrivateFunctions.h"
 #include "PublicFunctions/RigidBody_PublicFunctions.h"
+
 
 /* Structure Include */
 #include "DataStructs/RigidBody_StateStruct.h"

@@ -8,11 +8,11 @@
  */
 
 /* Function Includes */
-#include "RigidBody/PrivateFunctions/RigidBody_createArchives.c"
-#include "RigidBody/PublicFunctions/RigidBody_PublicFunctions.h"
+#include "BodyTypes/RigidBody/PrivateFunctions/RigidBody_PrivateFunctions.h"
+#include "BodyTypes/RigidBody/PublicFunctions/RigidBody_PublicFunctions.h"
 
 /* Structure Include */
-#include "RigidBody/DataStructs/RigidBody_StateStruct.h"
+#include "BodyTypes/RigidBody/DataStructs/RigidBody_StateStruct.h"
 
 /* Data include */
 /* None */
@@ -23,7 +23,9 @@
 #include "GParser/GParser.h"
 #include "GZero/GZero.h"
 
-int RigidBody_init(RigidBody_State *p_rigidBody_state_in)
+int RigidBody_init(
+    RigidBody_State *p_rigidBody_state_in,
+    const char      *p_paramFilename_in)
 {
   /* Declare local variables */
   dictionary  **dic;
@@ -36,7 +38,7 @@ int RigidBody_init(RigidBody_State *p_rigidBody_state_in)
   /*---------------------------- LOAD PARAMETERS ----------------------------*/
 
   /* Load parameters of the body */
-  dic = GParser_loadParams(&GParser_state, "Parameters/RigidBody_params.ini");
+  dic = GParser_loadParams(&GParser_state, p_paramFilename_in);
 
   /* Load mass into body*/
   GParser_loadDouble(
@@ -53,24 +55,6 @@ int RigidBody_init(RigidBody_State *p_rigidBody_state_in)
       "InertiaProperties:Inertia",
       3,
       3);
-
-  /* Load initial body frame acceleration */
-  GParser_loadDoubleArray(
-      &GParser_state,
-      dic,
-      &(p_rigidBody_state_in->bodyFrameAcceleration_ms2[0]),
-      "TranslationalProperties:bodyFrameAcceleration",
-      3,
-      1);
-
-  /* Load initial body frame velocity */
-  GParser_loadDoubleArray(
-      &GParser_state,
-      dic,
-      &(p_rigidBody_state_in->bodyFrameVeclocity_ms[0]),
-      "TranslationalProperties:bodyFrameVelocity",
-      3,
-      1);
 
   /* Load initial fixed frame acceleration */
   GParser_loadDoubleArray(

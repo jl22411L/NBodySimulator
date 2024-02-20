@@ -9,11 +9,10 @@
  *
  */
 
-#include "RigidBody/PublicFunctions/RigidBody_PublicFunctions.h"
-#include "RigidBody/RigidBody.h"
+#include "BodyTypes/RigidBody/RigidBody.h"
 
 /* Function Includes */
-#include "GIntegral/GIntegral.h"
+/* None */
 
 /* Structure Include */
 /* None */
@@ -23,6 +22,7 @@
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
+#include "GIntegral/GIntegral.h"
 #include "GMath/GMath.h"
 #include "GUtilities/GUtilities.h"
 
@@ -42,58 +42,14 @@ int main()
 
   GUtilities_init("parameters/SimulationParameters.ini");
 
-  RigidBody_init(&RigidBody);
+  RigidBody_init(&RigidBody, "parameters/RigidBody_params.ini");
 
   /*-------------------------------------------------------------------------*
    *                         RUN CYCLIC EXECUTION                            *
    *-------------------------------------------------------------------------*/
   do
   {
-    /*------------------------------------------------------------------------*
-     *                                ARCHIVE                                 *
-     *------------------------------------------------------------------------*/
-    RigidBody_archiveData(&RigidBody);
-
-    /* Integrate body - Translational */
-    GIntegral_3x1Double(
-        &RigidBody.position_m[0],
-        &RigidBody.fixedFrameVeclocity_ms[0],
-        Utilities.simTimeStep_s);
-
-    GIntegral_3x1Double(
-        &RigidBody.fixedFrameVeclocity_ms[0],
-        &RigidBody.fixedFrameAcceleration_ms2[0],
-        Utilities.simTimeStep_s);
-
-    RigidBody.fixedFrameAcceleration_ms2[0] = 0.1;
-    RigidBody.fixedFrameAcceleration_ms2[1] = 0.1;
-    RigidBody.fixedFrameAcceleration_ms2[2] = 0.1;
-
-    /* Integrate body - Angular */
-    GMath_quaternionRateCalc(
-        &RigidBody.quaternionRateFixed2Body[0],
-        &RigidBody.quaternionFixed2Body[0],
-        &RigidBody.angularVelocity_rads[0]);
-
-    GIntegral_4x1Double(
-        &RigidBody.quaternionFixed2Body[0],
-        &RigidBody.quaternionRateFixed2Body[0],
-        Utilities.simTimeStep_s);
-
-    /* Stabalize the quaternion, making it into a unit quaternion */
-    GMath_vectorNorm(
-        &RigidBody.quaternionFixed2Body[0],
-        &RigidBody.quaternionFixed2Body[0],
-        4);
-
-    GIntegral_3x1Double(
-        &RigidBody.angularVelocity_rads[0],
-        &RigidBody.angularAcceleration_rads2[0],
-        Utilities.simTimeStep_s);
-
-    RigidBody.angularAcceleration_rads2[0] = 0.1;
-    RigidBody.angularAcceleration_rads2[1] = 0.1;
-    RigidBody.angularAcceleration_rads2[2] = 0.1;
+    RigidBody_step(&RigidBody);
 
     /* Step time forward a step */
     Utilities.simTime_s += Utilities.simTimeStep_s;

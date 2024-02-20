@@ -13,7 +13,7 @@
 /* None */
 
 /* Structure Include */
-#include "RigidBody/DataStructs/RigidBody_StateStruct.h"
+#include "BodyTypes/RigidBody/DataStructs/RigidBody_StateStruct.h"
 
 /* Data include */
 /* None */
@@ -42,22 +42,6 @@ int RigidBody_archiveData(RigidBody_State *p_rigidBody_state_in)
           &p_rigidBody_state_in->rigidBodyArchive,
           p_rigidBody_state_in->inertiaMatrix[i][j]);
     }
-  }
-
-  /* Writing body frame acceleration to archive */
-  for (i = 0; i < 3; i++)
-  {
-    GArchive_addVal(
-        &p_rigidBody_state_in->rigidBodyArchive,
-        p_rigidBody_state_in->bodyFrameAcceleration_ms2[i]);
-  }
-
-  /* Writing body frame velocity to archive */
-  for (i = 0; i < 3; i++)
-  {
-    GArchive_addVal(
-        &p_rigidBody_state_in->rigidBodyArchive,
-        p_rigidBody_state_in->bodyFrameVeclocity_ms[i]);
   }
 
   /* Writing fixed frame acceleration to archive */
