@@ -11,7 +11,7 @@
 /* None */
 
 /* Structure Include */
-#include "RigidBody/DataStructs/RigidBody_StateStruct.h"
+#include "BodyTypes/RigidBody/DataStructs/RigidBody_StateStruct.h"
 
 /* Data include */
 /* None */
@@ -31,20 +31,6 @@ int RigidBody_createArchives(RigidBody_State *p_rigidBody_state_in)
       "inertiaMatrix",
       3,
       3);
-
-  /* Add body frame accelerations columns */
-  GArchive_addCol(
-      &p_rigidBody_state_in->rigidBodyArchive,
-      "bodyFrameAcceleration_ms2",
-      3,
-      1);
-
-  /* Add body frame velocities columns */
-  GArchive_addCol(
-      &p_rigidBody_state_in->rigidBodyArchive,
-      "bodyFrameVelocity_ms",
-      3,
-      1);
 
   /* Add fixed frame accelerations columns */
   GArchive_addCol(
