@@ -61,7 +61,7 @@ typedef struct RigidBody_StateStruct
    * @unit      ms^-2
    * @frame     Rigid Body fixed frame
    */
-  double fixedFrameAcceleration_ms2[3];
+  double acceleration_ms2_Fix[3];
 
   /*!
    * @details   Body velocity vector of rigid body
@@ -69,7 +69,7 @@ typedef struct RigidBody_StateStruct
    * @unit      ms^-1
    * @frame     Rigid Body fixed frame
    */
-  double fixedFrameVeclocity_ms[3];
+  double velocity_ms_Fix[3];
 
   /*!
    * @details   Position of body frame in the fixed frame
@@ -83,7 +83,7 @@ typedef struct RigidBody_StateStruct
    * @details   Angular acceleration of the rigid body in the body frame
    *
    * @unit      rad/s
-   * @frame     body frame
+   * @frame     Body Frame
    */
   double angularAcceleration_rads2[3];
 
@@ -91,7 +91,7 @@ typedef struct RigidBody_StateStruct
    * @details   Angular velocity of the rigid body in the body frame
    *
    * @unit      rad/s
-   * @frame     body frame
+   * @frame     Body Frame
    */
   double angularVelocity_rads[3];
 
