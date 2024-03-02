@@ -16,33 +16,37 @@
 /* None */
 
 /* Data include */
-/* None */
+#include "GMath/ConstantDefs/GMath_Const.h"
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
 #include "GZero/GZero.h"
 
 int GMath_invCol(
-    double *p_inputMatrix_in,
+    double *p_inputMat_in,
     double *p_resultCol_in,
     double *p_initialCol_out,
     int     sideN_in)
 {
   /* Defining local variables */
-  double lowerMatrixBuffer[GCONST_BUFFER_32][GCONST_BUFFER_32];
-  double upperMatrixBuffer[GCONST_BUFFER_32][GCONST_BUFFER_32];
-  double intermediateColumn[GCONST_BUFFER_32];
+  double lowerMatrixBuffer[GMATH_COLUMNINV_BUFFER][GMATH_COLUMNINV_BUFFER];
+  double upperMatrixBuffer[GMATH_COLUMNINV_BUFFER][GMATH_COLUMNINV_BUFFER];
+  double intermediateColumn[GMATH_COLUMNINV_BUFFER];
 
   /* Clearing Buffers */
-  GZero(&lowerMatrixBuffer[0][0], double[GCONST_BUFFER_32][GCONST_BUFFER_32]);
-  GZero(&upperMatrixBuffer[0][0], double[GCONST_BUFFER_32][GCONST_BUFFER_32]);
-  GZero(&intermediateColumn[0], double[GCONST_BUFFER_32]);
+  GZero(
+      &lowerMatrixBuffer[0][0],
+      double[GMATH_COLUMNINV_BUFFER][GMATH_COLUMNINV_BUFFER]);
+  GZero(
+      &upperMatrixBuffer[0][0],
+      double[GMATH_COLUMNINV_BUFFER][GMATH_COLUMNINV_BUFFER]);
+  GZero(&intermediateColumn[0], double[GMATH_COLUMNINV_BUFFER]);
 
   /* Find LU decomposition matricies */
   GMath_luDecomp(
-      p_inputMatrix_in,
-      &upperMatrixBuffer[0][0],
+      p_inputMat_in,
       &lowerMatrixBuffer[0][0],
+      &upperMatrixBuffer[0][0],
       sideN_in);
 
   /* Forward propogate to find the solution for the intermediate column */

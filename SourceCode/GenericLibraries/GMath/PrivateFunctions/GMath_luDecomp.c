@@ -25,8 +25,8 @@
 
 int GMath_luDecomp(
     double *p_array_in,
-    double *p_upperMat_out,
     double *p_lowerMat_out,
+    double *p_upperMat_out,
     int     sideN_in)
 {
   /* Defining local variables */
@@ -89,26 +89,6 @@ int GMath_luDecomp(
       }
     }
   }
-
-  for (i = 0; i < sideN_in; i++)
-  {
-    for (j = 0; j < sideN_in; j++)
-    {
-      printf("%lf, ", *(p_lowerMat_out + i * sideN_in + j));
-    }
-    printf("\n");
-  }
-  printf("\n");
-
-  for (i = 0; i < sideN_in; i++)
-  {
-    for (j = 0; j < sideN_in; j++)
-    {
-      printf("%lf, ", *(p_upperMat_out + i * sideN_in + j));
-    }
-    printf("\n");
-  }
-  printf("\n");
 
   /* Copy data */
   return GCONST_TRUE;
