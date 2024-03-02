@@ -21,6 +21,7 @@
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
+#include "GLog/GLog.h"
 #include "GZero/GZero.h"
 
 int GMath_luDecomp(
@@ -59,25 +60,26 @@ int GMath_luDecomp(
               (*(p_lowerMat_out + i * sideN_in + k) *
                *(p_upperMat_out + k * sideN_in + j));
         }
-        /* Check to make sure dividing by a suitable tolerance */
-        if (*(p_upperMat_out + i * sideN_in + i) < GCONST_NM_TOLERANCE |
-            *(p_upperMat_out + i * sideN_in + i) > -GCONST_NM_TOLERANCE)
-        {
-          GThrow("Backpropogation failure. (divide by zero)");
-          GThrow("Value is not within tolerance ");
-          GThrow("*(p_lowerMat_out + i * sideN_in + j) = *(p_lowerMat_out + i "
-                 "* sideN_in + j) /"
-                 "*(p_upperMat_out + j * sideN_in + j);");
-          GError(
-              "*(p_upperMat_out + j * sideN_in + j) = %lf",
-              *(p_upperMat_out + j * sideN_in + j));
-        }
         *(p_lowerMat_out + i * sideN_in + j) =
             *(p_lowerMat_out + i * sideN_in + j) /
             *(p_upperMat_out + j * sideN_in + j);
 
         /* Find value for upper matrix */
         *(p_upperMat_out + i * sideN_in + j) = 0;
+
+        /* Check to make sure dividing by a suitable tolerance */
+        if ((*(p_upperMat_out + j * sideN_in + j) < GCONST_NM_TOLERANCE) &&
+            (*(p_upperMat_out + j * sideN_in + j) > -GCONST_NM_TOLERANCE))
+        {
+          GError(
+              "Backpropogation failure. (divide by zero)\n"
+              "Value is not within tolerance:\n"
+              "*(p_lowerMat_out + i * sideN_in + j) = *(p_lowerMat_out + i "
+              "* sideN_in + j) /"
+              "*(p_upperMat_out + j * sideN_in + j);\n"
+              "*(p_upperMat_out + j * sideN_in + j) = %f\n",
+              *(p_upperMat_out + j * sideN_in + j));
+        }
       }
 
       /* If equal to diagnol or above */

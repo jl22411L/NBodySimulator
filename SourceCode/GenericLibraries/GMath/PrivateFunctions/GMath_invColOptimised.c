@@ -41,14 +41,14 @@ int GMath_invColOptimised(
 
   /* Forward propogate to find the solution for the intermediate column */
   GMath_forwardPropogation(
-      p_upperMatrix_in,
+      p_lowerMatrix_in,
       p_resultCol_in,
       &intermediateColumn[0],
       sideN_in);
 
   /* Backward propogate to find the initial Column x */
   GMath_backwardPropogation(
-      p_lowerMatrix_in,
+      p_upperMatrix_in,
       &intermediateColumn[0],
       p_initialCol_out,
       sideN_in);
