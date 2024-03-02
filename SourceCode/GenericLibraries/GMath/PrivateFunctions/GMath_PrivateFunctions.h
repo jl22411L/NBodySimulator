@@ -26,6 +26,36 @@ extern "C" {
 /* Generic Libraries */
 /* None */
 
+// TODO
+extern int GMath_backwardPropogation(
+    double *p_upperMat_in,
+    double *p_inputCol_in,
+    double *p_outputCol_out,
+    int     sideN_in);
+
+// TODO
+extern int GMath_forwardPropogation(
+    double *p_lowerMat_in,
+    double *p_inputCol_in,
+    double *p_outputCol_out,
+    int     sideN_in);
+
+// TODO
+extern int GMath_invColOptimised(
+    double *p_inputMatrix_in,
+    double *p_resultCol_in,
+    double *p_lowerMatrix,
+    double *p_upperMatrix,
+    double *p_initialCol_out,
+    int     sideN_in);
+
+// TODO
+extern int GMath_luDecomp(
+    double *p_array_in,
+    double *p_upperMat_out,
+    double *p_lowerMat_out,
+    int     sideN_in);
+
 #ifdef __cplusplus
 }
 #endif

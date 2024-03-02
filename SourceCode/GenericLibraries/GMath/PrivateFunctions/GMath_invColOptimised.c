@@ -1,0 +1,58 @@
+/*
+ *    @File:         GMath_invColOptimised.c
+ *
+ *    @ Brief:       Finds the column x for the equation [A]{x} = {b}. Works
+ *                   the same to GMath_invCol() however is setup so that you
+ *                   only need to compute LU decomposite of matrix A once,
+ *                   reducing a lot of foating point calcaultions and improving
+ *                   performance.
+ *
+ *    @ Date:        02/03/2024
+ *
+ */
+
+#include <stdlib.h>
+
+/* Function Includes */
+#include "GMath/PrivateFunctions/GMath_PrivateFunctions.h"
+
+/* Structure Include */
+/* None */
+
+/* Data include */
+/* None */
+
+/* Generic Libraries */
+#include "GConst/GConst.h"
+#include "GZero/GZero.h"
+
+int GMath_invColOptimised(
+    double *p_inputMatrix_in,
+    double *p_resultCol_in,
+    double *p_lowerMatrix,
+    double *p_upperMatrix,
+    double *p_initialCol_out,
+    int     sideN_in)
+{
+  /* Defining local variables */
+  double intermediateColumn[GCONST_BUFFER_32];
+
+  /* Clearing Buffers */
+  GZero(&intermediateColumn[0], double[GCONST_BUFFER_32]);
+
+  /* Forward propogate to find the solution for the intermediate column */
+  GMath_forwardPropogation(
+      p_upperMatrix,
+      p_resultCol_in,
+      &intermediateColumn[0],
+      sideN_in);
+
+  /* Backward propogate to find the initial Column x */
+  GMath_backwardPropogation(
+      p_lowerMatrix,
+      &intermediateColumn[0],
+      p_initialCol_out,
+      sideN_in);
+
+  return GCONST_TRUE;
+}
