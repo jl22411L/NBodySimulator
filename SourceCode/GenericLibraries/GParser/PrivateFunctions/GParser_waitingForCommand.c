@@ -24,7 +24,6 @@
 #include "GConst/GConst.h"
 #include "GLog/GLog.h"
 
-// TODO: add error cases for !£$%^&*()-+=?/\<>etc...
 /*
  *  Refer to respective header file for function description
  */

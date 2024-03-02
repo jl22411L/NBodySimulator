@@ -1,81 +1,58 @@
 {
-  "security.workspace.trust.untrustedFiles": "open",
-  "explorer.confirmDragAndDrop": false,
-  "editor.renderWhitespace": "none",
-  "workbench.colorTheme": "GitHub Dark Default",
-  "code-runner.runInTerminal": true,
-  "debug.onTaskErrors": "debugAnyway",
-  "C_Cpp_Runner.cCompilerPath": "",
-  "C_Cpp_Runner.cppCompilerPath": "",
-  "explorer.confirmDelete": false,
-  "git.path": "",
-  "git.ignoreMissingGitWarning": true,
-  "git.scanRepositories": [
-      "C:\\Users\\jason\\Documents\\GitHub\\"
-  ],
-  "window.zoomLevel": -2,
-  "window.restoreWindows": "preserve",
-  "cmake.configureOnOpen": true,
-  "cmake.showOptionsMovedNotification": false,
-  "cmake.buildDirectory": "${workspaceFolder}/BuildEnvironment",
-  "[c]": {
-      "editor.quickSuggestions": {
-          "strings": true
-      }
-  },
-  "[cpp]": {
-      "editor.quickSuggestions": {
-          "strings": true
-      }
-  },
-  "[python]": {
-      "editor.quickSuggestions": {
-          "strings": true
-      }
-  },
-  "[cmake]": {
-      "editor.quickSuggestions": {
-          "strings": true
-      }
-  },
-  "editor.tabSize": 2,
-  "editor.autoClosingComments": "always",
-  "editor.indentSize": "tabSize",
-  "editor.insertSpaces": true,
-  "editor.detectIndentation": false,
-  "editor.scrollBeyondLastLine": false,
-  "editor.scrollBeyondLastColumn": 4,
-  "C_Cpp.formatting": "disabled",
-  "editor.defaultFormatter": "xaver.clang-format",
-  "clang-format.executable": "C:/Users/jason/.vscode/extensions/ms-vscode.cpptools-1.18.5-win32-x64/LLVM/bin/clang-format",
-  "editor.formatOnSave": true,
-  "editor.snippetSuggestions": "top",
-  "C_Cpp.suggestSnippets": false,
-  "todo-tree.filtering.includeHiddenFiles": true,
-  "VSCodeCounter.exclude": [
-      "**/.gitignore",
-      "**/.vscode/**",
-      "**/node_modules/**",
-      "**/*.ini",
-      "**/.VSCodeCounter/**"
-  ],
-  "files.exclude": {
-      "**/.git": false,
-      "**/.vscode": false
-},
-"C_Cpp.doxygen.generatedStyle": "/*!",
-"C_Cpp.doxygen.sectionTags": [
-  "attention",
-  "tparam",
-  "param",
-  "result",
-  "returns",
-  "retval",
-  "exception",
-  "deprecated",
-  "warning",
-  "note",
-],
-"C_Cpp.simplifyStructuredComments": false,
-"cmake.sourceDirectory": "C:/Users/jason/Desktop/Projects/NBodySimulator/SourceCode"
+    "cmake.sourceDirectory": "${workspaceFolder}/SourceCode",
+    "cmake.buildDirectory": "${workspaceFolder}/BuildEnvironment",
+    "[c]": {
+        "editor.quickSuggestions": {
+            "strings": true
+        },
+        "editor.defaultFormatter": "xaver.clang-format"
+    },
+    "[cpp]": {
+        "editor.quickSuggestions": {
+            "strings": true
+        },
+        "editor.defaultFormatter": "xaver.clang-format"
+    },
+    "[python]": {
+        "editor.quickSuggestions": {
+            "strings": true
+        }
+    },
+    "[cmake]": {
+        "editor.quickSuggestions": {
+            "strings": true
+        }
+    },
+    "editor.tabSize": 2,
+    "editor.autoClosingComments": "always",
+    "editor.indentSize": "tabSize",
+    "editor.insertSpaces": true,
+    "VSCodeCounter.exclude": [
+        "**/.gitignore",
+        "**/.vscode/**",
+        "**/node_modules/**",
+        "**/*.ini",
+        "**/.VSCodeCounter/**"
+    ],
+    "files.exclude": {
+        "**/.git": false,
+        "**/.vscode": false
+    },
+    "C_Cpp.doxygen.generatedStyle": "/*!",
+    "C_Cpp.doxygen.sectionTags": [
+        "attention",
+        "tparam",
+        "param",
+        "result",
+        "returns",
+        "retval",
+        "exception",
+        "deprecated",
+        "warning",
+        "note",
+    ],
+    "C_Cpp.simplifyStructuredComments": false,
+    "editor.formatOnSave": true,
+    "clang-format.executable": "${workspaceFolder}/.Configuration/Clang/clang-format.exe",
+    "cmake.configureOnOpen": true
 }
