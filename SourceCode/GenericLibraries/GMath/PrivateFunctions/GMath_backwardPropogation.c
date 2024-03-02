@@ -20,6 +20,7 @@
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
+#include "GLog/GLog.h"
 #include "GZero/GZero.h"
 
 int GMath_backwardPropogation(
@@ -43,6 +44,19 @@ int GMath_backwardPropogation(
           *(p_outputCol_out + i) -
           (*(p_upperMat_in + i * sideN_in + j)) * (*(p_outputCol_out + j));
     }
+    /* Check to make sure dividing by a suitable tolerance */
+    if (*(p_upperMat_in + i * sideN_in + i) < GCONST_NM_TOLERANCE |
+        *(p_upperMat_in + i * sideN_in + i) > -GCONST_NM_TOLERANCE)
+    {
+      GThrow("Backpropogation failure. (divide by zero)");
+      GThrow("Value is not within tolerance ");
+      GThrow("*(p_outputCol_out + i) ="
+             "*(p_outputCol_out + i) / *(p_upperMat_in + i * sideN_in + i);");
+      GError(
+          "*(p_upperMat_in + i * sideN_in + i) = %lf",
+          *(p_upperMat_in + i * sideN_in + i));
+    }
+
     *(p_outputCol_out + i) =
         *(p_outputCol_out + i) / *(p_upperMat_in + i * sideN_in + i);
   }

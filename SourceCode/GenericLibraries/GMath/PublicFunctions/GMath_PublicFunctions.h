@@ -26,14 +26,60 @@ extern "C" {
 /* Generic Libraries */
 /* None */
 
-// TODO
+/*!
+ * @brief       Function which finds the inverse of a column vector. First,
+ *              decomposes the input matrix A and then does backward and
+ *              forward propogation to find the column vector.
+ *
+ *              [A]{x} = {b}
+ *
+ *              Finds x.
+ *
+ * @param[in]   p_inputMatrix_in
+ *              Pointer containing address of first element of matrix A.
+ *
+ * @param[in]   p_resultCol_in
+ *              Pointer containing address of result column (b).
+ *
+ * @param[out]  p_initialCol_out
+ *              Pointer containing address of initial column (x), which
+ *              resuls will be outputted to.
+ *
+ * @param[in]   sideN_in
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
 extern int GMath_invCol(
     double *p_inputMatrix_in,
     double *p_resultCol_in,
     double *p_initialCol_out,
     int     sideN_in);
 
-// TODO
+/*!
+ * @brief       Function which inverts a matrix. Takes input matrix, finds the
+ *              LU decomposition and sovles for each column building up an
+ *              inverted matrix.
+ *
+ *              [A][invA] = [I]
+ *
+ * @param[in]   p_inputMat_in
+ *              Pointer containing adderss of first element of matrix A which
+ *              inverted matrix will be found from.
+ *
+ * @param[out]  p_outputMat_out
+ *              Pointer containing address of first element of matrix invA
+ *              which results will be saved to.
+ *
+ * @param[in]   sideN_in
+ *              Integer containing the number of columns/rows in the matrix.
+ *              It is assumed that matrix A and invA are of dimension
+ *              NxN
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
 extern int
     GMath_invMat(double *p_inputMat_in, double *p_outputMat_out, int sideN_in);
 
@@ -58,42 +104,13 @@ extern int
  *              Pointer to angular velocity vector
  *
  * @return      Upon a successful completion, the fucntion will return a
- *              GCONST_TRUE
- *
- *              If an error in the codes execution occurs, the function will
- *              return a GCONST_FALSE
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
  */
 extern int GMath_quaternionRateCalc(
     double *p_quaternionRate_out,
     double *p_quaternion_in,
     double *p_angularVelocity_in);
-
-/*!
- * @brief       Fucntion which finds the magnitude of a 4x1 vector
- *
- * @param[out]  outputValue_out
- *              Address of variable result should be outputted to
- *
- * @param[in]   xVectorComponent_in
- *              X component of the vector to normalize
- *
- * @param[in]   yVectorComponent_in
- *              Y component of the vector to normalize
- *
- * @param[in]   zVectorComponent_in
- *              Z component of the vector to normalize
- *
- * @return      Upon a successful completion, the fucntion will return a
- *              GCONST_TRUE
- *
- *              If an error in the codes execution occurs, the function will
- *              return a GCONST_FALSE
- */
-extern int GMath_vectorNorm3x1(
-    double *outputValue_out,
-    double  xVectorComponent_in,
-    double  yVectorComponent_in,
-    double  zVectorComponent_in);
 
 /*!
  * @brief       Function which finds the magnitude of a vector. The vectos can
@@ -109,10 +126,8 @@ extern int GMath_vectorNorm3x1(
  *              Integer of the size of the vector finding the norm of.
  *
  * @return      Upon a successful completion, the fucntion will return a
- *              GCONST_TRUE
- *
- *              If an error in the codes execution occurs, the function will
- *              return a GCONST_FALSE
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ * function will return a GCONST_FALSE
  */
 extern int GMath_vectorMag(
     double *outputValue_out,
@@ -133,10 +148,8 @@ extern int GMath_vectorMag(
  *              Integer holding the size of the input and output vector
  *
  * @return      Upon a successful completion, the fucntion will return a
- *              GCONST_TRUE
- *
- *              If an error in the codes execution occurs, the function will
- *              return a GCONST_FALSE
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
  */
 extern int GMath_vectorNorm(
     double *outputVector_out,

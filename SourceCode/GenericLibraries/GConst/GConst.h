@@ -44,6 +44,11 @@ extern "C" {
 #define GCONST_BUFFER_512   (512)
 #define GCONST_BUFFER_1024  (1024)
 
+#define GCONST_MM_TOLERANCE (0.001)
+#define GCONST_UM_TOLERANCE (0.000001)
+#define GCONST_NM_TOLERANCE (0.000000001)
+#define GCONST_PM_TOLERANC  (0.000000000001)
+
 #ifdef __cplusplus
 }
 #endif
