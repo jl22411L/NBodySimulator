@@ -26,6 +26,17 @@ extern "C" {
 /* Generic Libraries */
 /* None */
 
+// TODO
+extern int GMath_invCol(
+    double *p_inputMatrix_in,
+    double *p_resultCol_in,
+    double *p_initialCol_out,
+    int     sideN_in);
+
+// TODO
+extern int
+    GMath_invMat(double *p_inputMat_in, double *p_outputMat_out, int sideN_in);
+
 /*!
  * @brief       Finds the derivitive of the quaternion from the angular
  *              velocities. The quaternions take the forum:

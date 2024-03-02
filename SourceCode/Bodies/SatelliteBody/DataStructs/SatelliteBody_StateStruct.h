@@ -45,6 +45,14 @@ typedef struct SatelliteBody_StateStruct
   double resultantForce_N_Fixed[3];
 
   /*!
+   * @brief   Vector containing the resultant Moment of the satellite.
+   *
+   * @unit    NewtonMeters
+   * @frame   Body Frame
+   */
+  double resultantMoment_Nm_Bod[3];
+
+  /*!
    * @brief   Rigid Body struct which is used for the dynamic simulations
    *
    * @unit    N/A

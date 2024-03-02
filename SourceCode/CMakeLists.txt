@@ -53,3 +53,4 @@ add_subdirectory(${BODIES_PATH}/BodyTypes/RigidBody)
 # Unit Tests
 add_subdirectory(${UNITTEST_PATH}/GParser_UnitTest)
 add_subdirectory(${UNITTEST_PATH}/RigidBodyTest)
+add_subdirectory(${UNITTEST_PATH}/ModuleUnitTest)

@@ -36,6 +36,14 @@ extern "C" {
 
 #define GCONST_UNIT_EMPTY   (-1)
 
+#define GCONST_BUFFER_16    (16)
+#define GCONST_BUFFER_32    (32)
+#define GCONST_BUFFER_64    (64)
+#define GCONST_BUFFER_128   (128)
+#define GCONST_BUFFER_256   (256)
+#define GCONST_BUFFER_512   (512)
+#define GCONST_BUFFER_1024  (1024)
+
 #ifdef __cplusplus
 }
 #endif

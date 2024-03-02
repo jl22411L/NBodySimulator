@@ -9,13 +9,11 @@
  *
  */
 
-#include "BodyTypes/RigidBody/RigidBody.h"
-
 /* Function Includes */
-/* None */
+#include "BodyTypes/RigidBody/PublicFunctions/RigidBody_PublicFunctions.h"
 
 /* Structure Include */
-/* None */
+#include "BodyTypes/RigidBody/DataStructs/RigidBody_StateStruct.h"
 
 /* Data include */
 /* None */

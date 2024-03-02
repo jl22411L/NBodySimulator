@@ -15,6 +15,7 @@ extern "C" {
 #endif
 
 /* Function Includes */
+#include "PrivateFunctions/GMath_PrivateFunctions.h"
 #include "PublicFunctions/GMath_PublicFunctions.h"
 
 /* Structure Include */

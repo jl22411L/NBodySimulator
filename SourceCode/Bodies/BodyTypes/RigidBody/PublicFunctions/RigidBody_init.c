@@ -60,7 +60,7 @@ int RigidBody_init(
   GParser_loadDoubleArray(
       &GParser_state,
       dic,
-      &(p_rigidBody_state_in->fixedFrameAcceleration_ms2[0]),
+      &(p_rigidBody_state_in->acceleration_ms2_Fix[0]),
       "TranslationalProperties:fixedFrameAcceleration",
       3,
       1);
@@ -69,7 +69,7 @@ int RigidBody_init(
   GParser_loadDoubleArray(
       &GParser_state,
       dic,
-      &(p_rigidBody_state_in->fixedFrameVeclocity_ms[0]),
+      &(p_rigidBody_state_in->velocity_ms_Fix[0]),
       "TranslationalProperties:fixedFrameVelocity",
       3,
       1);

@@ -37,13 +37,13 @@ int RigidBody_step(RigidBody_State *p_rigidBody_state_in)
   /* Integrate position vector */
   GIntegral_3x1Double(
       &p_rigidBody_state_in->position_m[0],
-      &p_rigidBody_state_in->fixedFrameVeclocity_ms[0],
+      &p_rigidBody_state_in->velocity_ms_Fix[0],
       Utilities.simTimeStep_s);
 
   /* Integrate velocity vector */
   GIntegral_3x1Double(
-      &p_rigidBody_state_in->fixedFrameVeclocity_ms[0],
-      &p_rigidBody_state_in->fixedFrameAcceleration_ms2[0],
+      &p_rigidBody_state_in->velocity_ms_Fix[0],
+      &p_rigidBody_state_in->acceleration_ms2_Fix[0],
       Utilities.simTimeStep_s);
 
   /* Find quaternion rate from angular velocities */

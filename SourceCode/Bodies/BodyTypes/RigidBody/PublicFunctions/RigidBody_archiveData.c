@@ -49,7 +49,7 @@ int RigidBody_archiveData(RigidBody_State *p_rigidBody_state_in)
   {
     GArchive_addVal(
         &p_rigidBody_state_in->rigidBodyArchive,
-        p_rigidBody_state_in->fixedFrameAcceleration_ms2[i]);
+        p_rigidBody_state_in->acceleration_ms2_Fix[i]);
   }
 
   /* Writing fixed frame velocity to archive */
@@ -57,7 +57,7 @@ int RigidBody_archiveData(RigidBody_State *p_rigidBody_state_in)
   {
     GArchive_addVal(
         &p_rigidBody_state_in->rigidBodyArchive,
-        p_rigidBody_state_in->fixedFrameVeclocity_ms[i]);
+        p_rigidBody_state_in->velocity_ms_Fix[i]);
   }
 
   /* Writing fixed frame velocity to archive */
