@@ -44,21 +44,21 @@ int GMath_backwardPropogation(
           *(p_outputCol_out + i) -
           (*(p_upperMat_in + i * sideN_in + j)) * (*(p_outputCol_out + j));
     }
-    /* Check to make sure dividing by a suitable tolerance */
-    if (*(p_upperMat_in + i * sideN_in + i) < GCONST_NM_TOLERANCE |
-        *(p_upperMat_in + i * sideN_in + i) > -GCONST_NM_TOLERANCE)
-    {
-      GThrow("Backpropogation failure. (divide by zero)");
-      GThrow("Value is not within tolerance ");
-      GThrow("*(p_outputCol_out + i) ="
-             "*(p_outputCol_out + i) / *(p_upperMat_in + i * sideN_in + i);");
-      GError(
-          "*(p_upperMat_in + i * sideN_in + i) = %lf",
-          *(p_upperMat_in + i * sideN_in + i));
-    }
-
     *(p_outputCol_out + i) =
         *(p_outputCol_out + i) / *(p_upperMat_in + i * sideN_in + i);
+
+    /* Check to make sure dividing by a suitable tolerance */
+    if (*(p_upperMat_in + i * sideN_in + i) < GCONST_NM_TOLERANCE &&
+        *(p_upperMat_in + i * sideN_in + i) > -GCONST_NM_TOLERANCE)
+    {
+      GError(
+          "Backpropogation failure. (divide by zero)\n"
+          "Value is not within tolerance \n"
+          "*(p_outputCol_out + i) ="
+          "*(p_outputCol_out + i) / *(p_upperMat_in + i * sideN_in + i);"
+          "*(p_upperMat_in + i * sideN_in + i) = %lf\n",
+          *(p_upperMat_in + i * sideN_in + i));
+    }
   }
 
   return GCONST_TRUE;

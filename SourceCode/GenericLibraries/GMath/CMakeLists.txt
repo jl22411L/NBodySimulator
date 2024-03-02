@@ -1,6 +1,7 @@
 add_library(GMath
   PrivateFunctions/GMath_backwardPropogation.c
   PrivateFunctions/GMath_forwardPropogation.c
+  PrivateFunctions/GMath_invColOptimised.c
   PrivateFunctions/GMath_luDecomp.c
   PublicFunctions/GMath_invCol.c
   PublicFunctions/GMath_invMat.c
