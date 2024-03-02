@@ -59,6 +59,19 @@ int GMath_luDecomp(
               (*(p_lowerMat_out + i * sideN_in + k) *
                *(p_upperMat_out + k * sideN_in + j));
         }
+        /* Check to make sure dividing by a suitable tolerance */
+        if (*(p_upperMat_out + i * sideN_in + i) < GCONST_NM_TOLERANCE |
+            *(p_upperMat_out + i * sideN_in + i) > -GCONST_NM_TOLERANCE)
+        {
+          GThrow("Backpropogation failure. (divide by zero)");
+          GThrow("Value is not within tolerance ");
+          GThrow("*(p_lowerMat_out + i * sideN_in + j) = *(p_lowerMat_out + i "
+                 "* sideN_in + j) /"
+                 "*(p_upperMat_out + j * sideN_in + j);");
+          GError(
+              "*(p_upperMat_out + j * sideN_in + j) = %lf",
+              *(p_upperMat_out + j * sideN_in + j));
+        }
         *(p_lowerMat_out + i * sideN_in + j) =
             *(p_lowerMat_out + i * sideN_in + j) /
             *(p_upperMat_out + j * sideN_in + j);

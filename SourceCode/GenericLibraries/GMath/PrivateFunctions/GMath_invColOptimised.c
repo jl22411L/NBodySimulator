@@ -27,10 +27,9 @@
 #include "GZero/GZero.h"
 
 int GMath_invColOptimised(
-    double *p_inputMatrix_in,
+    double *p_lowerMatrix_in,
+    double *p_upperMatrix_in,
     double *p_resultCol_in,
-    double *p_lowerMatrix,
-    double *p_upperMatrix,
     double *p_initialCol_out,
     int     sideN_in)
 {
@@ -42,14 +41,14 @@ int GMath_invColOptimised(
 
   /* Forward propogate to find the solution for the intermediate column */
   GMath_forwardPropogation(
-      p_upperMatrix,
+      p_upperMatrix_in,
       p_resultCol_in,
       &intermediateColumn[0],
       sideN_in);
 
   /* Backward propogate to find the initial Column x */
   GMath_backwardPropogation(
-      p_lowerMatrix,
+      p_lowerMatrix_in,
       &intermediateColumn[0],
       p_initialCol_out,
       sideN_in);
