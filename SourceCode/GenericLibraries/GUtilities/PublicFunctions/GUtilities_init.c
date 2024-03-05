@@ -12,7 +12,7 @@
 /* None */
 
 /* Structure Include */
-#include "GUtilities/DataStructs/Utilities_StateStructs.h"
+#include "GUtilities/DataStructs/GUtilities_StateStructs.h"
 
 /* Data include */
 /* None */
