@@ -32,7 +32,7 @@ include_directories(${UNITTEST_PATH})
 
 # include_directories(/SourceCode/GenericLibraries)
 
-# ---- Add subdirectories which contain CMakeLists.txt file ---- #
+# ----------- Add subdirectories which contain CMakeLists.txt file ---------- #
 
 # Generic Libraries
 add_subdirectory(${GENERIC_PATH}/GArchive)

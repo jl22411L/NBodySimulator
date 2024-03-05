@@ -72,7 +72,7 @@ int GArchive_init(GArchive *p_archive_in, char *p_archiveDataFilename_in)
   strcpy(p_archive_in->p_archiveDataFilename, buffer);
 
   /* Create file path to data config file */
-  strncat(buffer, "/Data.csv", 9);
+  strcat(buffer, "/Data.csv");
 
   /* Open file which to archive data */
   p_archive_in->p_archiveFolder = fopen(buffer, "w");
