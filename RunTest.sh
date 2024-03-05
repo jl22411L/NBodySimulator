@@ -21,6 +21,9 @@ set -e
 # Flag to indicate if to run test in gdb
 DEBUG_FLAG=False
 
+# Flag to indicate to run test run using valgrind
+VALGRIND_FLAG=False
+
 # Variable storing the machines operating system
 OPERATING_SYSTEM="$(uname -s)"
 
@@ -37,6 +40,9 @@ for input in "${@}"; do
   case ${input} in
     -d|--debug)
       DEBUG_FLAG=True
+      ;;
+    -v|--valgrind)
+      VALGRIND_FLAG=True
       ;;
     -*|--*)
       echo "[ERR] Unknown argument ${input}"
@@ -133,6 +139,11 @@ if [ ${DEBUG_FLAG} == True ]; then
   cd "${PATH_TO_TEST_RUN}"
   echo "[...] Running in Debug Mode"
   gdb ./${EXECUTABLE_NAME}
+  cd ${PATH_TO_ROOT}
+elif [ ${VALGRIND_FLAG} == True ]; then
+  cd "${PATH_TO_TEST_RUN}"
+  echo "[...] Running in Debug Mode"
+  valgrind ./${EXECUTABLE_NAME}
   cd ${PATH_TO_ROOT}
 else 
   cd "${PATH_TO_TEST_RUN}"
