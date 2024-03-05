@@ -39,10 +39,10 @@ int GParser_loadDoubleArray(
 {
   /* Declaring local variables */
   dictionary *p_dic_tmp;
-  char        section_buffer[256];
-  char        key_inputBuffer[256];
-  char        key_iniBuffer[256];
-  char        dataToLoad_buffer[256];
+  char        section_buffer[GCONST_BUFFER_256];
+  char        key_inputBuffer[GCONST_BUFFER_256];
+  char        key_iniBuffer[GCONST_BUFFER_256];
+  char        dataToLoad_buffer[GCONST_BUFFER_1024];
   int16_t     col;
   int16_t     row;
   int16_t     i;
@@ -50,10 +50,10 @@ int GParser_loadDoubleArray(
   int16_t     k;
 
   /* Clearing Buffers */
-  GZero(&section_buffer, char[256]);
-  GZero(&key_inputBuffer, char[256]);
-  GZero(&dataToLoad_buffer, char[256]);
-  GZero(&key_iniBuffer, char[256]);
+  GZero(&section_buffer, char[GCONST_BUFFER_256]);
+  GZero(&key_inputBuffer, char[GCONST_BUFFER_256]);
+  GZero(&dataToLoad_buffer, char[GCONST_BUFFER_1024]);
+  GZero(&key_iniBuffer, char[GCONST_BUFFER_256]);
   p_dic_tmp = NULL;
 
   /* Defining local variables */
@@ -100,13 +100,15 @@ int GParser_loadDoubleArray(
     for (i = 0; i < nCols; i++)
     {
       /* Find the name of the key */
-      snprintf(
-          dataToLoad_buffer,
-          256,
-          "%s:%s[%d]",
-          section_buffer,
-          key_inputBuffer,
-          i);
+      if (sprintf(
+              dataToLoad_buffer,
+              "%s:%s[%d]",
+              section_buffer,
+              key_inputBuffer,
+              i) < 0)
+      {
+        GError("Wasn't able to write the key");
+      }
 
       /* Load the key into the memory address */
       GParser_loadDouble(
@@ -123,14 +125,16 @@ int GParser_loadDoubleArray(
     {
       for (j = 0; j < nCols; j++)
       {
-        snprintf(
-            dataToLoad_buffer,
-            256,
-            "%s:%s[%d][%d]",
-            section_buffer,
-            key_inputBuffer,
-            i,
-            j);
+        if (sprintf(
+                dataToLoad_buffer,
+                "%s:%s[%d][%d]",
+                &section_buffer[0],
+                &key_inputBuffer[0],
+                i,
+                j) < 0)
+        {
+          GError("Wasn't able to write the key");
+        }
 
         GParser_loadDouble(
             p_GParser_state,
