@@ -21,7 +21,7 @@ extern "C" {
 /* None */
 
 /* Data include */
-#include "GUtilities/DataStructs/Utilities_StateStructs.h"
+#include "GUtilities/DataStructs/GUtilities_StateStructs.h"
 
 /* Generic Libraries */
 /* None */
