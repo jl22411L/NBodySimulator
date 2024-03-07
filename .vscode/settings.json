@@ -53,6 +53,6 @@
     ],
     "C_Cpp.simplifyStructuredComments": false,
     "editor.formatOnSave": true,
-    "clang-format.executable": "${workspaceFolder}/.Configuration/Clang/clang-format.exe",
+    "clang-format.executable": "C:/Users/jason/Desktop/Projects/NBodySimulator/.Configuration/Clang/clang-format.exe",
     "cmake.configureOnOpen": true
 }

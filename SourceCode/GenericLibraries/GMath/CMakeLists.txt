@@ -5,6 +5,7 @@ add_library(GMath
   PrivateFunctions/GMath_luDecomp.c
   PublicFunctions/GMath_invCol.c
   PublicFunctions/GMath_invMat.c
+  PublicFunctions/GMath_matMul.c
   PublicFunctions/GMath_quaternionRateCalc.c
   PublicFunctions/GMath_vectorMag.c
   PublicFunctions/Gmath_vectorNorm.c

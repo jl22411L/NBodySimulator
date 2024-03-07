@@ -84,6 +84,51 @@ extern int
     GMath_invMat(double *p_inputMat_in, double *p_outputMat_out, int sideN_in);
 
 /*!
+ * @brief       A function that will multiply matrix A and B to get matrix C
+ *
+ *                          [A][B] = [C]
+ *
+ *              Matrix A must have a number of columns equal to the number of
+ *              rows that matrix B has.
+ *
+ *             [rowsA_in * colsA_in][rowsB_in * colsB_in]
+ *                                   = [rowsA_in * colsB_in]
+ *
+ * @param[in] p_matrixA_in
+ *            Pointer with address to double array contining matrix A.
+ *
+ * @param[in] rowsA_in
+ *            Integer containing the number of rows in matrix A.
+ *
+ * @param[in] colsA_in
+ *            Integer containing the number of cols in matrix A.
+ *
+ * @param[in] p_matrixB_in
+ *            Pointer with address to double array contining matrix B.
+ *
+ * @param[in] rowsB_in
+ *            Integer containing the number of rows in matrix A.
+ *
+ * @param[in] colsB_in
+ *            Integer containing the number of cols in matrix A.
+ *
+ * @param[out] p_matrixC_out
+ *            Pointer with address for output of double array to matrix C.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int GMath_matMul(
+    double *p_matrixA_in,
+    int     rowsA_in,
+    int     colsA_in,
+    double *p_matrixB_in,
+    int     rowsB_in,
+    int     colsB_in,
+    double *p_matrixC_out);
+
+/*!
  * @brief       Finds the derivitive of the quaternion from the angular
  *              velocities. The quaternions take the forum:
  *
