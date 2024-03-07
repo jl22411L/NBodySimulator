@@ -23,29 +23,33 @@
 #include "GMath/GMath.h"
 #include "GZero/GZero.h"
 
+#define rowsA (3)
+#define colsA (4)
+
+#define rowsB (4)
+#define colsB (2)
+
 int main()
 {
-  double A[5][5] = {
-      {1, 2, 3, 4, 5},
-      {5, 4, 3, 2, 1},
-      {1, 2, 4, 1, 5},
-      {4, 8, 7, 2, 9},
-      {2, 1, 6, 4, 2}};
 
-  double invA[5][5];
+  double A[rowsA][colsA] = {{1, 2, 3, 4}, {5, 6, 7, 8}, {1, 2, 3, 4}};
 
-  GZero(&invA, double[5][5]);
+  double B[rowsB][colsB] = {{1, 2}, {3, 4}, {5, 6}, {7, 8}};
 
-  GMath_invMat(&A[0][0], &invA[0][0], 5);
+  double C[rowsA][colsB];
+
+  GZero(&C[0][0], double[rowsA][colsB]);
+
+  GMath_matMul(&A[0][0], rowsA, colsA, &B[0][0], rowsB, colsB, &C[0][0]);
 
   int i;
   int j;
 
-  for (i = 0; i < 5; i++)
+  for (i = 0; i < rowsA; i++)
   {
-    for (j = 0; j < 5; j++)
+    for (j = 0; j < colsB; j++)
     {
-      printf("%lf, ", invA[i][j]);
+      printf("%lf, ", C[i][j]);
     }
     printf("\n");
   }
