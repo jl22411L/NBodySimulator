@@ -27,6 +27,30 @@ extern "C" {
 /* None */
 
 /*!
+ * @brief       Finds the cross product of vectors A and B, outputting results
+ *              to vector C.
+ *
+ *              {a}x{b} = {c}
+ *
+ * @param[in]   p_vectorA_in
+ *              Pointer containing address of first element of vector A.
+ *
+ * @param[in]   p_vectorB_in
+ *              Pointer containing address of first element of vector B.
+ *
+ * @param[out]  p_vectrocC_out
+ *              Pointer containing address of first element of vector C.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int GMath_crossProduct(
+    double *p_vectorA_in,
+    double *p_vectorB_in,
+    double *p_vectrocC_out);
+
+/*!
  * @brief       Function which finds the inverse of a column vector. First,
  *              decomposes the input matrix A and then does backward and
  *              forward propogation to find the column vector.
@@ -46,6 +70,7 @@ extern "C" {
  *              resuls will be outputted to.
  *
  * @param[in]   sideN_in
+ *
  * @return      Upon a successful completion, the fucntion will return a
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
@@ -55,6 +80,46 @@ extern int GMath_invCol(
     double *p_resultCol_in,
     double *p_initialCol_out,
     int     sideN_in);
+
+/*!
+ * @brief       Finds the sum of two matricies A and B and saves
+ *              output to matrix C.
+ *
+ *              [C] = [A] + [B]
+ *
+ * @param[in]   p_matrixA_in
+ *              Pointer containing address of first element in matrix A.
+ *
+ * @param[in]   rowsA_in
+ *              Integer containing the number of rows in matrix A.
+ *
+ * @param[in]   colsA_in
+ *              Integer containing the number of columns in matrix A.
+ *
+ * @param[in]   p_matrixB_in
+ *              Pointer containing address of first element in matrix B.
+ *
+ * @param[in]   rowsB_in
+ *              Integet containing the number of rows in Matrix B.
+ *
+ * @param[in]   colsB_in
+ *              Integer containg the number of columns in Matrix B.
+ *
+ * @param[out]  p_matrixC_out
+ *              Pointer containing address of the first element in Matrix C.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int GMath_matAdd(
+    double *p_matrixA_in,
+    int     rowsA_in,
+    int     colsA_in,
+    double *p_matrixB_in,
+    int     rowsB_in,
+    int     colsB_in,
+    double *p_matrixC_out);
 
 /*!
  * @brief       Function which inverts a matrix. Takes input matrix, finds the
@@ -94,32 +159,72 @@ extern int
  *             [rowsA_in * colsA_in][rowsB_in * colsB_in]
  *                                   = [rowsA_in * colsB_in]
  *
- * @param[in] p_matrixA_in
- *            Pointer with address to double array contining matrix A.
+ * @param[in]   p_matrixA_in
+ *              Pointer with address to double array contining matrix A.
  *
- * @param[in] rowsA_in
- *            Integer containing the number of rows in matrix A.
+ * @param[in]   rowsA_in
+ *              Integer containing the number of rows in matrix A.
  *
- * @param[in] colsA_in
- *            Integer containing the number of cols in matrix A.
+ * @param[in]   colsA_in
+ *              Integer containing the number of cols in matrix A.
  *
- * @param[in] p_matrixB_in
- *            Pointer with address to double array contining matrix B.
+ * @param[in]   p_matrixB_in
+ *              Pointer with address to double array contining matrix B.
  *
- * @param[in] rowsB_in
- *            Integer containing the number of rows in matrix A.
+ * @param[in]   rowsB_in
+ *              Integer containing the number of rows in matrix A.
  *
- * @param[in] colsB_in
- *            Integer containing the number of cols in matrix A.
+ * @param[in]   colsB_in
+ *              Integer containing the number of cols in matrix A.
  *
- * @param[out] p_matrixC_out
- *            Pointer with address for output of double array to matrix C.
+ * @param[out]  p_matrixC_out
+ *              Pointer with address for output of double array to matrix C.
  *
  * @return      Upon a successful completion, the fucntion will return a
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
 extern int GMath_matMul(
+    double *p_matrixA_in,
+    int     rowsA_in,
+    int     colsA_in,
+    double *p_matrixB_in,
+    int     rowsB_in,
+    int     colsB_in,
+    double *p_matrixC_out);
+
+/*!
+ * @brief       Finds the difference of two matricies A and B and saves
+ *              output to matrix C.
+ *
+ *              [C] = [A] - [B]
+ *
+ * @param[in]   p_matrixA_in
+ *              Pointer containing address of first element in matrix A.
+ *
+ * @param[in]   rowsA_in
+ *              Integer containing the number of rows in matrix A.
+ *
+ * @param[in]   colsA_in
+ *              Integer containing the number of columns in matrix A.
+ *
+ * @param[in]   p_matrixB_in
+ *              Pointer containing address of first element in matrix B.
+ *
+ * @param[in]   rowsB_in
+ *              Integet containing the number of rows in Matrix B.
+ *
+ * @param[in]   colsB_in
+ *              Integer containg the number of columns in Matrix B.
+ *
+ * @param[out]  p_matrixC_out
+ *              Pointer containing address of the first element in Matrix C.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int GMath_matSub(
     double *p_matrixA_in,
     int     rowsA_in,
     int     colsA_in,

@@ -22,7 +22,7 @@
 int SatelliteBody_step(SatelliteBody_State *p_sat_state)
 {
   /* Find the resultant acceleration of the satellite*/
-  p_sat_state->rigidBody_state->acceleration =
+  p_sat_state->rigidBody_state->acceleration_ms2_Fix =
       p_sat_state->resultanceForce_N_Fixed / p_sat_state->rigidBody_state.mass;
 
   /* Step the Rigid Body */
