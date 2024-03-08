@@ -11,19 +11,66 @@
 /* None */
 
 /* Structure Include */
-/* None */
+#include "Bodies/BodyTypes/RigidBody/DataStructs/RigidBody_StateStruct.h"
 
 /* Data include */
 /* None */
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
+#include "GMath/GMath.h"
+#include "GZero/GZero.h"
 
 int RigidBody_findAngularAcceleration(
-    double *p_angularAcceleration_rads2_Bod,
-    double *p_angularVelocity_rads_Bod,
-    double *p_inertiaMatrix_kgm2_Bod)
+    RigidBody_State *p_rigidBody_state_in,
+    double          *p_torque_Nm_Bod_in)
 {
+  /* Declaring local variables */
+  double invInertiaMatrix[3][3];
+  double angularMomentum_radkgm2_Bod[3];
+  double crossRotationalMoments_Nm_Bod[3];
+  double effectiveNetMoment_Nm_Bod[3];
+
+  /* Clearing local variables */
+  GZero(&invInertiaMatrix[0][0], double[3][3]);
+  GZero(&angularMomentum_radkgm2_Bod[0], double[3]);
+  GZero(&crossRotationalMoments_Nm_Bod[0], double[3]);
+  GZero(&effectiveNetMoment_Nm_Bod, double[3]);
+
+  /* Find the inverse of the inertia matrix */
+  GMath_invMat(p_rigidBody_state_in->inertiaMatrix, &invInertiaMatrix[0][0], 3);
+
+  /* Find the angular momentum of the rigid body */
+  GMath_matMul(
+      &invInertiaMatrix[0][0],
+      3,
+      3,
+      &p_rigidBody_state_in->angularVelocity_rads[0],
+      3,
+      1,
+      &angularMomentum_radkgm2_Bod[0]);
+
+  /* Find the cross rotational inertia moements */
+  GMath_crossProduct(
+      &p_rigidBody_state_in->angularVelocity_rads[0],
+      &angularMomentum_radkgm2_Bod[0],
+      &crossRotationalMoments_Nm_Bod[0]);
+
+  /* Find the effective net moments */
+  GMath_matSub(
+      p_torque_Nm_Bod_in,
+      &crossRotationalMoments_Nm_Bod[0],
+      &effectiveNetMoment_Nm_Bod[0]);
+
+  /* Find the angular acceleration of the body */
+  GMath_matMul(
+      &invInertiaMatrix[0][0],
+      3,
+      3,
+      &effectiveNetMoment_Nm_Bod[0],
+      3,
+      1,
+      &p_rigidBody_state_in->angularAcceleration_rads2[0]);
 
   return GCONST_TRUE;
 }

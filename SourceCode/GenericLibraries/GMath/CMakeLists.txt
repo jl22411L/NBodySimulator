@@ -3,9 +3,12 @@ add_library(GMath
   PrivateFunctions/GMath_forwardPropogation.c
   PrivateFunctions/GMath_invColOptimised.c
   PrivateFunctions/GMath_luDecomp.c
+  PublicFunctions/GMath_crossProduct.c
   PublicFunctions/GMath_invCol.c
   PublicFunctions/GMath_invMat.c
+  PublicFunctions/GMath_matAdd.c
   PublicFunctions/GMath_matMul.c
+  PublicFunctions/GMath_matSub.c
   PublicFunctions/GMath_quaternionRateCalc.c
   PublicFunctions/GMath_vectorMag.c
   PublicFunctions/Gmath_vectorNorm.c
