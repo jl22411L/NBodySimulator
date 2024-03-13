@@ -30,14 +30,14 @@
 int GArchive_init(GArchive *p_archive_in, char *p_archiveDataFilename_in)
 {
   /* Declaring local variables */
-  char buffer[GARCHIVE_MAX_BUFFER];
-  char dataFileDirectory[GARCHIVE_MAX_BUFFER];
+  char directoryBuffer[GCONST_BUFFER_512];
+  char dataFileDirectory[GCONST_BUFFER_1024];
   int  isFileFlag;
   int  i;
 
   /* Clearing Variables */
   GZero(p_archive_in, GArchive);
-  GZero(buffer, char[GARCHIVE_MAX_BUFFER]);
+  GZero(directoryBuffer, char[GCONST_BUFFER_512]);
 
   /* Setting flag to false */
   isFileFlag = GCONST_FALSE;
@@ -49,24 +49,24 @@ int GArchive_init(GArchive *p_archive_in, char *p_archiveDataFilename_in)
     if (*(p_archiveDataFilename_in + i) == '/')
     {
       /* Create directory with necessary permissions */
-      mkdir(buffer, 0775);
+      mkdir(directoryBuffer, 0775);
     }
 
-    /* Add value to buffer */
-    buffer[i] = *(p_archiveDataFilename_in + i);
+    /* Add value to directoryBuffer */
+    directoryBuffer[i] = *(p_archiveDataFilename_in + i);
 
     /* If there reached end of string, break the for loop */
     if (*(p_archiveDataFilename_in + i) == '\0')
     {
-      mkdir(buffer, 0775);
+      mkdir(directoryBuffer, 0775);
       break;
     }
   }
 
   /* Check to make sure input directory ends with '/' and if not add it */
-  if (buffer[i - 1] == '/')
+  if (directoryBuffer[i - 1] == '/')
   {
-    buffer[i - 1] = '\0';
+    directoryBuffer[i - 1] = '\0';
     i--;
   }
 
@@ -74,10 +74,10 @@ int GArchive_init(GArchive *p_archive_in, char *p_archiveDataFilename_in)
   p_archive_in->p_archiveDirectory = (char *)calloc(i, sizeof(char));
 
   /* Store directory to archive folder */
-  strcpy(p_archive_in->p_archiveDirectory, buffer);
+  strcpy(p_archive_in->p_archiveDirectory, directoryBuffer);
 
   /* Create directory to data file */
-  sprintf(dataFileDirectory, "%s/Data.csv", buffer);
+  sprintf(dataFileDirectory, "%s/Data.csv", directoryBuffer);
 
   /* Open file which to archive data */
   p_archive_in->p_archiveFile = fopen(dataFileDirectory, "w");
