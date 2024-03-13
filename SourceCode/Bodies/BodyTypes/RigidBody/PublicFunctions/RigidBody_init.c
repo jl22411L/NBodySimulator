@@ -25,7 +25,8 @@
 
 int RigidBody_init(
     RigidBody_State *p_rigidBody_state_in,
-    const char      *p_paramFilename_in)
+    const char      *p_paramFilename_in,
+    const char      *p_bodyName_in)
 {
   /* Declare local variables */
   dictionary  **dic;
@@ -78,7 +79,7 @@ int RigidBody_init(
   GParser_loadDoubleArray(
       &GParser_state,
       dic,
-      &(p_rigidBody_state_in->position_m[0]),
+      &(p_rigidBody_state_in->position_m_Fix[0]),
       "TranslationalProperties:position",
       3,
       1);
@@ -87,7 +88,7 @@ int RigidBody_init(
   GParser_loadDoubleArray(
       &GParser_state,
       dic,
-      &(p_rigidBody_state_in->angularAcceleration_rads2[0]),
+      &(p_rigidBody_state_in->angularAcceleration_rads2_Bod[0]),
       "AngularProperties:angularAcceleration",
       3,
       1);
@@ -96,7 +97,7 @@ int RigidBody_init(
   GParser_loadDoubleArray(
       &GParser_state,
       dic,
-      &(p_rigidBody_state_in->angularVelocity_rads[0]),
+      &(p_rigidBody_state_in->angularVelocity_rads_Bod[0]),
       "AngularProperties:angularVelocity",
       3,
       1);
@@ -105,7 +106,7 @@ int RigidBody_init(
   GParser_loadDoubleArray(
       &GParser_state,
       dic,
-      &(p_rigidBody_state_in->quaternionRateFixed2Body[0]),
+      &(p_rigidBody_state_in->quaternionRate_FixedToBody[0]),
       "AngularProperties:quaternionRate",
       4,
       1);
@@ -114,7 +115,7 @@ int RigidBody_init(
   GParser_loadDoubleArray(
       &GParser_state,
       dic,
-      &(p_rigidBody_state_in->quaternionFixed2Body[0]),
+      &(p_rigidBody_state_in->quaternion_FixedToBody[0]),
       "AngularProperties:quaternion",
       4,
       1);
@@ -123,8 +124,11 @@ int RigidBody_init(
 
   /*---------------------------- CREATE ARCHIVES ----------------------------*/
 
+  // TODO, it would be better if the body name was loaded from the params ini
+  // file.
+
   /* Create archives */
-  RigidBody_createArchives(p_rigidBody_state_in);
+  RigidBody_createArchives(p_rigidBody_state_in, p_bodyName_in);
 
   return GCONST_TRUE;
 }

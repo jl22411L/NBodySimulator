@@ -44,6 +44,7 @@ add_subdirectory(${GENERIC_PATH}/GIntegral)
 
 # Bodies
 add_subdirectory(${BODIES_PATH}/BodyTypes/RigidBody)
+add_subdirectory(${BODIES_PATH}/SatelliteBody)
 
 # Modules
 

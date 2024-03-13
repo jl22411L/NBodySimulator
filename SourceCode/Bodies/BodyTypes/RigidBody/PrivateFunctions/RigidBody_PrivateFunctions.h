@@ -34,13 +34,18 @@ extern "C" {
  * @param[in]   p_rigidBody_state_in
  *              Pointer to a rigid body state struct.
  *
+ * @param[in]   p_bodyName_in
+ *              String with the name of the body.
+ *
  * @return      Upon a successful completion, the fucntion will return a
  *              GCONST_TRUE
  *
  *              If an error in the codes execution occurs, the function will
  *              return a GCONST_FALSE
  */
-extern int RigidBody_createArchives(RigidBody_State *p_rigidBody_state_in);
+extern int RigidBody_createArchives(
+    RigidBody_State *p_rigidBody_state_in,
+    const char      *p_bodyName_in);
 
 #ifdef __cplusplus
 }

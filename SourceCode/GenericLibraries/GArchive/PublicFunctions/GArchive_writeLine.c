@@ -42,19 +42,16 @@ int GArchive_writeLine(GArchive *p_archive_in)
   }
 
   /* Write the timestamp for the data row */
-  fprintf(p_archive_in->p_archiveFolder, "%lf", Utilities.simTime_s);
+  fprintf(p_archive_in->p_archiveFile, "%lf", Utilities.simTime_s);
 
   /* Write the data from the columns into the file */
   for (i = 0; i < p_archive_in->nVals; i++)
   {
-    fprintf(
-        p_archive_in->p_archiveFolder,
-        ",%lf",
-        p_archive_in->variableRow[i]);
+    fprintf(p_archive_in->p_archiveFile, ",%lf", p_archive_in->variableRow[i]);
   }
 
   /* Move onto new line */
-  fprintf(p_archive_in->p_archiveFolder, "\n");
+  fprintf(p_archive_in->p_archiveFile, "\n");
 
   /* Reset members of struct in preperation for new data to write */
   p_archive_in->nVals = 0;

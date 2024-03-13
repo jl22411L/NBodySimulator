@@ -24,58 +24,69 @@
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
+#include "GLog/GLog.h"
 #include "GZero/GZero.h"
 
 int GArchive_init(GArchive *p_archive_in, char *p_archiveDataFilename_in)
 {
   /* Declaring local variables */
   char buffer[GARCHIVE_MAX_BUFFER];
+  char dataFileDirectory[GARCHIVE_MAX_BUFFER];
+  int  isFileFlag;
   int  i;
 
   /* Clearing Variables */
-  GZero(&buffer, char[GARCHIVE_MAX_BUFFER]);
   GZero(p_archive_in, GArchive);
+  GZero(buffer, char[GARCHIVE_MAX_BUFFER]);
+
+  /* Setting flag to false */
+  isFileFlag = GCONST_FALSE;
 
   /* Cycle through file name and make directories recursively */
   for (i = 0; GCONST_TRUE; i++)
   {
     /* Check to see if folder needs to be created */
-    if (*(p_archiveDataFilename_in + i) == '/' ||
-        *(p_archiveDataFilename_in + i) == '\0')
+    if (*(p_archiveDataFilename_in + i) == '/')
     {
       /* Create directory with necessary permissions */
       mkdir(buffer, 0775);
     }
 
-    /* Add next charecter of file path to buffer */
+    /* Add value to buffer */
     buffer[i] = *(p_archiveDataFilename_in + i);
 
-    /* If reached end of string break for loop */
+    /* If there reached end of string, break the for loop */
     if (*(p_archiveDataFilename_in + i) == '\0')
     {
-      /* If last charecter in string is '/', remove */
-      if (buffer[i - 1] == '/')
-      {
-        buffer[i - 1] = '\0';
-      }
+      mkdir(buffer, 0775);
       break;
     }
   }
 
-  /* Find length of buffer */
-  i = strlen(buffer);
+  /* Check to make sure input directory ends with '/' and if not add it */
+  if (buffer[i - 1] == '/')
+  {
+    buffer[i - 1] = '\0';
+    i--;
+  }
 
-  /* Assign memory for the filename */
-  p_archive_in->p_archiveDataFilename = (char *)calloc(i, sizeof(char));
+  /* Assign memory for file directory. The 9 is for 'Data.csv' and a '\0' */
+  p_archive_in->p_archiveDirectory = (char *)calloc(i, sizeof(char));
 
   /* Store directory to archive folder */
-  strcpy(p_archive_in->p_archiveDataFilename, buffer);
+  strcpy(p_archive_in->p_archiveDirectory, buffer);
 
-  /* Create file path to data config file */
-  strcat(buffer, "/Data.csv");
+  /* Create directory to data file */
+  sprintf(dataFileDirectory, "%s/Data.csv", buffer);
 
   /* Open file which to archive data */
-  p_archive_in->p_archiveFolder = fopen(buffer, "w");
+  p_archive_in->p_archiveFile = fopen(dataFileDirectory, "w");
+
+  /* Check to make sure file opened correctly */
+  if (p_archive_in->p_archiveFile == NULL)
+  {
+    GError("%s was not able to open", dataFileDirectory);
+  }
 
   /* Clear colum names */
   GZero(p_archive_in->colName, char[GARCHIVE_MAX_COLS][GARCHIVE_MAX_BUFFER]);
