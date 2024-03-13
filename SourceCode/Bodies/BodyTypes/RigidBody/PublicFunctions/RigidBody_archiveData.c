@@ -65,7 +65,7 @@ int RigidBody_archiveData(RigidBody_State *p_rigidBody_state_in)
   {
     GArchive_addVal(
         &p_rigidBody_state_in->rigidBodyArchive,
-        p_rigidBody_state_in->position_m[i]);
+        p_rigidBody_state_in->position_m_Fix[i]);
   }
 
   /* Writing angular acceleration to archive */
@@ -73,7 +73,7 @@ int RigidBody_archiveData(RigidBody_State *p_rigidBody_state_in)
   {
     GArchive_addVal(
         &p_rigidBody_state_in->rigidBodyArchive,
-        p_rigidBody_state_in->angularAcceleration_rads2[i]);
+        p_rigidBody_state_in->angularAcceleration_rads2_Bod[i]);
   }
 
   /* Writing angular velocity to archive */
@@ -81,7 +81,7 @@ int RigidBody_archiveData(RigidBody_State *p_rigidBody_state_in)
   {
     GArchive_addVal(
         &p_rigidBody_state_in->rigidBodyArchive,
-        p_rigidBody_state_in->angularVelocity_rads[i]);
+        p_rigidBody_state_in->angularVelocity_rads_Bod[i]);
   }
 
   /* Writing quaternion rate to archive */
@@ -89,7 +89,7 @@ int RigidBody_archiveData(RigidBody_State *p_rigidBody_state_in)
   {
     GArchive_addVal(
         &p_rigidBody_state_in->rigidBodyArchive,
-        p_rigidBody_state_in->quaternionRateFixed2Body[i]);
+        p_rigidBody_state_in->quaternionRate_FixedToBody[i]);
   }
 
   /* Writing quaternion to archive */
@@ -97,7 +97,7 @@ int RigidBody_archiveData(RigidBody_State *p_rigidBody_state_in)
   {
     GArchive_addVal(
         &p_rigidBody_state_in->rigidBodyArchive,
-        p_rigidBody_state_in->quaternionFixed2Body[i]);
+        p_rigidBody_state_in->quaternion_FixedToBody[i]);
   }
 
   GArchive_writeLine(&p_rigidBody_state_in->rigidBodyArchive);

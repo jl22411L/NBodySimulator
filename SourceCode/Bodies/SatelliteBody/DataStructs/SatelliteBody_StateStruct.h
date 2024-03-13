@@ -60,6 +60,14 @@ typedef struct SatelliteBody_StateStruct
    */
   RigidBody_State rigidBody_state;
 
+  /*!
+   * @details   Archive struct for RigidBody.
+   *
+   * @unit      N/A
+   * @frame     N/A
+   */
+  GArchive satelliteBodyArchive;
+
 } SatelliteBody_State;
 
 #ifdef __cplusplus

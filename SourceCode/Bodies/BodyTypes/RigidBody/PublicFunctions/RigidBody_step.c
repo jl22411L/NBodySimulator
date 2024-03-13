@@ -36,7 +36,7 @@ int RigidBody_step(RigidBody_State *p_rigidBody_state_in)
 
   /* Integrate position vector */
   GIntegral_3x1Double(
-      &p_rigidBody_state_in->position_m[0],
+      &p_rigidBody_state_in->position_m_Fix[0],
       &p_rigidBody_state_in->velocity_ms_Fix[0],
       Utilities.simTimeStep_s);
 
@@ -48,26 +48,26 @@ int RigidBody_step(RigidBody_State *p_rigidBody_state_in)
 
   /* Find quaternion rate from angular velocities */
   GMath_quaternionRateCalc(
-      &p_rigidBody_state_in->quaternionRateFixed2Body[0],
-      &p_rigidBody_state_in->quaternionFixed2Body[0],
-      &p_rigidBody_state_in->angularVelocity_rads[0]);
+      &p_rigidBody_state_in->quaternionRate_FixedToBody[0],
+      &p_rigidBody_state_in->quaternion_FixedToBody[0],
+      &p_rigidBody_state_in->angularVelocity_rads_Bod[0]);
 
   /* Integrate quaternion vector */
   GIntegral_4x1Double(
-      &p_rigidBody_state_in->quaternionFixed2Body[0],
-      &p_rigidBody_state_in->quaternionRateFixed2Body[0],
+      &p_rigidBody_state_in->quaternion_FixedToBody[0],
+      &p_rigidBody_state_in->quaternionRate_FixedToBody[0],
       Utilities.simTimeStep_s);
 
   /* Normalise the quaternion */
   GMath_vectorNorm(
-      &p_rigidBody_state_in->quaternionFixed2Body[0],
-      &p_rigidBody_state_in->quaternionFixed2Body[0],
+      &p_rigidBody_state_in->quaternion_FixedToBody[0],
+      &p_rigidBody_state_in->quaternion_FixedToBody[0],
       4);
 
   /* Integrate angular velocity vector */
   GIntegral_3x1Double(
-      &p_rigidBody_state_in->angularVelocity_rads[0],
-      &p_rigidBody_state_in->angularAcceleration_rads2[0],
+      &p_rigidBody_state_in->angularVelocity_rads_Bod[0],
+      &p_rigidBody_state_in->angularAcceleration_rads2_Bod[0],
       Utilities.simTimeStep_s);
 
   return GCONST_TRUE;

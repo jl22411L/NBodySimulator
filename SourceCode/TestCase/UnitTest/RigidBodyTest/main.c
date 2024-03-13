@@ -10,10 +10,10 @@
  */
 
 /* Function Includes */
-#include "BodyTypes/RigidBody/PublicFunctions/RigidBody_PublicFunctions.h"
+#include "SatelliteBody/PublicFunctions/SatelliteBody_PublicFunctions.h"
 
 /* Structure Include */
-#include "BodyTypes/RigidBody/DataStructs/RigidBody_StateStruct.h"
+#include "SatelliteBody/DataStructs/SatelliteBody_StateStruct.h"
 
 /* Data include */
 /* None */
@@ -27,27 +27,22 @@
 int main()
 {
   /* Declaring local variables */
-  RigidBody_State RigidBody;
+  SatelliteBody_State satelliteBody;
 
   /*-------------------------------------------------------------------------*
-   *                            CREATE ARCHIVES                              *
-   *-------------------------------------------------------------------------*/
-  GArchive_init(&RigidBody.rigidBodyArchive, "ArchiveData/RigidBody");
-
-  /*-------------------------------------------------------------------------*
-   *                         INITIALIZE STRUCTURES                           *
+   *                           INITIALIZE BODIES                             *
    *-------------------------------------------------------------------------*/
 
-  GUtilities_init("parameters/SimulationParameters.ini");
+  GUtilities_init("Parameters/SimulationParameters.ini");
 
-  RigidBody_init(&RigidBody, "parameters/RigidBody_params.ini");
+  SatelliteBody_init(&satelliteBody, "Parameters/Truths.ini", "Truths");
 
   /*-------------------------------------------------------------------------*
    *                         RUN CYCLIC EXECUTION                            *
    *-------------------------------------------------------------------------*/
   do
   {
-    RigidBody_step(&RigidBody);
+    SatelliteBody_step(&satelliteBody);
 
     /* Step time forward a step */
     Utilities.simTime_s += Utilities.simTimeStep_s;
@@ -57,7 +52,7 @@ int main()
   /*-------------------------------------------------------------------------*
    *                             CLOSE ARCHIVES                              *
    *-------------------------------------------------------------------------*/
-  GArchive_close(&RigidBody.rigidBodyArchive);
+  SatelliteBody_terminate(&satelliteBody);
 
   return GCONST_EXIT_SUCCESS;
 }

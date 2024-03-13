@@ -22,31 +22,43 @@
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
-#include "GZero/GZero.h"
 #include "GLog/GLog.h"
+#include "GZero/GZero.h"
 
 int GArchive_close(GArchive *p_archive_in)
 {
   /* Declare local variables */
-  char    buffer[GARCHIVE_MAX_BUFFER];
+  char    confidFileDirectory[GARCHIVE_MAX_BUFFER];
   FILE   *p_configFile;
   uint8_t i;
 
   /* Clear buffer */
-  GZero(buffer, char[GARCHIVE_MAX_BUFFER]);
+  GZero(confidFileDirectory, char[GARCHIVE_MAX_BUFFER]);
   p_configFile = NULL;
 
   /* Close the file of the data */
-  fclose(p_archive_in->p_archiveFolder);
+  fclose(p_archive_in->p_archiveFile);
+
+  /* Set archive file pointer to NULL */
+  p_archive_in->p_archiveFile = NULL;
 
   /* Create string to metadata file */
-  sprintf(buffer, "%s/Config.ini", p_archive_in->p_archiveDataFilename);
+  sprintf(
+      confidFileDirectory,
+      "%s/Config.ini",
+      p_archive_in->p_archiveDirectory);
 
   /* Open meta data ini file */
-  p_configFile = fopen(buffer, "w");
+  p_configFile = fopen(confidFileDirectory, "w");
+
+  /* Check to make sure file opened correctly */
+  if (p_configFile == NULL)
+  {
+    GError("%s did not open correctly", confidFileDirectory);
+  }
 
   /* Check to make sure file open correctly */
-  if(p_configFile == NULL)
+  if (p_configFile == NULL)
   {
     GError("File did not open correctly");
   }
@@ -71,7 +83,10 @@ int GArchive_close(GArchive *p_archive_in)
   fclose(p_configFile);
 
   /* Free memory from heap */
-  free(p_archive_in->p_archiveDataFilename);
+  free(p_archive_in->p_archiveDirectory);
+
+  /* Set archive directory pointer to NULL */
+  p_archive_in->p_archiveDirectory = NULL;
 
   /* Clear archive */
   GZero(p_archive_in, GArchive);

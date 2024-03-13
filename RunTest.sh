@@ -119,6 +119,7 @@ echo "[INF] Executable Copied Successfully"
 echo "[MSG] # ------------------------------ COPYING PARAMETERS ------------------------------ #"
 
 # Copying Generic Parameters
+cp -r Parameters/BodyParameters/. ${PATH_TO_TEST_RUN}/Parameters/
 cp -r Parameters/ModelParameters/. ${PATH_TO_TEST_RUN}/Parameters/
 cp -r Parameters/TestParameters/. ${PATH_TO_TEST_RUN}/Parameters/
 

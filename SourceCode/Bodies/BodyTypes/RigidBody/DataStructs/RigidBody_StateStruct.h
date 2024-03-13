@@ -77,7 +77,7 @@ typedef struct RigidBody_StateStruct
    * @unit      m
    * @frame     fixed frame -> body frame
    */
-  double position_m[3];
+  double position_m_Fix[3];
 
   /*!
    * @details   Angular acceleration of the rigid body in the body frame
@@ -85,7 +85,7 @@ typedef struct RigidBody_StateStruct
    * @unit      rad/s
    * @frame     Body Frame
    */
-  double angularAcceleration_rads2[3];
+  double angularAcceleration_rads2_Bod[3];
 
   /*!
    * @details   Angular velocity of the rigid body in the body frame
@@ -93,7 +93,7 @@ typedef struct RigidBody_StateStruct
    * @unit      rad/s
    * @frame     Body Frame
    */
-  double angularVelocity_rads[3];
+  double angularVelocity_rads_Bod[3];
 
   /*!
    * @details   Quaternion rate which describes the rate at which the body frame
@@ -107,7 +107,7 @@ typedef struct RigidBody_StateStruct
    * @unit      N/A
    * @frame     Fixed Frame -> Body Frame
    */
-  double quaternionRateFixed2Body[4];
+  double quaternionRate_FixedToBody[4];
 
   /*!
    * @details   Quaternion to translate from the fixed frame to the body frame
@@ -120,7 +120,7 @@ typedef struct RigidBody_StateStruct
    * @unit      N/A
    * @frame     Fixed Frame -> Body Frame
    */
-  double quaternionFixed2Body[4];
+  double quaternion_FixedToBody[4];
 
   /*!
    * @details   Archive struct for RigidBody.

@@ -29,39 +29,57 @@ extern "C" {
 #include "GParser/GParser.h"
 
 /*!
- * @brief       Function which loads the parameters into the Rigid Body
- *
- * @param[in]   p_rigidBody_state_in
- *              Pointer to a rigid body state struct, which will be loaded with
- *              the initial conditions of the simulation.
- *
- * @param[in]   p_paramFilename_in
- *              String containing the name of the ini file containing the
- *              parameters for the rigid body.
- *
- * @return      Upon a successful completion, the fucntion will return a
- *              GCONST_TRUE
- *
- *              If an error in the codes execution occurs, the function will
- *              return a GCONST_FALSE
- */
-extern int RigidBody_init(
-    RigidBody_State *p_rigidBody_state_in,
-    const char      *p_paramFilename_in);
-
-/*!
  * @brief       Function which will archive the members of a rigid body.
  *
  * @param[in]   p_rigidBody_state_in
  *              Pointer to a rigid body state struct.
  *
  * @return      Upon a successful completion, the fucntion will return a
- *              GCONST_TRUE
- *
- *              If an error in the codes execution occurs, the function will
- *              return a GCONST_FALSE
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
  */
 extern int RigidBody_archiveData(RigidBody_State *p_rigidBody_state_in);
+
+/*!
+ * @brief       Finds the angular acceleration from the resultant moments
+ *              and the inertia matrix.
+ *
+ * @param[in]   p_rigidBody_state_in
+ *              Pointer containing the address of a rigid body struct
+ *
+ * @param[in]   p_torque_Nm_Bod_in
+ *              Pointer to array containing the resultant torques on the
+ *              body.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int RigidBody_findAngularAcceleration(
+    RigidBody_State *p_rigidBody_state_in,
+    double          *p_torque_Nm_Bod_in);
+/*!
+ * @brief       Function which loads the parameters into the Rigid Body
+ *
+ * @param[in]   p_rigidBody_state_in
+ *              Pointer to a rigid body state struct, which will be loaded
+ * with the initial conditions of the simulation.
+ *
+ * @param[in]   p_paramFilename_in
+ *              String containing the name of the ini file containing the
+ *              parameters for the rigid body.
+ *
+ * @param[in]   p_bodyName_in
+ *              String containing the name of the body.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int RigidBody_init(
+    RigidBody_State *p_rigidBody_state_in,
+    const char      *p_paramFilename_in,
+    const char      *p_bodyName_in);
 
 /*!
  * @brief       Will archive the members of the rigid body before integrating
@@ -71,12 +89,22 @@ extern int RigidBody_archiveData(RigidBody_State *p_rigidBody_state_in);
  *              Pointer to the rigid body state struct.
  *
  * @return      Upon a successful completion, the fucntion will return a
- *              GCONST_TRUE
- *
- *              If an error in the codes execution occurs, the function will
- *              return a GCONST_FALSE
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
  */
 extern int RigidBody_step(RigidBody_State *p_rigidBody_state_in);
+
+/*!
+ * @brief       Closes the archive of the rigid body.
+ *
+ * @param[in]   p_rigidBody_state_in
+ *              Pointer with the address of the rigid body struct.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int RigidBody_terminate(RigidBody_State *p_rigidBody_state_in);
 
 #ifdef __cplusplus
 }

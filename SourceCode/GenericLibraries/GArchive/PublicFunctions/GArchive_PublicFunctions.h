@@ -94,7 +94,7 @@ extern int GArchive_close(GArchive *p_archive_in);
  *                data will be saved in.
  *
  * @param[in]     p_archiveDataFilename_in
- *                String containting path to which the data will be archived.
+ *                String containting path to which the archive file.
  *                (e.g ArchiveData/RigidBody)
  *
  * @return        Upon a successful completion, the fucntion will return a

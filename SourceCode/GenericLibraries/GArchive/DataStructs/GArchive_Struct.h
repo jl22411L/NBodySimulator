@@ -39,12 +39,12 @@ typedef struct GArchive_Struct
   /*!
    * @brief Pointer to FILE stream which data will be archived to.
    */
-  FILE *p_archiveFolder;
+  FILE *p_archiveFile;
 
   /*!
-   * @brief String containing the directory to the archive
+   * @brief String containing the directory to the archive file.
    */
-  char *p_archiveDataFilename;
+  char *p_archiveDirectory;
 
   /*!
    * @brief Array containing the data to be archived.

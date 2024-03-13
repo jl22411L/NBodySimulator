@@ -18,9 +18,23 @@
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
+#include "GZero/GZero.h"
 
-int RigidBody_createArchives(RigidBody_State *p_rigidBody_state_in)
+int RigidBody_createArchives(
+    RigidBody_State *p_rigidBody_state_in,
+    const char      *p_bodyName_in)
 {
+  /* Defining local variables */
+  char buffer[GCONST_BUFFER_1024];
+
+  /* Clearing buffer */
+  GZero(&buffer[0], char[GCONST_BUFFER_1024]);
+
+  /* Create directory to body archive */
+  sprintf(buffer, "Bodies/%s/RigidBody", p_bodyName_in);
+
+  /* Create archive */
+  GArchive_init(&p_rigidBody_state_in->rigidBodyArchive, buffer);
 
   /* Add mass column */
   GArchive_addCol(&p_rigidBody_state_in->rigidBodyArchive, "mass", 1, 1);
@@ -47,33 +61,37 @@ int RigidBody_createArchives(RigidBody_State *p_rigidBody_state_in)
       1);
 
   /* Add angular position columns */
-  GArchive_addCol(&p_rigidBody_state_in->rigidBodyArchive, "position_m", 3, 1);
+  GArchive_addCol(
+      &p_rigidBody_state_in->rigidBodyArchive,
+      "position_m_Fix",
+      3,
+      1);
 
   /* Add angular acceleration columns */
   GArchive_addCol(
       &p_rigidBody_state_in->rigidBodyArchive,
-      "angularAcceleration_rads2",
+      "angularAcceleration_rads2_Bod",
       3,
       1);
 
   /* Add angular velocity columns */
   GArchive_addCol(
       &p_rigidBody_state_in->rigidBodyArchive,
-      "angularVelocity_rads",
+      "angularVelocity_rads_Bod",
       3,
       1);
 
   /* Add quaternion rate columns */
   GArchive_addCol(
       &p_rigidBody_state_in->rigidBodyArchive,
-      "quaternionRateFixed2Body",
+      "quaternionRate_FixedToBody",
       4,
       1);
 
   /* Add quaternion columns */
   GArchive_addCol(
       &p_rigidBody_state_in->rigidBodyArchive,
-      "quaternionFixed2Body",
+      "quaternion_FixedToBody",
       4,
       1);
 
