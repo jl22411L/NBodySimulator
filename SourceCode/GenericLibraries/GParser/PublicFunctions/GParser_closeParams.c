@@ -30,13 +30,33 @@
 int GParser_closeParams(GParser_State *p_GParser_state, dictionary **p_dic)
 {
   /* Declaring local variables */
-  int16_t i;
+  dictionary *p_dic_tmp;
+  int8_t i;
+  int8_t j;
 
   for (i = 0; i < p_GParser_state->maxNumberSection; i++)
   {
-    GZero(*(p_dic + i), dictionary);
+    /* Load dictionary */
+    p_dic_tmp = *(p_dic + i);
+
+    /* Free data of individual keys and there values */
+    for(j=0; j < p_GParser_state->sizeIndex; j++)
+    {
+      free((p_dic_tmp->key + j));
+
+      free((p_dic_tmp->value + j));
+    }
+
+    /* Clear and Free memoty of section */
+
+    /* Clear and Free data related to section */
+    // free(p_dic_tmp->key);
+
+    /* Clear and Free data related to key */
+    // free(p_dic_tmp->value);
   }
 
+  /* Clear and Free memory of dictionary */
   free(p_dic);
 
   return GCONST_TRUE;

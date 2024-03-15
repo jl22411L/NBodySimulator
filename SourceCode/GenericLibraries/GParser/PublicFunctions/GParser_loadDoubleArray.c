@@ -31,18 +31,18 @@
  */
 int GParser_loadDoubleArray(
     GParser_State *p_GParser_state,
-    dictionary   **p_dic,
+    dictionary    *p_dic,
     double        *p_dataDestination_out,
     char          *p_dataFromIni_in,
     int            nCols,
     int            nRows)
 {
   /* Declaring local variables */
-  dictionary *p_dic_tmp;
   char        section_buffer[GCONST_BUFFER_256];
   char        key_inputBuffer[GCONST_BUFFER_256];
   char        key_iniBuffer[GCONST_BUFFER_256];
   char        dataToLoad_buffer[GCONST_BUFFER_1024];
+  int         dictionaryNumber;
   int16_t     col;
   int16_t     row;
   int16_t     i;
@@ -54,9 +54,9 @@ int GParser_loadDoubleArray(
   GZero(&key_inputBuffer, char[GCONST_BUFFER_256]);
   GZero(&dataToLoad_buffer, char[GCONST_BUFFER_1024]);
   GZero(&key_iniBuffer, char[GCONST_BUFFER_256]);
-  p_dic_tmp = NULL;
 
   /* Defining local variables */
+  dictionaryNumber = 0;
   i = 0;
   j = 0;
 
@@ -76,12 +76,10 @@ int GParser_loadDoubleArray(
   /* Find dictionary for coresponding section */
   for (i = 0; i < p_GParser_state->maxNumberSection; i++)
   {
-    /* load tempory dictionary */
-    p_dic_tmp = *(p_dic + i);
-
     /* check to see if section name matches */
-    if (strcmp(p_dic_tmp->section, section_buffer) == 0)
+    if (strcmp(*(p_dic + i).section, section_buffer) == 0)
     {
+      dictionaryNumber = i;
       break;
     }
   }

@@ -11,5 +11,5 @@ add_library(GMath
   PublicFunctions/GMath_matSub.c
   PublicFunctions/GMath_quaternionRateCalc.c
   PublicFunctions/GMath_vectorMag.c
-  PublicFunctions/Gmath_vectorNorm.c
+  PublicFunctions/GMath_vectorNorm.c
 )

@@ -29,13 +29,13 @@
 /*
  *  Refer to respective header file for function description
  */
-dictionary **
+dictionary *
     GParser_loadParams(GParser_State *p_GParser_state, const char *filePath)
 {
   /* Defining Local Variables */
-  dictionary **p_dic;
-  FILE        *file;
-  char         cursor;
+  dictionary *p_dic;
+  FILE       *file;
+  char        cursor;
 
   /* Clearing Data values */
   GZero(p_GParser_state, GParser_State);
@@ -54,9 +54,9 @@ dictionary **
   GParser_findNumberOfSections(file, &p_GParser_state->maxNumberSection);
 
   /* Assigning Memory to Dictionary */
-  p_dic = (dictionary **)calloc(
+  p_dic = (dictionary *)calloc(
       p_GParser_state->maxNumberSection,
-      sizeof(dictionary *));
+      sizeof(dictionary));
 
   /* Set the initial state */
   p_GParser_state->loadParamsState = GPARSER_STATE_WAITING_FOR_COMMAND;

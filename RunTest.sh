@@ -144,7 +144,7 @@ if [ ${DEBUG_FLAG} == True ]; then
 elif [ ${VALGRIND_FLAG} == True ]; then
   cd "${PATH_TO_TEST_RUN}"
   echo "[...] Running in Debug Mode"
-  valgrind ./${EXECUTABLE_NAME}
+  valgrind --leak-check=full --show-leak-kinds=all ./${EXECUTABLE_NAME}
   cd ${PATH_TO_ROOT}
 else 
   cd "${PATH_TO_TEST_RUN}"

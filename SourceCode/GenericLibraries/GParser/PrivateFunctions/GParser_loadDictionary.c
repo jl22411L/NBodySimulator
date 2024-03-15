@@ -31,28 +31,25 @@ dictionary *GParser_loadDictionary(GParser_State *p_GParser_state)
   int         j;
   int         keyIndex;
   int         valueIndex;
-  char       *tmpKeyBuffer;
-  char       *tmpValueBuffer;
-  dictionary *p_dic_section;
+  char       tmpKeyBuffer[GCONST_BUFFER_128];
+  char       tmpValueBuffer[GCONST_BUFFER_128];
+  dictionary dic_section;
 
-  /* Allocating memory */
-  p_dic_section = (dictionary *)calloc(1, sizeof(dictionary *));
-
-  p_dic_section->section =
+  dic_section.section =
       (char *)calloc(p_GParser_state->sectionSize + 1, sizeof(char));
 
-  p_dic_section->key =
+  dic_section.key =
       (char **)calloc(p_GParser_state->sizeIndex, sizeof(char *));
 
-  p_dic_section->value =
+  dic_section.value =
       (char **)calloc(p_GParser_state->sizeIndex, sizeof(char *));
 
   for (i = 0; i < p_GParser_state->sizeIndex; i++)
   {
-    *(p_dic_section->key + i) =
+    *(dic_section.key + i) =
         (char *)calloc(p_GParser_state->keySize[i] + 1, sizeof(char));
 
-    *(p_dic_section->value + i) =
+    *(dic_section.value + i) =
         (char *)calloc(p_GParser_state->valueSize[i] + 1, sizeof(char));
   }
 
@@ -61,41 +58,35 @@ dictionary *GParser_loadDictionary(GParser_State *p_GParser_state)
   valueIndex = 0;
   for (i = 0; i < p_GParser_state->sectionIndex; i++)
   {
-    *(p_dic_section->section + i) = *(p_GParser_state->sectionBuffer + i);
+    *(dic_section->section + i) = *(p_GParser_state->sectionBuffer + i);
   }
 
   /* Loading the keys and values into dictionary */
   for (i = 0; i < p_GParser_state->sizeIndex; i++)
   {
-    /* Assign memory for tmp buffers */
-    tmpKeyBuffer =
-        (char *)calloc(p_GParser_state->keySize[i] + 1, sizeof(char));
-    tmpValueBuffer =
-        (char *)calloc(p_GParser_state->valueSize[i] + 1, sizeof(char));
-
     /* Fill tmp Key Buffer */
     for (j = 0; j < p_GParser_state->keySize[i]; j++)
     {
-      *(tmpKeyBuffer + j) = p_GParser_state->keyBuffer[keyIndex];
+      tmpKeyBuffer[j] = p_GParser_state->keyBuffer[keyIndex];
       keyIndex++;
     }
 
     /* Fill tmp Value Buffer */
     for (j = 0; j < p_GParser_state->valueSize[i]; j++)
     {
-      *(tmpValueBuffer + j) = p_GParser_state->valueBuffer[valueIndex];
+      tmpValueBuffer[j] = p_GParser_state->valueBuffer[valueIndex];
       valueIndex++;
     }
 
     /* copy tmp key buffer to the key member*/
-    strcpy(*(p_dic_section->key + i), tmpKeyBuffer);
+    strcpy(*(dic_section->key + i), tmpKeyBuffer);
 
     /* copy tmp key buffer to the key member*/
-    strcpy(*(p_dic_section->value + i), tmpValueBuffer);
+    strcpy(*(dic_section->value + i), tmpValueBuffer);
 
     /* set number of keys in a section */
-    p_dic_section->nKeys = p_GParser_state->sizeIndex;
+    dic_section->nKeys = p_GParser_state->sizeIndex;
   }
 
-  return p_dic_section;
+  return dic_section;
 }
