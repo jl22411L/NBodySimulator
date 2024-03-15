@@ -31,23 +31,23 @@
  */
 int GParser_loadFloat(
     GParser_State *p_GParser_state,
-    dictionary   **p_dic,
+    dictionary    *p_dic,
     float         *p_dataDestination_out,
     char          *p_dataFromIni_in)
 {
   /* Defining local variables */
-  dictionary *p_dic_tmp;
   char        section_buffer[256];
   char        key_buffer[256];
+  int         dictionaryNumber;
   int         i;
   int         j;
 
   /* Clearing Buffers */
   GZero(&section_buffer, char[256]);
   GZero(&key_buffer, char[256]);
-  p_dic_tmp = NULL;
-
+  
   /* Declaring local variables */
+  dictionaryNumber = -1;
   i = 0;
   j = 0;
 
@@ -67,11 +67,8 @@ int GParser_loadFloat(
   /* Cycling through sections in dictionary */
   for (i = 0; i < p_GParser_state->maxNumberSection; i++)
   {
-    /* load tempory dictionary */
-    p_dic_tmp = *(p_dic + i);
-
     /* check to see if section name matches */
-    if (strcmp(p_dic_tmp->section, section_buffer) == 0)
+    if (strcmp((p_dic + i)->section, section_buffer) == 0)
     {
       /* If key was found, break main for loop */
       break;
@@ -84,11 +81,17 @@ int GParser_loadFloat(
     GError("Section not found: %s", section_buffer);
   }
 
+  /* Check to make sure dictionary number was assigned correctly */
+  if (dictionaryNumber < 0)
+  {
+    GError("Invalid dictionaryNumber: %d", dictionaryNumber);
+  }
+
   /* Cycle thorugh keys */
-  for (i = 0; i < p_dic_tmp->nKeys; i++)
+  for (i = 0; i < (p_dic - >dictionaryNumber)->nKeys; i++)
   {
     /* See if key matches with key inputted */
-    if (strcmp(*(p_dic_tmp->key + i), key_buffer) == 0)
+    if (strcmp((p_dic + dictionaryNumber)->key + i), key_buffer) == 0)
     {
       /* If key matches, store convert value to int and store in member */
       GConversion_string2float(p_dataDestination_out, (p_dic_tmp->value + i));
