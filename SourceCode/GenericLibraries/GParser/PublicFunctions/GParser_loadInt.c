@@ -91,12 +91,12 @@ int GParser_loadInt(
   for (i = 0; i < (p_dic + dictionaryNumber)->nKeys; i++)
   {
     /* See if key matches with key inputted */
-    if (strcmp(*((p_dic + dictionaryNumber)->key + i), key_buffer) == 0)
+    if (strcmp(((p_dic + dictionaryNumber)->key[i]), key_buffer) == 0)
     {
       /* If key matches, store convert value to int and store in member */
       GConversion_string2int(
           p_dataDestination_out,
-          ((p_dic + dictionaryNumber)->value + i));
+          &((p_dic + dictionaryNumber)->value[i][0]));
       break;
     }
   }
@@ -104,7 +104,10 @@ int GParser_loadInt(
   /* Throw an error if no key was found */
   if (i == (p_dic + dictionaryNumber)->nKeys)
   {
-    GError("Key not found in section: %s", key_buffer);
+    GError(
+        "Key \"%s\" not found in section \"%s\"",
+        key_buffer,
+        section_buffer);
   }
 
   return GCONST_TRUE;
