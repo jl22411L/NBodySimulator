@@ -38,16 +38,16 @@ int GParser_loadDoubleArray(
     int            nRows)
 {
   /* Declaring local variables */
-  char        section_buffer[GCONST_BUFFER_256];
-  char        key_inputBuffer[GCONST_BUFFER_256];
-  char        key_iniBuffer[GCONST_BUFFER_256];
-  char        dataToLoad_buffer[GCONST_BUFFER_1024];
-  int         dictionaryNumber;
-  int16_t     col;
-  int16_t     row;
-  int16_t     i;
-  int16_t     j;
-  int16_t     k;
+  char    section_buffer[GCONST_BUFFER_256];
+  char    key_inputBuffer[GCONST_BUFFER_256];
+  char    key_iniBuffer[GCONST_BUFFER_256];
+  char    dataToLoad_buffer[GCONST_BUFFER_1024];
+  int     dictionaryNumber;
+  int16_t col;
+  int16_t row;
+  int16_t i;
+  int16_t j;
+  int16_t k;
 
   /* Clearing Buffers */
   GZero(&section_buffer, char[GCONST_BUFFER_256]);
@@ -57,8 +57,8 @@ int GParser_loadDoubleArray(
 
   /* Defining local variables */
   dictionaryNumber = 0;
-  i = 0;
-  j = 0;
+  i                = 0;
+  j                = 0;
 
   /* Parsing data input for section */
   for (i = 0; *(p_dataFromIni_in + i) != ':'; i++)
@@ -77,7 +77,7 @@ int GParser_loadDoubleArray(
   for (i = 0; i < p_GParser_state->maxNumberSection; i++)
   {
     /* check to see if section name matches */
-    if (strcmp(*(p_dic + i).section, section_buffer) == 0)
+    if (strcmp((p_dic + i)->section, section_buffer) == 0)
     {
       dictionaryNumber = i;
       break;

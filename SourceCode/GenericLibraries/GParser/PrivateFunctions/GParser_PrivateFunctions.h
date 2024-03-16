@@ -104,7 +104,7 @@ extern int
  *               This is a pointer to the heap of memory which contains the
  *               dictionaries.
  */
-extern dictionary *GParser_loadDictionary(GParser_State *p_GParser_state);
+extern dictionary GParser_loadDictionary(GParser_State *p_GParser_state);
 
 /*!
  * @description: This function loads the keys. Once the key has been loaded the

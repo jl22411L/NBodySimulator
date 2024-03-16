@@ -30,26 +30,26 @@
  */
 int GParser_loadString(
     GParser_State *p_GParser_state,
-    dictionary   **p_dic,
+    dictionary    *p_dic,
     char         **p_dataDestination_out,
     char          *p_dataFromIni_in)
 {
   /* Declaring local variables */
-  dictionary *p_dic_tmp;
-  char        section_buffer[256];
-  char        key_buffer[256];
-  int         numberOfKeys;
-  int         i;
-  int         j;
+  char section_buffer[256];
+  char key_buffer[256];
+  int  numberOfKeys;
+  int  dictionaryNumber;
+  int  i;
+  int  j;
 
   /* Clearing Buffers */
   GZero(&section_buffer, char[256]);
   GZero(&key_buffer, char[256]);
-  p_dic_tmp = NULL;
 
   /* Defining Local variables */
-  i = 0;
-  j = 0;
+  dictionaryNumber = -1;
+  i                = 0;
+  j                = 0;
 
   /* Parsing data input for section */
   for (i = 0; *(p_dataFromIni_in + i) != ':'; i++)
@@ -67,12 +67,10 @@ int GParser_loadString(
   /* Cycling through sections in dictionary */
   for (i = 0; i < p_GParser_state->maxNumberSection; i++)
   {
-    /* load tempory dictionary */
-    p_dic_tmp = *(p_dic + i);
-
     /* check to see if section name matches */
-    if (strcmp(p_dic_tmp->section, section_buffer) == 0)
+    if (strcmp((p_dic + i)->section, section_buffer) == 0)
     {
+      dictionaryNumber = i;
       break;
     }
   }
@@ -83,20 +81,26 @@ int GParser_loadString(
     GError("Section not found: %s", section_buffer);
   }
 
+  /* Check dictionary number is valid */
+  if (dictionaryNumber < 0)
+  {
+    GError("Dictionary Number is not valid, %d", dictionaryNumber);
+  }
+
   /* Cycle thorugh keys */
-  for (i = 0; i < p_dic_tmp->nKeys; i++)
+  for (i = 0; i < (p_dic + dictionaryNumber)->nKeys; i++)
   {
     /* See if key matches with key inputted */
-    if (strcmp(*(p_dic_tmp->key + i), key_buffer) == 0)
+    if (strcmp(*((p_dic + dictionaryNumber)->key + i), key_buffer) == 0)
     {
       /* If key matches, store value of key */
-      *p_dataDestination_out = *(p_dic_tmp->value + i);
+      *p_dataDestination_out = *((p_dic + dictionaryNumber)->value + i);
       break;
     }
   }
 
   /* Throw an error if no key was found */
-  if (i == p_dic_tmp->nKeys)
+  if (i == (p_dic + dictionaryNumber)->nKeys)
   {
     GError("Key not found in section: %s", key_buffer);
   }

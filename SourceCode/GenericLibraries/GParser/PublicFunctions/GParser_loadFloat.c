@@ -36,20 +36,20 @@ int GParser_loadFloat(
     char          *p_dataFromIni_in)
 {
   /* Defining local variables */
-  char        section_buffer[256];
-  char        key_buffer[256];
-  int         dictionaryNumber;
-  int         i;
-  int         j;
+  char section_buffer[256];
+  char key_buffer[256];
+  int  dictionaryNumber;
+  int  i;
+  int  j;
 
   /* Clearing Buffers */
   GZero(&section_buffer, char[256]);
   GZero(&key_buffer, char[256]);
-  
+
   /* Declaring local variables */
   dictionaryNumber = -1;
-  i = 0;
-  j = 0;
+  i                = 0;
+  j                = 0;
 
   /* Parsing data input for section */
   for (i = 0; *(p_dataFromIni_in + i) != ':'; i++)
@@ -71,6 +71,7 @@ int GParser_loadFloat(
     if (strcmp((p_dic + i)->section, section_buffer) == 0)
     {
       /* If key was found, break main for loop */
+      dictionaryNumber = i;
       break;
     }
   }
@@ -78,7 +79,7 @@ int GParser_loadFloat(
   /* Check to see if section was found */
   if (i == p_GParser_state->maxNumberSection)
   {
-    GError("Section not found: %s", section_buffer);
+    GError("Section not found: %s", key_buffer);
   }
 
   /* Check to make sure dictionary number was assigned correctly */
@@ -88,19 +89,21 @@ int GParser_loadFloat(
   }
 
   /* Cycle thorugh keys */
-  for (i = 0; i < (p_dic - >dictionaryNumber)->nKeys; i++)
+  for (i = 0; i < (p_dic + dictionaryNumber)->nKeys; i++)
   {
     /* See if key matches with key inputted */
-    if (strcmp((p_dic + dictionaryNumber)->key + i), key_buffer) == 0)
+    if (strcmp(*(((p_dic + dictionaryNumber)->key) + i), key_buffer) == 0)
     {
       /* If key matches, store convert value to int and store in member */
-      GConversion_string2float(p_dataDestination_out, (p_dic_tmp->value + i));
+      GConversion_string2float(
+          p_dataDestination_out,
+          ((p_dic + dictionaryNumber)->value + i));
       break;
     }
   }
 
   /* Throw an error if no key was found */
-  if (i == p_dic_tmp->nKeys)
+  if (i == (p_dic + dictionaryNumber)->nKeys)
   {
     GError("Key not found in section: %s", section_buffer);
   }
