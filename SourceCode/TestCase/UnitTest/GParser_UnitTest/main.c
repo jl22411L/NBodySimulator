@@ -60,6 +60,7 @@ int main()
       p_dic,
       &GParserTest_params.integer,
       "owner:integer");
+  printf("1");
 
   GParser_loadIntArray(
       &GParser_state,
@@ -68,6 +69,7 @@ int main()
       "Test:dcm",
       3,
       3);
+  printf("1");
 
   GParser_loadFloatArray(
       &GParser_state,
@@ -76,6 +78,8 @@ int main()
       "Test:dcm2",
       3,
       3);
+
+  printf("1");
 
   GParser_closeParams(&GParser_state, p_dic);
 

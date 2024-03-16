@@ -42,10 +42,6 @@ dictionary GParser_loadDictionary(GParser_State *p_GParser_state)
   keyIndex   = 0;
   valueIndex = 0;
 
-  /* Assign memory for dictionary */
-  dic_section.section =
-      (char *)calloc(p_GParser_state->sectionSize + 1, sizeof(char));
-
   /* Setting the section name to dictionary */
   for (i = 0; i < p_GParser_state->sectionIndex; i++)
   {
