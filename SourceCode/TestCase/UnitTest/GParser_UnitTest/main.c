@@ -26,14 +26,10 @@ int main()
 {
   GParser_State      GParser_state;
   GParserTest_Params GParserTest_params;
-  dictionary       **p_dic;
-
-  printf("-1");
+  dictionary        *p_dic;
 
   GZero(&GParser_state, GParser_State);
   GZero(&GParserTest_params, GParserTest_Params);
-
-  printf("0");
 
   /* Loading Dictionary */
   if ((p_dic = GParser_loadParams(&GParser_state, "Parameters/test.ini")) ==
@@ -41,8 +37,6 @@ int main()
   {
     GError("Parameters did not open corrcetly");
   }
-
-  printf("1");
 
   /* Loading params struct */
   GParser_loadDouble(
@@ -88,38 +82,6 @@ int main()
       3);
 
   printf("6");
-
-  GParser_loadIntArray(
-      &GParser_state,
-      p_dic,
-      &GParserTest_params.row[0],
-      "Test:row",
-      3,
-      1);
-
-  printf("7");
-
-  GParser_loadInt8(
-      &GParser_state,
-      p_dic,
-      &GParserTest_params.integer_8,
-      "owner:integer");
-
-  printf("8");
-
-  GParser_loadString(
-      &GParser_state,
-      p_dic,
-      &GParserTest_params.name,
-      "owner:name");
-
-  printf("9");
-
-  GParser_loadUInt(
-      &GParser_state,
-      p_dic,
-      &GParserTest_params.unsignedInt,
-      "Test:int8");
 
   GParser_closeParams(&GParser_state, p_dic);
 

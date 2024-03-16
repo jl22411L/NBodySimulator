@@ -44,7 +44,7 @@ extern "C" {
  *                  return a GCONST_FALSE
  */
 extern int
-    GParser_closeParams(GParser_State *p_GParser_state, dictionary **p_dic);
+    GParser_closeParams(GParser_State *p_GParser_state, dictionary *p_dic);
 
 /*!
  * @details         Function which will load a double into a data destionation.
@@ -72,7 +72,7 @@ extern int
  */
 extern int GParser_loadDouble(
     GParser_State *p_GParser_state,
-    dictionary   **p_dic,
+    dictionary    *p_dic,
     double        *p_dataDestination_out,
     char          *p_dataFromIni_in);
 
@@ -105,7 +105,7 @@ extern int GParser_loadDouble(
  */
 extern int GParser_loadDoubleArray(
     GParser_State *p_GParser_state,
-    dictionary   **p_dic,
+    dictionary    *p_dic,
     double        *p_dataDestination_out,
     char          *p_dataFromIni_in,
     int            nCols,
@@ -139,7 +139,7 @@ extern int GParser_loadDoubleArray(
  */
 extern int GParser_loadFloat(
     GParser_State *p_GParser_state,
-    dictionary   **p_dic,
+    dictionary    *p_dic,
     float         *p_dataDestination_out,
     char          *p_dataFromIni_in);
 
@@ -178,7 +178,7 @@ extern int GParser_loadFloat(
  */
 extern int GParser_loadFloatArray(
     GParser_State *p_GParser_state,
-    dictionary   **p_dic,
+    dictionary    *p_dic,
     float         *p_dataDestination_out,
     char          *p_dataFromIni_in,
     int            nCols,
@@ -212,7 +212,7 @@ extern int GParser_loadFloatArray(
  */
 extern int GParser_loadInt8(
     GParser_State *p_GParser_state,
-    dictionary   **p_dic,
+    dictionary    *p_dic,
     int8_t        *p_dataDestination_out,
     char          *p_dataFromIni_in);
 
@@ -244,7 +244,7 @@ extern int GParser_loadInt8(
  */
 extern int GParser_loadInt(
     GParser_State *p_GParser_state,
-    dictionary   **p_dic,
+    dictionary    *p_dic,
     int           *p_dataDestination,
     char          *p_dataFromIni);
 
@@ -283,7 +283,7 @@ extern int GParser_loadInt(
  */
 extern int GParser_loadIntArray(
     GParser_State *p_GParser_state,
-    dictionary   **p_dic,
+    dictionary    *p_dic,
     int           *p_dataDestination_out,
     char          *p_dataFromIni_in,
     int            nCols,
@@ -308,7 +308,7 @@ extern int GParser_loadIntArray(
  *                  The returned address is to access the array outside
  *                  the function to be used when laoding parameters.
  */
-extern dictionary **
+extern dictionary *
     GParser_loadParams(GParser_State *p_GParser_state, const char *filePath);
 
 /*!
@@ -339,7 +339,7 @@ extern dictionary **
  */
 extern int GParser_loadString(
     GParser_State *p_GParser_state,
-    dictionary   **p_dic,
+    dictionary    *p_dic,
     char         **p_dataDestination_out,
     char          *p_dataFromIni_in);
 
@@ -372,7 +372,7 @@ extern int GParser_loadString(
  */
 extern int GParser_loadUInt(
     GParser_State *p_GParser_state,
-    dictionary   **p_dic,
+    dictionary    *p_dic,
     int           *p_dataDestination_out,
     char          *p_dataFromIni_in);
 

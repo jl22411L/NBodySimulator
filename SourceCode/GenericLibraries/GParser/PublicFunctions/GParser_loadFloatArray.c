@@ -31,66 +31,23 @@
  */
 int GParser_loadFloatArray(
     GParser_State *p_GParser_state,
-    dictionary   **p_dic,
+    dictionary    *p_dic,
     float         *p_dataDestination_out,
     char          *p_dataFromIni_in,
     int            nCols,
     int            nRows)
 {
   /* Declaring local variables */
-  dictionary *p_dic_tmp;
-  char        section_buffer[GCONST_BUFFER_256];
-  char        key_inputBuffer[GCONST_BUFFER_256];
-  char        key_iniBuffer[GCONST_BUFFER_256];
-  char        dataToLoad_buffer[GCONST_BUFFER_1024];
-  int16_t     col;
-  int16_t     row;
-  int16_t     i;
-  int16_t     j;
-  int16_t     k;
+  char    dataToLoad_buffer[GCONST_BUFFER_1024];
+  int     dictionaryNumber;
+  int16_t col;
+  int16_t row;
+  int16_t i;
+  int16_t j;
+  int16_t k;
 
   /* Clearing Buffers */
-  GZero(&section_buffer, char[GCONST_BUFFER_1024]);
-  GZero(&key_inputBuffer, char[GCONST_BUFFER_256]);
   GZero(&dataToLoad_buffer, char[GCONST_BUFFER_1024]);
-  GZero(&key_iniBuffer, char[GCONST_BUFFER_256]);
-  p_dic_tmp = NULL;
-
-  /* Defining local variables */
-  i = 0;
-  j = 0;
-
-  /* Parsing data input for section */
-  for (i = 0; *(p_dataFromIni_in + i) != ':'; i++)
-  {
-    section_buffer[i] = *(p_dataFromIni_in + i);
-  }
-
-  /* Parsing data input for key */
-  for (i; *(p_dataFromIni_in + i + 1) != '\0'; i++)
-  {
-    key_inputBuffer[j] = *(p_dataFromIni_in + i + 1);
-    j++;
-  }
-
-  /* Find dictionary for coresponding section */
-  for (i = 0; i < p_GParser_state->maxNumberSection; i++)
-  {
-    /* load tempory dictionary */
-    p_dic_tmp = *(p_dic + i);
-
-    /* check to see if section name matches */
-    if (strcmp(p_dic_tmp->section, section_buffer) == 0)
-    {
-      break;
-    }
-  }
-
-  /* Check to see if section exists */
-  if (i == p_GParser_state->maxNumberSection)
-  {
-    GError("Section not found: %s", section_buffer);
-  }
 
   /* ---------------------------- LOAD ARRAY ----------------------------- */
 
@@ -100,12 +57,7 @@ int GParser_loadFloatArray(
     for (i = 0; i < nCols; i++)
     {
       /* Find the name of the key */
-      if (sprintf(
-              dataToLoad_buffer,
-              "%s:%s[%d]",
-              section_buffer,
-              key_inputBuffer,
-              j) < 0)
+      if (sprintf(dataToLoad_buffer, "%s[%d]", p_dataFromIni_in, j) < 0)
       {
         GError("Wasn't able to write the key");
       }
@@ -125,13 +77,8 @@ int GParser_loadFloatArray(
     {
       for (j = 0; j < nCols; j++)
       {
-        if (sprintf(
-                dataToLoad_buffer,
-                "%s:%s[%d][%d]",
-                section_buffer,
-                key_inputBuffer,
-                i,
-                j) < 0)
+        if (sprintf(dataToLoad_buffer, "%s[%d][%d]", p_dataFromIni_in, i, j) <
+            0)
         {
           GError("Wasn't able to write the key");
         }
@@ -144,9 +91,6 @@ int GParser_loadFloatArray(
       }
     }
   }
-
-  /* Clear buffer */
-  GZero(&key_iniBuffer, char[256]);
 
   return GCONST_TRUE;
 }

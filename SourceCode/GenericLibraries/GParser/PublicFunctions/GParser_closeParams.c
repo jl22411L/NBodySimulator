@@ -27,33 +27,26 @@
 /*
  *  Refer to respective header file for function description
  */
-int GParser_closeParams(GParser_State *p_GParser_state, dictionary **p_dic)
+int GParser_closeParams(GParser_State *p_GParser_state, dictionary *p_dic)
 {
   /* Declaring local variables */
-  dictionary *p_dic_tmp;
   int8_t i;
   int8_t j;
 
   for (i = 0; i < p_GParser_state->maxNumberSection; i++)
   {
-    /* Load dictionary */
-    p_dic_tmp = *(p_dic + i);
-
     /* Free data of individual keys and there values */
-    for(j=0; j < p_GParser_state->sizeIndex; j++)
+    for (j = 0; j < p_GParser_state->sizeIndex; j++)
     {
-      free((p_dic_tmp->key + j));
+      free(((p_dic + i)->key + j));
 
-      free((p_dic_tmp->value + j));
+      free(((p_dic + i)->value + j));
     }
-
-    /* Clear and Free memoty of section */
-
     /* Clear and Free data related to section */
-    // free(p_dic_tmp->key);
+    free((p_dic + i)->key);
 
     /* Clear and Free data related to key */
-    // free(p_dic_tmp->value);
+    free((p_dic + i)->value);
   }
 
   /* Clear and Free memory of dictionary */

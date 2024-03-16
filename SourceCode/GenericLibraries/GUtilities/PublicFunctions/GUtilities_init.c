@@ -26,7 +26,7 @@
 int GUtilities_init(const char *p_paramsFilePath)
 {
   /* Defining local variables */
-  dictionary  **dic;
+  dictionary   *dic;
   GParser_State GParser_state;
 
   /* Clearing local variables */

@@ -29,12 +29,12 @@ int RigidBody_init(
     const char      *p_bodyName_in)
 {
   /* Declare local variables */
-  dictionary  **dic;
+  dictionary   *dic;
   GParser_State GParser_state;
 
   /* Zeroing Local variables */
   GZero(&GParser_state, GParser_State);
-  GZero(&dic, dictionary **);
+  GZero(&dic, dictionary *);
 
   /*---------------------------- LOAD PARAMETERS ----------------------------*/
 

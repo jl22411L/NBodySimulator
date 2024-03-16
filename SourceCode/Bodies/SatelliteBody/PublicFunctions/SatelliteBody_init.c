@@ -30,7 +30,7 @@ int SatelliteBody_init(
     const char          *p_bodyName_in)
 {
   /* Declare local variables */
-  dictionary  **dic;
+  dictionary   *dic;
   GParser_State GParser_state;
   char          archiveNameBuffer[GCONST_BUFFER_1024];
 

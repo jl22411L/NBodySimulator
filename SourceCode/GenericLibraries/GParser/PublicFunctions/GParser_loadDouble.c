@@ -36,11 +36,11 @@ int GParser_loadDouble(
     char          *p_dataFromIni_in)
 {
   /* Defining local variables */
-  char        section_buffer[256];
-  char        key_buffer[256];
-  int         dictionaryNumber;
-  int         i;
-  int         j;
+  char section_buffer[256];
+  char key_buffer[256];
+  int  dictionaryNumber;
+  int  i;
+  int  j;
 
   /* Clearing Buffers */
   GZero(&section_buffer, char[256]);
@@ -48,8 +48,8 @@ int GParser_loadDouble(
 
   /* Declaring local variables */
   dictionaryNumber = -1;
-  i = 0;
-  j = 0;
+  i                = 0;
+  j                = 0;
 
   /* Parsing data input for section */
   for (i = 0; *(p_dataFromIni_in + i) != ':'; i++)
@@ -92,10 +92,12 @@ int GParser_loadDouble(
   for (i = 0; i < (p_dic + dictionaryNumber)->nKeys; i++)
   {
     /* See if key matches with key inputted */
-    if (strcmp(((p_dic + dictionaryNumber)->key + i), key_buffer) == 0)
+    if (strcmp(*((p_dic + dictionaryNumber)->key + i), key_buffer) == 0)
     {
       /* If key matches, store convert value to int and store in member */
-      GConversion_string2double(p_dataDestination_out, ((p_dic + dictionaryNumber)->value + i));
+      GConversion_string2double(
+          p_dataDestination_out,
+          ((p_dic + dictionaryNumber)->value + i));
       break;
     }
   }
