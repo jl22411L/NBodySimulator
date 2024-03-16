@@ -35,6 +35,9 @@ dictionary GParser_loadDictionary(GParser_State *p_GParser_state)
   int        i;
   int        j;
 
+  /* Clear Dictionary */
+  GZero(&dic_section, dictionary);
+
   /* Set indexes to 0 */
   keyIndex   = 0;
   valueIndex = 0;
@@ -42,21 +45,6 @@ dictionary GParser_loadDictionary(GParser_State *p_GParser_state)
   /* Assign memory for dictionary */
   dic_section.section =
       (char *)calloc(p_GParser_state->sectionSize + 1, sizeof(char));
-
-  dic_section.key =
-      (char **)calloc(p_GParser_state->sizeIndex + 1, sizeof(char *));
-
-  dic_section.value =
-      (char **)calloc(p_GParser_state->sizeIndex, sizeof(char *));
-
-  for (i = 0; i < p_GParser_state->sizeIndex; i++)
-  {
-    *(dic_section.key + i) =
-        (char *)calloc(p_GParser_state->keySize[i] + 1, sizeof(char));
-
-    *(dic_section.value + i) =
-        (char *)calloc(p_GParser_state->valueSize[i] + 1, sizeof(char));
-  }
 
   /* Setting the section name to dictionary */
   for (i = 0; i < p_GParser_state->sectionIndex; i++)

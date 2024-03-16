@@ -19,7 +19,7 @@
 /* Generic Libraries */
 #include "GConst/GConst.h"
 
-GConversion_string2int(int *p_dataDestination_out, char **p_dataSource_in)
+GConversion_string2int(int *p_dataDestination_out, char *p_dataSource_in)
 {
   /* Defining local variables */
   int  number;
@@ -28,7 +28,7 @@ GConversion_string2int(int *p_dataDestination_out, char **p_dataSource_in)
   int  i;
 
   /* Checking the sign of the input */
-  cursor = *(*(p_dataSource_in) + 0);
+  cursor = *(p_dataSource_in + 0);
   switch (cursor)
   {
   case ('-'):
@@ -47,7 +47,7 @@ GConversion_string2int(int *p_dataDestination_out, char **p_dataSource_in)
 
   /* Finding the integer value and shifting left */
   number = 0;
-  for (i; (cursor = *(*(p_dataSource_in) + i)) != '\0'; i++)
+  for (i; (cursor = *(p_dataSource_in + i)) != '\0'; i++)
   {
     number = number * 10 + (int)(cursor - '0');
   }

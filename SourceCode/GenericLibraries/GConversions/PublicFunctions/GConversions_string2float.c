@@ -21,7 +21,7 @@
 
 int GConversion_string2float(
     float *p_dataDestination_out,
-    char **p_dataSource_in)
+    char  *p_dataSource_in)
 {
   /* Defining local variables */
   float integer;
@@ -34,7 +34,7 @@ int GConversion_string2float(
   int   i;
 
   /* Checking the sign of the input */
-  cursor = *(*(p_dataSource_in) + 0);
+  cursor = *(p_dataSource_in + 0);
   switch (cursor)
   {
   case ('-'):
@@ -53,7 +53,7 @@ int GConversion_string2float(
 
   /* Find position of decimal and number of elements in string */
   decimalPosition = -1;
-  for (sizeString = 0; (cursor = *(*(p_dataSource_in) + sizeString)) != '\0';
+  for (sizeString = 0; (cursor = *(p_dataSource_in + sizeString)) != '\0';
        sizeString++)
   {
     if (cursor == '.')
@@ -72,7 +72,7 @@ int GConversion_string2float(
   integer = 0;
   for (i; i < decimalPosition; i++)
   {
-    cursor  = *(*(p_dataSource_in) + i);
+    cursor  = *(p_dataSource_in + i);
     integer = integer * 10 + (cursor - '0');
   }
 
@@ -80,7 +80,7 @@ int GConversion_string2float(
   decimal = 0;
   for (i = sizeString - 1; i > decimalPosition; i--)
   {
-    cursor  = *(*(p_dataSource_in) + i);
+    cursor  = *(p_dataSource_in + i);
     decimal = decimal / 10.0 + (float)(cursor - '0');
   }
 

@@ -41,7 +41,7 @@ extern "C" {
  */
 extern int GConversion_string2double(
     double *p_dataDestination_out,
-    char  **p_dataSource_in);
+    char   *p_dataSource_in);
 
 /*!
  * @brief           Function which converts a string to a float
@@ -58,7 +58,7 @@ extern int GConversion_string2double(
  */
 extern int GConversion_string2float(
     float *p_dataDestination_out,
-    char **p_dataSource_in);
+    char  *p_dataSource_in);
 
 /*!
  * @brief           Function which converts a string to a int8
@@ -75,7 +75,7 @@ extern int GConversion_string2float(
  */
 extern int GConversion_string2int8(
     int8_t *p_dataDestination_out,
-    char  **p_dataSource_in);
+    char   *p_dataSource_in);
 
 /*!
  * @brief           Function which converts a string to an int
@@ -91,7 +91,7 @@ extern int GConversion_string2int8(
  *                  function will return a GCONST_FALSE
  */
 extern int
-    GConversion_string2int(int *p_dataDestination_out, char **p_dataSource_in);
+    GConversion_string2int(int *p_dataDestination_out, char *p_dataSource_in);
 
 /*!
  * @brief           Function which converts a string to a unsigned int
@@ -107,7 +107,7 @@ extern int
  *                  function will return a GCONST_FALSE
  */
 extern int
-    GConversion_string2uint(int *p_dataDestination_out, char **p_dataSource_in);
+    GConversion_string2uint(int *p_dataDestination_out, char *p_dataSource_in);
 
 #ifdef __cplusplus
 }

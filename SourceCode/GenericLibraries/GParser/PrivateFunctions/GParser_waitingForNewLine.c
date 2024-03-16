@@ -46,7 +46,7 @@ int GParser_waitingForNewLine(GParser_State *p_GParser_state, const char cursor)
     p_GParser_state->loadParamsState = GPARSER_STATE_COMMENT;
     break;
   default:
-    GError("Invalid expression");
+    GError("Invalid expression, cursor= %d", cursor);
   }
 
   return GCONST_TRUE;
