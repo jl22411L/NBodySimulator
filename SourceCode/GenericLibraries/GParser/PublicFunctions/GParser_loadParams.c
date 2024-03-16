@@ -141,6 +141,9 @@ dictionary *
     }
   }
 
+  /* Clost the file */
+  fclose(file);
+
   /* Output dictionary */
   return p_dic;
 }
