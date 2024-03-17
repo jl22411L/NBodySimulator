@@ -1,9 +1,9 @@
 /*
- *    @File:         SatelliteBody_terminate.c
+ *    @File:         CelestialBody_terminate.c
  *
  *    @ Brief:       Terminates the satellite body
  *
- *    @ Date:        11/03/2024
+ *    @ Date:        17/03/2024
  *
  */
 
@@ -11,7 +11,7 @@
 #include "RigidBody/PublicFunctions/RigidBody_PublicFunctions.h"
 
 /* Structure Include */
-#include "SatelliteBody/DataStructs/SatelliteBody_StateStruct.h"
+#include "CelestialBody/DataStructs/CelestialBody_StateStruct.h"
 
 /* Data include */
 /* None */
@@ -20,14 +20,14 @@
 #include "GArchive/GArchive.h"
 #include "GConst/GConst.h"
 
-int SatelliteBody_terminate(SatelliteBody_State *p_satelliteBody_in)
+int CelestialBody_terminate(CelestialBody_State *p_celestialBody_in)
 {
 
   /* Terminate Rigid Body */
-  RigidBody_terminate(&p_satelliteBody_in->rigidBody_state);
+  RigidBody_terminate(&p_celestialBody_in->rigidBody_state);
 
   /* Close archive */
-  GArchive_close(&p_satelliteBody_in->satelliteBodyArchive);
+  GArchive_close(&p_celestialBody_in->celestialBodyArchive);
 
   return GCONST_TRUE;
 }

@@ -19,7 +19,7 @@ extern "C" {
 /* None */
 
 /* Structure Include */
-#include "BodyTypes/RigidBody/DataStructs/RigidBody_StateStruct.h"
+#include "RigidBody/DataStructs/RigidBody_StateStruct.h"
 
 /* Data include */
 /* None */
