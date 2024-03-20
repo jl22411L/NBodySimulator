@@ -46,6 +46,14 @@ int main(void)
    *-------------------------------------------------------------------------*/
   do
   {
+    satelliteBody.resultantForce_N_Fixed[0] = 1000;
+    satelliteBody.resultantForce_N_Fixed[1] = 5000;
+    satelliteBody.resultantForce_N_Fixed[2] = 200;
+
+    satelliteBody.resultantMoment_Nm_Bod[0] = 10;
+    satelliteBody.resultantMoment_Nm_Bod[1] = 1;
+    satelliteBody.resultantMoment_Nm_Bod[2] = 14;
+
     SatelliteBody_step(&satelliteBody);
     CelestialBody_step(&celestialBody);
 

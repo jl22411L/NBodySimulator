@@ -55,13 +55,13 @@ int SatelliteBody_step(SatelliteBody_State *p_satelliteBody_state_in)
   SatelliteBody_archiveData(p_satelliteBody_state_in);
 
   /*--------------------------------------------------------------------------*
-   *                                  STEP *
+   *                                  STEP                                    *
    *--------------------------------------------------------------------------*/
 
   /* None */
 
   /*--------------------------------------------------------------------------*
-   *                             STEP RIGID BODY *
+   *                             STEP RIGID BODY                              *
    *--------------------------------------------------------------------------*/
 
   /* Step the Rigid Body */
