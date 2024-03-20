@@ -62,5 +62,8 @@ int GUtilities_init(const char *p_paramsFilePath)
       &Utilities.simTime_s,
       "TimeParameters:simTimeInitial");
 
+  /* Closr Params */
+  GParser_closeParams(&GParser_state, dic);
+
   return GCONST_TRUE;
 }

@@ -10,10 +10,10 @@
  */
 
 /* Function Includes */
-#include "BodyTypes/RigidBody/PublicFunctions/RigidBody_PublicFunctions.h"
+#include "RigidBody/PublicFunctions/RigidBody_PublicFunctions.h"
 
 /* Structure Include */
-#include "BodyTypes/RigidBody/DataStructs/RigidBody_StateStruct.h"
+#include "RigidBody/DataStructs/RigidBody_StateStruct.h"
 
 /* Data include */
 /* None */

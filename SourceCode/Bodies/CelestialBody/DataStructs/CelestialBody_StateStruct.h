@@ -1,14 +1,14 @@
 /*
- *    @File:         SatelliteBody_StateStruct.h
+ *    @File:         CelestialBody_StateStruct.h
  *
  *    @ Brief:       State struct of the satellite
  *
- *    @ Date:        22/02/2024
+ *    @ Date:        17/03/2024
  *
  */
 
-#ifndef H_SATELLITEBODY_STATESTRUCT_H
-#define H_SATELLITEBODY_STATESTRUCT_H
+#ifndef H_CELESTIALBODY_STATESTRUCT_H
+#define H_CELESTIALBODY_STATESTRUCT_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -24,9 +24,9 @@ extern "C" {
 /* None */
 
 /* Generic Libraries */
-#include "GArchive/GArchive.h"
+/* None */
 
-typedef struct SatelliteBody_StateStruct
+typedef struct CelestialBody_StateStruct
 {
   /*!
    * @brief   Resultant gravity force vector present on the satellite
@@ -66,12 +66,12 @@ typedef struct SatelliteBody_StateStruct
    * @unit      N/A
    * @frame     N/A
    */
-  GArchive satelliteBodyArchive;
+  GArchive celestialBodyArchive;
 
-} SatelliteBody_State;
+} CelestialBody_State;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* H_SATELLITEBODY_STATESTRUCT_H */
+#endif /* H_CELESTIALBODY_STATESTRUCT_H */

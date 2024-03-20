@@ -8,6 +8,7 @@ add_executable(RigidBodyTest
 
 set(LIB_LIST
   SatelliteBody
+  CelestialBody
   GConversions
   GUtilities
   GIntegral

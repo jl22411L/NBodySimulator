@@ -11,7 +11,7 @@
 /* None */
 
 /* Structure Include */
-#include "BodyTypes/RigidBody/DataStructs/RigidBody_StateStruct.h"
+#include "RigidBody/DataStructs/RigidBody_StateStruct.h"
 
 /* Data include */
 /* None */
@@ -31,7 +31,7 @@ int RigidBody_createArchives(
   GZero(&buffer[0], char[GCONST_BUFFER_1024]);
 
   /* Create directory to body archive */
-  sprintf(buffer, "Bodies/%s/RigidBody", p_bodyName_in);
+  sprintf(buffer, "Bodies/%s/OutputData/RigidBody", p_bodyName_in);
 
   /* Create archive */
   GArchive_init(&p_rigidBody_state_in->rigidBodyArchive, buffer);

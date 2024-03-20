@@ -1,19 +1,19 @@
 /*
- *    @File:         SatelliteBody_init.c
+ *    @File:         CelestialBody_init.c
  *
- *    @ Brief:       Function which loads the parameters into the Satellite Body
+ *    @ Brief:       Function which loads the parameters into the Celestial Body
  *
- *    @ Date:        24/01/2024
+ *    @ Date:        17/03/2024
  *
  */
 
 /* Function Includes */
+#include "CelestialBody/PrivateFunctions/CelestialBody_PrivateFunctions.h"
+#include "CelestialBody/PublicFunctions/CelestialBody_PublicFunctions.h"
 #include "RigidBody/PublicFunctions/RigidBody_PublicFunctions.h"
-#include "SatelliteBody/PrivateFunctions/SatelliteBody_PrivateFunctions.h"
-#include "SatelliteBody/PublicFunctions/SatelliteBody_PublicFunctions.h"
 
 /* Structure Include */
-#include "SatelliteBody/DataStructs/SatelliteBody_StateStruct.h"
+#include "CelestialBody/DataStructs/CelestialBody_StateStruct.h"
 
 /* Data include */
 /* None */
@@ -24,8 +24,8 @@
 #include "GParser/GParser.h"
 #include "GZero/GZero.h"
 
-int SatelliteBody_init(
-    SatelliteBody_State *p_satelliteBody_state_in,
+int CelestialBody_init(
+    CelestialBody_State *p_celestialBody_state_in,
     const char          *p_paramFilename_in,
     const char          *p_bodyName_in)
 {
@@ -49,7 +49,7 @@ int SatelliteBody_init(
 
   /* Load Rigid Body parameters */
   RigidBody_init(
-      &p_satelliteBody_state_in->rigidBody_state,
+      &p_celestialBody_state_in->rigidBody_state,
       p_paramFilename_in,
       p_bodyName_in);
 
@@ -61,14 +61,14 @@ int SatelliteBody_init(
   /* Create Archive Name */
   sprintf(
       archiveNameBuffer,
-      "Bodies/%s/OutputData/SatelliteBody",
+      "Bodies/%s/OutputData/CelestialBody",
       p_bodyName_in);
 
   // TODO, it would be better if the body name was loaded from the params ini
   // file.
 
   /* Create archives */
-  SatelliteBody_createArchives(p_satelliteBody_state_in, p_bodyName_in);
+  CelestialBody_createArchives(p_celestialBody_state_in, p_bodyName_in);
 
   return GCONST_TRUE;
 }
