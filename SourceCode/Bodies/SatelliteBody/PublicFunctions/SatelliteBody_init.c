@@ -26,8 +26,7 @@
 
 int SatelliteBody_init(
     SatelliteBody_State *p_satelliteBody_state_in,
-    const char          *p_paramFilename_in,
-    const char          *p_bodyName_in)
+    const char          *p_paramFilename_in)
 {
   /* Declare local variables */
   dictionary   *dic;
@@ -50,8 +49,7 @@ int SatelliteBody_init(
   /* Load Rigid Body parameters */
   RigidBody_init(
       &p_satelliteBody_state_in->rigidBody_state,
-      p_paramFilename_in,
-      p_bodyName_in);
+      p_paramFilename_in);
 
   /* Close Params */
   GParser_closeParams(&GParser_state, dic);
@@ -62,13 +60,12 @@ int SatelliteBody_init(
   sprintf(
       archiveNameBuffer,
       "Bodies/%s/OutputData/SatelliteBody",
-      p_bodyName_in);
-
-  // TODO, it would be better if the body name was loaded from the params ini
-  // file.
+      p_satelliteBody_state_in->rigidBody_state.bodyName);
 
   /* Create archives */
-  SatelliteBody_createArchives(p_satelliteBody_state_in, p_bodyName_in);
+  SatelliteBody_createArchives(
+      p_satelliteBody_state_in,
+      p_satelliteBody_state_in->rigidBody_state.bodyName);
 
   return GCONST_TRUE;
 }

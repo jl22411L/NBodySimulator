@@ -39,26 +39,7 @@ int SatelliteBody_createArchives(
   /*-------------------------------------------------------------------------*
    *                       SATELLITE BODY STATE STRUCT
    *-------------------------------------------------------------------------*/
-  /* Add gravity force vector columns */
-  GArchive_addCol(
-      &p_satelliteBody_state_in->satelliteBodyArchive,
-      "gravityForce_N_Fixed",
-      3,
-      1);
-
-  /* Add resultant force vector columns */
-  GArchive_addCol(
-      &p_satelliteBody_state_in->satelliteBodyArchive,
-      "resultantForce_N_Fixed",
-      3,
-      1);
-
-  /* Add resultant moment vector columns */
-  GArchive_addCol(
-      &p_satelliteBody_state_in->satelliteBodyArchive,
-      "resultantMoment_Nm_Bod",
-      3,
-      1);
+  /* None */
 
   return GCONST_TRUE;
 }

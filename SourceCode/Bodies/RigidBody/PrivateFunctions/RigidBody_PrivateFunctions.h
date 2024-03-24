@@ -27,6 +27,18 @@ extern "C" {
 /* None */
 
 /*!
+ * @details     Archives the data of the rigid body.
+ *
+ * @param[in]   p_rigidBody_state_in
+ *              Pointer to a rigid body state struct.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE.
+ */
+extern int RigidBody_archiveData(RigidBody_State *p_rigidBody_state_in);
+
+/*!
  * @details     Function which will create the archive for the Rigid body. Wukk
  *              call the GArch library and add the necessary columns to the
  *              config file along with creating a csv file to contain the data.
@@ -34,18 +46,37 @@ extern "C" {
  * @param[in]   p_rigidBody_state_in
  *              Pointer to a rigid body state struct.
  *
- * @param[in]   p_bodyName_in
- *              String with the name of the body.
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE.
+ */
+extern int RigidBody_createArchives(RigidBody_State *p_rigidBody_state_in);
+
+/*!
+ * @details     Finds the angular acceleration of a rigid body.
+ *
+ * @param[in]   p_rigidBody_state_in
+ *              Pointer to a rigid body state struct.
  *
  * @return      Upon a successful completion, the fucntion will return a
- *              GCONST_TRUE
- *
- *              If an error in the codes execution occurs, the function will
- *              return a GCONST_FALSE
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE.
  */
-extern int RigidBody_createArchives(
-    RigidBody_State *p_rigidBody_state_in,
-    const char      *p_bodyName_in);
+extern int
+    RigidBody_findAngularAcceleration(RigidBody_State *p_rigidBody_state_in);
+
+/*!
+ * @details     Finds the translational acceleration of the rigid body.
+ *
+ * @param[in]   p_rigidBody_state_in
+ *              Pointer to a rigid body state struct.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE.
+ */
+extern int RigidBody_findTranslationalAcceleration(
+    RigidBody_State *p_rigidBody_state_in);
 
 #ifdef __cplusplus
 }

@@ -29,36 +29,6 @@ extern "C" {
 #include "GParser/GParser.h"
 
 /*!
- * @brief       Function which will archive the members of a rigid body.
- *
- * @param[in]   p_rigidBody_state_in
- *              Pointer to a rigid body state struct.
- *
- * @return      Upon a successful completion, the fucntion will return a
- *              GCONST_TRUE. If an error in the codes execution occurs, the
- *              function will return a GCONST_FALSE
- */
-extern int RigidBody_archiveData(RigidBody_State *p_rigidBody_state_in);
-
-/*!
- * @brief       Finds the angular acceleration from the resultant moments
- *              and the inertia matrix.
- *
- * @param[in]   p_rigidBody_state_in
- *              Pointer containing the address of a rigid body struct
- *
- * @param[in]   p_torque_Nm_Bod_in
- *              Pointer to array containing the resultant torques on the
- *              body.
- *
- * @return      Upon a successful completion, the fucntion will return a
- *              GCONST_TRUE. If an error in the codes execution occurs, the
- *              function will return a GCONST_FALSE
- */
-extern int RigidBody_findAngularAcceleration(
-    RigidBody_State *p_rigidBody_state_in,
-    double          *p_torque_Nm_Bod_in);
-/*!
  * @brief       Function which loads the parameters into the Rigid Body
  *
  * @param[in]   p_rigidBody_state_in
@@ -78,8 +48,7 @@ extern int RigidBody_findAngularAcceleration(
  */
 extern int RigidBody_init(
     RigidBody_State *p_rigidBody_state_in,
-    const char      *p_paramFilename_in,
-    const char      *p_bodyName_in);
+    const char      *p_paramFilename_in);
 
 /*!
  * @brief       Will archive the members of the rigid body before integrating

@@ -26,8 +26,7 @@
 
 int CelestialBody_init(
     CelestialBody_State *p_celestialBody_state_in,
-    const char          *p_paramFilename_in,
-    const char          *p_bodyName_in)
+    const char          *p_paramFilename_in)
 {
   /* Declare local variables */
   dictionary   *dic;
@@ -50,8 +49,7 @@ int CelestialBody_init(
   /* Load Rigid Body parameters */
   RigidBody_init(
       &p_celestialBody_state_in->rigidBody_state,
-      p_paramFilename_in,
-      p_bodyName_in);
+      p_paramFilename_in);
 
   /* Close Params */
   GParser_closeParams(&GParser_state, dic);
@@ -62,13 +60,12 @@ int CelestialBody_init(
   sprintf(
       archiveNameBuffer,
       "Bodies/%s/OutputData/CelestialBody",
-      p_bodyName_in);
-
-  // TODO, it would be better if the body name was loaded from the params ini
-  // file.
+      p_celestialBody_state_in->rigidBody_state.bodyName);
 
   /* Create archives */
-  CelestialBody_createArchives(p_celestialBody_state_in, p_bodyName_in);
+  CelestialBody_createArchives(
+      p_celestialBody_state_in,
+      p_celestialBody_state_in->rigidBody_state.bodyName);
 
   return GCONST_TRUE;
 }

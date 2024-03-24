@@ -17,22 +17,27 @@ set(CMAKE_C_STANDARD 90)
 set(SRC_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Set relative directories within project
-set(GENERIC_PATH ${SRC_DIRECTORY}/GenericLibraries)
 set(BODIES_PATH ${SRC_DIRECTORY}/Bodies)
+set(GENERIC_PATH ${SRC_DIRECTORY}/GenericLibraries)
+set(PHYSICS_PATH ${SRS_DIRECTORY}/Physics)
 set(MODULES_PATH ${SRC_DIRECTORY}/Modules)
 set(TEST_PATH ${SRC_DIRECTORY}/TestCase)
 set(UNITTEST_PATH ${SRC_DIRECTORY}/TestCase/UnitTest)
 
 # Directories to be included in scripts
-include_directories(${GENERIC_PATH})
 include_directories(${BODIES_PATH})
+include_directories(${GENERIC_PATH})
+include_directories(${PHYSICS_PATH})
 include_directories(${MODULES_PATH})
 include_directories(${TEST_PATH})
 include_directories(${UNITTEST_PATH})
 
-# include_directories(/SourceCode/GenericLibraries)
-
 # ----------- Add subdirectories which contain CMakeLists.txt file ---------- #
+
+# Bodies
+add_subdirectory(${BODIES_PATH}/CelestialBody)
+add_subdirectory(${BODIES_PATH}/RigidBody)
+add_subdirectory(${BODIES_PATH}/SatelliteBody)
 
 # Generic Libraries
 add_subdirectory(${GENERIC_PATH}/GArchive)
@@ -42,10 +47,8 @@ add_subdirectory(${GENERIC_PATH}/GUtilities)
 add_subdirectory(${GENERIC_PATH}/GMath)
 add_subdirectory(${GENERIC_PATH}/GIntegral)
 
-# Bodies
-add_subdirectory(${BODIES_PATH}/CelestialBody)
-add_subdirectory(${BODIES_PATH}/RigidBody)
-add_subdirectory(${BODIES_PATH}/SatelliteBody)
+# Physics Module
+# add_subdirectory(${PHYSICS_PATH}/Gravity)
 
 # Modules
 

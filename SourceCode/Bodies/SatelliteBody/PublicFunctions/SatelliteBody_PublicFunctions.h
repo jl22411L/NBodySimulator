@@ -48,16 +48,12 @@ extern int
  * @param[in]   p_paramFilename_in
  *              Pointer containing the address of the Satellite Body Struct
  *
- * @param[in]   p_bodyName_in
- *              Pointer containing the address of the Satellite Body Struct
- *
  * @return      On a successful completion, will return a GCONST_TRUE. If
  *              execution of function fails, will return a GCONST_FALSE.
  */
 extern int SatelliteBody_init(
     SatelliteBody_State *p_satelliteBody_state_in,
-    const char          *p_paramFilename_in,
-    const char          *p_bodyName_in);
+    const char          *p_paramFilename_in);
 
 /*!
  * @brief       Steps the satellite body during simulation.

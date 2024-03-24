@@ -21,9 +21,7 @@
 #include "GMath/GMath.h"
 #include "GZero/GZero.h"
 
-int RigidBody_findAngularAcceleration(
-    RigidBody_State *p_rigidBody_state_in,
-    double          *p_torque_Nm_Bod_in)
+int RigidBody_findAngularAcceleration(RigidBody_State *p_rigidBody_state_in)
 {
   /* Declaring local variables */
   double invInertiaMatrix[3][3];
@@ -61,7 +59,7 @@ int RigidBody_findAngularAcceleration(
 
   /* Find the effective net moments */
   GMath_matSub(
-      p_torque_Nm_Bod_in,
+      p_rigidBody_state_in->resultantMoment_Nm_Bod,
       3,
       1,
       &crossRotationalMoments_Nm_Bod[0],

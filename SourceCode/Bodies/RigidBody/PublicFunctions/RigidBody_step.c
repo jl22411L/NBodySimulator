@@ -10,6 +10,7 @@
  */
 
 /* Function Includes */
+#include "RigidBody/PrivateFunctions/RigidBody_PrivateFunctions.h"
 #include "RigidBody/PublicFunctions/RigidBody_PublicFunctions.h"
 
 /* Structure Include */
@@ -25,6 +26,16 @@
 
 int RigidBody_step(RigidBody_State *p_rigidBody_state_in)
 {
+  /*--------------------------------------------------------------------------*
+   *                       FIND RESULTANT ACCELERATIONS                       *
+   *--------------------------------------------------------------------------*/
+
+  /* Find the translational acceleration of the rigid body */
+  RigidBody_findTranslationalAcceleration(p_rigidBody_state_in);
+
+  /* Find angular acceleration of the rigid body */
+  RigidBody_findAngularAcceleration(p_rigidBody_state_in);
+
   /*--------------------------------------------------------------------------*
    *                                  ARCHIVE                                 *
    *--------------------------------------------------------------------------*/
