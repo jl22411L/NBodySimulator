@@ -44,6 +44,22 @@ int RigidBody_archiveData(RigidBody_State *p_rigidBody_state_in)
     }
   }
 
+  /* Writing gravity force to archive */
+  for (i = 0; i < 3; i++)
+  {
+    GArchive_addVal(
+        &p_rigidBody_state_in->rigidBodyArchive,
+        p_rigidBody_state_in->gravityForce_N_Fixed[i]);
+  }
+
+  /* Writing resultant force to archive */
+  for (i = 0; i < 3; i++)
+  {
+    GArchive_addVal(
+        &p_rigidBody_state_in->rigidBodyArchive,
+        p_rigidBody_state_in->resultantForce_N_Fixed[i]);
+  }
+
   /* Writing fixed frame acceleration to archive */
   for (i = 0; i < 3; i++)
   {
@@ -66,6 +82,14 @@ int RigidBody_archiveData(RigidBody_State *p_rigidBody_state_in)
     GArchive_addVal(
         &p_rigidBody_state_in->rigidBodyArchive,
         p_rigidBody_state_in->position_m_Fix[i]);
+  }
+
+  /* Writing resultant moment to archive */
+  for (i = 0; i < 3; i++)
+  {
+    GArchive_addVal(
+        &p_rigidBody_state_in->rigidBodyArchive,
+        p_rigidBody_state_in->resultantMoment_Nm_Bod[i]);
   }
 
   /* Writing angular acceleration to archive */

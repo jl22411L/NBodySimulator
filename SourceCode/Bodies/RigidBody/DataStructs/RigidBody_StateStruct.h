@@ -29,12 +29,17 @@ extern "C" {
 
 /* Generic Libraries */
 #include "GArchive/GArchive.h"
+#include "GConst/GConst.h"
 
 /*!
  * @brief      Structure containint the params for the rigid body
  */
 typedef struct RigidBody_StateStruct
 {
+  /*--------------------------------------------------------------------------*
+   *                            INERTIA PROPERTIES                            *
+   *--------------------------------------------------------------------------*/
+
   /*!
    * @details   Mass of the rigid body
    *
@@ -54,6 +59,26 @@ typedef struct RigidBody_StateStruct
    * @frame     Body Frame
    */
   double inertiaMatrix[3][3];
+
+  /*--------------------------------------------------------------------------*
+   *                          TRANSLATIONAL VECTORS                           *
+   *--------------------------------------------------------------------------*/
+
+  /*!
+   * @brief   Resultant gravity force vector present on the satellite
+   *
+   * @unit    Newtons
+   * @frame   Fixed Frame
+   */
+  double gravityForce_N_Fixed[3];
+
+  /*!
+   * @brief   Vector containing the resultant force of the satellite.
+   *
+   * @unit    Newtons
+   * @frame   Fixed Frame
+   */
+  double resultantForce_N_Fixed[3];
 
   /*!
    * @details   Body acceleration vector of rigid body
@@ -78,6 +103,18 @@ typedef struct RigidBody_StateStruct
    * @frame     fixed frame -> body frame
    */
   double position_m_Fix[3];
+
+  /*--------------------------------------------------------------------------*
+   *                              ANGULAR VECTORS                             *
+   *--------------------------------------------------------------------------*/
+
+  /*!
+   * @brief   Vector containing the resultant Moment of the satellite.
+   *
+   * @unit    NewtonMeters
+   * @frame   Body Frame
+   */
+  double resultantMoment_Nm_Bod[3];
 
   /*!
    * @details   Angular acceleration of the rigid body in the body frame
@@ -121,6 +158,18 @@ typedef struct RigidBody_StateStruct
    * @frame     Fixed Frame -> Body Frame
    */
   double quaternion_FixedToBody[4];
+
+  /*--------------------------------------------------------------------------*
+   *                             BODY INFORMATION                             *
+   *--------------------------------------------------------------------------*/
+
+  /*!
+   * @details   Body Name
+   *
+   * @unit      N/A
+   * @frame     N/A
+   */
+  char bodyName[GCONST_BUFFER_256];
 
   /*!
    * @details   Archive struct for RigidBody.

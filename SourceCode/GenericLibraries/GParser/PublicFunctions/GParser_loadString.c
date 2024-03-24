@@ -31,7 +31,7 @@
 int GParser_loadString(
     GParser_State *p_GParser_state,
     dictionary    *p_dic,
-    char         **p_dataDestination_out,
+    char          *p_dataDestination_out,
     char          *p_dataFromIni_in)
 {
   /* Declaring local variables */
@@ -94,7 +94,7 @@ int GParser_loadString(
     if (strcmp(*((p_dic + dictionaryNumber)->key + i), key_buffer) == 0)
     {
       /* If key matches, store value of key */
-      *p_dataDestination_out = *((p_dic + dictionaryNumber)->value + i);
+      strcpy(p_dataDestination_out, *((p_dic + dictionaryNumber)->value + i));
       break;
     }
   }

@@ -25,8 +25,7 @@
 
 int RigidBody_init(
     RigidBody_State *p_rigidBody_state_in,
-    const char      *p_paramFilename_in,
-    const char      *p_bodyName_in)
+    const char      *p_paramFilename_in)
 {
   /* Declare local variables */
   dictionary   *dic;
@@ -57,15 +56,6 @@ int RigidBody_init(
       3,
       3);
 
-  /* Load initial fixed frame acceleration */
-  GParser_loadDoubleArray(
-      &GParser_state,
-      dic,
-      &(p_rigidBody_state_in->acceleration_ms2_Fix[0]),
-      "TranslationalProperties:fixedFrameAcceleration",
-      3,
-      1);
-
   /* Load initial fixed frame velocity */
   GParser_loadDoubleArray(
       &GParser_state,
@@ -84,15 +74,6 @@ int RigidBody_init(
       3,
       1);
 
-  /* Load initial angular acceleration */
-  GParser_loadDoubleArray(
-      &GParser_state,
-      dic,
-      &(p_rigidBody_state_in->angularAcceleration_rads2_Bod[0]),
-      "AngularProperties:angularAcceleration",
-      3,
-      1);
-
   /* Load initial angular velocity */
   GParser_loadDoubleArray(
       &GParser_state,
@@ -106,29 +87,24 @@ int RigidBody_init(
   GParser_loadDoubleArray(
       &GParser_state,
       dic,
-      &(p_rigidBody_state_in->quaternionRate_FixedToBody[0]),
-      "AngularProperties:quaternionRate",
-      4,
-      1);
-
-  /* Load initial angular velocity */
-  GParser_loadDoubleArray(
-      &GParser_state,
-      dic,
       &(p_rigidBody_state_in->quaternion_FixedToBody[0]),
       "AngularProperties:quaternion",
       4,
       1);
 
+  /* Load the bodies name */
+  GParser_loadString(
+      &GParser_state,
+      dic,
+      &(p_rigidBody_state_in->bodyName[0]),
+      "BodyProperties:BodyName");
+
   GParser_closeParams(&GParser_state, dic);
 
   /*---------------------------- CREATE ARCHIVES ----------------------------*/
 
-  // TODO, it would be better if the body name was loaded from the params ini
-  // file.
-
   /* Create archives */
-  RigidBody_createArchives(p_rigidBody_state_in, p_bodyName_in);
+  RigidBody_createArchives(p_rigidBody_state_in);
 
   return GCONST_TRUE;
 }

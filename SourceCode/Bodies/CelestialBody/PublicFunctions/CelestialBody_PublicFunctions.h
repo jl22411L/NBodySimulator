@@ -48,16 +48,12 @@ extern int
  * @param[in]   p_paramFilename_in
  *              Pointer containing the address of the Celestial Body Struct
  *
- * @param[in]   p_bodyName_in
- *              Pointer containing the address of the Celestial Body Struct
- *
  * @return      On a successful completion, will return a GCONST_TRUE. If
  *              execution of function fails, will return a GCONST_FALSE.
  */
 extern int CelestialBody_init(
     CelestialBody_State *p_celestialBody_state_in,
-    const char          *p_paramFilename_in,
-    const char          *p_bodyName_in);
+    const char          *p_paramFilename_in);
 
 /*!
  * @brief       Steps the satellite body during simulation.

@@ -66,6 +66,7 @@ dictionary *
   {
     /* Get next cursor*/
     cursor = fgetc(file);
+    printf("%c", cursor);
 
     if (cursor == EOF)
     {

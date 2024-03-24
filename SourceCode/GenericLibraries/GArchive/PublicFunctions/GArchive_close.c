@@ -82,11 +82,8 @@ int GArchive_close(GArchive *p_archive_in)
   /* Close config file */
   fclose(p_configFile);
 
-  /* Free memory from heap */
-  free(p_archive_in->p_archiveDirectory);
-
-  /* Set archive directory pointer to NULL */
-  p_archive_in->p_archiveDirectory = NULL;
+  /* Clear archive directory pointer */
+  GZero(p_archive_in->p_archiveDirectory, char[GARCHIVE_MAX_BUFFER]);
 
   /* Clear archive */
   GZero(p_archive_in, GArchive);

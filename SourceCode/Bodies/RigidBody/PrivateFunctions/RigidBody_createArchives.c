@@ -20,9 +20,7 @@
 #include "GConst/GConst.h"
 #include "GZero/GZero.h"
 
-int RigidBody_createArchives(
-    RigidBody_State *p_rigidBody_state_in,
-    const char      *p_bodyName_in)
+int RigidBody_createArchives(RigidBody_State *p_rigidBody_state_in)
 {
   /* Defining local variables */
   char buffer[GCONST_BUFFER_1024];
@@ -31,7 +29,10 @@ int RigidBody_createArchives(
   GZero(&buffer[0], char[GCONST_BUFFER_1024]);
 
   /* Create directory to body archive */
-  sprintf(buffer, "Bodies/%s/OutputData/RigidBody", p_bodyName_in);
+  sprintf(
+      buffer,
+      "Bodies/%s/OutputData/RigidBody",
+      p_rigidBody_state_in->bodyName);
 
   /* Create archive */
   GArchive_init(&p_rigidBody_state_in->rigidBodyArchive, buffer);
@@ -45,6 +46,20 @@ int RigidBody_createArchives(
       "inertiaMatrix",
       3,
       3);
+
+  /* Add gravity force vector */
+  GArchive_addCol(
+      &p_rigidBody_state_in->rigidBodyArchive,
+      "gravityForce_N_Fixed",
+      3,
+      1);
+
+  /* Add resultant force vector */
+  GArchive_addCol(
+      &p_rigidBody_state_in->rigidBodyArchive,
+      "resultantForce_N_Fixed",
+      3,
+      1);
 
   /* Add fixed frame accelerations columns */
   GArchive_addCol(
@@ -64,6 +79,13 @@ int RigidBody_createArchives(
   GArchive_addCol(
       &p_rigidBody_state_in->rigidBodyArchive,
       "position_m_Fix",
+      3,
+      1);
+
+  /* Add resultant moment */
+  GArchive_addCol(
+      &p_rigidBody_state_in->rigidBodyArchive,
+      "resultantMoment_Nm_Bod",
       3,
       1);
 

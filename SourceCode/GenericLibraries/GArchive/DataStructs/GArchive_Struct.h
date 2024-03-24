@@ -44,7 +44,7 @@ typedef struct GArchive_Struct
   /*!
    * @brief String containing the directory to the archive file.
    */
-  char *p_archiveDirectory;
+  char p_archiveDirectory[GARCHIVE_MAX_BUFFER];
 
   /*!
    * @brief Array containing the data to be archived.

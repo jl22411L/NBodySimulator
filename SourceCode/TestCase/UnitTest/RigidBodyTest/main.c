@@ -38,24 +38,24 @@ int main(void)
 
   GUtilities_init("Parameters/SimulationParameters.ini");
 
-  SatelliteBody_init(&satelliteBody, "Parameters/Truths.ini", "Truths");
-  CelestialBody_init(&celestialBody, "Parameters/Earth.ini", "Earth");
+  SatelliteBody_init(&satelliteBody, "Parameters/Truths.ini");
+  CelestialBody_init(&celestialBody, "Parameters/Earth.ini");
 
   /*-------------------------------------------------------------------------*
    *                         RUN CYCLIC EXECUTION                            *
    *-------------------------------------------------------------------------*/
   do
   {
-    satelliteBody.resultantForce_N_Fixed[0] = 1000;
-    satelliteBody.resultantForce_N_Fixed[1] = 5000;
-    satelliteBody.resultantForce_N_Fixed[2] = 200;
+    satelliteBody.rigidBody_state.resultantForce_N_Fixed[0] = 1000;
+    satelliteBody.rigidBody_state.resultantForce_N_Fixed[1] = 5000;
+    satelliteBody.rigidBody_state.resultantForce_N_Fixed[2] = 200;
 
-    satelliteBody.resultantMoment_Nm_Bod[0] = 10;
-    satelliteBody.resultantMoment_Nm_Bod[1] = 1;
-    satelliteBody.resultantMoment_Nm_Bod[2] = 14;
+    satelliteBody.rigidBody_state.resultantMoment_Nm_Bod[0] = 10;
+    satelliteBody.rigidBody_state.resultantMoment_Nm_Bod[1] = 1;
+    satelliteBody.rigidBody_state.resultantMoment_Nm_Bod[2] = 14;
 
     SatelliteBody_step(&satelliteBody);
-    CelestialBody_step(&celestialBody);
+    // CelestialBody_step(&celestialBody);
 
     /* Step time forward a step */
     Utilities.simTime_s += Utilities.simTimeStep_s;

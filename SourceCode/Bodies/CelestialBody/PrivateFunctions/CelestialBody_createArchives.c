@@ -39,26 +39,7 @@ int CelestialBody_createArchives(
   /*-------------------------------------------------------------------------*
    *                       SATELLITE BODY STATE STRUCT
    *-------------------------------------------------------------------------*/
-  /* Add gravity force vector columns */
-  GArchive_addCol(
-      &p_celestialBody_state_in->celestialBodyArchive,
-      "gravityForce_N_Fixed",
-      3,
-      1);
-
-  /* Add resultant force vector columns */
-  GArchive_addCol(
-      &p_celestialBody_state_in->celestialBodyArchive,
-      "resultantForce_N_Fixed",
-      3,
-      1);
-
-  /* Add resultant moment vector columns */
-  GArchive_addCol(
-      &p_celestialBody_state_in->celestialBodyArchive,
-      "resultantMoment_Nm_Bod",
-      3,
-      1);
+  /* None */
 
   return GCONST_TRUE;
 }

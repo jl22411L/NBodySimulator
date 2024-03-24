@@ -70,9 +70,6 @@ int GArchive_init(GArchive *p_archive_in, char *p_archiveDataFilename_in)
     i--;
   }
 
-  /* Assign memory for file directory. The 9 is for 'Data.csv' and a '\0' */
-  p_archive_in->p_archiveDirectory = (char *)calloc(i, sizeof(char));
-
   /* Store directory to archive folder */
   strcpy(p_archive_in->p_archiveDirectory, directoryBuffer);
 

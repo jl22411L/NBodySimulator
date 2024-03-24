@@ -340,7 +340,7 @@ extern dictionary *
 extern int GParser_loadString(
     GParser_State *p_GParser_state,
     dictionary    *p_dic,
-    char         **p_dataDestination_out,
+    char          *p_dataDestination_out,
     char          *p_dataFromIni_in);
 
 /*!
