@@ -26,6 +26,8 @@ extern "C" {
 /* Generic Libraries */
 /* None */
 
+#define UNIVERSAL_GRAVITATIONAL_CONSTANT 6.67430E-11;
+
 #ifdef __cplusplus
 }
 #endif
