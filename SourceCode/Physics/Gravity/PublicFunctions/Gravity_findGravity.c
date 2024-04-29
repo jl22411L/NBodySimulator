@@ -13,7 +13,7 @@
 #include "Gravity/PrivateFunctions/Gravity_PrivateFunctions.h"
 
 /* Structure Include */
-#include "Gravity/DataStructs/Gravity_StateStruct.h"
+#include "Gravity/DataStructs/Gravity_ParamsStruct.h"
 #include "RigidBody/DataStructs/RigidBody_StateStruct.h"
 
 /* Data include */
@@ -26,9 +26,9 @@
 #include "GZero/GZero.h"
 
 int Gravity_findGravity(
-    Gravity_ParamsStruct *p_gravityParams_in,
-    RigidBody_State      *p_rigidBodyArray_in,
-    int                   nRigidBodies_in)
+    Gravity_Params  *p_gravityParams_in,
+    RigidBody_State *p_rigidBodyArray_in,
+    int              nRigidBodies_in)
 {
   /* Determine what model is being used for gravity */
   switch (p_gravityParams_in->gravityModel)
@@ -47,7 +47,7 @@ int Gravity_findGravity(
     break;
 
   case (DualBodyGravityModel):
-    // TODO
+    Gravity_dualBodyGravityModel(p_rigidBodyArray_in);
     break;
 
   case (NBodyGravityModel):
@@ -63,35 +63,3 @@ int Gravity_findGravity(
 
   return GCONST_TRUE;
 }
-// {
-//   /* Defining Local Variables */
-//   int i;
-//   int j;
-//   int k;
-
-//   /* Iterate through each body and find resultant gravity force */
-//   for (i = 0; i < nRigidBoies_in; i++)
-//   {
-//     /* Clear gravity vector for internal body */
-//     GZero((p_rigidBodyArray_in + i), double[3]);
-
-//     /* Find a gravity force for the internal body by iterating through
-//     all
-//      * the external bodies and acumilating the gravity forces caused by
-//      them.
-//      */
-//     for (j = 0; j < nRigidBoies_in; j++)
-//     {
-//       /* For all bodies except the current one, find the effect of
-//       gravity */ if (j != i)
-//       {
-//         Gravity_findGravityForceBetweenBodies(
-//             (p_rigidBodyArray_in + i),
-//             (p_rigidBodyArray_in + j),
-//             &p_rigidBodyArray_in->gravityForce_N_Fixed[0]);
-//       }
-//     }
-//   }
-
-//   return GCONST_TRUE;
-// }

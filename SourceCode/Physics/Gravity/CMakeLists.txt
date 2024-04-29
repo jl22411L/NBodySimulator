@@ -1,3 +1,9 @@
 add_library(Gravity
+  PrivateFunctions/Gravity_dualBodyGravityModel.c
+  PrivateFunctions/Gravity_findGravityForceBetweenBodies.c
+  PrivateFunctions/Gravity_flatEarthGravityModel.c
+  PrivateFunctions/Gravity_nBodyGravityModel.c
+  PrivateFunctions/Gravity_noGravityModel.c
+  PublicFunctions/Gravity_init.c
   PublicFunctions/Gravity_findGravity.c
 )

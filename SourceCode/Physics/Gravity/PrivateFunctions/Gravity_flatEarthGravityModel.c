@@ -13,8 +13,9 @@
 /* None */
 
 /* Structure Include */
-#include "Bodies/RigidBody/DataStructs/RigidBody_StateStruct.h"
 #include "Gravity/DataStructs/Gravity_ParamsStruct.h"
+#include "RigidBody/DataStructs/RigidBody_StateStruct.h"
+
 
 /* Data include */
 /* None */

@@ -18,6 +18,7 @@ extern "C" {
 /* None */
 
 /* Structure Include */
+#include "Gravity/DataStructs/Gravity_ParamsStruct.h"
 #include "RigidBody/DataStructs/RigidBody_StateStruct.h"
 
 /* Data include */
@@ -27,33 +28,33 @@ extern "C" {
 /* None */
 
 /*!
- * TODO: It would be good to have different gravity modules that can be used
- *       so that for different simulations the results are bassically the most
- *       effective in terms of complexity and realism for the simulation.
+ * @brief       Initialises the Gravity struct which is used to determine what
+ *              model is used and parameters that will help model the gravity
+ *              forec on the rigid bodies.
  *
- *       For example, for a simple drone, a flat earth model would be fine. For
- *       a transatlantic plane, a model with the earth would be better.
+ * @param[in]   p_gravityParams_in
+ *              Pointer to a Gravity Params struct which will load the
+ *              parameters from an ini file.
  *
- *       The idea of this sim is to be applied for practical situations, hence
- *       it would be good to set it up to have this functionality
+ * @param[in]   p_paramsFilePath
+ *              String which contains the directory to the parameter file
+ *              containing the values for the Gpravity Params members.
  *
- *       My idea is that there is a gravity module structure which gets filled
- *       with parameters at init stage. Or, as I can only see there being one
- *       parameter being required for choosing the gravity module, a single
- *       member within the GUtilities struct may suffice.
- *
- *       I would like to use enumerators to choose between the two different
- *       models as I think this would be appropriate and would be a good way
- *       to introduce myself to it in C.
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
  */
-extern int Gravity_initGravity();
+extern int Gravity_initGravity(
+    Gravity_Params *p_gravityParams_in,
+    const char     *p_paramsFilePath);
 
 /*!
  * @brief       Will find the total vectors between all rigid bodies. Takes
- * in a pointer to an array of rigid body structs. Will find the distance
- * between each rigid body in the fixed frame. From this it will then find
- * the gravity between two bodies and sum this to the total gravity force
- * for said body. It will repeat the process for all the other bodies.
+ *              in a pointer to an array of rigid body structs. Will find the
+ *              distance between each rigid body in the fixed frame. From this
+ *              it will then find the gravity between two bodies and sum this to
+ *              the total gravity force for said body. It will repeat the
+ *              process for all the other bodies.
  *
  * @param[in]   p_rigidBodyArray_in
  *              Pointer to first rigid body in an array of rigid bodies

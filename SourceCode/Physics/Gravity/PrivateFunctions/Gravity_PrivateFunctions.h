@@ -19,6 +19,7 @@ extern "C" {
 /* None */
 
 /* Structure Include */
+#include "Gravity/DataStructs/Gravity_ParamsStruct.h"
 #include "RigidBody/DataStructs/RigidBody_StateStruct.h"
 
 /* Data include */
@@ -26,6 +27,26 @@ extern "C" {
 
 /* Generic Libraries */
 /* None */
+
+/*!
+ * @brief       Finds the gravity force between two bodies. Uses newtonian law
+ *              to calcualte the gravity force caused on the bodies. Assumes
+ *              that the size of the rigid body array is 2.
+ *
+ *              Finds the distance of body 2 relative to body 1. From this,
+ *              the gravity scalar is found. This is then used to find the
+ *              gravity forec on body 1 and body 2. Body 2 has the same
+ *              magnitude but in the opposite direction.
+ *
+ * @param[in]   p_rigidBodyArray_in
+ *              Pointer to an array of rigid bodies. It is assumed that the size
+ *              is equal to 2.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int Gravity_dualBodyGravityModel(RigidBody_State *p_rigidBodyArray_in);
 
 /*!
  * @brief       Finds the gravity force between two bodies.
@@ -40,7 +61,7 @@ extern "C" {
  *              is based on. (The grvaity force is an effect caused by this
  *              body)
  *
- * @param[in]   p_individualGravityVector_N_fixed_out
+ * @param[in]   p_internalBodyGravityVector_N_fixed_out
  *              Pointer to double vector which the gravity force will be
  *              added to. This way, this function accumilates the results
  *              of the rgavity force between all the external bodies to
@@ -56,7 +77,7 @@ extern "C" {
 extern int Gravity_findGravityForceBetweenBodies(
     RigidBody_State *p_internalRigidBody_in,
     RigidBody_State *p_externalRigidBody_in,
-    double          *p_individualGravityVector_N_fixed_out);
+    double          *p_internalBodyGravityVector_N_fixed_out);
 
 /*!
  * @brief       Model which uses the gravitational acceleration parameter and

@@ -13,6 +13,7 @@ set(LIB_LIST
   GUtilities
   GIntegral
   GMath
+  Gravity
 )
 
 target_link_libraries(RigidBodyTest ${LIB_LIST})

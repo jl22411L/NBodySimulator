@@ -19,7 +19,7 @@ set(SRC_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 # Set relative directories within project
 set(BODIES_PATH ${SRC_DIRECTORY}/Bodies)
 set(GENERIC_PATH ${SRC_DIRECTORY}/GenericLibraries)
-set(PHYSICS_PATH ${SRS_DIRECTORY}/Physics)
+set(PHYSICS_PATH ${SRC_DIRECTORY}/Physics)
 set(MODULES_PATH ${SRC_DIRECTORY}/Modules)
 set(TEST_PATH ${SRC_DIRECTORY}/TestCase)
 set(UNITTEST_PATH ${SRC_DIRECTORY}/TestCase/UnitTest)
@@ -48,7 +48,7 @@ add_subdirectory(${GENERIC_PATH}/GMath)
 add_subdirectory(${GENERIC_PATH}/GIntegral)
 
 # Physics Module
-# add_subdirectory(${PHYSICS_PATH}/Gravity)
+add_subdirectory(${PHYSICS_PATH}/Gravity)
 
 # Modules
 
