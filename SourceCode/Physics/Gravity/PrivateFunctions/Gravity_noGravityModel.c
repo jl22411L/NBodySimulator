@@ -13,7 +13,7 @@
 /* None */
 
 /* Structure Include */
-#include "Bodies/RigidBody/DataStructs/RigidBody_StateStruct.h"
+#include "RigidBody/DataStructs/RigidBody_StateStruct.h"
 
 /* Data include */
 /* None */
