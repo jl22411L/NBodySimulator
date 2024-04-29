@@ -58,6 +58,50 @@ extern int Gravity_findGravityForceBetweenBodies(
     RigidBody_State *p_externalRigidBody_in,
     double          *p_individualGravityVector_N_fixed_out);
 
+/*!
+ * @brief       Model which uses the gravitational acceleration parameter and
+ *              bodies mass to find the gravity force on the body. It then sets
+ *              the Z component of the fixed body frame to the negative of this
+ *              value, to simulate the body having a force pulling it to the
+ *              ground.
+ *
+ * @param[in]   p_gravityPrams_in
+ *              Pointer to gravity params struct.
+ *
+ * @param[in]   p_rigidBodyArray_in
+ *              Pointer to array of rigid bodies
+ *
+ * @param[in]   nRigidBodies_in
+ *              Integer containing the number of rigid bodies in array.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int Gravity_flatEarthGravityModel(
+    Gravity_Params  *p_gravityPrams_in,
+    RigidBody_State *p_rigidBodyArray_in,
+    int              nRigidBodies_in);
+
+/*!
+ * @brief       Sets the gravity force in the fixed frame to 0, for an array
+ *              of rigid body structs.
+ *
+ * @param[in]   p_rigidBody_array_in
+ *              Pointer to an array of rigidBody structs which will have the
+ *              gravity force set to 0.
+ *
+ * @param[in]   nRigidBodies_in
+ *              Number of bodies in the rigid body struct
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int Gravity_noGravityModel(
+    RigidBody_State *p_rigidBody_array_in,
+    uint8_t          nRigidBodies_in);
+
 #ifdef __cplusplus
 }
 #endif

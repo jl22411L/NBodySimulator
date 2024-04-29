@@ -22,6 +22,7 @@ add_library(GParser
   PublicFunctions/GParser_loadParams.c
   PublicFunctions/GParser_loadString.c
   PublicFunctions/GParser_loadUInt.c
+  PublicFunctions/GParser_loadUInt8.c
 )
 
 target_link_libraries(GParser

@@ -31,7 +31,7 @@ int RigidBody_archiveData(RigidBody_State *p_rigidBody_state_in)
   /* Writing mass to archive */
   GArchive_addVal(
       &p_rigidBody_state_in->rigidBodyArchive,
-      p_rigidBody_state_in->mass);
+      p_rigidBody_state_in->rigidBodyMass_kg);
 
   /* Writing Inertia Matrix to archive */
   for (i = 0; i < 3; i++)
@@ -40,7 +40,7 @@ int RigidBody_archiveData(RigidBody_State *p_rigidBody_state_in)
     {
       GArchive_addVal(
           &p_rigidBody_state_in->rigidBodyArchive,
-          p_rigidBody_state_in->inertiaMatrix[i][j]);
+          p_rigidBody_state_in->inertiaMatrix_kgm2_Bod[i][j]);
     }
   }
 

@@ -1,9 +1,9 @@
 /*
- *    @File:         GConversion_string2int8.c
+ *    @File:         GConversion_string2uint8.c
  *
- *    @ Brief:       Converts strings to 8 bit integers
+ *    @ Brief:       Converts strings to unsigned 8 bit integers
  *
- *    @ Date:        23/12/2023
+ *    @ Date:        29/04/2024
  *
  */
 
@@ -20,42 +20,39 @@
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
+#include "GLog/GLog.h"
 
-GConversion_string2int8(int8_t *p_dataDestination_out, char *p_dataSource_in)
+GConversion_string2int8(uint8_t *p_dataDestination_out, char *p_dataSource_in)
 {
   /* Defining local variables */
-  int8_t number;
-  char   cursor;
-  int8_t sign;
-  int8_t i;
+  uint8_t outputNumber;
+  char    cursor;
+  int8_t  i;
 
   /* Checking the sign of the input */
   cursor = *(p_dataSource_in + 0);
   switch (cursor)
   {
   case ('-'):
-    sign = -1;
-    i    = 1;
+    GError("Can't have a '-' when trying to convert to unsigned int");
     break;
   case ('+'):
-    sign = 1;
-    i    = 1;
+    i = 1;
     break;
   default:
-    sign = 1;
-    i    = 0;
+    i = 0;
     break;
   }
 
   /* Finding the integer value and shifting left */
-  number = 0;
+  outputNumber = 0;
   for (i; cursor = *(p_dataSource_in + i) != '\0'; i++)
   {
-    number = number * 10 + (int)(cursor - '0');
+    outputNumber = outputNumber * 10 + (uint8_t)(cursor - '0');
   }
 
   /* Outputting result */
-  *p_dataDestination_out = sign * number;
+  *p_dataDestination_out = outputNumber;
 
   return GCONST_TRUE;
 }

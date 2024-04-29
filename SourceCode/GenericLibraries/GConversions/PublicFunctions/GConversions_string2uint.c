@@ -7,6 +7,8 @@
  *
  */
 
+#include <stdint.h>
+
 /* Function Includes */
 /* None */
 
@@ -44,7 +46,7 @@ GConversion_string2uint(
   for (i = 0; (cursor = *(p_dataSource_in + i)) != '\0'; i++)
   {
 
-    number = number * 10 + (int)(cursor - '0');
+    number = number * 10 + (unsigned int)(cursor - '0');
   }
 
   /* Outputting result */

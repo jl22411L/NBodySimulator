@@ -11,7 +11,7 @@ When you run the `SetUpDevelopmentEnvironment.sh` script, the up to date clang f
 
 ## FRAMES ##
 
-| Frame Name           | Abbreviation | Description                                   | Definition of x-axis | Definition of y-axis | Definition of z-axis  |
-|:--------------------:|:------------:|:---------------------------------------------:|:--------------------:|:--------------------:|:----------------------:|
-| Fixed Frame          | Fix          | Origin which all frames are based around.     | [1,0,0]              | [0,1,0]              | [0,0,1]                |
-| Satellite Body Frame | SB           | Frame used to define the body of a satellite. | Longitudinal Axis    | Lateral Axis         | Cross Product of x & y |
+| Frame Name  | Abbreviation |                  Description                 | Definition of x-axis | Definition of y-axis |  Definition of z-axis  |                      Note                      |
+|:-----------:|:------------:|:--------------------------------------------:|:--------------------:|:--------------------:|:----------------------:|:----------------------------------------------:|
+| Fixed Frame |     Fix      | Origin which all frames are based around.    |        [1,0,0]       |        [0,1,0]       |         [0,0,1]        |                                                |
+| Body Frame  |     Bod      | Frame used to define the body of rigid body. |   Longitudinal Axis  |     Lateral Axis     | Cross Product of x & y | Note that definition may vary for some bodies. |

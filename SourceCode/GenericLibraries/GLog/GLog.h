@@ -34,7 +34,7 @@ extern "C" {
 /* ---------------------------------- GMsg ---------------------------------- */
  
 /*!
- * @brief Outputs a msg to the console
+ * @brief     Outputs a msg to the console
  *
  */
 #define GMsg(...) (printf("[MSG] ")),    \
@@ -44,25 +44,24 @@ extern "C" {
 /* --------------------------------- GError --------------------------------- */
 
 /*!
- * @brief This will highlight that an error has occured but won't stop the
- *        running of the code. This should be used in tandem with GError
- *        to allow for neater formatting on the terminal.
- *
+ * @brief     This will highlight that an error has occured but won't stop the
+ *            running of the code. This should be used in tandem with GError
+ *            to allow for neater formatting on the terminal.
  */
-#define GThrow(...) (printf("[ERR] %s: %d \n", __FILE__, __LINE__)), \
-                    (printf("[ERR] ")),                              \
-                    (printf(__VA_ARGS__)),                           \
-                    (printf("\n"))                                   
+#define GWarn(...) (printf("\033[0;33[ERR]\033[0m %s: %d \n", __FILE__, __LINE__)), \
+                   (printf("\033[0;33[ERR]\033[0m ")),                              \
+                   (printf(__VA_ARGS__)),                           \
+                   (printf("\n"))                                   
 
 /*!
- * @brief Throw an error, outputting the file and line of the file.
+ * @brief     Throw an error, outputting the file and line of the file.
  *
  */
-#define GError(...) (printf("[ERR] %s: %d \n", __FILE__, __LINE__)), \
-                    (printf("[ERR] ")),                              \
+#define GError(...) (printf("\033[0;31[ERR]\033[0m %s: %d \n", __FILE__, __LINE__)), \
+                    (printf("\033[0;31[ERR]\033[0m ")),                              \
                     (printf(__VA_ARGS__)),                           \
                     (printf("\n")),                                  \
-                    (printf("[...] exiting programme...\n")),        \
+                    (printf("\033[0;31[ERR]\033[0m exiting programme...\n")),        \
                     (exit(GCONST_EXIT_FAILURE))
 
 #define GAssess(Test) (if(Test != GCONST_TRUE)),                               \
