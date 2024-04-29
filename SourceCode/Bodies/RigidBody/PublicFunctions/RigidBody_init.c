@@ -40,18 +40,18 @@ int RigidBody_init(
   /* Load parameters of the body */
   dic = GParser_loadParams(&GParser_state, p_paramFilename_in);
 
-  /* Load mass into body*/
+  /* Load rigidBodyMass_kg into body*/
   GParser_loadDouble(
       &GParser_state,
       dic,
-      &(p_rigidBody_state_in->mass),
-      "InertiaProperties:mass");
+      &(p_rigidBody_state_in->rigidBodyMass_kg),
+      "InertiaProperties:rigidBodyMass_kg");
 
   /* Load Inertia matrix into body */
   GParser_loadDoubleArray(
       &GParser_state,
       dic,
-      &(p_rigidBody_state_in->inertiaMatrix[0][0]),
+      &(p_rigidBody_state_in->inertiaMatrix_kgm2_Bod[0][0]),
       "InertiaProperties:Inertia",
       3,
       3);

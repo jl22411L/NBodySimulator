@@ -37,7 +37,7 @@ int RigidBody_findAngularAcceleration(RigidBody_State *p_rigidBody_state_in)
 
   /* Find the inverse of the inertia matrix */
   GMath_invMat(
-      &p_rigidBody_state_in->inertiaMatrix[0][0],
+      &p_rigidBody_state_in->inertiaMatrix_kgm2_Bod[0][0],
       &invInertiaMatrix[0][0],
       3);
 

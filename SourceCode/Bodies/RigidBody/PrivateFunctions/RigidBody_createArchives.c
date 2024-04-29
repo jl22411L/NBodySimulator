@@ -37,13 +37,17 @@ int RigidBody_createArchives(RigidBody_State *p_rigidBody_state_in)
   /* Create archive */
   GArchive_init(&p_rigidBody_state_in->rigidBodyArchive, buffer);
 
-  /* Add mass column */
-  GArchive_addCol(&p_rigidBody_state_in->rigidBodyArchive, "mass", 1, 1);
+  /* Add rigidBodyMass_kg column */
+  GArchive_addCol(
+      &p_rigidBody_state_in->rigidBodyArchive,
+      "rigidBodyMass_kg",
+      1,
+      1);
 
   /* Add inertia matrix columns */
   GArchive_addCol(
       &p_rigidBody_state_in->rigidBodyArchive,
-      "inertiaMatrix",
+      "inertiaMatrix_kgm2_Bod",
       3,
       3);
 

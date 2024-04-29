@@ -46,7 +46,7 @@ typedef struct RigidBody_StateStruct
    * @unit      Kg
    * @Frame     N/A
    */
-  double mass;
+  double rigidBodyMass_kg;
 
   /*!
    * @details   Inertia matrix for the rigid body. The matrix is defined as:
@@ -58,7 +58,7 @@ typedef struct RigidBody_StateStruct
    * @unit      Kgm^2
    * @frame     Body Frame
    */
-  double inertiaMatrix[3][3];
+  double inertiaMatrix_kgm2_Bod[3][3];
 
   /*--------------------------------------------------------------------------*
    *                          TRANSLATIONAL VECTORS                           *

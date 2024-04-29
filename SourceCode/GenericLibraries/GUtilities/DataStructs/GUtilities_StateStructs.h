@@ -14,6 +14,8 @@
 extern "C" {
 #endif
 
+#include <stdint.h>
+
 /* Function Includes */
 /* None */
 
@@ -28,6 +30,10 @@ extern "C" {
 
 typedef struct GUtilities_struct
 {
+  /* ------------------------------------------------------------------------ *
+   *                          SIMULATION TIME MEMBERS                         *
+   * ------------------------------------------------------------------------ */
+
   /*!
    * @details   Time of simulation
    *

@@ -27,12 +27,33 @@ extern "C" {
 /* None */
 
 /*!
- * @brief       Will find the total vectors between all rigid bodies. Takes in
- *              a pointer to an array of rigid body structs. Will find the
- *              distance between each rigid body in the fixed frame. From this
- *              it will then find the gravity between two bodies and sum this
- *              to the total gravity force for said body. It will repeat the
- *              process for all the other bodies.
+ * TODO: It would be good to have different gravity modules that can be used
+ *       so that for different simulations the results are bassically the most
+ *       effective in terms of complexity and realism for the simulation.
+ *
+ *       For example, for a simple drone, a flat earth model would be fine. For
+ *       a transatlantic plane, a model with the earth would be better.
+ *
+ *       The idea of this sim is to be applied for practical situations, hence
+ *       it would be good to set it up to have this functionality
+ *
+ *       My idea is that there is a gravity module structure which gets filled
+ *       with parameters at init stage. Or, as I can only see there being one
+ *       parameter being required for choosing the gravity module, a single
+ *       member within the GUtilities struct may suffice.
+ *
+ *       I would like to use enumerators to choose between the two different
+ *       models as I think this would be appropriate and would be a good way
+ *       to introduce myself to it in C.
+ */
+extern int Gravity_initGravity();
+
+/*!
+ * @brief       Will find the total vectors between all rigid bodies. Takes
+ * in a pointer to an array of rigid body structs. Will find the distance
+ * between each rigid body in the fixed frame. From this it will then find
+ * the gravity between two bodies and sum this to the total gravity force
+ * for said body. It will repeat the process for all the other bodies.
  *
  * @param[in]   p_rigidBodyArray_in
  *              Pointer to first rigid body in an array of rigid bodies

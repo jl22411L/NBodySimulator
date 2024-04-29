@@ -14,6 +14,8 @@
 extern "C" {
 #endif
 
+#include <stdint.h>
+
 /* Function Includes */
 /* None */
 
@@ -106,8 +108,26 @@ extern int
  *                  GCONST_TRUE. If an error in the codes execution occurs, the
  *                  function will return a GCONST_FALSE
  */
-extern int
-    GConversion_string2uint(int *p_dataDestination_out, char *p_dataSource_in);
+extern int GConversion_string2uint(
+    unsigned int *p_dataDestination_out,
+    char         *p_dataSource_in);
+
+/*!
+ * @brief           Function which converts a string to a unsigned 8bit int
+ *
+ * @param[out]      p_dataDestination_out
+ *                  Pointer to the variable which data will be outputted
+ *
+ * @param[in]       p_dataSource_in
+ *                  Pointer to string which containing value
+ *
+ * @return          Upon a successful completion, the fucntion will return a
+ *                  GCONST_TRUE. If an error in the codes execution occurs, the
+ *                  function will return a GCONST_FALSE
+ */
+extern int GConversion_string2uint8(
+    uint8_t *p_dataDestination_out,
+    char    *p_dataSource_in);
 
 #ifdef __cplusplus
 }

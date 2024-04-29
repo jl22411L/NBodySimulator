@@ -32,7 +32,7 @@ int RigidBody_findTranslationalAcceleration(
   {
     p_rigidBody_state_in->acceleration_ms2_Fix[i] =
         (p_rigidBody_state_in->resultantForce_N_Fixed[i]) /
-        (p_rigidBody_state_in->mass);
+        (p_rigidBody_state_in->rigidBodyMass_kg);
   }
 
   return GCONST_TRUE;
