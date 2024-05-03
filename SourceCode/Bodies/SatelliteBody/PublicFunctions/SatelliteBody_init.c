@@ -37,8 +37,11 @@ int SatelliteBody_init(
   GZero(&GParser_state, GParser_State);
   GZero(&dic, dictionary *);
   GZero(&archiveNameBuffer[0], char[GCONST_BUFFER_1024]);
+  GZero(p_satelliteBody_state_in, SatelliteBody_State);
 
-  /*---------------------------- LOAD PARAMETERS ----------------------------*/
+  /* ------------------------------------------------------------------------ *
+   *                             LOAD PARAMETERS                              *
+   * ------------------------------------------------------------------------ */
 
   /* Load parameters of the body */
   dic = GParser_loadParams(&GParser_state, p_paramFilename_in);

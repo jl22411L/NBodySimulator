@@ -33,12 +33,15 @@ int UavBody_init(
   GParser_State GParser_state;
   char          archiveNameBuffer[GCONST_BUFFER_1024];
 
-  /* Zeroing Local variables */
+  /* Clearing variables */
   GZero(&GParser_state, GParser_State);
   GZero(&dic, dictionary *);
   GZero(&archiveNameBuffer[0], char[GCONST_BUFFER_1024]);
+  GZero(p_uavBody_state_in, UavBody_State);
 
-  /*---------------------------- LOAD PARAMETERS ----------------------------*/
+  /* ------------------------------------------------------------------------ *
+   *                             LOAD PARAMETERS                              *
+   * ------------------------------------------------------------------------ */
 
   /* Load parameters of the body */
   dic = GParser_loadParams(&GParser_state, p_paramFilename_in);
@@ -61,7 +64,7 @@ int UavBody_init(
       p_uavBody_state_in->rigidBody_state.bodyName);
 
   /* Create archives */
-  SatelliteBody_createArchives(
+  UavBody_createArchives(
       p_uavBody_state_in,
       p_uavBody_state_in->rigidBody_state.bodyName);
 

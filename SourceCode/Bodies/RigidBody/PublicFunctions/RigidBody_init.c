@@ -34,8 +34,11 @@ int RigidBody_init(
   /* Zeroing Local variables */
   GZero(&GParser_state, GParser_State);
   GZero(&dic, dictionary *);
+  GZero(p_rigidBody_state_in, RigidBody_State);
 
-  /*---------------------------- LOAD PARAMETERS ----------------------------*/
+  /* ------------------------------------------------------------------------ *
+   *                             LOAD PARAMETERS                              *
+   * ------------------------------------------------------------------------ */
 
   /* Load parameters of the body */
   dic = GParser_loadParams(&GParser_state, p_paramFilename_in);

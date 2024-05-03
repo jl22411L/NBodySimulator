@@ -7,7 +7,9 @@ add_executable(SystemTest
 )
 
 set(LIB_LIST
-
+  Gravity
+  GUtilities
+  UavBody
 )
 
 target_link_libraries(SystemTest ${LIB_LIST})

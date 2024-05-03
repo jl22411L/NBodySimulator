@@ -20,14 +20,14 @@
 #include "GConst/GConst.h"
 #include "GMath/GMath.h"
 
-int SatelliteBody_step(UavBody_State *p_uavBody_state_in)
+int UavBody_step(UavBody_State *p_uavBody_state_in)
 {
   /*--------------------------------------------------------------------------*
    *                         ARCHIVE SATELLITE BODY                           *
    *--------------------------------------------------------------------------*/
 
   /* Write archive for satellite body */
-  SatelliteBody_archiveData(p_uavBody_state_in);
+  UavBody_archiveData(p_uavBody_state_in);
 
   /*--------------------------------------------------------------------------*
    *                                  STEP                                    *

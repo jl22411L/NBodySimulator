@@ -47,11 +47,13 @@ int Gravity_findGravity(
     break;
 
   case (DualBodyGravityModel):
+    /* Apply dual body gravity model to array of rigid bodies */
     Gravity_dualBodyGravityModel(p_rigidBodyArray_in);
     break;
 
   case (NBodyGravityModel):
-    // TODO
+    /* Apply n body gravity module to rigid bodies */
+    Gravity_nBodyGravityModel();
     break;
 
   default:

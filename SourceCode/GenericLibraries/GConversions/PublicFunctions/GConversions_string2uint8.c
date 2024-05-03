@@ -22,7 +22,7 @@
 #include "GConst/GConst.h"
 #include "GLog/GLog.h"
 
-GConversion_string2int8(uint8_t *p_dataDestination_out, char *p_dataSource_in)
+GConversion_string2uint8(uint8_t *p_dataDestination_out, char *p_dataSource_in)
 {
   /* Defining local variables */
   uint8_t outputNumber;

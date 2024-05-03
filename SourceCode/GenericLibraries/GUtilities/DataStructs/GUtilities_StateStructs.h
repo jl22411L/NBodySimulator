@@ -58,6 +58,17 @@ typedef struct GUtilities_struct
    */
   double simTimeDuration_s;
 
+  /*!
+   * @details   Integer used to indicate the status of the simulation. If
+   *            integer is GCONST_TRUE then the simulation is running. If it is
+   *            GCONST_FALSE then the simulation is said to be finished and
+   *            hence will complete the current step befor ending the programe.
+   *
+   * @unit      N/A
+   * @frame     N/A
+   */
+  int8_t runSimStatus;
+
 } GUtilities;
 
 extern GUtilities Utilities;
