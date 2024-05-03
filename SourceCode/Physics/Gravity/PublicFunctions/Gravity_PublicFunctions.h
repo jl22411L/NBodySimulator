@@ -44,7 +44,7 @@ extern "C" {
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int Gravity_initGravity(
+extern int Gravity_init(
     Gravity_Params *p_gravityParams_in,
     const char     *p_paramsFilePath);
 

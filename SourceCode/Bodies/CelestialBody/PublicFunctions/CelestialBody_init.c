@@ -37,8 +37,11 @@ int CelestialBody_init(
   GZero(&GParser_state, GParser_State);
   GZero(&dic, dictionary *);
   GZero(&archiveNameBuffer[0], char[GCONST_BUFFER_1024]);
+  GZero(p_celestialBody_state_in, CelestialBody_State);
 
-  /*---------------------------- LOAD PARAMETERS ----------------------------*/
+  /* ------------------------------------------------------------------------ *
+   *                             LOAD PARAMETERS                              *
+   * ------------------------------------------------------------------------ */
 
   /* Load parameters of the body */
   dic = GParser_loadParams(&GParser_state, p_paramFilename_in);

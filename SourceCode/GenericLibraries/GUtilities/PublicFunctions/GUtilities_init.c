@@ -62,6 +62,9 @@ int GUtilities_init(const char *p_paramsFilePath)
       &Utilities.simTime_s,
       "TimeParameters:simTimeInitial");
 
+  /* Set the simulation status to True */
+  Utilities.runSimStatus = GCONST_TRUE;
+
   /* Close Params */
   GParser_closeParams(&GParser_state, dic);
 

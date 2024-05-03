@@ -35,10 +35,15 @@ extern "C" {
  
 /*!
  * @brief     Outputs a msg to the console
- *
  */
 #define GMsg(...) (printf("[MSG] ")),    \
                   (printf(__VA_ARGS__)), \
+                  (printf("\n"))
+
+/*!
+ * @brief     Outputs a message to the concol without the "[MSG]" prefix.
+ */
+#define GLog(...) (printf(__VA_ARGS__)), \
                   (printf("\n"))
 
 /* --------------------------------- GError --------------------------------- */
@@ -48,8 +53,8 @@ extern "C" {
  *            running of the code. This should be used in tandem with GError
  *            to allow for neater formatting on the terminal.
  */
-#define GWarn(...) (printf("\033[0;33[ERR]\033[0m %s: %d \n", __FILE__, __LINE__)), \
-                   (printf("\033[0;33[ERR]\033[0m ")),                              \
+#define GWarn(...) (printf("\033[0;33[WRN]\033[0m %s: %d \n", __FILE__, __LINE__)), \
+                   (printf("\033[0;33[WRN]\033[0m ")),                              \
                    (printf(__VA_ARGS__)),                           \
                    (printf("\n"))                                   
 

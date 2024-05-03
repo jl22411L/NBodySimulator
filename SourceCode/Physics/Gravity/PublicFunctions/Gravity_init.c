@@ -31,8 +31,9 @@ int Gravity_init(
   dictionary   *dic;
   GParser_State GParser_state;
 
-  /* Clearing local variables */
+  /* Clearing  variables */
   GZero(&GParser_state, GParser_State);
+  GZero(p_gravityParams_in, Gravity_Params);
   dic = NULL;
 
   /* Loading parameters into dictionaries */

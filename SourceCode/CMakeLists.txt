@@ -22,7 +22,7 @@ set(GENERIC_PATH ${SRC_DIRECTORY}/GenericLibraries)
 set(PHYSICS_PATH ${SRC_DIRECTORY}/Physics)
 set(MODULES_PATH ${SRC_DIRECTORY}/Modules)
 set(TEST_PATH ${SRC_DIRECTORY}/TestCase)
-set(UNITTEST_PATH ${SRC_DIRECTORY}/TestCase/UnitTest)
+set(UNITTEST_PATH ${TEST_PATH}/UnitTest)
 
 # Directories to be included in scripts
 include_directories(${BODIES_PATH})
@@ -38,6 +38,7 @@ include_directories(${UNITTEST_PATH})
 add_subdirectory(${BODIES_PATH}/CelestialBody)
 add_subdirectory(${BODIES_PATH}/RigidBody)
 add_subdirectory(${BODIES_PATH}/SatelliteBody)
+add_subdirectory(${BODIES_PATH}/UavBody)
 
 # Generic Libraries
 add_subdirectory(${GENERIC_PATH}/GArchive)
@@ -53,7 +54,7 @@ add_subdirectory(${PHYSICS_PATH}/Gravity)
 # Modules
 
 # Test Cases
-# None 
+add_subdirectory(${TEST_PATH}/SystemTest)
 
 # Unit Tests
 add_subdirectory(${UNITTEST_PATH}/GParser_UnitTest)

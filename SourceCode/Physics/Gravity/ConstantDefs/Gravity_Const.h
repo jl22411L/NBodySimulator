@@ -30,7 +30,7 @@ extern "C" {
  *                              CONSTANT DEFINES                              *
  * -------------------------------------------------------------------------- */
 
-const double UNIVERSAL_GRAVITATIONAL_CONSTANT = 6.67430E-11;
+#define UNIVERSAL_GRAVITATIONAL_CONSTANT (6.67430E-11)
 
 /* -------------------------------------------------------------------------- *
  *                             ENUMERATORS DEFINES                            *
