@@ -56,7 +56,7 @@ int main(void)
   UavBody_init(&uavBody_state, "Parameters/CR-1.ini");
   CelestialBody_init(&celestialBody_state, "Parameters/Earth.ini");
 
-  /* Create an array of the rigid bodies */
+  /* Create an array of pointers which point to the rigid bodies */
   rigidBodyArr_state[0] = &(uavBody_state.rigidBody_state);
   rigidBodyArr_state[1] = &(celestialBody_state.rigidBody_state);
 

@@ -105,6 +105,24 @@ extern int Gravity_flatEarthGravityModel(
     int               nRigidBodies_in);
 
 /*!
+ * @brief       Private function which finds the gravity force between n amount
+ *              of bodies.
+ *
+ * @param[in]   p_rigidBodyArray_in
+ *              Pointer to an array of pointers for rigid bodies.
+ *
+ * @param[in]   nRigidBoies_in
+ *              Integer representing the number of rigid bodies.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int Gravity_nBodyGravityModel(
+    RigidBody_State **p_rigidBodyArray_in,
+    int               nRigidBoies_in);
+
+/*!
  * @brief       Sets the gravity force in the fixed frame to 0, for an array
  *              of rigid body structs.
  *
