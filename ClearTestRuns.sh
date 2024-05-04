@@ -20,17 +20,11 @@ read -p "[...] Input: "  userInput
 
 # Reading input and removing files, do nothing, or exit with error
 if [ ${userInput} == "y" ]; then
-  # Checking files in test run
-  if [ -f TestRuns/* ] || [ -d TestRuns/* ]; then
-    echo "[MSG] Removing folders in TestRuns"
-    rm -r TestRuns/*
-    echo "[...] Files removed. Clear complete"
-    exit 0
-  else
-    echo "[...] No files to remove."
-    echo "[...] Aborting..."
-    exit 0
-  fi
+  # Remove Test Runs
+  echo "[MSG] Removing folders in TestRuns"
+  rm -r TestRuns/*
+  echo "[...] Files removed. Clear complete"
+  exit 0
 elif [ ${userInput} == "n" ]; then
   echo "[MSG] Operation aborted"
   exit 0

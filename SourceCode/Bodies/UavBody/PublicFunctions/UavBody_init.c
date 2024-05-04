@@ -60,7 +60,7 @@ int UavBody_init(
   /* Create Archive Name */
   sprintf(
       archiveNameBuffer,
-      "Bodies/%s/OutputData/SatelliteBody",
+      "Bodies/%s/OutputData/UavBody",
       p_uavBody_state_in->rigidBody_state.bodyName);
 
   /* Create archives */

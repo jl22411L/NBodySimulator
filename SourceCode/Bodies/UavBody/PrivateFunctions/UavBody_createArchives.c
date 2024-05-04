@@ -31,7 +31,7 @@ int UavBody_createArchives(
   GZero(&buffer[0], char[GCONST_BUFFER_1024]);
 
   /* Create directory to body archive */
-  sprintf(buffer, "Bodies/%s/OutputData/SatelliteBody", p_bodyName_in);
+  sprintf(buffer, "Bodies/%s/OutputData/UavBody", p_bodyName_in);
 
   /* Create archive */
   GArchive_init(&p_uavBody_state_in->uavBodyArchive, buffer);

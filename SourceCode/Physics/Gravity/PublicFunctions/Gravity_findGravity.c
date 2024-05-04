@@ -26,9 +26,9 @@
 #include "GZero/GZero.h"
 
 int Gravity_findGravity(
-    Gravity_Params  *p_gravityParams_in,
-    RigidBody_State *p_rigidBodyArray_in,
-    int              nRigidBodies_in)
+    Gravity_Params   *p_gravityParams_in,
+    RigidBody_State **p_rigidBodyArray_in,
+    int               nRigidBodies_in)
 {
   /* Determine what model is being used for gravity */
   switch (p_gravityParams_in->gravityModel)

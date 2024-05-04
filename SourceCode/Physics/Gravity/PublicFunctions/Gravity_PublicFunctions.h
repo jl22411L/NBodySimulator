@@ -71,9 +71,9 @@ extern int Gravity_init(
  *              function will return a GCONST_FALSE
  */
 extern int Gravity_findGravity(
-    Gravity_Params  *p_gravityParams_in,
-    RigidBody_State *p_rigidBodyArray_in,
-    int              nRigidBodies_in);
+    Gravity_Params   *p_gravityParams_in,
+    RigidBody_State **p_rigidBodyArray_in,
+    int               nRigidBodies_in);
 
 #ifdef __cplusplus
 }
