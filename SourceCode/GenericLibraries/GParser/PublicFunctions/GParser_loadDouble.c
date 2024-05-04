@@ -95,7 +95,7 @@ int GParser_loadDouble(
     if (strcmp(((p_dic + dictionaryNumber)->key[i]), key_buffer) == 0)
     {
       /* If key matches, store convert value to int and store in member */
-      GConversion_string2double(
+      GConversions_string2double(
           p_dataDestination_out,
           &((p_dic + dictionaryNumber)->value[i][0]));
       break;

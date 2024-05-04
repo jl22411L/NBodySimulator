@@ -63,9 +63,10 @@ int main(void)
   /* Enter into cyclic execution */
   do
   {
+    int i = 1;
 
     /* Apply gravity to UAV body */
-    Gravity_findGravity(&uavBody_state.rigidBody_state, 1);
+    Gravity_findGravity(&gravity_params, &uavBody_state.rigidBody_state, i);
 
     /* Step forawrd in time */
     Utilities.simTime_s += Utilities.simTimeStep_s;

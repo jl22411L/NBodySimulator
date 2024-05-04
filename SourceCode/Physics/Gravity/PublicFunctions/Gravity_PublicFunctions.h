@@ -56,6 +56,9 @@ extern int Gravity_init(
  *              the total gravity force for said body. It will repeat the
  *              process for all the other bodies.
  *
+ * @param[in]   p_gravityParams_in
+ *              Pointer to structure containng the gravity parameters.
+ *
  * @param[in]   p_rigidBodyArray_in
  *              Pointer to first rigid body in an array of rigid bodies
  *
@@ -68,8 +71,9 @@ extern int Gravity_init(
  *              function will return a GCONST_FALSE
  */
 extern int Gravity_findGravity(
+    Gravity_Params  *p_gravityParams_in,
     RigidBody_State *p_rigidBodyArray_in,
-    int              nRigidBoies_in);
+    int              nRigidBodies_in);
 
 #ifdef __cplusplus
 }
