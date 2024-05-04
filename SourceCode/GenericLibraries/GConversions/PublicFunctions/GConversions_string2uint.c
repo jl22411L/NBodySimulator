@@ -1,5 +1,5 @@
 /*
- *    @File:         GConversion_string2float.c
+ *    @File:         GConversions_string2float.c
  *
  *    @ Brief:       Converts strings to floats
  *
@@ -22,7 +22,7 @@
 #include "GConst/GConst.h"
 #include "GLog/GLog.h"
 
-GConversion_string2uint(
+GConversions_string2uint(
     unsigned int *p_dataDestination_out,
     char         *p_dataSource_in)
 {

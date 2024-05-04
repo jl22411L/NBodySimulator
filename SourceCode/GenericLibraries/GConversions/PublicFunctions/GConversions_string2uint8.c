@@ -1,5 +1,5 @@
 /*
- *    @File:         GConversion_string2uint8.c
+ *    @File:         GConversions_string2uint8.c
  *
  *    @ Brief:       Converts strings to unsigned 8 bit integers
  *
@@ -8,6 +8,7 @@
  */
 
 #include <stdint.h>
+#include <stdio.h>
 
 /* Function Includes */
 /* None */
@@ -22,7 +23,7 @@
 #include "GConst/GConst.h"
 #include "GLog/GLog.h"
 
-GConversion_string2uint8(uint8_t *p_dataDestination_out, char *p_dataSource_in)
+GConversions_string2uint8(uint8_t *p_dataDestination_out, char *p_dataSource_in)
 {
   /* Defining local variables */
   uint8_t outputNumber;
@@ -46,13 +47,17 @@ GConversion_string2uint8(uint8_t *p_dataDestination_out, char *p_dataSource_in)
 
   /* Finding the integer value and shifting left */
   outputNumber = 0;
-  for (i; cursor = *(p_dataSource_in + i) != '\0'; i++)
+  for (i; *(p_dataSource_in + i) != '\0'; i++)
   {
+    /* Move cursor */
+    cursor = *(p_dataSource_in + i);
+
+    /* Subtract the '0' charecter to get value as integer */
     outputNumber = outputNumber * 10 + (uint8_t)(cursor - '0');
   }
 
   /* Outputting result */
-  *p_dataDestination_out = outputNumber;
+  *p_dataDestination_out = (uint8_t)outputNumber;
 
   return GCONST_TRUE;
 }

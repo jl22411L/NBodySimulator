@@ -1,5 +1,5 @@
 /*
- *    @File:         GConversion_string2int8.c
+ *    @File:         GConversions_string2int8.c
  *
  *    @ Brief:       Converts strings to 8 bit integers
  *
@@ -21,7 +21,7 @@
 /* Generic Libraries */
 #include "GConst/GConst.h"
 
-GConversion_string2int8(int8_t *p_dataDestination_out, char *p_dataSource_in)
+GConversions_string2int8(int8_t *p_dataDestination_out, char *p_dataSource_in)
 {
   /* Defining local variables */
   int8_t number;

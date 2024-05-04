@@ -23,7 +23,7 @@
 
 int Gravity_noGravityModel(
     RigidBody_State *p_rigidBody_array_in,
-    uint8_t          nRigidBodies_in)
+    int              nRigidBodies_in)
 {
   /* Defining Local variables */
   uint8_t i;

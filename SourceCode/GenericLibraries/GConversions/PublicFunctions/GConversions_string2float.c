@@ -1,5 +1,5 @@
 /*
- *    @File:         GConversion_string2float.c
+ *    @File:         GConversions_string2float.c
  *
  *    @ Brief:       Converts strings to floats
  *
@@ -19,7 +19,7 @@
 /* Generic Libraries */
 #include "GConst/GConst.h"
 
-int GConversion_string2float(
+int GConversions_string2float(
     float *p_dataDestination_out,
     char  *p_dataSource_in)
 {

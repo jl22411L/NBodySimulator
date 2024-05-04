@@ -41,7 +41,7 @@ extern "C" {
  *                  GCONST_TRUE. If an error in the codes execution occurs, the
  *                  function will return a GCONST_FALSE
  */
-extern int GConversion_string2double(
+extern int GConversions_string2double(
     double *p_dataDestination_out,
     char   *p_dataSource_in);
 
@@ -58,7 +58,7 @@ extern int GConversion_string2double(
  *                  GCONST_TRUE. If an error in the codes execution occurs, the
  *                  function will return a GCONST_FALSE
  */
-extern int GConversion_string2float(
+extern int GConversions_string2float(
     float *p_dataDestination_out,
     char  *p_dataSource_in);
 
@@ -75,7 +75,7 @@ extern int GConversion_string2float(
  *                  GCONST_TRUE. If an error in the codes execution occurs, the
  *                  function will return a GCONST_FALSE
  */
-extern int GConversion_string2int8(
+extern int GConversions_string2int8(
     int8_t *p_dataDestination_out,
     char   *p_dataSource_in);
 
@@ -93,7 +93,7 @@ extern int GConversion_string2int8(
  *                  function will return a GCONST_FALSE
  */
 extern int
-    GConversion_string2int(int *p_dataDestination_out, char *p_dataSource_in);
+    GConversions_string2int(int *p_dataDestination_out, char *p_dataSource_in);
 
 /*!
  * @brief           Function which converts a string to a unsigned int
@@ -108,7 +108,7 @@ extern int
  *                  GCONST_TRUE. If an error in the codes execution occurs, the
  *                  function will return a GCONST_FALSE
  */
-extern int GConversion_string2uint(
+extern int GConversions_string2uint(
     unsigned int *p_dataDestination_out,
     char         *p_dataSource_in);
 
@@ -125,7 +125,7 @@ extern int GConversion_string2uint(
  *                  GCONST_TRUE. If an error in the codes execution occurs, the
  *                  function will return a GCONST_FALSE
  */
-extern int GConversion_string2uint8(
+extern int GConversions_string2uint8(
     uint8_t *p_dataDestination_out,
     char    *p_dataSource_in);
 

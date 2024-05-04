@@ -121,7 +121,7 @@ extern int Gravity_flatEarthGravityModel(
  */
 extern int Gravity_noGravityModel(
     RigidBody_State *p_rigidBody_array_in,
-    uint8_t          nRigidBodies_in);
+    int              nRigidBodies_in);
 
 #ifdef __cplusplus
 }
