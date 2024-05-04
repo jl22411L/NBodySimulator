@@ -1,5 +1,6 @@
 add_library(UavBody
   PrivateFunctions/UavBody_createArchives.c
+  PrivateFunctions/UavBody_findResultantForce.c
   PublicFunctions/UavBody_archiveData.c
   PublicFunctions/UavBody_init.c
   PublicFunctions/UavBody_step.c

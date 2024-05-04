@@ -16,7 +16,6 @@
 #include "Gravity/DataStructs/Gravity_ParamsStruct.h"
 #include "RigidBody/DataStructs/RigidBody_StateStruct.h"
 
-
 /* Data include */
 /* None */
 
@@ -25,9 +24,9 @@
 #include "GZero/GZero.h"
 
 int Gravity_flatEarthGravityModel(
-    Gravity_Params  *p_gravityPrams_in,
-    RigidBody_State *p_rigidBodyArray_in,
-    int              nRigidBodies_in)
+    Gravity_Params   *p_gravityPrams_in,
+    RigidBody_State **p_rigidBodyArray_in,
+    int               nRigidBodies_in)
 {
   /* Declare local variables */
   double  gravityForceAbs_N;
@@ -46,13 +45,13 @@ int Gravity_flatEarthGravityModel(
      *        In the beginning, height may be enough.
      */
     gravityForceAbs_N =
-        ((p_rigidBodyArray_in + i)->rigidBodyMass_kg) *
+        ((*p_rigidBodyArray_in + i)->rigidBodyMass_kg) *
         (p_gravityPrams_in->seaLevelGravitationalAcceleration_ms2);
 
     /* Apply gravity force to rigid body. Negative, becaused fixed frame
      * is pointing towards the sky and model assumes gravity is pointing
      * towards the ground. */
-    ((p_rigidBodyArray_in + i)->gravityForce_N_Fixed[2]) = -gravityForceAbs_N;
+    ((*p_rigidBodyArray_in + i)->gravityForce_N_Fixed[2]) = -gravityForceAbs_N;
 
     /* Clear the gravity foce variable in preperation for next iteration */
     GZero(&gravityForceAbs_N, double);

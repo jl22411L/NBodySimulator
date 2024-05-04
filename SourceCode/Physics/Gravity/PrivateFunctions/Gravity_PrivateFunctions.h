@@ -46,7 +46,7 @@ extern "C" {
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int Gravity_dualBodyGravityModel(RigidBody_State *p_rigidBodyArray_in);
+extern int Gravity_dualBodyGravityModel(RigidBody_State **p_rigidBodyArray_in);
 
 /*!
  * @brief       Finds the gravity force between two bodies.
@@ -100,9 +100,9 @@ extern int Gravity_findGravityForceBetweenBodies(
  *              function will return a GCONST_FALSE
  */
 extern int Gravity_flatEarthGravityModel(
-    Gravity_Params  *p_gravityPrams_in,
-    RigidBody_State *p_rigidBodyArray_in,
-    int              nRigidBodies_in);
+    Gravity_Params   *p_gravityPrams_in,
+    RigidBody_State **p_rigidBodyArray_in,
+    int               nRigidBodies_in);
 
 /*!
  * @brief       Sets the gravity force in the fixed frame to 0, for an array
@@ -120,8 +120,8 @@ extern int Gravity_flatEarthGravityModel(
  *              function will return a GCONST_FALSE
  */
 extern int Gravity_noGravityModel(
-    RigidBody_State *p_rigidBody_array_in,
-    int              nRigidBodies_in);
+    RigidBody_State **p_rigidBody_array_in,
+    int               nRigidBodies_in);
 
 #ifdef __cplusplus
 }

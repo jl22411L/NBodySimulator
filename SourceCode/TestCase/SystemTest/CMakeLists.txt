@@ -10,6 +10,7 @@ set(LIB_LIST
   Gravity
   GUtilities
   UavBody
+  CelestialBody
 )
 
 target_link_libraries(SystemTest ${LIB_LIST})

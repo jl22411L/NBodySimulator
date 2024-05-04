@@ -53,11 +53,11 @@ int Gravity_findGravityForceBetweenBodies(
       3);
 
   /* Find the masses of the objects */
-  internalObjectMass_kg = p_internalRigidBody_in->rigidBodyMass_kg;
-  externalObjectMass_kg = p_externalRigidBody_in->rigidBodyMass_kg;
+  internalObjectMass_kg = (p_internalRigidBody_in->rigidBodyMass_kg);
+  externalObjectMass_kg = (p_externalRigidBody_in->rigidBodyMass_kg);
 
   /* Find the scaler of the gravity vector */
-  gravityScaler = UNIVERSAL_GRAVITATIONAL_CONSTANT * internalObjectMass_kg *
+  gravityScaler = -UNIVERSAL_GRAVITATIONAL_CONSTANT * internalObjectMass_kg *
                   externalObjectMass_kg / relativePositionMagnitude_m /
                   relativePositionMagnitude_m / relativePositionMagnitude_m;
 

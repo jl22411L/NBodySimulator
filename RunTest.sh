@@ -106,13 +106,15 @@ mkdir -p ${PATH_TO_TEST_RUN}/OutputData
 # Creating Archive Directory
 mkdir -p ${PATH_TO_TEST_RUN}/ArchiveData
 
+# Creating Directory for Bodies
+mkdir -p ${PATH_TO_TEST_RUN}/Bodies
+
+# Output message to indiate that archives have been created
 echo "[MSG] Created test run: ${PATH_TO_TEST_RUN}"
 
 # Copying Executable
 echo "[MSG] # ------------------------------ COPYING EXECUTABLE ------------------------------ #"
-
 cp ${PATH_TO_TEST_EXECUTABLE} ${PATH_TO_TEST_RUN}/
-
 echo "[INF] Executable Copied Successfully"
 
 # Copying Parameters
@@ -125,15 +127,12 @@ cp -r Parameters/TestParameters/. ${PATH_TO_TEST_RUN}/Parameters/
 
 
 # Copy Specific Parameters
-# TODO
 echo "[MSG] Specific Test Parameters copied successfully"
-
-
+# TODO
 echo "[INF] Parameters copied succesfully"
 
 # Running Executable
 echo "[MSG] # ------------------------------ RUINNING EXECUTABLE ----------------------------- #"
-
 echo "[...] Running executable: ${PATH_TO_TEST_RUN}${EXECUTABLE_NAME}"
 
 if [ ${DEBUG_FLAG} == True ]; then

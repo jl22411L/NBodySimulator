@@ -27,6 +27,19 @@ extern "C" {
 /* None */
 
 /*!
+ * @brief       Function which takes all the forces from a UAV body and finds
+ *              the resultant force on the body.
+ *
+ * @param[in]   p_uavBody_state_in
+ *              Pointer to the UAV body struct which the resultant force will
+ *              be applied to.
+ *
+ * @return      Returns GCONST_TRUE upon a successful completion of the
+ *              execution of the script.
+ */
+extern int UavBody_findResultantForce(UavBody_State *p_uavBody_state_in);
+
+/*!
  * @brief       Creates the archive for the UAV Body
  *
  * @param[in]   p_uavBody_state_in
