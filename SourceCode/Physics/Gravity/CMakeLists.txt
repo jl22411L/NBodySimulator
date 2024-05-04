@@ -4,6 +4,7 @@ add_library(Gravity
   PrivateFunctions/Gravity_flatEarthGravityModel.c
   PrivateFunctions/Gravity_nBodyGravityModel.c
   PrivateFunctions/Gravity_noGravityModel.c
+  PrivateFunctions/Gravity_nBodyGravityModel.c
   PublicFunctions/Gravity_init.c
   PublicFunctions/Gravity_findGravity.c
 )

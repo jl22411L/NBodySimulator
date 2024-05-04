@@ -53,7 +53,7 @@ int Gravity_findGravity(
 
   case (NBodyGravityModel):
     /* Apply n body gravity module to rigid bodies */
-    Gravity_nBodyGravityModel();
+    Gravity_nBodyGravityModel(p_rigidBodyArray_in, nRigidBodies_in);
     break;
 
   default:

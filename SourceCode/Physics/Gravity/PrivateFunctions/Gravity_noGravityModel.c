@@ -35,9 +35,22 @@ int Gravity_noGravityModel(
     /* Set each element in the gravity vector to 0 */
     for (j = 0; j < 3; j++)
     {
-      (*p_rigidBody_array_in + i)->gravityForce_N_Fixed[j] = 0;
+      (*(p_rigidBody_array_in + i))->gravityForce_N_Fixed[j] = 0;
     }
   }
 
   return GCONST_TRUE;
 }
+
+/*
+a = [0, 1, 2];
+
+foo(&a[0])
+
+foo(int *p_a){
+  for i = 0
+    b = *(p_a + i)
+    b...
+}
+
+*/
