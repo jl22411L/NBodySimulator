@@ -47,7 +47,7 @@ int UavBody_init(
   dic = GParser_loadParams(&GParser_state, p_paramFilename_in);
 
   /* CURRENTLY NO PARAMETERS TO LOAD */
-  // TODO Add load parameters into sat struct
+  // TODO Add load parameters into UAV struct
 
   /* Load Rigid Body parameters */
   RigidBody_init(&p_uavBody_state_in->rigidBody_state, p_paramFilename_in);
