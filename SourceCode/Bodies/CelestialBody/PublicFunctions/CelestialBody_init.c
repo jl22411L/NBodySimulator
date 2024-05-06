@@ -47,7 +47,7 @@ int CelestialBody_init(
   dic = GParser_loadParams(&GParser_state, p_paramFilename_in);
 
   /* CURRENTLY NO PARAMETERS TO LOAD */
-  // TODO Add load parameters into sat struct
+  // TODO Add load parameters into celestial body struct
 
   /* Load Rigid Body parameters */
   RigidBody_init(

@@ -37,7 +37,7 @@ int CelestialBody_createArchives(
   GArchive_init(&p_celestialBody_state_in->celestialBodyArchive, buffer);
 
   /*-------------------------------------------------------------------------*
-   *                       SATELLITE BODY STATE STRUCT
+   *                       CELESTIAL BODY STATE STRUCT                       *
    *-------------------------------------------------------------------------*/
   /* None */
 
