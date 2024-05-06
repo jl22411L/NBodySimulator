@@ -1,5 +1,6 @@
 add_library(CelestialBody
   PrivateFunctions/CelestialBody_createArchives.c
+  PrivateFunctions/CelestialBody_findResultantForce.c
   PublicFunctions/CelestialBody_archiveData.c
   PublicFunctions/CelestialBody_init.c
   PublicFunctions/CelestialBody_step.c

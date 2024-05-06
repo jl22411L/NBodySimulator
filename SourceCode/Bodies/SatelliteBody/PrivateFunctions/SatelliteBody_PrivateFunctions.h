@@ -43,6 +43,20 @@ extern int SatelliteBody_createArchives(
     SatelliteBody_State *p_satelliteBody_state_in,
     const char          *p_bodyName_in);
 
+/*!
+ * @brief       Function which takes all the forces from a Satellite body and
+ *              finds the resultant force on the body.
+ *
+ * @param[in]   p_satelliteBody_state_in
+ *              Pointer to the Satellite body struct which the resultant force
+ *              will be applied to.
+ *
+ * @return      Returns GCONST_TRUE upon a successful completion of the
+ *              execution of the script.
+ */
+extern int
+    UavBody_findResultantForce(SatelliteBody_State *p_satelliteBody_state_in);
+
 #ifdef __cplusplus
 }
 #endif

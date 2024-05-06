@@ -24,7 +24,8 @@
 
 int UavBody_archiveData(UavBody_State *p_uavBody_state_in)
 {
-  /* None */
+  /* Write values to CSV file */
+  GArchive_writeLine(&p_uavBody_state_in->celestialBodyArchive);
 
   return GCONST_TRUE;
 }

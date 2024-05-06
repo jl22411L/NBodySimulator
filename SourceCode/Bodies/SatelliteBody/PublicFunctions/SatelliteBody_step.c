@@ -9,6 +9,7 @@
 
 /* Function Includes */
 #include "RigidBody/PublicFunctions/RigidBody_PublicFunctions.h"
+#include "SatelliteBody/PrivateFunctions/SatelliteBody_PrivateFunctions.h"
 
 /* Structure Include */
 #include "SatelliteBody/DataStructs/SatelliteBody_StateStruct.h"
@@ -22,6 +23,13 @@
 
 int SatelliteBody_step(SatelliteBody_State *p_satelliteBody_state_in)
 {
+  /*--------------------------------------------------------------------------*
+   *                           PRE STEP CALCULATIONS                          *
+   *--------------------------------------------------------------------------*/
+
+  /* Find the resultant force on the body */
+  SatelliteBody_findResultantForce(p_satelliteBody_state_in);
+
   /*--------------------------------------------------------------------------*
    *                         ARCHIVE SATELLITE BODY                           *
    *--------------------------------------------------------------------------*/

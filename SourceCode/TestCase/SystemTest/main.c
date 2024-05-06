@@ -76,7 +76,10 @@ int main(void)
      * ---------------------------------------------------------------------- */
 
     /* Apply gravity to UAV body */
-    Gravity_findGravity(&gravity_params, &rigidBodyArr_state[0], 1);
+    Gravity_findGravity(
+        &gravity_params,
+        &rigidBodyArr_state[0],
+        Utilities.numberOfBodies);
 
     /* ---------------------------------------------------------------------- *
      *                            STEP SIMULATION                             *

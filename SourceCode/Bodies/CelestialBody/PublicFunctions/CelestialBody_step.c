@@ -8,6 +8,7 @@
  */
 
 /* Function Includes */
+#include "CelestialBody/PrivateFunctions/CelestialBody_PrivateFunctions.h"
 #include "RigidBody/PublicFunctions/RigidBody_PublicFunctions.h"
 
 /* Structure Include */
@@ -22,6 +23,13 @@
 
 int CelestialBody_step(CelestialBody_State *p_celestialBody_state_in)
 {
+  /*--------------------------------------------------------------------------*
+   *                           PRE STEP CALCULATIONS                          *
+   *--------------------------------------------------------------------------*/
+
+  /* Find the resultant force on the body */
+  CelestialBody_findResultantForce(p_celestialBody_state_in);
+
   /*--------------------------------------------------------------------------*
    *                         ARCHIVE SATELLITE BODY                           *
    *--------------------------------------------------------------------------*/
