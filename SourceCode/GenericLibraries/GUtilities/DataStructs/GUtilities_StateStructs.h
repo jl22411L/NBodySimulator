@@ -59,6 +59,15 @@ typedef struct GUtilities_struct
   double simTimeDuration_s;
 
   /*!
+   * @details   Integer holding the number of bodies that are within the
+   * Simulation
+   *
+   * @unit      N/A
+   * @frame     N/A
+   */
+  int numberOfBodies;
+
+  /*!
    * @details   Integer used to indicate the status of the simulation. If
    *            integer is GCONST_TRUE then the simulation is running. If it is
    *            GCONST_FALSE then the simulation is said to be finished and

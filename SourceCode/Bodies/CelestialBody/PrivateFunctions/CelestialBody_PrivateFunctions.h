@@ -43,6 +43,20 @@ extern int CelestialBody_createArchives(
     CelestialBody_State *p_celestialBody_state_in,
     const char          *p_bodyName_in);
 
+/*!
+ * @brief       Function which takes all the forces from a Celestial body and
+ *              finds the resultant force on the body.
+ *
+ * @param[in]   p_celestialBody_state_in
+ *              Pointer to the UAV body struct which the resultant force will
+ *              be applied to.
+ *
+ * @return      Returns GCONST_TRUE upon a successful completion of the
+ *              execution of the script.
+ */
+extern int CelestialBody_findResultantForce(
+    CelestialBody_State *p_celestialBody_state_in);
+
 #ifdef __cplusplus
 }
 #endif

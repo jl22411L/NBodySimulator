@@ -48,6 +48,9 @@ int Gravity_flatEarthGravityModel(
         ((*(p_rigidBodyArray_in + i))->rigidBodyMass_kg) *
         (p_gravityPrams_in->seaLevelGravitationalAcceleration_ms2);
 
+    /* Clear the gravity force vector of the rigid body */
+    GZero(&((*(p_rigidBodyArray_in + i))->gravityForce_N_Fixed[0]), double[3]);
+
     /* Apply gravity force to rigid body. Negative, becaused fixed frame
      * is pointing towards the sky and model assumes gravity is pointing
      * towards the ground. */

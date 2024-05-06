@@ -1,5 +1,6 @@
 add_library(SatelliteBody
   PrivateFunctions/SatelliteBody_createArchives.c
+  PrivateFunctions/SatelliteBody_findResultantForce.c
   PublicFunctions/SatelliteBody_archiveData.c
   PublicFunctions/SatelliteBody_init.c
   PublicFunctions/SatelliteBody_step.c
