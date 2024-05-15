@@ -21,7 +21,6 @@
 /* Generic Libraries */
 #include "GConst/GConst.h"
 #include "GMath/GMath.h"
-#include "GZero/GZero.h"
 
 #define rowsA (2)
 #define colsA (3)
@@ -32,40 +31,35 @@
 int main()
 {
 
-  double A[rowsA][colsA] = {{1, 2, 3}, {1, 2, 3}};
+  double vectorIn[3]       = {0, 0, 1};
+  double vectorOut1[3]     = {0, 0, 0};
+  double vectorOut2[3]     = {0, 0, 0};
+  double quaternion[4]     = {0.1913417, 0.4619398, 0.1913417, 0.8446232};
+  double unitQuaternion[4] = {0, 0, 0, 0};
+  int    i;
 
-  double B[rowsB][colsB] = {{1, 2, 3}, {1, 2, 3}};
+  /* Find unit quaternion */
+  GMath_findUnitQuaternion(&quaternion[0], &unitQuaternion[0]);
 
-  double C[rowsA][colsB];
+  /* Apply rotateion */
+  GMath_quaternionPointRotation(
+      &vectorIn[0],
+      &unitQuaternion[0],
+      &vectorOut1[0]);
+  GMath_quaternionFrameRotation(
+      &vectorOut1[0],
+      &unitQuaternion[0],
+      &vectorOut2[0]);
 
-  GZero(&C[0][0], double[rowsA][colsB]);
-
-  GMath_matAdd(&A[0][0], rowsA, colsA, &B[0][0], rowsB, colsB, &C[0][0]);
-
-  int i;
-  int j;
-
-  for (i = 0; i < rowsA; i++)
+  /* Display output */
+  for (i = 0; i < 3; i++)
   {
-    for (j = 0; j < colsB; j++)
-    {
-      printf("%lf, ", C[i][j]);
-    }
-    printf("\n");
+    printf("%lf, ", vectorOut1[i]);
   }
   printf("\n");
-
-  GZero(&C[0][0], double[rowsA][colsB]);
-
-  GMath_matSub(&A[0][0], rowsA, colsA, &B[0][0], rowsB, colsB, &C[0][0]);
-
-  for (i = 0; i < rowsA; i++)
+  for (i = 0; i < 3; i++)
   {
-    for (j = 0; j < colsB; j++)
-    {
-      printf("%lf, ", C[i][j]);
-    }
-    printf("\n");
+    printf("%lf, ", vectorOut2[i]);
   }
 
   return GCONST_EXIT_SUCCESS;

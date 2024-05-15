@@ -4,11 +4,16 @@ add_library(GMath
   PrivateFunctions/GMath_invColOptimised.c
   PrivateFunctions/GMath_luDecomp.c
   PublicFunctions/GMath_crossProduct.c
+  PublicFunctions/GMath_findUnitQUaternion.c
   PublicFunctions/GMath_invCol.c
   PublicFunctions/GMath_invMat.c
   PublicFunctions/GMath_matAdd.c
   PublicFunctions/GMath_matMul.c
   PublicFunctions/GMath_matSub.c
+  PublicFunctions/GMath_quaternionConjugate.c
+  PublicFunctions/GMath_quaternionFrameRotation.c
+  PublicFunctions/GMath_quaternionMul.c
+  PublicFunctions/GMath_quaternionPointRotation.c
   PublicFunctions/GMath_quaternionRateCalc.c
   PublicFunctions/GMath_vectorMag.c
   PublicFunctions/GMath_vectorNorm.c

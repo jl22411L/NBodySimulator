@@ -51,6 +51,26 @@ extern int GMath_crossProduct(
     double *p_vectrocC_out);
 
 /*!
+ * @brief       GMath function which finds the unit quaternion of an inputted
+ *              quaternion.
+ *
+ * @param[in]   p_inputQuaternion_in
+ *              Pointer to double array containnig quaternion to get unit
+ *              quaternion of.
+ *
+ * @param[out]  p_outputQuaternion_out
+ *              Pointer to double array where output unit quaternion will be
+ *              stored.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int GMath_findUnitQuaternion(
+    double *p_inputQuaternion_in,
+    double *p_outputQuaternion_out);
+
+/*!
  * @brief       Function which finds the inverse of a column vector. First,
  *              decomposes the input matrix A and then does backward and
  *              forward propogation to find the column vector.
@@ -234,6 +254,102 @@ extern int GMath_matSub(
     double *p_matrixC_out);
 
 /*!
+ * @brief       GMath function which finds the conjugate of a quaternion.
+ *
+ * @param[in]   p_inputQuaternion_in
+ *              Pointer to a double array containing a quaternion vector.
+ *
+ * @param[in]   p_outputQuaternion_out
+ *              Pointer to double array containing a quaternion vector.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int GMath_quaternionConjugate(
+    double *p_inputQuaternion_in,
+    double *p_outputQuaternion_out);
+
+/*!
+ * @brief       GMath function which rotates a frame around its origin, leaving
+ *              the inputted point where it in the fixed frame. This is useful
+ *              for seeing how the perspective of a point shifts in a rotating
+ *              frame.
+ *
+ *              The operation can be represented as:
+ *              outputVector = quaternionConjugate * inputVector * quaternion
+ *
+ *              where * is quaternion multiplication.
+ *
+ * @param[in]   p_vectorToRotate_in
+ *              Pointer to double array containing the vector with the point
+ *              which the frame will keep track of during the rotation
+ *
+ * @param[in]   p_quaternion_in
+ *              Pointer to double array containing the quaternion vector
+ *              which the frame will rotate by.
+ *
+ * @param[out]  p_rotatedVector_out
+ *              Pointer to double array where the outputted vector will be
+ *              stored.
+ */
+extern int GMath_quaternionFrameRotation(
+    double *p_vectorToRotate_in,
+    double *p_quaternion_in,
+    double *p_rotatedVector_out);
+
+/*!
+ * @brief       GMath function to multiply two quaternions together.
+ *
+ *              Order of quaternion multiplication
+ *              outputQuaternion = quaternionP * quaternionQ
+ *
+ * @param[in]   p_quaternionP_in
+ *              Pointer to vector quaternion P.
+ * @param[in]   p_quaternionQ_in
+ *              Pointer to vector quaternion Q.
+ *
+ * @param[out]  p_outputQuaternion_out
+ *              Pointer to vector which output of the quaternion
+ *              multiplication will be stored.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int GMath_quaternionMul(
+    double *p_quaternionP_in,
+    double *p_quaternionQ_in,
+    double *p_outputQuaternion_out);
+
+/*!
+ * @brief       GMath function which applies a rotation to a point around the
+ *              origin of the frame it is represented in, by the input
+ *              quaternion.
+ *
+ *              The operation can be represented as:
+ *              outputVector = quaternion * inputVector * quaternionConjugate
+ *
+ *              where * is quaternion multiplication.
+ *
+ * @param[in]   p_vectorToRotate_in
+ *              Pointer to double array containing the vector with the point
+ *              which the frame will keep track of during the rotation
+ *
+ * @param[in]   p_quaternion_in
+ *              Pointer to double array containing the quaternion vector
+ *              which the frame will rotate by.
+ *
+ * @param[out]  p_rotatedVector_out
+ *              Pointer to double array where the outputted vector will be
+ *              stored.
+ */
+extern int GMath_quaternionPointRotation(
+    double *p_vectorToRotate_in,
+    double *p_quaternion_in,
+    double *p_rotatedVector_out);
+
+/*!
  * @brief       Finds the derivitive of the quaternion from the angular
  *              velocities. The quaternions take the forum:
  *
@@ -244,23 +360,23 @@ extern int GMath_matSub(
  *
  *              With a 321 rotation sequence.
  *
- * @param[out]  p_quaternionRate_out
- *              Pointer to the output quaternion rate
- *
  * @param[in]   p_quaternion_in
  *              pointer to the quaternion being inputted
  *
  * @param[in]   p_angularVelocity_in
  *              Pointer to angular velocity vector
  *
+ * @param[out]  p_quaternionRate_out
+ *              Pointer to the output quaternion rate
+ *
  * @return      Upon a successful completion, the fucntion will return a
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
 extern int GMath_quaternionRateCalc(
-    double *p_quaternionRate_out,
     double *p_quaternion_in,
-    double *p_angularVelocity_in);
+    double *p_angularVelocity_in,
+    double *p_quaternionRate_out);
 
 /*!
  * @brief       Function which finds the magnitude of a vector. The vectos can

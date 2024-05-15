@@ -26,8 +26,10 @@ extern "C" {
 /* Generic Libraries */
 /* None */
 
-#define GMATH_MATRIXINV_BUFFER (2048)
-#define GMATH_COLUMNINV_BUFFER (2048)
+#define GMATH_MATRIXINV_BUFFER          (2048)
+#define GMATH_COLUMNINV_BUFFER          (2048)
+
+#define GMATH_QUATERNION_ZERO_TOLERANCE (1E-15)
 
 #ifdef __cplusplus
 }
