@@ -51,6 +51,37 @@ extern int GMath_crossProduct(
     double *p_vectrocC_out);
 
 /*!
+ * @brief       GMath function which takes euler angles and converts them to a
+ *              quaternion.
+ *
+ * @param[in]   p_eulerAnglevector_rad_in
+ *              Pointer to double array containing euler angles vector.
+ *              Vector should be of format 123 (XYZ) meaning:
+ *
+ *              eulerAngles = [
+ *                          ROLL,
+ *                          PITCH,
+ *                          YAW]
+ *
+ * @param[out]  p_quaternionVector_out
+ *              Pointer to double array containing quaternion vector.
+ *              Quaternion should be of form:
+ *
+ *              quaternion = [
+ *                         quaternion_x,
+ *                         quaternion_y,
+ *                         quaternion_z,
+ *                         quaternion_s]
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int GMath_eul2Quat(
+    double *p_eulerAnglevector_rad_in,
+    double *p_quaternionVector_out);
+
+/*!
  * @brief       GMath function which finds the unit quaternion of an inputted
  *              quaternion.
  *
@@ -254,21 +285,51 @@ extern int GMath_matSub(
     double *p_matrixC_out);
 
 /*!
+ * @brief       GMath function which converts quaterniond to euler angles
+ *
+ * @param[in]   p_quaternionVector_in
+ *              Pointer to double array containing quaternion vector.
+ *              Quaternion should be of form:
+ *
+ *              quaternion = [
+ *                         quaternion_x,
+ *                         quaternion_y,
+ *                         quaternion_z,
+ *                         quaternion_s]
+ *
+ * @param[out]  p_eulerAnglesVector_rad_out
+ *              Pointer to double array containing euler angles vector.
+ *              Vector should be of format 123 (XYZ) meaning:
+ *
+ *              eulerAngles = [
+ *                          ROLL,
+ *                          PITCH,
+ *                          YAW]
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int GMath_quat2Eul(
+    double *p_quaternionVector_in,
+    double *p_eulerAnglesVector_rad_out);
+
+/*!
  * @brief       GMath function which finds the conjugate of a quaternion.
+ *
+ * @param[out]  p_outputQuaternion_out
+ *              Pointer to double array containing a quaternion vector.
  *
  * @param[in]   p_inputQuaternion_in
  *              Pointer to a double array containing a quaternion vector.
- *
- * @param[in]   p_outputQuaternion_out
- *              Pointer to double array containing a quaternion vector.
  *
  * @return      Upon a successful completion, the fucntion will return a
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
 extern int GMath_quaternionConjugate(
-    double *p_inputQuaternion_in,
-    double *p_outputQuaternion_out);
+    double *p_outputQuaternion_out,
+    double *p_inputQuaternion_in);
 
 /*!
  * @brief       GMath function which rotates a frame around its origin, leaving
@@ -281,6 +342,10 @@ extern int GMath_quaternionConjugate(
  *
  *              where * is quaternion multiplication.
  *
+ * @param[out]  p_rotatedVector_out
+ *              Pointer to double array where the outputted vector will be
+ *              stored.
+ *
  * @param[in]   p_vectorToRotate_in
  *              Pointer to double array containing the vector with the point
  *              which the frame will keep track of during the rotation
@@ -288,15 +353,11 @@ extern int GMath_quaternionConjugate(
  * @param[in]   p_quaternion_in
  *              Pointer to double array containing the quaternion vector
  *              which the frame will rotate by.
- *
- * @param[out]  p_rotatedVector_out
- *              Pointer to double array where the outputted vector will be
- *              stored.
  */
 extern int GMath_quaternionFrameRotation(
+    double *p_rotatedVector_out,
     double *p_vectorToRotate_in,
-    double *p_quaternion_in,
-    double *p_rotatedVector_out);
+    double *p_quaternion_in);
 
 /*!
  * @brief       GMath function to multiply two quaternions together.
@@ -304,23 +365,23 @@ extern int GMath_quaternionFrameRotation(
  *              Order of quaternion multiplication
  *              outputQuaternion = quaternionP * quaternionQ
  *
+ * @param[out]  p_outputQuaternion_out
+ *              Pointer to vector which output of the quaternion
+ *              multiplication will be stored.
+ *
  * @param[in]   p_quaternionP_in
  *              Pointer to vector quaternion P.
  * @param[in]   p_quaternionQ_in
  *              Pointer to vector quaternion Q.
- *
- * @param[out]  p_outputQuaternion_out
- *              Pointer to vector which output of the quaternion
- *              multiplication will be stored.
  *
  * @return      Upon a successful completion, the fucntion will return a
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
 extern int GMath_quaternionMul(
+    double *p_outputQuaternion_out,
     double *p_quaternionP_in,
-    double *p_quaternionQ_in,
-    double *p_outputQuaternion_out);
+    double *p_quaternionQ_in);
 
 /*!
  * @brief       GMath function which applies a rotation to a point around the
@@ -332,6 +393,10 @@ extern int GMath_quaternionMul(
  *
  *              where * is quaternion multiplication.
  *
+ * @param[out]  p_rotatedVector_out
+ *              Pointer to double array where the outputted vector will be
+ *              stored.
+ *
  * @param[in]   p_vectorToRotate_in
  *              Pointer to double array containing the vector with the point
  *              which the frame will keep track of during the rotation
@@ -339,15 +404,11 @@ extern int GMath_quaternionMul(
  * @param[in]   p_quaternion_in
  *              Pointer to double array containing the quaternion vector
  *              which the frame will rotate by.
- *
- * @param[out]  p_rotatedVector_out
- *              Pointer to double array where the outputted vector will be
- *              stored.
  */
 extern int GMath_quaternionPointRotation(
+    double *p_rotatedVector_out,
     double *p_vectorToRotate_in,
-    double *p_quaternion_in,
-    double *p_rotatedVector_out);
+    double *p_quaternion_in);
 
 /*!
  * @brief       Finds the derivitive of the quaternion from the angular
@@ -360,23 +421,23 @@ extern int GMath_quaternionPointRotation(
  *
  *              With a 321 rotation sequence.
  *
+ * @param[out]  p_quaternionRate_out
+ *              Pointer to the output quaternion rate
+ *
  * @param[in]   p_quaternion_in
  *              pointer to the quaternion being inputted
  *
  * @param[in]   p_angularVelocity_in
  *              Pointer to angular velocity vector
  *
- * @param[out]  p_quaternionRate_out
- *              Pointer to the output quaternion rate
- *
  * @return      Upon a successful completion, the fucntion will return a
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
 extern int GMath_quaternionRateCalc(
+    double *p_quaternionRate_out,
     double *p_quaternion_in,
-    double *p_angularVelocity_in,
-    double *p_quaternionRate_out);
+    double *p_angularVelocity_in);
 
 /*!
  * @brief       Function which finds the magnitude of a vector. The vectos can

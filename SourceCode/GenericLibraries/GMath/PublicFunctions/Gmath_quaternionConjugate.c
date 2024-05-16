@@ -22,8 +22,8 @@
 #include "GConst/GConst.h"
 
 int GMath_quaternionConjugate(
-    double *p_inputQuaternion_in,
-    double *p_outputQuaternion_out)
+    double *p_outputQuaternion_out,
+    double *p_inputQuaternion_in)
 {
   /* Define local variables */
   uint8_t i;

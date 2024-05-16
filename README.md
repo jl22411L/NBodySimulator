@@ -23,10 +23,15 @@ Unless in very specific situations, all frames can be assumed to follow a right 
 The standard for quaternions in this project is:
 
 quaternion = [
+
   X_QUATERNION_COMPONENT,
+
   Y_QUATERNION_COMPONENT,
+
   Z_QUATERNION_COMPONENT,
+
   S_QUATERNION_COMPONENT
+
 ]
 
 where, s represents the scalar component.
@@ -34,12 +39,30 @@ where, s represents the scalar component.
 If applicable, a quaternion can also be broken down into its scalar and vector components:
 
 quaternion_gibs_vector = [
+
   X_QUATERNION_COMPONENT,
+
   Y_QUATERNION_COMPONENT,
+
   Z_QUATERNION_COMPONENT
+
 ]
 
 quaternion_scaler = S_QUATERNION_COMPONENT
+
+## EULER ANGLES ##
+
+The standard for Euler Angle vectors is 123 (XYZ).
+
+eulerAngle = [
+
+  ROLL,
+
+  PITCH,
+
+  YAW
+  
+]
 
 ## ROTATION SEQUENCES ##
 

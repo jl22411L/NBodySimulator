@@ -25,9 +25,9 @@
 #include "GZero/GZero.h"
 
 int GMath_quaternionPointRotation(
+    double *p_rotatedVector_out,
     double *p_vectorToRotate_in,
-    double *p_quaternion_in,
-    double *p_rotatedVector_out)
+    double *p_quaternion_in)
 {
   /* Declaring Local Variables Local variables */
   double  quaternionBuffer[4];

@@ -21,9 +21,9 @@
 #include "GConst/GConst.h"
 
 int GMath_quaternionMul(
+    double *p_outputQuaternion_out,
     double *p_quaternionP_in,
-    double *p_quaternionQ_in,
-    double *p_outputQuaternion_out)
+    double *p_quaternionQ_in)
 {
   /* Define local variables */
   double xQuaternionPComponent;
