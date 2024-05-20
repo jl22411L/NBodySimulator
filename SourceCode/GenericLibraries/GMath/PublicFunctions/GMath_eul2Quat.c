@@ -22,7 +22,7 @@
 #include "GConst/GConst.h"
 
 int GMath_eul2Quat(
-    double *p_eulerAnglevector_rad_in,
+    double *p_eulerAngleVector_rad_in,
     double *p_quaternionVector_out)
 {
   /* Declare Local Variables */
@@ -31,9 +31,9 @@ int GMath_eul2Quat(
   double yaw_rad;
 
   /* Extract Euler angles from input vector */
-  roll_rad  = *(p_eulerAnglevector_rad_in + 0);
-  pitch_rad = *(p_eulerAnglevector_rad_in + 1);
-  yaw_rad   = *(p_eulerAnglevector_rad_in + 2);
+  roll_rad  = *(p_eulerAngleVector_rad_in + 0);
+  pitch_rad = *(p_eulerAngleVector_rad_in + 1);
+  yaw_rad   = *(p_eulerAngleVector_rad_in + 2);
 
   /* Find quaternion components */
   *(p_quaternionVector_out + 0) =

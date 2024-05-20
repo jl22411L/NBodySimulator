@@ -21,7 +21,7 @@
 /* Generic Libraries */
 #include "GConst/GConst.h"
 
-int GMath_quat2Eul(
+int GMath_quaternion2Eul(
     double *p_quaternionVector_in,
     double *p_eulerAnglesVector_rad_out)
 {

@@ -51,8 +51,56 @@ extern int GMath_crossProduct(
     double *p_vectrocC_out);
 
 /*!
- * @brief       GMath function which takes euler angles and converts them to a
- *              quaternion.
+ * @brief       Function which takes in a DCM to then output Euler Angle 123
+ *              vector.
+ *
+ * @param[in]   p_dcmMatrix_in
+ *              Pointer to a 2D double array which contains a DCM matrix.
+ *
+ * @param[out]  p_eulerAngleVector_rad_out
+ *              Pointer to double vector which contains Euler Anlges (123)
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int
+    GMath_dcm2Eul(double *p_dcmMatrix_in, double *p_eulerAngleVector_rad_out);
+
+/*!
+ * @brief       Function which converts a DCM to a quaternion.
+ *
+ * @param[in]   p_dcmMatrix_in
+ *              Pointer to a 2D double array which contains a DCM matrix
+ *
+ * @param[out]  p_quaternionVector_out
+ *              Pointer to a double vector which contains a quaternion.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int
+    GMath_dcm2Quat(double *p_dcmMatrix_in, double *p_quaternionVector_out);
+
+/*!
+ * @brief       Function which converts a 123 Euler Vector to a DCM.
+ *
+ * @param[in]   p_eulerAngleVector_rad_in
+ *              Pointer to double vector which contains Euler Angles (123)
+ *
+ * @param[out]  p_dcmMatrix_out
+ *              Pointer to double 2D array which contains a DCM matrix.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int
+    GMath_eul2Dcm(double *p_eulerAngleVector_rad_in, double *p_dcmMatrix_out);
+/*!
+ * @brief       GMath function which takes euler angles and converts them to
+ *              a quaternion.
  *
  * @param[in]   p_eulerAnglevector_rad_in
  *              Pointer to double array containing euler angles vector.
@@ -285,6 +333,23 @@ extern int GMath_matSub(
     double *p_matrixC_out);
 
 /*!
+ * @brief       GMath function which converts a quaternion into a DCM.
+ *
+ * @param[in]   p_quaternionVector_in
+ *              Pointer to a double vector which contains a quaternion.
+ *
+ * @param[out]  p_dcmMatrix_out
+ *              Pointer to a double 2D array which contains a DCM matrix.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int GMath_quaternion2Dcm(
+    double *p_quaternionVector_in,
+    double *p_dcmMatrix_out);
+
+/*!
  * @brief       GMath function which converts quaterniond to euler angles
  *
  * @param[in]   p_quaternionVector_in
@@ -310,7 +375,7 @@ extern int GMath_matSub(
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GMath_quat2Eul(
+extern int GMath_quaternion2Eul(
     double *p_quaternionVector_in,
     double *p_eulerAnglesVector_rad_out);
 
