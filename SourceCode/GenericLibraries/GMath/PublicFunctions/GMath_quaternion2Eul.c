@@ -39,15 +39,15 @@ int GMath_quaternion2Eul(
 
   /* Find output Euler Angles */
   *(p_eulerAnglesVector_rad_out + 0) = atan2(
-      (2 * quaternion_y * quaternion_z + 2 * quaternion_s * quaternion_x),
-      (2 * quaternion_s * quaternion_s + 2 * quaternion_z * quaternion_z - 1));
+      2 * (quaternion_x * quaternion_s + quaternion_y * quaternion_z),
+      1 - 2 * (quaternion_x * quaternion_x + quaternion_y * quaternion_y));
 
   *(p_eulerAnglesVector_rad_out + 1) =
-      asin(-2 * (quaternion_x * quaternion_z + quaternion_s * quaternion_y));
+      asin(2 * (quaternion_y * quaternion_s - quaternion_x * quaternion_z));
 
   *(p_eulerAnglesVector_rad_out + 2) = atan2(
-      (2 * quaternion_x * quaternion_y + 2 * quaternion_s * quaternion_z),
-      (2 * quaternion_s * quaternion_s + 2 * quaternion_x * quaternion_x - 1));
+      2 * (quaternion_z * quaternion_s + quaternion_x * quaternion_y),
+      1 - 2 * (quaternion_y * quaternion_y + quaternion_z * quaternion_z));
 
   return GCONST_TRUE;
 }

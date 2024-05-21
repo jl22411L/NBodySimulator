@@ -42,7 +42,7 @@ int GMath_eul2Dcm(double *p_eulerAngleVector_rad_in, double *p_dcmMatrix_out)
 
   *(p_dcmMatrix_out + 3) =
       (cos(yaw_rad) * sin(pitch_rad) * sin(roll_rad) -
-       sin(yaw_rad) * sin(roll_rad));
+       sin(yaw_rad) * cos(roll_rad));
 
   *(p_dcmMatrix_out + 4) =
       (sin(yaw_rad) * sin(pitch_rad) * sin(roll_rad) +

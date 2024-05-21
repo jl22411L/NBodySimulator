@@ -35,34 +35,34 @@ int GMath_quaternion2Dcm(double *p_quaternionVector_in, double *p_dcmMatrix_out)
 
   /* Find elements of rotation matrix */
   *(p_dcmMatrix_out + 0) =
-      (quaternion_s * quaternion_s + quaternion_x * quaternion_x -
-       quaternion_y * quaternion_y - quaternion_z * quaternion_z);
+      (quaternion_x * quaternion_x - quaternion_y * quaternion_y -
+       quaternion_z * quaternion_z + quaternion_s * quaternion_s);
 
   *(p_dcmMatrix_out + 1) =
-      (2 * (quaternion_x * quaternion_y + quaternion_s * quaternion_z));
+      (2 * (quaternion_x * quaternion_y + quaternion_z * quaternion_s));
 
   *(p_dcmMatrix_out + 2) =
-      (2 * (quaternion_x * quaternion_z - quaternion_s * quaternion_y));
+      (2 * (quaternion_x * quaternion_z - quaternion_y * quaternion_s));
 
   *(p_dcmMatrix_out + 3) =
-      (2 * (quaternion_x * quaternion_y - quaternion_s * quaternion_z));
+      (2 * (quaternion_x * quaternion_y - quaternion_z * quaternion_s));
 
   *(p_dcmMatrix_out + 4) =
-      (quaternion_s * quaternion_s + quaternion_x * quaternion_x -
-       quaternion_y * quaternion_y - quaternion_z * quaternion_z);
+      (-quaternion_x * quaternion_x + quaternion_y * quaternion_y -
+       quaternion_z * quaternion_z + quaternion_s * quaternion_s);
 
   *(p_dcmMatrix_out + 5) =
-      (2 * quaternion_y * quaternion_z + quaternion_s * quaternion_z);
+      (2 * (quaternion_y * quaternion_z + quaternion_x * quaternion_s));
 
   *(p_dcmMatrix_out + 6) =
-      (2 * (quaternion_x * quaternion_z + quaternion_s * quaternion_y));
+      (2 * (quaternion_x * quaternion_z + quaternion_y * quaternion_s));
 
   *(p_dcmMatrix_out + 7) =
-      (2 * (quaternion_y * quaternion_z - quaternion_s * quaternion_x));
+      (2 * (quaternion_y * quaternion_z - quaternion_x * quaternion_s));
 
   *(p_dcmMatrix_out + 8) =
-      (quaternion_s * quaternion_s + quaternion_x * quaternion_x -
-       quaternion_y * quaternion_y - quaternion_z * quaternion_z);
+      (-quaternion_x * quaternion_x - quaternion_y * quaternion_y +
+       quaternion_z * quaternion_z + quaternion_s * quaternion_s);
 
   return GCONST_TRUE;
 }

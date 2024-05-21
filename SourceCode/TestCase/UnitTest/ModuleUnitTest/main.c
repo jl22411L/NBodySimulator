@@ -28,38 +28,75 @@
 #define rowsB (2)
 #define colsB (3)
 
-int main()
+int main(void)
 {
+  double quaternion[4] = {0, 0, 0, 1};
+  double eul123_rad[3] = {0, 0, 0};
+  double dcm[3][3]     = {
+      {0.8528686, 0.0052361, 0.5220994},
+      {0.1503837, 0.9551122, -0.2552361},
+      {-0.5000000, 0.2961981, 0.8137977}};
+  int i;
+  int j;
 
-  double vectorIn[3]       = {0, 0, 1};
-  double vectorOut1[3]     = {0, 0, 0};
-  double vectorOut2[3]     = {0, 0, 0};
-  double quaternion[4]     = {0.1913417, 0.4619398, 0.1913417, 0.8446232};
-  double unitQuaternion[4] = {0, 0, 0, 0};
-  int    i;
+  GMath_dcm2Eul(&dcm[0][0], &eul123_rad[0]);
 
-  /* Find unit quaternion */
-  GMath_findUnitQuaternion(&quaternion[0], &unitQuaternion[0]);
-
-  /* Apply rotateion */
-  GMath_quaternionPointRotation(
-      &vectorIn[0],
-      &unitQuaternion[0],
-      &vectorOut1[0]);
-  GMath_quaternionFrameRotation(
-      &vectorOut1[0],
-      &unitQuaternion[0],
-      &vectorOut2[0]);
-
-  /* Display output */
   for (i = 0; i < 3; i++)
   {
-    printf("%lf, ", vectorOut1[i]);
+    printf("%lf,", eul123_rad[i]);
   }
-  printf("\n");
+
+  printf("\n\n");
+
+  GMath_eul2Dcm(&eul123_rad[0], &dcm[0][0]);
+
   for (i = 0; i < 3; i++)
   {
-    printf("%lf, ", vectorOut2[i]);
+    for (j = 0; j < 3; j++)
+    {
+      printf("%lf, ", dcm[i][j]);
+    }
+    printf("\n");
+  }
+
+  printf("\n\n");
+
+  GMath_dcm2Quat(&dcm[0][0], &quaternion[0]);
+
+  for (i = 0; i < 4; i++)
+  {
+    printf("%lf, ", quaternion[i]);
+  }
+
+  printf("\n\n");
+
+  GMath_quaternion2Dcm(&quaternion[0], &dcm[0][0]);
+
+  for (i = 0; i < 3; i++)
+  {
+    for (j = 0; j < 3; j++)
+    {
+      printf("%lf, ", dcm[i][j]);
+    }
+    printf("\n");
+  }
+
+  printf("\n\n");
+
+  GMath_quaternion2Eul(&quaternion[0], &eul123_rad[0]);
+
+  for (i = 0; i < 3; i++)
+  {
+    printf("%lf, ", eul123_rad[i]);
+  }
+
+  printf("\n\n");
+
+  GMath_eul2Quat(&eul123_rad[0], &quaternion[0]);
+
+  for (i = 0; i < 4; i++)
+  {
+    printf("%lf, ", quaternion[i]);
   }
 
   return GCONST_EXIT_SUCCESS;

@@ -34,12 +34,12 @@ int GMath_dcm2Eul(double *p_dcmMatrix_in, double *p_eulerAngleVector_rad_out)
   a11 = *(p_dcmMatrix_in + 0);
   a12 = *(p_dcmMatrix_in + 1);
   a13 = *(p_dcmMatrix_in + 2);
-  a23 = *(p_dcmMatrix_in + 4);
-  a33 = *(p_dcmMatrix_in + 5);
+  a23 = *(p_dcmMatrix_in + 5);
+  a33 = *(p_dcmMatrix_in + 8);
 
   /* Find the Euler angles */
   *(p_eulerAngleVector_rad_out + 0) = atan2(a23, a33);
-  *(p_eulerAngleVector_rad_out + 1) = asin(a13);
+  *(p_eulerAngleVector_rad_out + 1) = asin(-a13);
   *(p_eulerAngleVector_rad_out + 2) = atan2(a12, a11);
 
   return GCONST_TRUE;
