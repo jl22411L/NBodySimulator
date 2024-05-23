@@ -21,7 +21,6 @@
 /* Generic Libraries */
 #include "GConst/GConst.h"
 #include "GMath/GMath.h"
-#include "GZero/GZero.h"
 
 #define rowsA (2)
 #define colsA (3)
@@ -29,43 +28,75 @@
 #define rowsB (2)
 #define colsB (3)
 
-int main()
+int main(void)
 {
-
-  double A[rowsA][colsA] = {{1, 2, 3}, {1, 2, 3}};
-
-  double B[rowsB][colsB] = {{1, 2, 3}, {1, 2, 3}};
-
-  double C[rowsA][colsB];
-
-  GZero(&C[0][0], double[rowsA][colsB]);
-
-  GMath_matAdd(&A[0][0], rowsA, colsA, &B[0][0], rowsB, colsB, &C[0][0]);
-
+  double quaternion[4] = {0, 0, 0, 1};
+  double eul123_rad[3] = {0, 0, 0};
+  double dcm[3][3]     = {
+      {0.8528686, 0.0052361, 0.5220994},
+      {0.1503837, 0.9551122, -0.2552361},
+      {-0.5000000, 0.2961981, 0.8137977}};
   int i;
   int j;
 
-  for (i = 0; i < rowsA; i++)
+  GMath_dcm2Eul(&dcm[0][0], &eul123_rad[0]);
+
+  for (i = 0; i < 3; i++)
   {
-    for (j = 0; j < colsB; j++)
+    printf("%lf,", eul123_rad[i]);
+  }
+
+  printf("\n\n");
+
+  GMath_eul2Dcm(&eul123_rad[0], &dcm[0][0]);
+
+  for (i = 0; i < 3; i++)
+  {
+    for (j = 0; j < 3; j++)
     {
-      printf("%lf, ", C[i][j]);
+      printf("%lf, ", dcm[i][j]);
     }
     printf("\n");
   }
-  printf("\n");
 
-  GZero(&C[0][0], double[rowsA][colsB]);
+  printf("\n\n");
 
-  GMath_matSub(&A[0][0], rowsA, colsA, &B[0][0], rowsB, colsB, &C[0][0]);
+  GMath_dcm2Quat(&dcm[0][0], &quaternion[0]);
 
-  for (i = 0; i < rowsA; i++)
+  for (i = 0; i < 4; i++)
   {
-    for (j = 0; j < colsB; j++)
+    printf("%lf, ", quaternion[i]);
+  }
+
+  printf("\n\n");
+
+  GMath_quaternion2Dcm(&quaternion[0], &dcm[0][0]);
+
+  for (i = 0; i < 3; i++)
+  {
+    for (j = 0; j < 3; j++)
     {
-      printf("%lf, ", C[i][j]);
+      printf("%lf, ", dcm[i][j]);
     }
     printf("\n");
+  }
+
+  printf("\n\n");
+
+  GMath_quaternion2Eul(&quaternion[0], &eul123_rad[0]);
+
+  for (i = 0; i < 3; i++)
+  {
+    printf("%lf, ", eul123_rad[i]);
+  }
+
+  printf("\n\n");
+
+  GMath_eul2Quat(&eul123_rad[0], &quaternion[0]);
+
+  for (i = 0; i < 4; i++)
+  {
+    printf("%lf, ", quaternion[i]);
   }
 
   return GCONST_EXIT_SUCCESS;

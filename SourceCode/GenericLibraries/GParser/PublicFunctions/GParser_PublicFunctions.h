@@ -12,8 +12,6 @@
 extern "C" {
 #endif
 
-#include "GParser/GParser.h"
-
 /* Function Includes */
 /* None */
 
@@ -25,7 +23,7 @@ extern "C" {
 /* None */
 
 /* Generic Libraries */
-/* None */
+#include "GParser/GParser.h"
 
 /*!
  * @details         This function runs throught the dictionary and sets all the
