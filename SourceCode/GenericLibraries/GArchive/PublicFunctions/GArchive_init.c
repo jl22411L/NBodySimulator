@@ -76,6 +76,12 @@ int GArchive_init(GArchive *p_archive_in, char *p_archiveDataFilename_in)
   /* Create directory to data file */
   sprintf(dataFileDirectory, "%s/Data.csv", directoryBuffer);
 
+  /* Check file exists */
+  if (GArchive_checkFileExists(dataFileDirectory) == GCONST_TRUE)
+  {
+    GError("File '%s' already exists", dataFileDirectory);
+  }
+
   /* Open file which to archive data */
   p_archive_in->p_archiveFile = fopen(dataFileDirectory, "w");
 

@@ -62,12 +62,6 @@ int GUtilities_init(const char *p_paramsFilePath)
       &Utilities.simTime_s,
       "TimeParameters:simTimeInitial");
 
-  GParser_loadInt(
-      &GParser_state,
-      dic,
-      &Utilities.numberOfBodies,
-      "BodyParameters:numberOfBodies");
-
   /* Set the simulation status to True */
   Utilities.runSimStatus = GCONST_TRUE;
 
