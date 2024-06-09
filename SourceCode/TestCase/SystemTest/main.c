@@ -14,6 +14,7 @@
 #include "BodyMgr/PublicFunctions/BodyMgr_PublicFunctions.h"
 #include "CelestialBody/PublicFunctions/CelestialBody_PublicFunctions.h"
 #include "Gravity/PublicFunctions/Gravity_PublicFunctions.h"
+#include "SatelliteBody/PublicFunctions/SatelliteBody_PublicFunctions.h"
 #include "UavBody/PublicFunctions/UavBody_PublicFunctions.h"
 
 /* Structure Include */
@@ -37,6 +38,7 @@ int main(void)
   /* Declaring local variables */
   Gravity_Params gravity_params;
   BodyMgr_State  bodyMgr_state;
+  int            i;
 
   /* Clear local variables */
   GZero(&bodyMgr_state, BodyMgr_State);
@@ -80,14 +82,34 @@ int main(void)
      *                            STEP SIMULATION                             *
      * ---------------------------------------------------------------------- */
 
-    /* Step UAV Body */
-    // UavBody_step(&uavBody_state);
+    /* ------------------------------- Bodies ------------------------------- */
 
-    /* Step Celestial Body */
-    CelestialBody_step(*(bodyMgr_state.p_celestialBodyList));
+    /* Step Celestial Bodies */
+    for (i = 0; i < bodyMgr_state.nCelestialBodies; i++)
+    {
+      CelestialBody_step(*(bodyMgr_state.p_celestialBodyList + i));
+    }
+
+    /* Step Satellite Bodies */
+    for (i = 0; i < bodyMgr_state.nSatelliteBodies; i++)
+    {
+      SatelliteBody_step(*(bodyMgr_state.p_satelliteBodyList + i));
+    }
+
+    /* Step UAV Bodies */
+    for (i = 0; i < bodyMgr_state.nUavBodies; i++)
+    {
+      UavBody_step(*(bodyMgr_state.p_uavBodyList + i));
+    }
+
+    /* ------------------------------ Time --------------------------------- */
 
     /* Step forawrd in time */
     Utilities.simTime_s += Utilities.simTimeStep_s;
+
+    /* ---------------------------------------------------------------------- *
+     *                          CHECK END CONDITION                           *
+     * ---------------------------------------------------------------------- */
 
     /* Check if the simulation duration has been reached */
     if (Utilities.simTime_s >= Utilities.simTimeDuration_s)
@@ -99,11 +121,31 @@ int main(void)
   while (Utilities.runSimStatus);
 
   /*-------------------------------------------------------------------------*
-   *                         TERMINATION OF SIMULATION                       *
+   *                        TERMINATION OF SIMULATION                        *
    *-------------------------------------------------------------------------*/
 
-  /* Terminate bodies */
-  CelestialBody_terminate(*(bodyMgr_state.p_celestialBodyList));
+  /* ------------------------------- Bodies -------------------------------- */
+
+  /* Terminate Celestial Bodies */
+  for (i = 0; i < bodyMgr_state.nCelestialBodies; i++)
+  {
+    CelestialBody_terminate(*(bodyMgr_state.p_celestialBodyList + i));
+  }
+
+  /* Terminate Satellite Bodies */
+  for (i = 0; i < bodyMgr_state.nSatelliteBodies; i++)
+  {
+    SatelliteBody_terminate(*(bodyMgr_state.p_satelliteBodyList + i));
+  }
+
+  /* Terminate UAV Bodies */
+  for (i = 0; i < bodyMgr_state.nUavBodies; i++)
+  {
+    UavBody_terminate(*(bodyMgr_state.p_uavBodyList + i));
+  }
+
+  /* Terminate BodyMgr */
+  BodyMgr_terminate(&bodyMgr_state);
 
   return GCONST_EXIT_SUCCESS;
 }

@@ -28,19 +28,19 @@ int Gravity_init(
     const char     *p_paramsFilePath)
 {
   /* Defining local variables */
-  dictionary   *dic;
+  dictionary   *p_dic;
   GParser_State GParser_state;
 
   /* Clearing  variables */
   GZero(&GParser_state, GParser_State);
   GZero(p_gravityParams_in, Gravity_Params);
-  dic = NULL;
+  p_dic = NULL;
 
   /* Loading parameters into dictionaries */
-  dic = GParser_loadParams(&GParser_state, p_paramsFilePath);
+  p_dic = GParser_loadParams(&GParser_state, p_paramsFilePath);
 
   /* Check parameters are laoded */
-  if (dic == NULL)
+  if (p_dic == NULL)
   {
     GError("Params weren't loaded correctly");
   }
@@ -52,13 +52,13 @@ int Gravity_init(
 
   GParser_loadUInt8(
       &GParser_state,
-      dic,
+      p_dic,
       &(p_gravityParams_in->gravityModel),
       "GravityParameters:GravityModel");
 
   GParser_loadDouble(
       &GParser_state,
-      dic,
+      p_dic,
       &(p_gravityParams_in->seaLevelGravitationalAcceleration_ms2),
       "GravityParameters:SeaLevelGravitationalAcceleration");
 
@@ -86,11 +86,14 @@ int Gravity_init(
   {
     GWarn(
         "Gravity model 'FlatEarthGravityModel' (10) is not being used,"
-        "however, gravitational acceleartion is set to %d",
+        "however, gravitational acceleartion is set to %lf",
         p_gravityParams_in->seaLevelGravitationalAcceleration_ms2);
     GWarn("It is advised to set gravitational acceleration to 0 if not useing "
           "Flat Earth Model");
   }
+
+  /* Close params */
+  GParser_closeParams(&GParser_state, p_dic);
 
   return GCONST_TRUE;
 }

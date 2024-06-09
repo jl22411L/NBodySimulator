@@ -36,90 +36,102 @@ int BodyMgr_init(
     const char    *p_bodyMgrFilename)
 {
   /* Declare Local Variables */
-  GParser_State GParser_state;
   dictionary   *p_dic;
-  char          parameterBuffer[BODYMGR_PARAMETER_BUFFER];
-  char bodyNameBuffer[BODYMGR_MAX_NUMBER_OF_BODIES][BODYMGR_NAME_BUFFER];
-  int  bodyTypeList[BODYMGR_MAX_NUMBER_OF_BODIES];
-  int  nRigidBodies;
-  int  nCelestialBodies;
-  int  nSatelliteBodies;
-  int  nUavBodies;
-  int  iRigidBodies;
-  int  iCelestialBodies;
-  int  iSatelliteBodies;
-  int  iUavBodies;
-  int  i;
+  GParser_State GParser_state;
+  char          parameterBuffer[BODYMGR_MAX_BUFFER_LENGTH];
+  char          bodyNameBuffer[BODYMGR_MAX_NUMBER_OF_BODIES]
+                     [BODYMGR_BODY_NAME_MAX_BUFFER];
+  int bodyTypeList[BODYMGR_MAX_NUMBER_OF_BODIES];
+  int nRigidBodies;
+  int nCelestialBodies;
+  int nSatelliteBodies;
+  int nUavBodies;
+  int iRigidBodies;
+  int iCelestialBodies;
+  int iSatelliteBodies;
+  int iUavBodies;
+  int i;
 
   /* Clear Variables & Buffers */
-  GZero(&GParser_state, GParser_State);
   GZero(p_bodyMgr_state_out, BodyMgr_State);
-  GZero(&parameterBuffer[0], char[BODYMGR_PARAMETER_BUFFER]);
+  GZero(&GParser_state, GParser_State);
+  GZero(&parameterBuffer[0], char[BODYMGR_MAX_BUFFER_LENGTH]);
   GZero(
       &bodyNameBuffer[0][0],
-      char[BODYMGR_MAX_NUMBER_OF_BODIES][BODYMGR_NAME_BUFFER]);
+      char[BODYMGR_MAX_NUMBER_OF_BODIES][BODYMGR_BODY_NAME_MAX_BUFFER]);
   GZero(&bodyTypeList[0], int[BODYMGR_MAX_NUMBER_OF_BODIES]);
-  nRigidBodies     = 0;
-  nCelestialBodies = 0;
-  nSatelliteBodies = 0;
-  nUavBodies       = 0;
   iRigidBodies     = 0;
   iCelestialBodies = 0;
   iSatelliteBodies = 0;
   iUavBodies       = 0;
 
-  /* Load parameters into GParser_state struct */
+  /* Load parameters */
   p_dic = GParser_loadParams(&GParser_state, p_bodyMgrFilename);
 
-  /* Find number of bodies. This should be equal to the number of sections */
+  /* Find number of bodies */
   p_bodyMgr_state_out->nBodies = GParser_state.maxNumberSection;
 
-  /* Load each body individually */
+  /* Iterate through the different loadies and load parameters into bodies */
   for (i = 0; i < p_bodyMgr_state_out->nBodies; i++)
   {
-    /* Load buffer with name of body type */
-    sprintf(parameterBuffer, "Body%d:bodyType", i);
+    /* Load Parameter Buffer with name of parameter */
+    sprintf(&parameterBuffer[0], "Body%d:bodyType", i);
 
-    /* Load body type */
-    GParser_loadInt(&GParser_state, p_dic, &bodyTypeList[i], parameterBuffer);
-
-    /* Clear buffer */
-    GZero(&parameterBuffer[0], char[BODYMGR_PARAMETER_BUFFER]);
-
-    /* Load buffer with name of body type */
-    sprintf(parameterBuffer, "Body%d:bodyName", i);
-
-    /* Load body name */
-    GParser_loadString(
+    /* Load the type of body */
+    GParser_loadInt(
         &GParser_state,
         p_dic,
-        &bodyNameBuffer[i][0],
-        parameterBuffer);
+        &bodyTypeList[i],
+        &parameterBuffer[0]);
 
-    GZero(&parameterBuffer[0], char[BODYMGR_PARAMETER_BUFFER]);
-
+    /* See what type of body is being loaded */
     switch (bodyTypeList[i])
     {
-    case RIGID_BODY:
-      p_bodyMgr_state_out->nRigidBodies++;
-      break;
-
-    case CELESTIAL_BODY:
+    // case (RIGID_BODY):
+    //   p_bodyMgr_state_out->nRigidBodies++;
+    //   break;
+    /* If want to just have rigid bodies will beed another array of poitners for
+     * them. This is because the memory allocation.
+     *
+     * Kind of hard to explain but when memory is assigned to other bodies it
+     * also includes the rigid body. However if you just want a rigid body you
+     * need to assign memory for it. This results in a pointer pointing to an
+     * array of rigid bodies pointer with some having memory assigned to them
+     * and some not.
+     *
+     * Remember that the memory for the rigid bodies is assigned with the body
+     * avove and the array only contains the pointer.
+     *
+     * Hence a new list will be needed like celestial bodies and uav etc.. to
+     * keep track of them
+     *
+     */
+    case (CELESTIAL_BODY):
       p_bodyMgr_state_out->nCelestialBodies++;
       break;
-
-    case SATELLITE_BODY:
+    case (SATELLITE_BODY):
       p_bodyMgr_state_out->nSatelliteBodies++;
       break;
-
-    case UAV_BODY:
+    case (UAV_BODY):
       p_bodyMgr_state_out->nUavBodies++;
       break;
-
     default:
       GError("Unknown Body Type %d", bodyTypeList[i]);
       break;
     }
+
+    /* Clear Buffer */
+    GZero(&parameterBuffer[0], char[BODYMGR_MAX_BUFFER_LENGTH]);
+
+    /* Load parameter buffer with name of string */
+    sprintf(&parameterBuffer[0], "Body%d:bodyName", i);
+
+    /* Load the name of the body */
+    GParser_loadString(
+        &GParser_state,
+        p_dic,
+        &bodyNameBuffer[i][0],
+        &parameterBuffer[0]);
   }
 
   /* Assign memory for Rigid bodies pointers */
@@ -153,10 +165,6 @@ int BodyMgr_init(
     {
     case RIGID_BODY:
 
-      /* Assign memory for body */
-      *(p_bodyMgr_state_out->p_rigidBodyList + iRigidBodies) =
-          (RigidBody_State *)calloc(1, sizeof(RigidBody_State));
-
       /* Init RigidBody Body */
       RigidBody_init(
           *(p_bodyMgr_state_out->p_rigidBodyList + iRigidBodies),
@@ -170,9 +178,6 @@ int BodyMgr_init(
     case CELESTIAL_BODY:
 
       /* Assign memory for body */
-      *(p_bodyMgr_state_out->p_rigidBodyList + iRigidBodies) =
-          (RigidBody_State *)calloc(1, sizeof(RigidBody_State));
-
       *(p_bodyMgr_state_out->p_celestialBodyList + iCelestialBodies) =
           (CelestialBody_State *)calloc(1, sizeof(CelestialBody_State));
 
@@ -194,9 +199,6 @@ int BodyMgr_init(
     case SATELLITE_BODY:
 
       /* Assign memory for body */
-      *(p_bodyMgr_state_out->p_rigidBodyList + iRigidBodies) =
-          (RigidBody_State *)calloc(1, sizeof(RigidBody_State));
-
       *(p_bodyMgr_state_out->p_satelliteBodyList + iSatelliteBodies) =
           (SatelliteBody_State *)calloc(1, sizeof(SatelliteBody_State));
 
@@ -218,9 +220,6 @@ int BodyMgr_init(
     case UAV_BODY:
 
       /* Assign memory for body */
-      *(p_bodyMgr_state_out->p_rigidBodyList + iRigidBodies) =
-          (RigidBody_State *)calloc(1, sizeof(RigidBody_State));
-
       *(p_bodyMgr_state_out->p_uavBodyList + iUavBodies) =
           (UavBody_State *)calloc(1, sizeof(UavBody_State));
 
@@ -245,7 +244,7 @@ int BodyMgr_init(
     }
 
     /* Clear parameterBuffer */
-    GZero(&parameterBuffer[0], char[BODYMGR_PARAMETER_BUFFER]);
+    GZero(&parameterBuffer[0], char[BODYMGR_MAX_BUFFER_LENGTH]);
   }
 
   /* Check that the number of bodies matches */
@@ -264,6 +263,9 @@ int BodyMgr_init(
         p_bodyMgr_state_out->nUavBodies,
         p_bodyMgr_state_out->nCelestialBodies);
   }
+
+  /* Terminate GParser */
+  GParser_closeParams(&GParser_state, p_dic);
 
   return GCONST_TRUE;
 }

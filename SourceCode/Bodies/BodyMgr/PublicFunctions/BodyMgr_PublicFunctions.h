@@ -47,6 +47,18 @@ extern int BodyMgr_init(
     BodyMgr_State *p_bodyMgr_state_out,
     const char    *p_bodyMgrFilename);
 
+/*!
+ * @brief       Function which terminates all the bodies and releases memory
+ *              assigned on the heap.
+ *
+ * @param[in]   p_bodyMgr_state_in
+ *              Pointer to BodyMgr state struct to initialize
+ *
+ * @return      On a successful completion, will return a GCONST_TRUE. If
+ *              execution of function fails, will return a GCONST_FALSE.
+ */
+extern int BodyMgr_terminate(BodyMgr_State *p_bodyMgr_state_in);
+
 #ifdef __cplusplus
 }
 #endif

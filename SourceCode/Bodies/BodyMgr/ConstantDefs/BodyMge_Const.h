@@ -26,11 +26,9 @@ extern "C" {
 /* Generic Libraries */
 /* None */
 
-#define BODYMGR_PARAMETER_BUFFER     (256)
-#define BODYMGR_NAME_BUFFER          (256)
-
 #define BODYMGR_MAX_NUMBER_OF_BODIES (256)
 #define BODYMGR_BODY_NAME_MAX_BUFFER (256)
+#define BODYMGR_MAX_BUFFER_LENGTH    (256)
 
 #ifdef __cplusplus
 }

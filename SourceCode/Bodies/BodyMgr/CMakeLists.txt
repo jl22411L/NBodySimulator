@@ -1,5 +1,6 @@
 add_library(BodyMgr
   PublicFunctions/BodyMgr_init.c
+  PublicFunctions/BodyMgr_terminate.c
 )
 
 target_link_libraries(BodyMgr
