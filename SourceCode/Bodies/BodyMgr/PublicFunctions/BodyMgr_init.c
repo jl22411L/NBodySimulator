@@ -23,7 +23,7 @@
 
 /* Data include */
 #include "BodyMgr/ConstantDefs/BodyMge_Const.h"
-#include "BodyMgr/ConstantDefs/BodyMgr_BodyType.h"
+#include "BodyMgr/ConstantDefs/BodyMgr_BodyTypeEnum.h"
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
@@ -156,10 +156,14 @@ int BodyMgr_init(
     {
     case RIGID_BODY:
 
+      /* Assign memory for body */
+      *(p_bodyMgr_state_out->p_rigidBodyList + iRigidBody) =
+          (RigidBody_State *)calloc(1, sizeof(RigidBody_State));
+
       /* Init RigidBody Body */
       RigidBody_init(
           *(p_bodyMgr_state_out->p_rigidBodyList + iRigidBody),
-          &parameterBuffer[i]);
+          &parameterBuffer[0]);
 
       /* Assign Rigid Body to list */
       *(p_bodyMgr_state_out->p_rigidBodyPointerList + iRigidBodyPointers) =

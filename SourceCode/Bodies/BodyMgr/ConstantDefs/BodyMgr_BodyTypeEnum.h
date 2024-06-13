@@ -1,5 +1,5 @@
 /*
- *    @File:         BodyMgr_BodyType.h
+ *    @File:         BodyMgr_BodyTypeEnum.h
  *
  *    @Brief:        File which contains the enumerator for the different body
  *                   types.
@@ -8,8 +8,8 @@
  *
  */
 
-#ifndef H_BODYMGR_BODYTYPE_H
-#define H_BODYMGR_BODYTYPE_H
+#ifndef H_BODYMGR_BODYTYPEENUM_H
+#define H_BODYMGR_BODYTYPEENUM_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -57,4 +57,4 @@ typedef enum BodyMgr_BodyTypeEnum
 #ifdef __cplusplus
 }
 #endif
-#endif /* H_BODYMGR_BODYTYPE_H */
+#endif /* H_BODYMGR_BODYTYPEENUM_H */
