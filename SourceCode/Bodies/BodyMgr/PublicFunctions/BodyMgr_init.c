@@ -46,7 +46,8 @@ int BodyMgr_init(
   int nCelestialBodies;
   int nSatelliteBodies;
   int nUavBodies;
-  int iRigidBodies;
+  int iRigidBodyPointers;
+  int iRigidBody;
   int iCelestialBodies;
   int iSatelliteBodies;
   int iUavBodies;
@@ -60,10 +61,11 @@ int BodyMgr_init(
       &bodyNameBuffer[0][0],
       char[BODYMGR_MAX_NUMBER_OF_BODIES][BODYMGR_BODY_NAME_MAX_BUFFER]);
   GZero(&bodyTypeList[0], int[BODYMGR_MAX_NUMBER_OF_BODIES]);
-  iRigidBodies     = 0;
-  iCelestialBodies = 0;
-  iSatelliteBodies = 0;
-  iUavBodies       = 0;
+  iRigidBodyPointers = 0;
+  iRigidBody         = 0;
+  iCelestialBodies   = 0;
+  iSatelliteBodies   = 0;
+  iUavBodies         = 0;
 
   /* Load parameters */
   p_dic = GParser_loadParams(&GParser_state, p_bodyMgrFilename);
@@ -87,25 +89,9 @@ int BodyMgr_init(
     /* See what type of body is being loaded */
     switch (bodyTypeList[i])
     {
-    // case (RIGID_BODY):
-    //   p_bodyMgr_state_out->nRigidBodies++;
-    //   break;
-    /* If want to just have rigid bodies will beed another array of poitners for
-     * them. This is because the memory allocation.
-     *
-     * Kind of hard to explain but when memory is assigned to other bodies it
-     * also includes the rigid body. However if you just want a rigid body you
-     * need to assign memory for it. This results in a pointer pointing to an
-     * array of rigid bodies pointer with some having memory assigned to them
-     * and some not.
-     *
-     * Remember that the memory for the rigid bodies is assigned with the body
-     * avove and the array only contains the pointer.
-     *
-     * Hence a new list will be needed like celestial bodies and uav etc.. to
-     * keep track of them
-     *
-     */
+    case (RIGID_BODY):
+      p_bodyMgr_state_out->nRigidBodies++;
+      break;
     case (CELESTIAL_BODY):
       p_bodyMgr_state_out->nCelestialBodies++;
       break;
@@ -135,8 +121,13 @@ int BodyMgr_init(
   }
 
   /* Assign memory for Rigid bodies pointers */
-  p_bodyMgr_state_out->p_rigidBodyList = (RigidBody_State **)calloc(
+  p_bodyMgr_state_out->p_rigidBodyPointerList = (RigidBody_State **)calloc(
       p_bodyMgr_state_out->nBodies,
+      sizeof(RigidBody_State *));
+
+  /* Assign memory for Pure Rigid Bodies */
+  p_bodyMgr_state_out->p_rigidBodyList = (RigidBody_State **)calloc(
+      p_bodyMgr_state_out->nRigidBodies,
       sizeof(RigidBody_State *));
 
   /* Assign memory for Satellite bodies pointers */
@@ -167,12 +158,16 @@ int BodyMgr_init(
 
       /* Init RigidBody Body */
       RigidBody_init(
-          *(p_bodyMgr_state_out->p_rigidBodyList + iRigidBodies),
+          *(p_bodyMgr_state_out->p_rigidBodyList + iRigidBody),
           &parameterBuffer[i]);
 
-      /* Incriment iterators */
-      iRigidBodies++;
+      /* Assign Rigid Body to list */
+      *(p_bodyMgr_state_out->p_rigidBodyPointerList + iRigidBodyPointers) =
+          *(p_bodyMgr_state_out->p_rigidBodyList + iRigidBody);
 
+      /* Incriment iterators */
+      iRigidBodyPointers++;
+      iRigidBody++;
       break;
 
     case CELESTIAL_BODY:
@@ -187,12 +182,12 @@ int BodyMgr_init(
           &parameterBuffer[0]);
 
       /* Assign Rigid Body to list */
-      *(p_bodyMgr_state_out->p_rigidBodyList + iRigidBodies) =
+      *(p_bodyMgr_state_out->p_rigidBodyPointerList + iRigidBodyPointers) =
           &((*(p_bodyMgr_state_out->p_celestialBodyList + iCelestialBodies))
                 ->rigidBody_state);
 
       /* Incriment iterators */
-      iRigidBodies++;
+      iRigidBodyPointers++;
       iCelestialBodies++;
       break;
 
@@ -208,12 +203,12 @@ int BodyMgr_init(
           &parameterBuffer[0]);
 
       /* Assign Rigid Body to list */
-      *(p_bodyMgr_state_out->p_rigidBodyList + iRigidBodies) =
+      *(p_bodyMgr_state_out->p_rigidBodyPointerList + iRigidBodyPointers) =
           &((*(p_bodyMgr_state_out->p_satelliteBodyList + iSatelliteBodies))
                 ->rigidBody_state);
 
       /* Incriment iterators */
-      iRigidBodies++;
+      iRigidBodyPointers++;
       iSatelliteBodies++;
       break;
 
@@ -229,12 +224,12 @@ int BodyMgr_init(
           &parameterBuffer[0]);
 
       /* Assign Rigid Body to list */
-      *(p_bodyMgr_state_out->p_rigidBodyList + iRigidBodies) =
+      *(p_bodyMgr_state_out->p_rigidBodyPointerList + iRigidBodyPointers) =
           &((*(p_bodyMgr_state_out->p_uavBodyList + iUavBodies))
                 ->rigidBody_state);
 
       /* Incriment iterators */
-      iRigidBodies++;
+      iRigidBodyPointers++;
       iUavBodies++;
       break;
 

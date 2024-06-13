@@ -75,7 +75,7 @@ int main(void)
     /* Apply gravity to UAV body */
     Gravity_findGravity(
         &gravity_params,
-        bodyMgr_state.p_rigidBodyList,
+        bodyMgr_state.p_rigidBodyPointerList,
         bodyMgr_state.nBodies);
 
     /* ---------------------------------------------------------------------- *
@@ -83,24 +83,6 @@ int main(void)
      * ---------------------------------------------------------------------- */
 
     /* ------------------------------- Bodies ------------------------------- */
-
-    /* Step Celestial Bodies */
-    for (i = 0; i < bodyMgr_state.nCelestialBodies; i++)
-    {
-      CelestialBody_step(*(bodyMgr_state.p_celestialBodyList + i));
-    }
-
-    /* Step Satellite Bodies */
-    for (i = 0; i < bodyMgr_state.nSatelliteBodies; i++)
-    {
-      SatelliteBody_step(*(bodyMgr_state.p_satelliteBodyList + i));
-    }
-
-    /* Step UAV Bodies */
-    for (i = 0; i < bodyMgr_state.nUavBodies; i++)
-    {
-      UavBody_step(*(bodyMgr_state.p_uavBodyList + i));
-    }
 
     /* ------------------------------ Time --------------------------------- */
 
@@ -125,24 +107,6 @@ int main(void)
    *-------------------------------------------------------------------------*/
 
   /* ------------------------------- Bodies -------------------------------- */
-
-  /* Terminate Celestial Bodies */
-  for (i = 0; i < bodyMgr_state.nCelestialBodies; i++)
-  {
-    CelestialBody_terminate(*(bodyMgr_state.p_celestialBodyList + i));
-  }
-
-  /* Terminate Satellite Bodies */
-  for (i = 0; i < bodyMgr_state.nSatelliteBodies; i++)
-  {
-    SatelliteBody_terminate(*(bodyMgr_state.p_satelliteBodyList + i));
-  }
-
-  /* Terminate UAV Bodies */
-  for (i = 0; i < bodyMgr_state.nUavBodies; i++)
-  {
-    UavBody_terminate(*(bodyMgr_state.p_uavBodyList + i));
-  }
 
   /* Terminate BodyMgr */
   BodyMgr_terminate(&bodyMgr_state);
