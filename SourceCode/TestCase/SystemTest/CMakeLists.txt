@@ -11,6 +11,7 @@ set(LIB_LIST
   GUtilities
   UavBody
   CelestialBody
+  BodyMgr
 )
 
 target_link_libraries(SystemTest ${LIB_LIST})

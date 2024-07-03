@@ -138,15 +138,23 @@ echo "[...] Running executable: ${PATH_TO_TEST_RUN}${EXECUTABLE_NAME}"
 if [ ${DEBUG_FLAG} == True ]; then
   cd "${PATH_TO_TEST_RUN}"
   echo "[...] Running in Debug Mode"
+  echo ""
   gdb ./${EXECUTABLE_NAME}
+  echo ""
   cd ${PATH_TO_ROOT}
 elif [ ${VALGRIND_FLAG} == True ]; then
   cd "${PATH_TO_TEST_RUN}"
   echo "[...] Running in Debug Mode"
+  echo ""
   valgrind --leak-check=full ./${EXECUTABLE_NAME}
+  echo ""
   cd ${PATH_TO_ROOT}
 else 
   cd "${PATH_TO_TEST_RUN}"
+  echo ""
   ./${EXECUTABLE_NAME}
+  echo ""
   cd ${PATH_TO_ROOT}
 fi
+
+echo "[MSG] # --------------------------------- TEST COMPLETE -------------------------------- #"

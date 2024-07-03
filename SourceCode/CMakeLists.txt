@@ -35,6 +35,7 @@ include_directories(${UNITTEST_PATH})
 # ----------- Add subdirectories which contain CMakeLists.txt file ---------- #
 
 # Bodies
+add_subdirectory(${BODIES_PATH}/BodyMgr)
 add_subdirectory(${BODIES_PATH}/CelestialBody)
 add_subdirectory(${BODIES_PATH}/RigidBody)
 add_subdirectory(${BODIES_PATH}/SatelliteBody)

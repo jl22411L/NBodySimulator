@@ -11,11 +11,14 @@
 #include <stdio.h>
 
 /* Function Includes */
+#include "BodyMgr/PublicFunctions/BodyMgr_PublicFunctions.h"
 #include "CelestialBody/PublicFunctions/CelestialBody_PublicFunctions.h"
 #include "Gravity/PublicFunctions/Gravity_PublicFunctions.h"
+#include "SatelliteBody/PublicFunctions/SatelliteBody_PublicFunctions.h"
 #include "UavBody/PublicFunctions/UavBody_PublicFunctions.h"
 
 /* Structure Include */
+#include "BodyMgr/DataStructs/BodyMgr_StateStruct.h"
 #include "CelestialBody/DataStructs/CelestialBody_StateStruct.h"
 #include "Gravity/DataStructs/Gravity_ParamsStruct.h"
 #include "RigidBody/DataStructs/RigidBody_StateStruct.h"
@@ -33,14 +36,13 @@
 int main(void)
 {
   /* Declaring local variables */
-  UavBody_State       uavBody_state;
-  Gravity_Params      gravity_params;
-  CelestialBody_State celestialBody_state;
-  RigidBody_State    *rigidBodyArr_state[2];
+  Gravity_Params gravity_params;
+  BodyMgr_State  bodyMgr_state;
+  int            i;
 
   /* Clear local variables */
-  GZero(&uavBody_state, UavBody_State);
-  GZero(&celestialBody_state, CelestialBody_State);
+  GZero(&bodyMgr_state, BodyMgr_State);
+  GZero(&gravity_params, Gravity_Params);
 
   /*-------------------------------------------------------------------------*
    *                          INITIALIZATION SECTION *
@@ -52,13 +54,8 @@ int main(void)
   /* Initialize Gravity Module */
   Gravity_init(&gravity_params, "Parameters/GravityParameters.ini");
 
-  /* Initialize Bodies */
-  UavBody_init(&uavBody_state, "Parameters/CR-1.ini");
-  CelestialBody_init(&celestialBody_state, "Parameters/Earth.ini");
-
-  /* Create an array of pointers which point to the rigid bodies */
-  rigidBodyArr_state[0] = &(uavBody_state.rigidBody_state);
-  rigidBodyArr_state[1] = &(celestialBody_state.rigidBody_state);
+  /* Initialize BodyMgr */
+  BodyMgr_init(&bodyMgr_state, "Parameters/BodyMgrParameters.ini");
 
   /*-------------------------------------------------------------------------*
    *                         ENTER CYCLICAL EXECUTION                        *
@@ -78,21 +75,23 @@ int main(void)
     /* Apply gravity to UAV body */
     Gravity_findGravity(
         &gravity_params,
-        &rigidBodyArr_state[0],
-        Utilities.numberOfBodies);
+        bodyMgr_state.p_rigidBodyPointerList,
+        bodyMgr_state.nBodies);
 
     /* ---------------------------------------------------------------------- *
      *                            STEP SIMULATION                             *
      * ---------------------------------------------------------------------- */
 
-    /* Step UAV Body */
-    UavBody_step(&uavBody_state);
+    /* ------------------------------- Bodies ------------------------------- */
 
-    /* Step Celestial Body */
-    CelestialBody_step(&celestialBody_state);
+    /* ------------------------------ Time --------------------------------- */
 
     /* Step forawrd in time */
     Utilities.simTime_s += Utilities.simTimeStep_s;
+
+    /* ---------------------------------------------------------------------- *
+     *                          CHECK END CONDITION                           *
+     * ---------------------------------------------------------------------- */
 
     /* Check if the simulation duration has been reached */
     if (Utilities.simTime_s >= Utilities.simTimeDuration_s)
@@ -104,12 +103,13 @@ int main(void)
   while (Utilities.runSimStatus);
 
   /*-------------------------------------------------------------------------*
-   *                         TERMINATION OF SIMULATION                       *
+   *                        TERMINATION OF SIMULATION                        *
    *-------------------------------------------------------------------------*/
 
-  /* Terminate bodies */
-  UavBody_terminate(&uavBody_state);
-  CelestialBody_terminate(&celestialBody_state);
+  /* ------------------------------- Bodies -------------------------------- */
+
+  /* Terminate BodyMgr */
+  BodyMgr_terminate(&bodyMgr_state);
 
   return GCONST_EXIT_SUCCESS;
 }
