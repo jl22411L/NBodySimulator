@@ -1,5 +1,5 @@
 /*
- *    @File:         BodyMge_Const.h
+ *    @File:         BodyMgr_Const.h
  *
  *    @Brief:        Header file that conatins constants for BodyMgr
  *
