@@ -8,6 +8,7 @@ add_executable(ModuleUnitTest
 
 set(LIB_LIST
   GMath
+  TriadAlgorithm
 )
 
 target_link_libraries(ModuleUnitTest ${LIB_LIST})

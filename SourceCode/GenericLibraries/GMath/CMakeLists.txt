@@ -8,11 +8,13 @@ add_library(GMath
   PublicFunctions/GMath_dcm2Quat.c
   PublicFunctions/GMath_eul2Dcm.c
   PublicFunctions/GMath_eul2Quat.c
-  PublicFunctions/GMath_findUnitQUaternion.c
+  PublicFunctions/GMath_findUnitQuaternion.c
+  PublicFunctions/GMath_findUnitVector.c
   PublicFunctions/GMath_invCol.c
   PublicFunctions/GMath_invMat.c
   PublicFunctions/GMath_matAdd.c
   PublicFunctions/GMath_matMul.c
+  PublicFunctions/GMath_matMul3x3by3x3.c
   PublicFunctions/GMath_matSub.c
   PublicFunctions/GMath_quaternion2Dcm.c
   PublicFunctions/GMath_quaternion2Eul.c

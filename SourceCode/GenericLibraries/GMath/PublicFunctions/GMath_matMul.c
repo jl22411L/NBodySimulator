@@ -2,6 +2,7 @@
  *    @File:         GMath_matMul.c
  *
  *    @ Brief:       Does matrix multiplication of two matricies of any size.
+ *                   Follows the form [A]*[B] = [C]
  *
  *    @ Date:        07/03/2024
  *
@@ -19,6 +20,7 @@
 /* Generic Libraries */
 #include "GConst/GConst.h"
 #include "GLog/GLog.h"
+#include "GZero/GZero.h"
 
 int GMath_matMul(
     double *p_matrixA_in,
@@ -30,10 +32,12 @@ int GMath_matMul(
     double *p_matrixC_out)
 {
   /* Declaring local variables */
-  double elementTotal;
-  int    i;
-  int    j;
-  int    k;
+  int i;
+  int j;
+  int k;
+
+  /* Clear output matrix */
+  GZero(p_matrixC_out, double[rowsA_in][colsB_in]);
 
   /* Check dimensions of matrix are valid */
   if (colsA_in != rowsB_in)
@@ -54,18 +58,13 @@ int GMath_matMul(
     /* Iterate through columns for matrix c */
     for (j = 0; j < colsB_in; j++)
     {
-      /* Set total for element to Zero before */
-      elementTotal = 0;
-
       /* Find the sum for the element in matrix c */
       for (k = 0; k < colsA_in; k++)
       {
-        elementTotal += (*(p_matrixA_in + i * colsA_in + k)) *
-                        (*(p_matrixB_in + k * colsB_in + j));
+        *(p_matrixC_out + colsB_in * i + j) +=
+            (*(p_matrixA_in + i * colsA_in + k)) *
+            (*(p_matrixB_in + k * colsB_in + j));
       }
-
-      /* Set the element of the output matrix */
-      *(p_matrixC_out + i * colsB_in + j) = elementTotal;
     }
   }
 

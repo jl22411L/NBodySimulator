@@ -10,7 +10,7 @@
 #include <stdio.h>
 
 /* Function Includes */
-/* None */
+#include "Guidance/TriadAlgorithm/PublicFunctions/TriadAlgorithm_PublicFunctions.h"
 
 /* Structure Include */
 /* None */
@@ -30,74 +30,31 @@
 
 int main(void)
 {
-  double quaternion[4] = {0, 0, 0, 1};
-  double eul123_rad[3] = {0, 0, 0};
-  double dcm[3][3]     = {
-      {0.8528686, 0.0052361, 0.5220994},
-      {0.1503837, 0.9551122, -0.2552361},
-      {-0.5000000, 0.2961981, 0.8137977}};
-  int i;
-  int j;
+  double vector1_fix[3] = {2, 5, 4};
+  double vector1_bod[3] = {2.2276, 3.5895, 5.2109};
 
-  GMath_dcm2Eul(&dcm[0][0], &eul123_rad[0]);
+  double vector2_fix[3] = {3, 9, 7};
+  double vector2_bod[3] = {3.3862, 6.4439, 9.2741};
 
-  for (i = 0; i < 3; i++)
-  {
-    printf("%lf,", eul123_rad[i]);
-  }
+  double test[3] = {0, 0, 0};
 
-  printf("\n\n");
+  double q[4];
 
-  GMath_eul2Dcm(&eul123_rad[0], &dcm[0][0]);
+  double A[3][3] = {
+      {0.9810603, -0.0858316, 0.1736482},
+      {0.1410648, 0.9309405, -0.3368241},
+      {-0.1327460, 0.3549404, 0.9254166}};
 
-  for (i = 0; i < 3; i++)
-  {
-    for (j = 0; j < 3; j++)
-    {
-      printf("%lf, ", dcm[i][j]);
-    }
-    printf("\n");
-  }
+  GMath_quaternion2Dcm(&q[0], &A[0][0]);
 
-  printf("\n\n");
+  TriadAlgorithm_getQuat(
+      &vector1_bod[0],
+      &vector1_fix[0],
+      &vector2_bod[0],
+      &vector2_fix[0],
+      &q[0]);
 
-  GMath_dcm2Quat(&dcm[0][0], &quaternion[0]);
-
-  for (i = 0; i < 4; i++)
-  {
-    printf("%lf, ", quaternion[i]);
-  }
-
-  printf("\n\n");
-
-  GMath_quaternion2Dcm(&quaternion[0], &dcm[0][0]);
-
-  for (i = 0; i < 3; i++)
-  {
-    for (j = 0; j < 3; j++)
-    {
-      printf("%lf, ", dcm[i][j]);
-    }
-    printf("\n");
-  }
-
-  printf("\n\n");
-
-  GMath_quaternion2Eul(&quaternion[0], &eul123_rad[0]);
-
-  for (i = 0; i < 3; i++)
-  {
-    printf("%lf, ", eul123_rad[i]);
-  }
-
-  printf("\n\n");
-
-  GMath_eul2Quat(&eul123_rad[0], &quaternion[0]);
-
-  for (i = 0; i < 4; i++)
-  {
-    printf("%lf, ", quaternion[i]);
-  }
+  GMath_quaternionPointRotation(&test[0], &vector1_fix[0], &q[0]);
 
   return GCONST_EXIT_SUCCESS;
 }

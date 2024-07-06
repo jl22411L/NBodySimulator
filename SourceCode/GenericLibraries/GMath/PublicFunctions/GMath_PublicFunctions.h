@@ -28,7 +28,14 @@ extern "C" {
 
 /*!
  * @brief       Finds the cross product of vectors A and B, outputting results
- *              to vector C.
+ *              to vector C. This does not clear the output vector in operation,
+ *              and hence it is down to the user to do so at there own
+ *              discression.
+ *
+ *              The algorithm allows for 1 vector input to be the output as
+ *              well, which should allow for easier management when doing
+ *              complex mathematical operations which requrie multi layer cross
+ *              products.
  *
  *              {a}x{b} = {c}
  *
@@ -150,6 +157,26 @@ extern int GMath_findUnitQuaternion(
     double *p_outputQuaternion_out);
 
 /*!
+ * @brief       Finds the unit vector. Finds the square of each element and sums
+ *              them together then square roots the final result. Then, divides
+ *              all the elements of the vector by the magnitude. It should be
+ *              noted that the output unit vecotr is not cleared within this
+ *              function and it is down to the user to decide if this operation
+ *              is appropraite outside the function.
+ *
+ * @param[in]   p_vector_in
+ *              Input vector which the output vector will be found from.
+ *
+ * @param[out]  p_vector_out
+ *              Unit vector which is outputted.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int GMath_findUnitVector(double *p_vector_in, double *p_vector_out);
+
+/*!
  * @brief       Function which finds the inverse of a column vector. First,
  *              decomposes the input matrix A and then does backward and
  *              forward propogation to find the column vector.
@@ -255,7 +282,7 @@ extern int
  *              Matrix A must have a number of columns equal to the number of
  *              rows that matrix B has.
  *
- *             [rowsA_in * colsA_in][rowsB_in * colsB_in]
+ *              [rowsA_in * colsA_in][rowsB_in * colsB_in]
  *                                   = [rowsA_in * colsB_in]
  *
  * @param[in]   p_matrixA_in
@@ -290,6 +317,36 @@ extern int GMath_matMul(
     double *p_matrixB_in,
     int     rowsB_in,
     int     colsB_in,
+    double *p_matrixC_out);
+
+/*!
+ * @brief       A function that will multiply matrix A (3x3) and B (3x3) to get
+ *              matrix C.
+ *
+ *                          [A][B] = [C]
+ *
+ *              Matrix A must have a number of columns equal to the number of
+ *              rows that matrix B has.
+ *
+ *              [rowsA_in * colsA_in][rowsB_in * colsB_in]
+ *                                   = [rowsA_in * colsB_in]
+ *
+ * @param       p_matrixA_in
+ *              Pointer with address to double array contining matrix A.
+ *
+ * @param       p_matrixB_in
+ *              Pointer with address to double array contining matrix B.
+ *
+ * @param       p_matrixC_out
+ *              Pointer with address for output of double array to matrix C.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int GMath_matMul3x3by3x3(
+    double *p_matrixA_in,
+    double *p_matrixB_in,
     double *p_matrixC_out);
 
 /*!
@@ -345,7 +402,7 @@ extern int GMath_matSub(
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GMath_quaternion2Dcm(
+extern int GMath_quaternionToDcm(
     double *p_quaternionVector_in,
     double *p_dcmMatrix_out);
 

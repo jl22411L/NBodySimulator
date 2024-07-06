@@ -45,7 +45,7 @@ int main(void)
   GZero(&gravity_params, Gravity_Params);
 
   /*-------------------------------------------------------------------------*
-   *                          INITIALIZATION SECTION *
+   *                          INITIALIZATION SECTION                         *
    *-------------------------------------------------------------------------*/
 
   /* Initialize GUtilitites */

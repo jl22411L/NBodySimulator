@@ -42,48 +42,48 @@ int GMath_dcm2Quat(double *p_dcmMatrix_in, double *p_quaternionVector_out)
   double a32;
 
   /* Extract dcm elements */
-  a11 = *(p_dcmMatrix_in + 0);
-  a12 = *(p_dcmMatrix_in + 1);
-  a13 = *(p_dcmMatrix_in + 2);
-  a21 = *(p_dcmMatrix_in + 3);
-  a22 = *(p_dcmMatrix_in + 4);
-  a23 = *(p_dcmMatrix_in + 5);
-  a31 = *(p_dcmMatrix_in + 6);
-  a32 = *(p_dcmMatrix_in + 7);
-  a33 = *(p_dcmMatrix_in + 8);
+  a11 = *(p_dcmMatrix_in + 3 * 0 + 0);
+  a12 = *(p_dcmMatrix_in + 3 * 0 + 1);
+  a13 = *(p_dcmMatrix_in + 3 * 0 + 2);
+  a21 = *(p_dcmMatrix_in + 3 * 1 + 0);
+  a22 = *(p_dcmMatrix_in + 3 * 1 + 1);
+  a23 = *(p_dcmMatrix_in + 3 * 1 + 2);
+  a31 = *(p_dcmMatrix_in + 3 * 2 + 0);
+  a32 = *(p_dcmMatrix_in + 3 * 2 + 1);
+  a33 = *(p_dcmMatrix_in + 3 * 2 + 2);
 
   /* Find which set of equations is the most stable to convert to DCM */
   if (1 + a11 + a22 + a33 > GMATH_DCM2QUAT_CONVERSION_TOLERANCE)
   {
     /* Find quaternion components */
     quaternion_s = sqrt((1 + a11 + a22 + a33) / 4);
-    quaternion_x = (a23 - a32) / (4 * quaternion_s);
-    quaternion_y = (a31 - a13) / (4 * quaternion_s);
-    quaternion_z = (a12 - a21) / (4 * quaternion_s);
+    quaternion_x = -(a23 - a32) / (4 * quaternion_s);
+    quaternion_y = -(a31 - a13) / (4 * quaternion_s);
+    quaternion_z = -(a12 - a21) / (4 * quaternion_s);
   }
   else if (1 + a11 - a22 - a33 > GMATH_DCM2QUAT_CONVERSION_TOLERANCE)
   {
     /* Find quaternion components */
     quaternion_x = sqrt((1 + a11 - a22 - a33) / 4);
-    quaternion_s = (a23 - a32) / (4 * quaternion_x);
-    quaternion_y = (a12 - a21) / (4 * quaternion_x);
-    quaternion_z = (a31 - a13) / (4 * quaternion_x);
+    quaternion_s = -(a23 - a32) / (4 * quaternion_x);
+    quaternion_y = -(a12 - a21) / (4 * quaternion_x);
+    quaternion_z = -(a31 - a13) / (4 * quaternion_x);
   }
   else if (1 - a11 + a22 - a33)
   {
     /* Find quaternion components */
     quaternion_y = sqrt((1 - a11 + a22 - a33) / 4);
-    quaternion_s = (a31 - a13) / (4 * quaternion_y);
-    quaternion_x = (a12 - a21) / (4 * quaternion_y);
-    quaternion_z = (a23 - a32) / (4 * quaternion_y);
+    quaternion_s = -(a31 - a13) / (4 * quaternion_y);
+    quaternion_x = -(a12 - a21) / (4 * quaternion_y);
+    quaternion_z = -(a23 - a32) / (4 * quaternion_y);
   }
   else if (1 - a11 - a22 + a33)
   {
     /* Find quaternion components */
     quaternion_z = sqrt((1 - a11 - a22 + a33) / 4);
-    quaternion_s = (a12 - a21) / (4 * quaternion_z);
-    quaternion_x = (a31 - a13) / (4 * quaternion_z);
-    quaternion_y = (a23 - a32) / (4 * quaternion_z);
+    quaternion_s = -(a12 - a21) / (4 * quaternion_z);
+    quaternion_x = -(a31 - a13) / (4 * quaternion_z);
+    quaternion_y = -(a23 - a32) / (4 * quaternion_z);
   }
   else
   {
