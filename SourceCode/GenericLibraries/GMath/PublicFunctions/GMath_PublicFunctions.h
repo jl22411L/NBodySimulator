@@ -402,7 +402,7 @@ extern int GMath_matSub(
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GMath_quaternionToDcm(
+extern int GMath_quaternion2Dcm(
     double *p_quaternionVector_in,
     double *p_dcmMatrix_out);
 
