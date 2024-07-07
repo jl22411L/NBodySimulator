@@ -55,7 +55,7 @@ int GMath_quaternionFrameRotation(
   }
 
   /* Find the conjugate of the quaternion */
-  GMath_quaternionConjugate(p_quaternion_in, &quaternionConjugate[0]);
+  GMath_quaternionConjugate(&quaternionConjugate[0], p_quaternion_in);
 
   /*
    * Note: The rotation is defined as;
@@ -71,15 +71,15 @@ int GMath_quaternionFrameRotation(
 
   /* Find Quaternion Buffer for itermediate multiplication */
   GMath_quaternionMul(
+      &quaternionBuffer[0],
       &quaternionConjugate[0],
-      &inputPureQuaternion[0],
-      &quaternionBuffer[0]);
+      &inputPureQuaternion[0]);
 
   /* Find output pure quaternion */
   GMath_quaternionMul(
+      &outputPureQuaternion[0],
       &quaternionBuffer[0],
-      p_quaternion_in,
-      &outputPureQuaternion[0]);
+      p_quaternion_in);
 
   /* Check that it is q pure quaternion */
   if (outputPureQuaternion[3] > GMATH_QUATERNION_ZERO_TOLERANCE)

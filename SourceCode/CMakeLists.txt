@@ -19,6 +19,7 @@ set(SRC_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 # Set relative directories within project
 set(BODIES_PATH ${SRC_DIRECTORY}/Bodies)
 set(GENERIC_PATH ${SRC_DIRECTORY}/GenericLibraries)
+set(GNC_ALGORITHMS_PATH ${SRC_DIRECTORY}/GncAlgorithms)
 set(PHYSICS_PATH ${SRC_DIRECTORY}/Physics)
 set(MODULES_PATH ${SRC_DIRECTORY}/Modules)
 set(TEST_PATH ${SRC_DIRECTORY}/TestCase)
@@ -27,6 +28,7 @@ set(UNITTEST_PATH ${TEST_PATH}/UnitTest)
 # Directories to be included in scripts
 include_directories(${BODIES_PATH})
 include_directories(${GENERIC_PATH})
+include_directories(${GNC_ALGORITHMS_PATH})
 include_directories(${PHYSICS_PATH})
 include_directories(${MODULES_PATH})
 include_directories(${TEST_PATH})
@@ -48,6 +50,9 @@ add_subdirectory(${GENERIC_PATH}/GConversions)
 add_subdirectory(${GENERIC_PATH}/GUtilities)
 add_subdirectory(${GENERIC_PATH}/GMath)
 add_subdirectory(${GENERIC_PATH}/GIntegral)
+
+# GNC Algorithms
+add_subdirectory(${GNC_ALGORITHMS_PATH}/Guidance/TriadAlgorithm)
 
 # Physics Module
 add_subdirectory(${PHYSICS_PATH}/Gravity)

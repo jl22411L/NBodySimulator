@@ -22,7 +22,7 @@
 int GMath_crossProduct(
     double *p_vectorA_in,
     double *p_vectorB_in,
-    double *p_vectrocC_out)
+    double *p_vectorC_out)
 {
   /* Declaring local variables */
   double aVectorX;
@@ -31,6 +31,9 @@ int GMath_crossProduct(
   double bVectorX;
   double bVectorY;
   double bVectorZ;
+  double cVectorX;
+  double cVectorY;
+  double cVectorZ;
 
   /* Find the components of the A vector */
   aVectorX = *(p_vectorA_in + 0);
@@ -43,9 +46,13 @@ int GMath_crossProduct(
   bVectorZ = *(p_vectorB_in + 2);
 
   /* Find cross product and output to C vector */
-  *(p_vectrocC_out + 0) = aVectorY * bVectorZ - aVectorZ * bVectorY;
-  *(p_vectrocC_out + 1) = aVectorZ * bVectorX - aVectorX * bVectorZ;
-  *(p_vectrocC_out + 2) = aVectorX * bVectorY - aVectorY * bVectorX;
+  cVectorX = aVectorY * bVectorZ - aVectorZ * bVectorY;
+  cVectorY = aVectorZ * bVectorX - aVectorX * bVectorZ;
+  cVectorZ = aVectorX * bVectorY - aVectorY * bVectorX;
+
+  *(p_vectorC_out + 0) = cVectorX;
+  *(p_vectorC_out + 1) = cVectorY;
+  *(p_vectorC_out + 2) = cVectorZ;
 
   return GCONST_TRUE;
 }

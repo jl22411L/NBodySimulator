@@ -22,8 +22,8 @@
 #include "SatelliteBody/DataStructs/SatelliteBody_StateStruct.h"
 
 /* Data include */
-#include "BodyMgr/ConstantDefs/BodyMge_Const.h"
 #include "BodyMgr/ConstantDefs/BodyMgr_BodyTypeEnum.h"
+#include "BodyMgr/ConstantDefs/BodyMgr_Const.h"
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
