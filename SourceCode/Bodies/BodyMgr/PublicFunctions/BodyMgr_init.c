@@ -73,6 +73,10 @@ int BodyMgr_init(
   /* Find number of bodies */
   p_bodyMgr_state_out->nBodies = GParser_state.maxNumberSection;
 
+  /* ------------------------------------------------------------------------ *
+   *                      Gain Information About Bodies                       *
+   * ------------------------------------------------------------------------ */
+
   /* Iterate through the different loadies and load parameters into bodies */
   for (i = 0; i < p_bodyMgr_state_out->nBodies; i++)
   {
@@ -120,6 +124,10 @@ int BodyMgr_init(
         &parameterBuffer[0]);
   }
 
+  /* ------------------------------------------------------------------------ *
+   *                        Memory Allocation of Bodies                       *
+   * ------------------------------------------------------------------------ */
+
   /* Assign memory for Rigid bodies pointers */
   p_bodyMgr_state_out->p_rigidBodyPointerList = (RigidBody_State **)calloc(
       p_bodyMgr_state_out->nBodies,
@@ -144,6 +152,10 @@ int BodyMgr_init(
   p_bodyMgr_state_out->p_uavBodyList = (UavBody_State **)calloc(
       p_bodyMgr_state_out->nUavBodies,
       sizeof(UavBody_State *));
+
+  /* ------------------------------------------------------------------------ *
+   *                           Load Specific Bodies                           *
+   * ------------------------------------------------------------------------ */
 
   /* Load parameters for bodies */
   for (i = 0; i < p_bodyMgr_state_out->nBodies; i++)

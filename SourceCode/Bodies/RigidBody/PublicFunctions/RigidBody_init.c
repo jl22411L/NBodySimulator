@@ -55,7 +55,7 @@ int RigidBody_init(
       &GParser_state,
       dic,
       &(p_rigidBody_state_in->inertiaMatrix_kgm2_Bod[0][0]),
-      "InertiaProperties:Inertia",
+      "InertiaProperties:Inertia_kgm2",
       3,
       3);
 
@@ -64,7 +64,7 @@ int RigidBody_init(
       &GParser_state,
       dic,
       &(p_rigidBody_state_in->velocity_ms_Fix[0]),
-      "TranslationalProperties:fixedFrameVelocity",
+      "TranslationalProperties:fixedFrameVelocity_ms",
       3,
       1);
 
@@ -73,7 +73,7 @@ int RigidBody_init(
       &GParser_state,
       dic,
       &(p_rigidBody_state_in->position_m_Fix[0]),
-      "TranslationalProperties:position",
+      "TranslationalProperties:fixedFramePosition_m",
       3,
       1);
 
@@ -82,7 +82,7 @@ int RigidBody_init(
       &GParser_state,
       dic,
       &(p_rigidBody_state_in->angularVelocity_rads_Bod[0]),
-      "AngularProperties:angularVelocity",
+      "AngularProperties:angularVelocity_rads",
       3,
       1);
 
