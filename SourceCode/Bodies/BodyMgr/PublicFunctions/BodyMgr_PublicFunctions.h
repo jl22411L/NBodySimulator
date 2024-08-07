@@ -48,6 +48,17 @@ extern int BodyMgr_init(
     const char    *p_bodyMgrFilename);
 
 /*!
+ * @brief       Function which will step all the bodies during the simulation.
+ *
+ * @param[in]   p_bodyMgr_state_in
+ *              Pointer containing the address of the body manager state struct
+ *
+ * @return      On a successful completion, will return a GCONST_TRUE. If
+ *              execution of function fails, will return a GCONST_FALSE.
+ */
+extern int BodyMgr_step(BodyMgr_State *p_bodyMgr_state_in);
+
+/*!
  * @brief       Function which terminates all the bodies and releases memory
  *              assigned on the heap.
  *

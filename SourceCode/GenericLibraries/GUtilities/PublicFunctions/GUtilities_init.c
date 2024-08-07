@@ -8,8 +8,10 @@
  *
  */
 
+#include <signal.h>
+
 /* Function Includes */
-/* None */
+#include "GUtilities/PrivateFunctions/GUtilities_PrivateFunctions.h"
 
 /* Structure Include */
 #include "GUtilities/DataStructs/GUtilities_StateStructs.h"
@@ -32,6 +34,9 @@ int GUtilities_init(const char *p_paramsFilePath)
   /* Clearing local variables */
   GZero(&GParser_state, GParser_State);
   dic = NULL;
+
+  /* Set signal handling for SIGINT */
+  signal(SIGINT, GUtilities_sigintHandle);
 
   /* Loading parameters into dictionaries */
   dic = GParser_loadParams(&GParser_state, p_paramsFilePath);

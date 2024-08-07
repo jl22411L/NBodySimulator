@@ -73,7 +73,7 @@ int GArchive_close(GArchive *p_archive_in)
   for (i = 1; i < p_archive_in->nCols + 1; i++)
   {
     /* Write key and value to config file */
-    fprintf(p_configFile, "col[%d] = %s \n", i, p_archive_in->colName[i - 1]);
+    fprintf(p_configFile, "col[%d] = %s\n", i, p_archive_in->colName[i - 1]);
   }
 
   /* Add new line to bottom of file */

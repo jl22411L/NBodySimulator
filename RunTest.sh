@@ -111,7 +111,7 @@ PATH_TO_ROOT=${PWD}
 PATH_TO_TEST_EXECUTABLE="BuildCode/TestCase/${RELATIVE_PATH_TO_TEST}${EXECUTABLE_NAME}"
 PATH_TO_TEST_RUN="TestRuns/${RELATIVE_PATH_TO_TEST}${TEST_CASE}_${TEST_DATE}/"
 
-Checking path to Build Code exists
+# Checking path to Build Code exists
 if [ ! -x "${PATH_TO_TEST_EXECUTABLE}" ]; then
   echo "[ERR] Path \"${PATH_TO_TEST_EXECUTABLE}\" does not exist."
   exit 1

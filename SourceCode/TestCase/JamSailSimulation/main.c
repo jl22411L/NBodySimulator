@@ -8,19 +8,20 @@
  *
  */
 
+#include <signal.h>
 #include <stdio.h>
 
 /* Function Includes */
 #include "BodyMgr/PublicFunctions/BodyMgr_PublicFunctions.h"
 #include "CelestialBody/PublicFunctions/CelestialBody_PublicFunctions.h"
 #include "Gravity/PublicFunctions/Gravity_PublicFunctions.h"
+#include "JamSail/PublicFunctions/JamSail_PublicFunctions.h"
 #include "SatelliteBody/PublicFunctions/SatelliteBody_PublicFunctions.h"
 
 /* Structure Include */
 #include "BodyMgr/DataStructs/BodyMgr_StateStruct.h"
-#include "CelestialBody/DataStructs/CelestialBody_StateStruct.h"
 #include "Gravity/DataStructs/Gravity_ParamsStruct.h"
-#include "SatelliteBody/DataStructs/SatelliteBody_StateStruct.h"
+#include "JamSail/DataStructs/JamSail_StateStruct.h"
 
 /* Data include */
 /* None */
@@ -36,17 +37,12 @@ int main(void)
   /* Declaring local variables */
   Gravity_Params gravity_params;
   BodyMgr_State  bodyMgr_state;
+  JamSail_State  jamSail_state;
   int            i;
 
   /* Clear local variables */
   GZero(&bodyMgr_state, BodyMgr_State);
   GZero(&gravity_params, Gravity_Params);
-
-  /* ####################################################################### *
-   *                            INITIALIZE JAMSAIL                           *
-   * ####################################################################### */
-
-  /* None */
 
   /* ####################################################################### *
    *                          INITIALIZE SIMULATION                          *
@@ -61,8 +57,15 @@ int main(void)
   /* Initialize BodyMgr */
   BodyMgr_init(&bodyMgr_state, "Parameters/BodyMgrParameters.ini");
 
-  /* ----------------------------------------------------------------------- *
-   *                         ENTER CYCLICAL EXECUTION                        *
+  /* ####################################################################### *
+   *                            INITIALIZE JAMSAIL                           *
+   * ####################################################################### */
+
+  /* Initialize JamSail */
+  JamSail_init(&jamSail_state);
+
+  /* -----------------------------------------------------------------------
+   * ENTER CYCLICAL EXECUTION
    * ----------------------------------------------------------------------- */
 
   /* Display text to indicate that cyclical execution has been reached */
@@ -88,6 +91,9 @@ int main(void)
         bodyMgr_state.p_rigidBodyPointerList,
         bodyMgr_state.nBodies);
 
+    /* Step the bodies */
+    BodyMgr_step(&bodyMgr_state);
+
     /* ###################################################################### *
      *                      JAMSAIL PRE-STEP CALCULATIONS                     *
      * ###################################################################### */
@@ -99,8 +105,6 @@ int main(void)
      * ###################################################################### */
 
     /* ------------------------------- Bodies ------------------------------- */
-
-    /* None */
 
     /* -------------------------------- Time -------------------------------- */
 

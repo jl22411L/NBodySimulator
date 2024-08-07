@@ -36,14 +36,8 @@ extern "C" {
 /*!
  * @brief     Outputs a msg to the console
  */
-#define GMsg(...) (printf("[MSG] ")),    \
+#define GLog(...) (printf("[MSG] ")),    \
                   (printf(__VA_ARGS__)), \
-                  (printf("\n"))
-
-/*!
- * @brief     Outputs a message to the concol without the "[MSG]" prefix.
- */
-#define GLog(...) (printf(__VA_ARGS__)), \
                   (printf("\n"))
 
 /* --------------------------------- GError --------------------------------- */

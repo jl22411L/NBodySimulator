@@ -29,23 +29,26 @@ extern "C" {
 typedef struct JamSail_StateStruct
 {
   /* ######################################################################## *
-   *                             SATELLITE MEMBERS                            *
+   * SATELLITE MEMBERS
    * ######################################################################## */
 
   /* None */
 
+  /* TODO: The intention here is to have the different models such as IMU and
+   *       sun sensors here.
+   */
+
   /* ######################################################################## *
-   *                            SIMULATION MEMBERS                            *
+   * SIMULATION MEMBERS
    * ######################################################################## */
 
   /*!
-   * @details   This member contains the state of JamSail. It is primarely used
-   *            for the simulation of the dynamics of the body, and keeping
-   *            track of sensor readings.
+   * @details   This member contains the address to the satellite body struct
+   *            for JamSail.
    */
-  SatelliteBody_State satelliteBody_state;
+  SatelliteBody_State *p_satelliteBody_state;
 
-} JamSailState;
+} JamSail_State;
 
 #ifdef __cplusplus
 }

@@ -62,6 +62,7 @@ add_subdirectory(${SYSTEM_PATH}/JamSail)
 
 # Test Cases
 add_subdirectory(${TEST_PATH}/SystemTest)
+add_subdirectory(${TEST_PATH}/JamSailSimulation)
 
 # Unit Tests
 add_subdirectory(${UNITTEST_PATH}/GParser_UnitTest)
