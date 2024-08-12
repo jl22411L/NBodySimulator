@@ -17,7 +17,7 @@ body1: Earth
 body2: JamSail
 
 # Argument to define how the positions of the other bodies should be defined to
-mainBody: body1
+mainBody: body0
 
 # Keplarian elements of body 2 with relation to body 1
 # [Ref: https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.htmlf]
@@ -40,7 +40,7 @@ keplarianElementsBody0ToBody1:
 
 # Keplarian elements of body 3 with relation to body 2
 keplarianElementsBody1ToBody2:
-  semiMajorAxis_km: 600
+  semiMajorAxis_km: 7000
   eccentricity: 0
   inclination_deg: 55
   argumentOfPerigee_deg: 30
