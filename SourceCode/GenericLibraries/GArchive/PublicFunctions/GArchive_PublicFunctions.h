@@ -31,7 +31,7 @@ extern "C" {
 
 /*!
  * @brief           Adds column to the archive struct which will be outputted in
- *                  the archive struct.
+ *                  the archive folder.
  *
  * @param[in,out]   p_archive_inout
  *                  Pointer to GArchive struct which will the column names will

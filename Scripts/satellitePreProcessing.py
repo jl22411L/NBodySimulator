@@ -277,8 +277,7 @@ def saveSatelliteState(initialPosition_km_in: np.ndarray,
     paramFile.write(fileContent)
 
 
-def satellitePreProcessing(configFile_in: Path,
-                           mainBody_in: int = 0):
+def satellitePreProcessing(configFile_in: Path):
   """
   @details      This function performs the pre processing to find the satellites
                 initial conditions. It takes in a yaml file which has the
@@ -286,12 +285,6 @@ def satellitePreProcessing(configFile_in: Path,
 
   @param[in]    configFile_in
                 Path to yaml file which contains parameters for pre processing.
-
-  @param[in]    mainBody_in
-                Integer representing what the main body of interest is. This is
-                so that the main body which should be centered in the simulation
-                is placed at the origin of the fixed frame. Default value is to
-                place the 0th body at the origin.
 
   @return       This fucntion has no returns
   """
@@ -394,15 +387,6 @@ def satellitePreProcessing(configFile_in: Path,
     accumlatedVelocity_kms = np.add(accumlatedVelocity_kms,
                                     velocityCurrBodyRelToPrevBody_km)
 
-  # Find the main body of interests position and velocity
-  mainBodyPosition_km = bodyPositionList[mainBody_in]
-  mainBodyVelocity_kms = bodyVelocityList[mainBody_in]
-
-  # Iterate through all the bodies and shift there values
-  for i in range(0, parameters['nBodies']):
-    bodyPositionList[i] -= mainBodyPosition_km
-    bodyVelocityList[i] -= mainBodyVelocity_kms
-
   # Save the bodies positions and velocities
   for i, (bodyPosition_km, bodyVelocity_kms) in enumerate(zip(bodyPositionList, bodyVelocityList)):
     # Get direcotry to ini config file to save parameters
@@ -424,35 +408,8 @@ if __name__ == '__main__':
                       help=('Directory to yaml file which contains keplarian '
                             'elements of the orbit to model'))
 
-  # Add argument to find yaml file with keplarian elements
-  parser.add_argument('-b', '--mainBody', type=int,
-                      help=('Integer to represent which body should be '
-                            'consdiered the main body. Indexing starts at 0'),
-                      required=False,
-                      default=0)
-
   # Parse arguments
   args = parser.parse_args()
 
   # Run pre-processibng
-  satellitePreProcessing(args.configFile, args.mainBody)
-
-  # position = []
-  # time = np.linspace(0, 100000000000, 10000)
-
-  # for t in time:
-  #   position_tmp, _ = keplarianToCartesian(
-  #       1000000000000, 100, 1000, 0.7, 40, 20, 10, t)
-
-  #   position.append(position_tmp.tolist())
-
-  # position = np.array(position)
-  # x = position[:, 0]
-  # y = position[:, 1]
-  # z = position[:, 2]
-
-  # fig = go.Figure(data=go.Scatter3d(
-  #     x=x, y=y, z=z
-  # ))
-
-  # fig.write_html("c:\\Users\\jason\\Desktop\\Projects\\test.html")
+  satellitePreProcessing(args.configFile)
