@@ -8,7 +8,9 @@
  */
 
 /* Function Includes */
-/* None */
+#include "CelestialBody/PublicFunctions/CelestialBody_PublicFunctions.h"
+#include "SatelliteBody/PublicFunctions/SatelliteBody_PublicFunctions.h"
+#include "UavBody/PublicFunctions/UavBody_PublicFunctions.h"
 
 /* Structure Include */
 #include "BodyMgr/DataStructs/BodyMgr_StateStruct.h"

@@ -33,7 +33,7 @@ extern "C" {
  *
  * @param[in]   p_rigidBody_state_in
  *              Pointer to a rigid body state struct, which will be loaded
- * with the initial conditions of the simulation.
+ *              with the initial conditions of the simulation.
  *
  * @param[in]   p_paramFilename_in
  *              String containing the name of the ini file containing the

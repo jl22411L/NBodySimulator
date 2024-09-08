@@ -72,7 +72,9 @@ int Gravity_init(
       (p_gravityParams_in->seaLevelGravitationalAcceleration_ms2 == 0))
   {
     GWarn("Flat Earth model selected but gravity acceleration is set to 0.");
-    GWarn("In future use NoGravityModel (0) for this type of case");
+    GWarn(
+        "In future use NoGravityModel (%d) for this type of case",
+        FlatEarthGravityModel);
   }
 
   /*
@@ -85,8 +87,9 @@ int Gravity_init(
       (p_gravityParams_in->seaLevelGravitationalAcceleration_ms2 != 0))
   {
     GWarn(
-        "Gravity model 'FlatEarthGravityModel' (10) is not being used,"
+        "Gravity model 'FlatEarthGravityModel' (%d) is not being used,"
         "however, gravitational acceleartion is set to %lf",
+        FlatEarthGravityModel,
         p_gravityParams_in->seaLevelGravitationalAcceleration_ms2);
     GWarn("It is advised to set gravitational acceleration to 0 if not useing "
           "Flat Earth Model");

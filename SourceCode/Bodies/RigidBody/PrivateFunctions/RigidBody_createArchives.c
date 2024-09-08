@@ -82,7 +82,7 @@ int RigidBody_createArchives(RigidBody_State *p_rigidBody_state_in)
   /* Add angular position columns */
   GArchive_addCol(
       &p_rigidBody_state_in->rigidBodyArchive,
-      "position_m_Fix",
+      "fixedFramePosition_m",
       3,
       1);
 
