@@ -36,6 +36,9 @@ int CelestialBody_createArchives(
   /* Create archive */
   GArchive_init(&p_celestialBody_state_in->celestialBodyArchive, buffer);
 
+  /* Write header for archive */
+  GArchive_writeHeader(&p_celestialBody_state_in->celestialBodyArchive);
+
   /*-------------------------------------------------------------------------*
    *                       CELESTIAL BODY STATE STRUCT                       *
    *-------------------------------------------------------------------------*/

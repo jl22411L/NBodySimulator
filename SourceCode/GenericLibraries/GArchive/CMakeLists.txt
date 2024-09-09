@@ -5,5 +5,6 @@ add_library(GArchive
   PublicFunctions/GArchive_checkFileExists.c
   PublicFunctions/GArchive_close.c
   PublicFunctions/GArchive_init.c
+  PublicFunctions/GArchive_writeHeader.c
   PublicFunctions/GArchive_writeLine.c
 )

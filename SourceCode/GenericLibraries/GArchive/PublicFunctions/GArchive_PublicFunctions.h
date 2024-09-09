@@ -30,30 +30,30 @@ extern "C" {
 /* None */
 
 /*!
- * @brief           Adds column to the archive struct which will be outputted in
- *                  the archive folder.
+ * @brief         Adds column to the archive struct which will be outputted in
+ *                the archive folder.
  *
- * @param[in,out]   p_archive_inout
- *                  Pointer to GArchive struct which will the column names will
- *                  be written towards.
+ * @param[in,out] p_archive_inout
+ *                Pointer to GArchive struct which will the column names will
+ *                be written towards.
  *
- * @param[in]       p_colName_in
- *                  Name of column to add to archive struct.
+ * @param[in]     p_colName_in
+ *                Name of column to add to archive struct.
  *
- * @param[in]       nColsAdd_in
- *                  Number of columns to add. If this is greater than 1, it is
- *                  assumed that an array is being added and will have the
- *                  appropraite index added. Whether it is 2D or 1D depends on
- *                  the nRowsAdd_in input.
+ * @param[in]     nColsAdd_in
+ *                Number of columns to add. If this is greater than 1, it is
+ *                assumed that an array is being added and will have the
+ *                appropraite index added. Whether it is 2D or 1D depends on
+ *                the nRowsAdd_in input.
  *
- * @param[in]       nRowsAdd_in
- *                  Number of rows to add. If this is greater than 1, it is
- *                  assumed that a 2D array is being added and will have an
- *                  appropriate index added.
+ * @param[in]     nRowsAdd_in
+ *                Number of rows to add. If this is greater than 1, it is
+ *                assumed that a 2D array is being added and will have an
+ *                appropriate index added.
  *
- * @return          Upon a successful completion, the fucntion will return a
- *                  GCONST_TRUE. If an error in the codes execution occurs, the
- *                  function will return a GCONST_FALSE
+ * @return        Upon a successful completion, the fucntion will return a
+ *                GCONST_TRUE. If an error in the codes execution occurs, the
+ *                function will return a GCONST_FALSE
  */
 extern int GArchive_addCol(
     GArchive   *p_archive_inout,
@@ -62,69 +62,84 @@ extern int GArchive_addCol(
     uint8_t     nRowsAdd_in);
 
 /*!
- * @brief           Adds a value to archive struct which will be written to the
- *                  archive folder.
+ * @brief         Adds a value to archive struct which will be written to the
+ *                archive folder.
  *
- * @param[in]       p_archive_in
- *                  Pointer to archive to write the value too.
+ * @param[in]     p_archive_in
+ *                Pointer to archive to write the value too.
  *
- * @param[in]       archiveValue_in
- *                  Value to write to archive struct.
+ * @param[in]     archiveValue_in
+ *                Value to write to archive struct.
  *
- * @return          Upon a successful completion, the fucntion will return a
- *                  GCONST_TRUE. If an error in the codes execution occurs, the
- *                  function will return a GCONST_FALSE
+ * @return        Upon a successful completion, the fucntion will return a
+ *                GCONST_TRUE. If an error in the codes execution occurs, the
+ *                function will return a GCONST_FALSE
  */
 extern int GArchive_addVal(GArchive *p_archive_in, double archiveValue_in);
 
 /*!
- * @brief           Checks if a file exists.
+ * @brief         Checks if a file exists.
  *
- * @param[in]       p_filename
- *                  String containing the name of the file to check.
+ * @param[in]     p_filename_in
+ *                String containing the name of the file to check.
  *
- * @return          If GCONST_TRUE is returned, then file exists. If
- *                  GCONST_FALSE is returned then the file does not exist.
+ * @return        If GCONST_TRUE is returned, then file exists. If
+ *                GCONST_FALSE is returned then the file does not exist.
  */
 extern int GArchive_checkFileExists(const char *p_filename_in);
 
 /*!
- * @brief           Closes the archive file and sets all members to zero.
+ * @brief         Closes the archive file and sets all members to zero.
 
- * @param[in]       p_archive_in
- *                  Pointer to archive struct
+ * @param[in]     p_archive_in
+ *                Pointer to archive struct
  *
- * @return          Upon a successful completion, the fucntion will return a
- *                  GCONST_TRUE. If an error in the codes execution occurs, the
- *                  function will return a GCONST_FALSE
+ * @return        Upon a successful completion, the fucntion will return a
+ *                GCONST_TRUE. If an error in the codes execution occurs, the
+ *                function will return a GCONST_FALSE
  */
 extern int GArchive_close(GArchive *p_archive_in);
 
 /*!
- * @brief           This function will create the archive folder for which the
- *                  data will be saved in.
+ * @brief         This function will create the archive folder for which the
+ *                data will be saved in.
  *
- * @param[in]       p_archiveDataFilename_in
- *                  String containting path to which the archive file.
- *                  (e.g ArchiveData/RigidBody)
+ * @param[in]     p_archiveDataFilename_in
+ *                String containting path to which the archive file.
+ *                (e.g ArchiveData/RigidBody)
  *
- * @return          Upon a successful completion, the fucntion will return a
- *                  GCONST_TRUE. If an error in the codes execution occurs, the
- *                  function will return a GCONST_FALSE
+ * @return        Upon a successful completion, the fucntion will return a
+ *                GCONST_TRUE. If an error in the codes execution occurs, the
+ *                function will return a GCONST_FALSE
  */
 extern int
     GArchive_init(GArchive *p_archive_in, char *p_archiveDataFilename_in);
 
 /*!
- * @brief           Writes the data in the archive struct to the Archive folder.
+ * @brief         Writes a header to the archive. Should be put after all the
+ *                columns have been added to the GArchive struct using
+ *                GArchive_addCol().
  *
- * @param[in]       p_archive_in
- *                  Pointer to the archive struct which contains data to be
- *                  archived.
+ * @param[in]     p_archive_in
+ *                Pointer containing the address of a GArchive struct which has
+ *                the columns loaded and to write to the output csv file.
  *
- * @return          Upon a successful completion, the fucntion will return a
- *                  GCONST_TRUE. If an error in the codes execution occurs, the
- *                  function will return a GCONST_FALSE
+ * @return        Upon a successful completion, the fucntion will return a
+ *                GCONST_TRUE. If an error in the codes execution occurs, the
+ *                function will return a GCONST_FALSE
+ */
+extern int GArchive_writeHeader(GArchive *p_archive_in);
+
+/*!
+ * @brief         Writes the data in the archive struct to the Archive folder.
+ *
+ * @param[in]     p_archive_in
+ *                Pointer to the archive struct which contains data to be
+ *                archived.
+ *
+ * @return        Upon a successful completion, the fucntion will return a
+ *                GCONST_TRUE. If an error in the codes execution occurs, the
+ *                function will return a GCONST_FALSE
  */
 extern int GArchive_writeLine(GArchive *p_archive_in);
 
