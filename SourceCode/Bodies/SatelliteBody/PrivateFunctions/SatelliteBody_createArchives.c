@@ -36,6 +36,9 @@ int SatelliteBody_createArchives(
   /* Create archive */
   GArchive_init(&p_satelliteBody_state_in->satelliteBodyArchive, buffer);
 
+  /* Write header for archive */
+  GArchive_writeHeader(&p_satelliteBody_state_in->satelliteBodyArchive);
+
   /*-------------------------------------------------------------------------*
    *                       SATELLITE BODY STATE STRUCT
    *-------------------------------------------------------------------------*/

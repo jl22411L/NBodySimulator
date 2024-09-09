@@ -36,6 +36,9 @@ int UavBody_createArchives(
   /* Create archive */
   GArchive_init(&p_uavBody_state_in->uavBodyArchive, buffer);
 
+  /* Write header for archive */
+  GArchive_writeHeader(&p_uavBody_state_in->uavBodyArchive);
+
   /*-------------------------------------------------------------------------*
    *                             UAV BODY STATE                              *
    *-------------------------------------------------------------------------*/

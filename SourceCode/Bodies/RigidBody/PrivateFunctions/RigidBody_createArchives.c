@@ -23,19 +23,19 @@
 int RigidBody_createArchives(RigidBody_State *p_rigidBody_state_in)
 {
   /* Defining local variables */
-  char buffer[GCONST_BUFFER_1024];
+  char filenameBuffer[GCONST_BUFFER_1024];
 
-  /* Clearing buffer */
-  GZero(&buffer[0], char[GCONST_BUFFER_1024]);
+  /* Clearing filenameBuffer */
+  GZero(&filenameBuffer[0], char[GCONST_BUFFER_1024]);
 
   /* Create directory to body archive */
   sprintf(
-      buffer,
+      filenameBuffer,
       "Bodies/%s/OutputData/RigidBody",
       p_rigidBody_state_in->bodyName);
 
   /* Create archive */
-  GArchive_init(&p_rigidBody_state_in->rigidBodyArchive, buffer);
+  GArchive_init(&p_rigidBody_state_in->rigidBodyArchive, filenameBuffer);
 
   /* Add rigidBodyMass_kg column */
   GArchive_addCol(
@@ -120,6 +120,9 @@ int RigidBody_createArchives(RigidBody_State *p_rigidBody_state_in)
       "quaternion_FixedToBody",
       4,
       1);
+
+  /* Write header for archive */
+  GArchive_writeHeader(&p_rigidBody_state_in->rigidBodyArchive);
 
   return GCONST_TRUE;
 }
