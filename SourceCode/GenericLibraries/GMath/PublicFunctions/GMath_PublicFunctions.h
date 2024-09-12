@@ -605,6 +605,30 @@ extern int GMath_vectorNorm(
     double *vector_in,
     int     vectorSize_in);
 
+/*!
+ * @brief       Finds the difference between two 3x1 vectors. Subtracts vector B
+ *              from vector A to output vector C.
+ *
+ *              [C] = [A] - [B]
+ *
+ * @param[in]   p_vectorA_in
+ *              Pointer containing the address of vector A
+ *
+ * @param[in]   p_vectorB_in
+ *              Pointer containing the address of vector B
+ *
+ * @param       p_vectorC_out
+ *              Pointer containing the address of vector C
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int GMath_vectorSub(
+    double *p_vectorA_in,
+    double *p_vectorB_in,
+    double *p_vectorC_out);
+
 #ifdef __cplusplus
 }
 #endif

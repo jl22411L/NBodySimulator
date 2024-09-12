@@ -23,12 +23,14 @@
 #include "GConst/GConst.h"
 #include "GLog/GLog.h"
 
-GConversions_string2uint8(uint8_t *p_dataDestination_out, char *p_dataSource_in)
+GConversions_string2uint16(
+    uint16_t *p_dataDestination_out,
+    char     *p_dataSource_in)
 {
   /* Defining local variables */
-  uint8_t outputNumber;
-  char    cursor;
-  int8_t  i;
+  uint16_t outputNumber;
+  char     cursor;
+  int16_t  i;
 
   /* Checking the sign of the input */
   cursor = *(p_dataSource_in + 0);
@@ -59,11 +61,11 @@ GConversions_string2uint8(uint8_t *p_dataDestination_out, char *p_dataSource_in)
     }
 
     /* Subtract the '0' charecter to get value as integer */
-    outputNumber = outputNumber * 10 + (uint8_t)(cursor - '0');
+    outputNumber = outputNumber * 10 + (uint16_t)(cursor - '0');
   }
 
   /* Outputting result */
-  *p_dataDestination_out = (uint8_t)outputNumber;
+  *p_dataDestination_out = (uint16_t)outputNumber;
 
   return GCONST_TRUE;
 }

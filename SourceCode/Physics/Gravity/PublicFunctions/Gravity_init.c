@@ -45,9 +45,6 @@ int Gravity_init(
     GError("Params weren't loaded correctly");
   }
 
-  /* Clear the struct to load */
-  GZero(p_gravityParams_in, Gravity_Params);
-
   /* ------------- Load parameters into Gravity Params struct -------------- */
 
   GParser_loadUInt8(

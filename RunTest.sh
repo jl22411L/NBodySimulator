@@ -28,7 +28,7 @@ VALGRIND_FLAG=False
 OPERATING_SYSTEM="$(uname -s)"
 
 # Set Specific Parameters to DefaulParameters
-SPECIFIC_PARAMETERS="DefaultParameters"
+SPECIFIC_PARAMETERS=""
 
 #------------------------------- PARSING INPUTS ------------------------------#
 
@@ -44,7 +44,7 @@ while [[ $# -gt 0 ]]; do
   input=${1}
 
   case ${input} in
-    # FLag to run the executable in debug mode using gdb
+    # Flag to run the executable in debug mode using gdb
     -d|--debug)
       DEBUG_FLAG=True
       ;;
@@ -72,6 +72,7 @@ while [[ $# -gt 0 ]]; do
     # Positional Arguments
     *)
       POSITIONAL_ARGUMENTS="${POSITIONAL_ARGUMENTS}${input}/"
+      EXECUTABLE_NAME="${input}"
       ;;
   esac
 
@@ -86,11 +87,11 @@ RELATIVE_PATH_TO_TEST=${POSITIONAL_ARGUMENTS}
 # Run find executable depending on the operating system
 case "${OPERATING_SYSTEM}" in
   Linux*)
-    EXECUTABLE_NAME="${input}"
+    EXECUTABLE_NAME="${EXECUTABLE_NAME}"
     ;;
 
   MINGW*)
-    EXECUTABLE_NAME="${input}.exe"
+    EXECUTABLE_NAME="${EXECUTABLE_NAME}.exe"
     ;;
 
   *)        echo "[ERR] Could not recognize operating system"
@@ -149,15 +150,14 @@ echo "[INF] Executable Copied Successfully"
 echo "[MSG] # ------------------------------ COPYING PARAMETERS ------------------------------ #"
 echo "[...]"
 
-# Copying Generic Parameters
-cp -r Parameters/BodyParameters/. ${PATH_TO_TEST_RUN}/Parameters/
-cp -r Parameters/ModelParameters/. ${PATH_TO_TEST_RUN}/Parameters/
-cp -r Parameters/TestParameters/. ${PATH_TO_TEST_RUN}/Parameters/
+# Copy Default Parameter set for test run
+cp -r Parameters/TestParameters/${RELATIVE_PATH_TO_TEST}DefaultParameters/. ${PATH_TO_TEST_RUN}/Parameters/
+echo "[MSG] Default Test Parameters copied successfully"
 
-# Copy Specific Parameters Set
-cp -r Parameters/SpecificParameters/${RELATIVE_PATH_TO_TEST}${SPECIFIC_PARAMETERS}/. ${PATH_TO_TEST_RUN}/Parameters/
-echo "[MSG] Specific Test Parameters copied successfully"
-
+# If there is a specific parameters, copy the parameters
+if [ -n "${SPECIFIC_PARAMETERS}" ]; then
+  cp -r Parameters/TestParameters/${RELATIVE_PATH_TO_TEST}${SPECIFIC_PARAMETERS}/. ${PATH_TO_TEST_RUN}/Parameters/
+fi
 echo "[INF] Parameters copied succesfully"
 
 # Running Executable

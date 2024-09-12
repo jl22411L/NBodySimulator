@@ -48,7 +48,7 @@ int GMath_matSub(
 
   /*
    * Iterate through each element and find the difference of the respective
-   * elmeent in matrix A and B
+   * elements in matrix A and B
    */
   for (i = 0; i < rowsA_in; i++)
   {
