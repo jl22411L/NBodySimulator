@@ -25,7 +25,7 @@
 
 int Gravity_init(
     Gravity_Params *p_gravityParams_in,
-    const char     *p_paramsFilePath)
+    const char     *p_paramsFilePath_in)
 {
   /* Defining local variables */
   dictionary   *p_dic;
@@ -37,13 +37,7 @@ int Gravity_init(
   p_dic = NULL;
 
   /* Loading parameters into dictionaries */
-  p_dic = GParser_loadParams(&GParser_state, p_paramsFilePath);
-
-  /* Check parameters are laoded */
-  if (p_dic == NULL)
-  {
-    GError("Params weren't loaded correctly");
-  }
+  p_dic = GParser_loadParams(&GParser_state, p_paramsFilePath_in);
 
   /* ------------- Load parameters into Gravity Params struct -------------- */
 

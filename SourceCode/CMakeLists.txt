@@ -56,6 +56,7 @@ add_subdirectory(${GNC_ALGORITHMS_PATH}/Guidance/TriadAlgorithm)
 
 # Physics Module
 add_subdirectory(${PHYSICS_PATH}/Gravity)
+add_subdirectory(${PHYSICS_PATH}/Igrf)
 
 # System Modules
 add_subdirectory(${SYSTEM_PATH}/JamSail)

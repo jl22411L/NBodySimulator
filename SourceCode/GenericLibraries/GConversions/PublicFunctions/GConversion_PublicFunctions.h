@@ -143,7 +143,7 @@ extern int GConversions_string2uint8(
  */
 extern int GConversions_string2uint16(
     uint16_t *p_dataDestination_out,
-    char     *p_dataSource_in)
+    char     *p_dataSource_in);
 
 #ifdef __cplusplus
 }

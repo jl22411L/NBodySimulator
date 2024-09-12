@@ -10,51 +10,25 @@
 #include <stdio.h>
 
 /* Function Includes */
-#include "Guidance/TriadAlgorithm/PublicFunctions/TriadAlgorithm_PublicFunctions.h"
+#include "Igrf/PublicFunctions/Igrf_PublicFunctions.h"
 
 /* Structure Include */
-/* None */
+#include "Igrf/DataStructs/Igrf_ParamsStruct.h"
 
 /* Data include */
 /* None */
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
-#include "GMath/GMath.h"
-
-#define rowsA (2)
-#define colsA (3)
-
-#define rowsB (2)
-#define colsB (3)
+#include "GZero/GZero.h"
 
 int main(void)
 {
-  double vector1_fix[3] = {2, 5, 4};
-  double vector1_bod[3] = {2.2276, 3.5895, 5.2109};
+  Igrf_Params igrfParams;
 
-  double vector2_fix[3] = {3, 9, 7};
-  double vector2_bod[3] = {3.3862, 6.4439, 9.2741};
+  GZero(&igrfParams, Igrf_Params);
 
-  double test[3] = {0, 0, 0};
-
-  double q[4];
-
-  double A[3][3] = {
-      {0.9810603, -0.0858316, 0.1736482},
-      {0.1410648, 0.9309405, -0.3368241},
-      {-0.1327460, 0.3549404, 0.9254166}};
-
-  GMath_quaternion2Dcm(&q[0], &A[0][0]);
-
-  TriadAlgorithm_getQuat(
-      &vector1_bod[0],
-      &vector1_fix[0],
-      &vector2_bod[0],
-      &vector2_fix[0],
-      &q[0]);
-
-  GMath_quaternionPointRotation(&test[0], &vector1_fix[0], &q[0]);
+  Igrf_init(&igrfParams, "Parameters/Igrf2020To2025Parameters.ini");
 
   return GCONST_EXIT_SUCCESS;
 }

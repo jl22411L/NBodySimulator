@@ -55,7 +55,7 @@ GConversions_string2uint16(
     cursor = *(p_dataSource_in + i);
 
     /* If floating point detected break */
-    if (cursor == ".")
+    if (cursor == '.')
     {
       break;
     }

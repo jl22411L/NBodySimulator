@@ -30,7 +30,7 @@ extern "C" {
 #define IGRF_MAX_COEFFICIENTS       (14)
 
 // TODO
-#define IGRF_MAX_STRING_BUFFER_SIZE (40)
+#define IGRF_MAX_STRING_BUFFER_SIZE (50)
 
 #ifdef __cplusplus
 }

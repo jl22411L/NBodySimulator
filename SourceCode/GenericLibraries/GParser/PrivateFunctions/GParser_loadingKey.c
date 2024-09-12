@@ -51,6 +51,14 @@ int GParser_loadingKey(GParser_State *p_GParser_state, const char cursor)
 
     /* Incriment key size */
     p_GParser_state->keySize[p_GParser_state->sizeIndex]++;
+
+    /* Check to make sure the buffer has not been filled to max */
+    if (p_GParser_state->keyIndex > GPARSER_KEY_BUFFERSIZE)
+    {
+      GError(
+          "Key Buffer has reached max capacity for section %s",
+          p_GParser_state->sectionBuffer);
+    }
     break;
   }
 

@@ -21,10 +21,11 @@
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
+#include "GLog/GLog.h"
 #include "GParser/GParser.h"
 #include "GZero/GZero.h"
 
-int Igrf_init(Igrf_Params *p_igrfParams_in, const char *p_paramsFilePath)
+int Igrf_init(Igrf_Params *p_igrfParams_in, const char *p_paramsFilePath_in)
 {
   /* Declare local variables */
   dictionary   *p_dic;
@@ -38,18 +39,27 @@ int Igrf_init(Igrf_Params *p_igrfParams_in, const char *p_paramsFilePath)
   p_dic = NULL;
 
   /* Loading parameters into dictionaries */
-  p_dic = GParser_loadParams(&GParser_state, p_paramsFilePath);
-
-  /* Check parameters are laoded */
-  if (p_dic == NULL)
-  {
-    GError("Params weren't loaded correctly");
-  }
+  p_dic = GParser_loadParams(&GParser_state, p_paramsFilePath_in);
 
   /* ------------------------------------------------------------------------ *
    * LOAD PARAMETERS INTO STRUCT
    * ------------------------------------------------------------------------ */
 
+  /* Load the degree which the model will follow */
+  GParser_loadUInt8(
+      &GParser_state,
+      p_dic,
+      &p_igrfParams_in->nDegree,
+      "modelParameters:nDegree");
+
+  /* Load epoch year of the corresponding coefficients */
+  GParser_loadUInt16(
+      &GParser_state,
+      p_dic,
+      &p_igrfParams_in->epochYear,
+      "modelParameters:epochYear");
+
+  /* Iterate through dictionary and load coefficients */
   for (i = 0; i <= p_igrfParams_in->nDegree; i++)
   {
     /* Clear name buffer */

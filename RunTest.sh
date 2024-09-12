@@ -84,6 +84,9 @@ RELATIVE_PATH_TO_TEST=${POSITIONAL_ARGUMENTS}
 
 #---------------------- FINDING TEST & EXECUTABLE NAME -----------------------#
 
+# Finding name of Test Case
+TEST_CASE="${EXECUTABLE_NAME}"
+
 # Run find executable depending on the operating system
 case "${OPERATING_SYSTEM}" in
   Linux*)
@@ -98,9 +101,6 @@ case "${OPERATING_SYSTEM}" in
             echo "[...] operating_system_argument: ${operating_system_argument}"
             exit 1
 esac
-
-# Finding name of Test Case
-TEST_CASE="${input}"
 
 #----------------------- CREATING & CHECKING DIRECTORIES ---------------------#
 

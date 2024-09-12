@@ -15,22 +15,27 @@ extern "C" {
 #include <stdint.h>
 
 /* Function Includes */
+/* None */
 
 /* Structure Include */
+/* None */
 
 /* Data include */
 #include "GParser/ConstantDefs/GParser_Const.h"
 
 /* Generic Libraries */
+/* None */
 
 /* ------------------------------ STRUCTURES ------------------------------- */
 
 typedef struct GParser_stateStruct
 {
+  // TODO: GIve each member a doxygen comment description
+
   /* Buffers used for loading data */
-  char sectionBuffer[2048];
-  char keyBuffer[2048];
-  char valueBuffer[2048];
+  char sectionBuffer[GPARSER_SECTION_BUFFERSIZE];
+  char keyBuffer[GPARSER_KEY_BUFFERSIZE];
+  char valueBuffer[GPARSER_VALUE_BUFFERSIZE];
 
   /* Variables to keep track of index's for array's */
   uint32_t sectionIndex;

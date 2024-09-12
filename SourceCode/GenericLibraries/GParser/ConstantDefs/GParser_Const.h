@@ -26,10 +26,18 @@ extern "C" {
 /* Generic Libraries */
 /* None */
 
-#define GPARSER_BUFFERSIZE                   (2048)
+/* ------------------------------------------------------------------------ *
+ * BUFFER SIZES
+ * ------------------------------------------------------------------------ */
+#define GPARSER_SECTION_BUFFERSIZE           (1024)
+#define GPARSER_KEY_BUFFERSIZE               (4096)
+#define GPARSER_VALUE_BUFFERSIZE             (4096)
 
-/* ---------------------- LOAD PARAMS STATE CONSTANTS ---------------------- */
+/* ------------------------------------------------------------------------ *
+ * STATES
+ * ------------------------------------------------------------------------ */
 
+// TODO write description of the different states
 #define GPARSER_STATE_WAITING_FOR_COMMAND    (0)
 #define GPARSER_STATE_WAITING_NEWLINE        (1)
 #define GPARSER_STATE_COMMENT                (2)

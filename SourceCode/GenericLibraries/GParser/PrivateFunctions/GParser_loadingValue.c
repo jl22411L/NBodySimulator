@@ -69,6 +69,14 @@ int GParser_loadingValue(GParser_State *p_GParser_state, const char cursor)
     /* Incriment value index */
     p_GParser_state->valueIndex++;
 
+    /* Check to make sure the buffer has not been filled to max */
+    if (p_GParser_state->keyIndex > GPARSER_VALUE_BUFFERSIZE)
+    {
+      GError(
+          "Value Buffer has reached max capacity for section '%s'",
+          p_GParser_state->sectionBuffer);
+    }
+
     /* incriment value size value */
     p_GParser_state->valueSize[p_GParser_state->sizeIndex]++;
     break;

@@ -36,7 +36,7 @@ extern "C" {
  *              Pointer to a Gravity Params struct which will load the
  *              parameters from an ini file.
  *
- * @param[in]   p_paramsFilePath
+ * @param[in]   p_paramsFilePath_in
  *              String which contains the directory to the parameter file
  *              containing the values for the Gpravity Params members.
  *
@@ -46,7 +46,7 @@ extern "C" {
  */
 extern int Gravity_init(
     Gravity_Params *p_gravityParams_in,
-    const char     *p_paramsFilePath);
+    const char     *p_paramsFilePath_in);
 
 /*!
  * @brief       Will find the total vectors between all rigid bodies. Takes

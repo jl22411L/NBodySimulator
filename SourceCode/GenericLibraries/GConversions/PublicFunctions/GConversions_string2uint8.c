@@ -53,7 +53,7 @@ GConversions_string2uint8(uint8_t *p_dataDestination_out, char *p_dataSource_in)
     cursor = *(p_dataSource_in + i);
 
     /* If floating point detected break */
-    if (cursor == ".")
+    if (cursor == '.')
     {
       break;
     }

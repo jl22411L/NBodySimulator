@@ -99,16 +99,17 @@ int main(void)
 
     /* Find vector from JamSail to Sun in fixed frame */
     GMath_vectorSub(
-        (bodyMgr_state.p_rigidBodyList + 2),
-        &(jamSail_state.p_satelliteBody_state->rigidBody_state.position_m_Fix),
+        &(*(bodyMgr_state.p_rigidBodyList + 2))->position_m_Fix[0],
+        &((jamSail_state.p_satelliteBody_state)
+              ->rigidBody_state.position_m_Fix[0]),
         &jamSail_state.trueSunVector_m_fix[0]);
 
     /* Find vector from JamSail to Sun in body frame */
     GMath_quaternionPointRotation(
         &jamSail_state.trueSunVector_m_bod[0],
         &jamSail_state.trueSunVector_m_fix[0],
-        &(jamSail_state.p_satelliteBody_state->rigidBody_state
-              .quaternion_FixedToBody));
+        &((jamSail_state.p_satelliteBody_state)
+              ->rigidBody_state.quaternion_FixedToBody[0]));
 
     /* Find magnetic vector in fixed frame */
     // Need to apply model for magnetic field

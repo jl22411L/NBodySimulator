@@ -79,7 +79,7 @@ dictionary *
         p_GParser_state->sizeIndex++;
         break;
       }
-      /* Update state to finidh reading */
+      /* Update state to finish reading */
       p_GParser_state->loadParamsState = GPARSER_STATE_FINISHED;
 
       /* Set flag to load dictionary */
