@@ -105,7 +105,7 @@ int GParser_loadDouble(
   /* Throw an error if no key was found */
   if (i == (p_dic + dictionaryNumber)->nKeys)
   {
-    GError("Key not found in section: %s", keyBuffer);
+    GError("Key %s not found in section %s", keyBuffer, sectionBuffer);
   }
 
   return GCONST_TRUE;

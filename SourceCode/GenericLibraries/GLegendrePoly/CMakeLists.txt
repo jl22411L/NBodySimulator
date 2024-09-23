@@ -1,0 +1,5 @@
+add_library(GLegendrePoly
+  PublicFunctions/GLegendrePoly_findArrayOutput.c
+  PublicFunctions/GLegendrePoly_findAssociatedArrayOutput.c
+  PublicFunctions/GLegendrePoly_findSingleOutput.c
+)

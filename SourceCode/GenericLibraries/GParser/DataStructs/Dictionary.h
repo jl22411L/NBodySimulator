@@ -28,10 +28,38 @@ extern "C" {
 
 typedef struct dictionaryStruct
 {
+  /*!
+   * @brief     Buffer which contains the name of the section.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
   char section[GCONST_BUFFER_32];
+
+  /*!
+   * @brief     Array of strings which contain the key names for a section.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
   char key[GCONST_BUFFER_128][GCONST_BUFFER_64];
+
+  /*!
+   * @brief     Array of strings which contain the value names for a section.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
   char value[GCONST_BUFFER_128][GCONST_BUFFER_64];
-  int  nKeys;
+
+  /*!
+   * @brief     Integer which contains the number of keys within a section
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
+  int nKeys;
+
 } dictionary;
 
 #ifdef __cplusplus

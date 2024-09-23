@@ -45,11 +45,13 @@ add_subdirectory(${BODIES_PATH}/UavBody)
 
 # Generic Libraries
 add_subdirectory(${GENERIC_PATH}/GArchive)
-add_subdirectory(${GENERIC_PATH}/GParser)
 add_subdirectory(${GENERIC_PATH}/GConversions)
-add_subdirectory(${GENERIC_PATH}/GUtilities)
-add_subdirectory(${GENERIC_PATH}/GMath)
 add_subdirectory(${GENERIC_PATH}/GIntegral)
+add_subdirectory(${GENERIC_PATH}/GLegendrePoly)
+add_subdirectory(${GENERIC_PATH}/GParser)
+add_subdirectory(${GENERIC_PATH}/GMath)
+add_subdirectory(${GENERIC_PATH}/GTime)
+add_subdirectory(${GENERIC_PATH}/GUtilities)
 
 # GNC Algorithms
 add_subdirectory(${GNC_ALGORITHMS_PATH}/Guidance/TriadAlgorithm)

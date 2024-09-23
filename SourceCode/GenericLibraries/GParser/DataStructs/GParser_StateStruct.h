@@ -30,36 +30,129 @@ extern "C" {
 
 typedef struct GParser_stateStruct
 {
-  // TODO: GIve each member a doxygen comment description
-
-  /* Buffers used for loading data */
+  /*!
+   * @brief     Buffer which will contain the name of the section.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
   char sectionBuffer[GPARSER_SECTION_BUFFERSIZE];
+
+  /*!
+   * @brief     Buffer which will contain the all the key names within a
+   *            section.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
   char keyBuffer[GPARSER_KEY_BUFFERSIZE];
+
+  /*!
+   * @brief     Buffer which will contain the all the values from within a
+   *            section.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
   char valueBuffer[GPARSER_VALUE_BUFFERSIZE];
 
-  /* Variables to keep track of index's for array's */
+  /*!
+   * @brief     Integer which keeps track of the index for filling the section
+   *            buffer.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
   uint32_t sectionIndex;
+
+  /*!
+   * @brief     Integer which keeps track of what key within a section is
+   *            currently being parsed
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
   uint32_t keyIndex;
+
+  /*!
+   * @brief     Integer which keeps track of what value within a section is
+   *            currently being parsed
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
   uint32_t valueIndex;
+
+  /*!
+   * @brief     Integer which keeps track of the size of a key or value.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
   uint16_t sizeIndex;
 
-  /* Variables to keep track of sizes */
+  /*!
+   * @brief     Integer which keeps track of the size of a section name.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
   int sectionSize;
+
+  /*!
+   * @brief     Array which keeps track of the sizes of all the keys within a
+   *            section.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
   int keySize[256];
+
+  /*!
+   * @brief     Array which keeps track of the sizes of all the values within a
+   *            section.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
   int valueSize[256];
 
-  /* Variable to keep track of Sections */
+  /*!
+   * @brief     Integer which keeps track of the number of sections within the
+   *            parameters file.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
   uint8_t sectionCounter;
 
-  /* Variable to keep track of the total Number of Sections */
+  /*!
+   * @brief     Integer which contains the max number of sections within a
+   *            parameter file.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
   uint8_t maxNumberSection;
 
-  /* Flags */
+  /*!
+   * @brief     Flag which indicates if a new section should be laoded into a
+   *            dictionary. Information about the parameters is loaded into the
+   *            GParser_state and then when flag is GCONST_TRUE, it is loaded
+   *            into the dictionary.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
   uint8_t loadDictionaryEnabled;
-  uint8_t indexLoaded;
-  uint8_t array2D;
 
-  /* State Variable */
+  /*!
+   * @brief     Integer which contains the state of the parser which is used to
+   *            manage how to handle the information.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
   uint8_t loadParamsState;
 
 } GParser_State;

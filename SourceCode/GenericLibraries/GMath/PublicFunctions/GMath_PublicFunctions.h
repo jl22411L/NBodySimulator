@@ -137,6 +137,53 @@ extern int GMath_eul2Quat(
     double *p_quaternionVector_out);
 
 /*!
+ * @brief       GMath function which uses recursion to find the legendre
+ *              polynomial for a particular input.
+ *
+ *       [Ref: https://www.bragitoff.com/2017/12/legendre-polynomial-c-program/]
+ *
+ * @param[in]   inputValue_in
+ *              Value which is inputted into the Legendre polynomial function.
+ *
+ * @param[in]   polynomialDegree_in
+ *              Degree of the legendre polynomial
+ *
+ * @return      Returns the output of the legendre polynomial.
+ */
+extern double
+    GMath_findLegendrePolynomial(double inputValue_in, int polynomialDegree_in);
+
+/*!
+ * @brief       GMath function which fills an array with the output for the
+ *              associated legendre polynomials to a maximum degree.
+ *
+ *              Array is cleared assuming that the size of the array is of size
+ *              [degree_in x degree_in].
+ *
+ *              NOTE: This also assumes that all the degrees within the array
+ *                    are positive and hence negative legendre polynomials are
+ *                    not considered.
+ *
+ * @param[out]  p_associatedLegendrePolynomialArray_out
+ *              Pointer to double array which will be filled with the output of
+ *              the legendre polynomials.
+ *
+ * @param[in]   inputValue_in
+ *              Input value to input into the legendre polynomials
+ *
+ * @param[in]   degree_in
+ *              Maximum degree which will be applied to the legendre polynomials
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int GMath_findLegendrePolynomialAssociated(
+    double *p_associatedLegendrePolynomialArray_out,
+    double  inputValue_in,
+    int     degree_in);
+
+/*!
  * @brief       GMath function which finds the unit quaternion of an inputted
  *              quaternion.
  *

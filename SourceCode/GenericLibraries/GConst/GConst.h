@@ -28,6 +28,7 @@ extern "C" {
 
 /* ---------------------------- Global Constants ---------------------------- */
 
+// TODO: Give DOXYGEN comments for all the constants
 #define GCONST_TRUE         (1)
 #define GCONST_FALSE        (0)
 
@@ -48,6 +49,10 @@ extern "C" {
 #define GCONST_UM_TOLERANCE (0.000001)
 #define GCONST_NM_TOLERANCE (0.000000001)
 #define GCONST_PM_TOLERANC  (0.000000000001)
+
+#define GCONST_DEG_TO_RAD   (3.14159265358979323846264338327950288419716939 / 180)
+
+#define GCONST_RAD_TO_DEG   (180 / 3.14159265358979323846264338327950288419716939)
 
 #ifdef __cplusplus
 }
