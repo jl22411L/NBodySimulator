@@ -74,6 +74,34 @@ extern int GLegendrePoly_findAssociatedArrayOutput(
     int     nDegreeMax_in);
 
 /*!
+ * @brief       Finds the derivitive associated legendre polynomial and fills
+ *              out the coefficients of an array.
+ *
+ *              NOTE: There is a singularity where the input squared equals 1.
+ *
+ * @param[out]  p_legendrePolyDerivitiveArray_out
+ *              Pointer containing the address of the output derivitive array.
+ *
+ * @param[in]   p_legendrePolyArray_in
+ *              Pointer containing the address of the legendre array
+ *
+ * @param[in]   inputValue_in
+ *              Input value which the coefficients are found.
+ *
+ * @param[in]   nDegreeMax_in
+ *              Maximum degree to fill out to.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int GLegendrePoly_findAssociatedDerivitiveArrayOutput(
+    double *p_legendrePolyDerivitiveArray_out,
+    double *p_legendrePolyArray_in,
+    double  inputValue_in,
+    int     nDegreeMax_in);
+
+/*!
  * @brief       Function which finds the output a single output for the Legendre
  *              polynomial. This is for a legendre polynomial of order 0.
  *

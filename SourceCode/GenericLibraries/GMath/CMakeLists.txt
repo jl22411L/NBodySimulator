@@ -3,6 +3,7 @@ add_library(GMath
   PrivateFunctions/GMath_forwardPropogation.c
   PrivateFunctions/GMath_invColOptimised.c
   PrivateFunctions/GMath_luDecomp.c
+  PublicFunctions/GMath_abs.c
   PublicFunctions/GMath_crossProduct.c
   PublicFunctions/GMath_dcm2Eul.c
   PublicFunctions/GMath_dcm2Quat.c

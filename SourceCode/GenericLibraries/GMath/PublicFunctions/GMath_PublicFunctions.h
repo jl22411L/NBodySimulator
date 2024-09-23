@@ -27,6 +27,22 @@ extern "C" {
 /* None */
 
 /*!
+ * @brief       Finds the absolute value of an input value.
+ *
+ * @param[in]   inputValue_in
+ *              Input value which the absolute value will be outputted.
+ *
+ * @param[out]  p_outputValue_out
+ *              Pointer containing the address of the output value which will be
+ *              the absolute value of the input value.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int GMath_abs(double inputValue_in, double *p_outputValue_out);
+
+/*!
  * @brief       Finds the cross product of vectors A and B, outputting results
  *              to vector C. This does not clear the output vector in operation,
  *              and hence it is down to the user to do so at there own
