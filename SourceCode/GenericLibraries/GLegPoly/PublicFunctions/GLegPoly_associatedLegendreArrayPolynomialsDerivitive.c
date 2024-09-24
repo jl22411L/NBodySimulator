@@ -1,5 +1,5 @@
 /*
- *    @File:         GLegendrePoly_findAssociatedDerivitiveArrayOutput.c
+ *    @File:         GLegPoly_associatedLegendreArrayPolynomialsDerivitive.c
  *
  *    @Brief:        Finds the derivitives of the associated legendre
  *                   polynomials.
@@ -15,7 +15,7 @@
 /* None */
 
 /* Data include */
-#include "GLegendrePoly/ConstantDefs/GLegendrePoly_Const.h"
+#include "GLegPoly/ConstantDefs/GLegPoly_Const.h"
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
@@ -23,9 +23,9 @@
 #include "GMath/GMath.h"
 #include "GZero/GZero.h"
 
-int GLegendrePoly_findAssociatedDerivitiveArrayOutput(
-    double *p_legendrePolyDerivitiveArray_out,
-    double *p_legendrePolyArray_in,
+int GLegPoly_associatedLegendreArrayPolynomialsDerivitive(
+    double *p_legPolyDerivitiveArray_out,
+    double *p_legPolyArray_in,
     double  inputValue_in,
     int     nDegreeMax_in)
 {
@@ -37,7 +37,8 @@ int GLegendrePoly_findAssociatedDerivitiveArrayOutput(
   /* Finds the absolute value of the denominator for the recursive formula */
   GMath_abs(inputValue_in * inputValue_in - 1.0, &absDenominator);
 
-  if (absDenominator < GLEGENDREPOLY_SINGULARITY_TOLERANCE)
+  /* If denominaror is too close to 0, throw an error to avoid singularity */
+  if (absDenominator < GLEGPOLY_SINGULARITY_TOLERANCE)
   {
     GError(
         "Input value breaches singularity tolerance. inputValue*inputValue - 1 "
@@ -46,22 +47,22 @@ int GLegendrePoly_findAssociatedDerivitiveArrayOutput(
         inputValue_in * inputValue_in);
   }
 
-  /* Clear array  */
+  /* Clear array */
   GZero(
-      p_legendrePolyDerivitiveArray_out,
+      p_legPolyDerivitiveArray_out,
       double[nDegreeMax_in + 1][nDegreeMax_in + 1]);
 
   /* Set initial value */
-  *(p_legendrePolyDerivitiveArray_out + (nDegreeMax_in + 1) * 0 + 0) = 0;
+  *(p_legPolyDerivitiveArray_out + (nDegreeMax_in + 1) * 0 + 0) = 0;
 
   /* Fill the first column */
   for (n = 1; n <= nDegreeMax_in; n++)
   {
-    *(p_legendrePolyDerivitiveArray_out + (nDegreeMax_in + 1) * n + 0) =
+    *(p_legPolyDerivitiveArray_out + (nDegreeMax_in + 1) * n + 0) =
         -(((double)n) * inputValue_in *
-              *(p_legendrePolyArray_in + (nDegreeMax_in + 1) * n + 0) -
+              *(p_legPolyArray_in + (nDegreeMax_in + 1) * n + 0) -
           ((double)n) *
-              *(p_legendrePolyArray_in + (nDegreeMax_in + 1) * (n - 1) + 0)) /
+              *(p_legPolyArray_in + (nDegreeMax_in + 1) * (n - 1) + 0)) /
         (inputValue_in * inputValue_in - 1.0);
   }
 
@@ -70,11 +71,11 @@ int GLegendrePoly_findAssociatedDerivitiveArrayOutput(
   {
     for (n = m; n <= nDegreeMax_in; n++)
     {
-      *(p_legendrePolyDerivitiveArray_out + (nDegreeMax_in + 1) * n + m) =
+      *(p_legPolyDerivitiveArray_out + (nDegreeMax_in + 1) * n + m) =
           -(((double)n) * inputValue_in *
-                *(p_legendrePolyArray_in + (nDegreeMax_in + 1) * n + m) -
+                *(p_legPolyArray_in + (nDegreeMax_in + 1) * n + m) -
             ((double)(n + m)) *
-                *(p_legendrePolyArray_in + (nDegreeMax_in + 1) * (n - 1) + m)) /
+                *(p_legPolyArray_in + (nDegreeMax_in + 1) * (n - 1) + m)) /
           (inputValue_in * inputValue_in - 1.0);
     }
   }

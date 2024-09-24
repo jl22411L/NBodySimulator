@@ -1,5 +1,5 @@
 /*
- *    @File:         GLegendrePoly_findArrayOutput.c
+ *    @File:         GLegPoly_legendreArrayPolynomials.c
  *
  *    @Brief:        Function which finds the output of a Legendre Polynomial
  *                   for a particular degree and stores in an array.
@@ -20,7 +20,7 @@
 /* Generic Libraries */
 #include "GConst/GConst.h"
 
-int GLegendrePoly_findArrayOutput(
+int GLegPoly_legendreArrayPolynomials(
     double *p_outputArray_out,
     double  inputValue_in,
     int     nDegree_in)

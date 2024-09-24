@@ -1,5 +1,5 @@
 /*
- *    @File:         GLegendrePoly_findSingleOutput.c
+ *    @File:         GLegPoly_legendrePolynomial.c
  *
  *    @Brief:        Function which finds the single output of a Legendre
  *                   Polynomial for a particular degree.
@@ -20,7 +20,7 @@
 /* Generic Libraries */
 #include "GConst/GConst.h"
 
-int GLegendrePoly_findSingleOutput(
+int GLegPoly_legendrePolynomial(
     double *p_outputValue_out,
     double  inputValue_in,
     int     nDegree_in)

@@ -23,6 +23,8 @@
 #include "GLegendrePoly/PublicFunctions/GLegendrePoly_PublicFunctions.h"
 #include "GZero/GZero.h"
 
+#define step 1e-10
+
 int main(void)
 {
   /* Declare local variables */
@@ -33,7 +35,7 @@ int main(void)
   double outputArray2[14][14];
   double outputDerArray[14][14];
 
-  input = cos(90 * GCONST_DEG_TO_RAD);
+  input = 0.1;
 
   GZero(&outputArray[0][0], double[14][14]);
   GZero(&outputArray2[0][0], double[14][14]);
@@ -42,7 +44,7 @@ int main(void)
   GLegendrePoly_findAssociatedArrayOutput(&outputArray[0][0], input, 13);
   GLegendrePoly_findAssociatedArrayOutput(
       &outputArray2[0][0],
-      input + 0.000001,
+      input + step,
       13);
   GLegendrePoly_findAssociatedDerivitiveArrayOutput(
       &outputDerArray[0][0],
@@ -75,7 +77,7 @@ int main(void)
   {
     for (j = 0; j <= 13; j++)
     {
-      printf("%lf, ", (outputArray[i][j] - outputArray2[i][j]) / 0.000001);
+      printf("%lf, ", (outputArray[i][j] - outputArray2[i][j]) / step);
     }
     printf("\n");
   }

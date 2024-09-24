@@ -8,8 +8,8 @@
  *
  */
 
-#ifndef H_GLEGENDREPOLY_PUBLICFUNCTIONS_H
-#define H_GLEGENDREPOLY_PUBLICFUNCTIONS_H
+#ifndef H_GLEGPOLY_PUBLICFUNCTIONS_H
+#define H_GLEGPOLY_PUBLICFUNCTIONS_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -26,6 +26,63 @@ extern "C" {
 
 /* Generic Libraries */
 /* None */
+
+/*!
+ * @brief       Finds the derivitive associated legendre polynomial and fills
+ *              out the coefficients of an array.
+ *
+ *              NOTE: There is a singularity where the input squared equals 1.
+ *
+ *              NOTE: Function was verified by numerically differntiating
+ *                    the outputs from GLegendrePoly_findAssociatedArrayOutput.
+ *
+ * @param[out]  p_legPolyDerivitiveArray_out
+ *              Pointer containing the address of the output derivitive array.
+ *
+ * @param[in]   p_legPolyArray_in
+ *              Pointer containing the address of the legendre array
+ *
+ * @param[in]   inputValue_in
+ *              Input value which the coefficients are found.
+ *
+ * @param[in]   nDegreeMax_in
+ *              Maximum degree to fill out to.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int GLegPoly_associatedLegendreArrayPolynomialsDerivitive(
+    double *p_legPolyDerivitiveArray_out,
+    double *p_legPolyArray_in,
+    double  inputValue_in,
+    int     nDegreeMax_in);
+
+/*!
+ * @brief       Fills an array of assocaited legendre polynomial coefficients
+ *              for a particular input.
+ *
+ *              NOTE: Function was verified using MATLAB's legendre() function
+ *                    and comparing outputs
+ *
+ * @param[out]  p_assocatedLegPolyArray_out
+ *              Pointer containing the address of the array which the associated
+ *              legendre pollynomial coefficients.
+ *
+ * @param[in]   inputValue_in
+ *              Input value to find the legendre polynomial coefficients.
+ *
+ * @param[in]   nDegreeMax_in
+ *              Maximum degree to fill out to.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int GLegPoly_associatedLegendreArrayPolynomials(
+    double *p_assocatedLegPolyArray_out,
+    double  inputValue_in,
+    int     nDegreeMax_in);
 
 /*!
  * @brief       Function which fills an array with coefficients for the
@@ -45,61 +102,10 @@ extern "C" {
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GLegendrePoly_findArrayOutput(
+extern int GLegPoly_legendreArrayPolynomials(
     double *p_outputArray_out,
     double  inputValue_in,
     int     nDegree_in);
-
-/*!
- * @brief       Fills an array of assocaited legendre polynomial coefficients
- *              for a particular input.
- *
- * @param[out]  p_assocatedLegendrePolyArray_out
- *              Pointer containing the address of the array which the associated
- *              legendre pollynomial coefficients.
- *
- * @param[in]   inputValue_in
- *              Input value to find the legendre polynomial coefficients.
- *
- * @param[in]   nDegreeMax_in
- *              Maximum degree to fill out to.
- *
- * @return      Upon a successful completion, the fucntion will return a
- *              GCONST_TRUE. If an error in the codes execution occurs, the
- *              function will return a GCONST_FALSE
- */
-extern int GLegendrePoly_findAssociatedArrayOutput(
-    double *p_assocatedLegendrePolyArray_out,
-    double  inputValue_in,
-    int     nDegreeMax_in);
-
-/*!
- * @brief       Finds the derivitive associated legendre polynomial and fills
- *              out the coefficients of an array.
- *
- *              NOTE: There is a singularity where the input squared equals 1.
- *
- * @param[out]  p_legendrePolyDerivitiveArray_out
- *              Pointer containing the address of the output derivitive array.
- *
- * @param[in]   p_legendrePolyArray_in
- *              Pointer containing the address of the legendre array
- *
- * @param[in]   inputValue_in
- *              Input value which the coefficients are found.
- *
- * @param[in]   nDegreeMax_in
- *              Maximum degree to fill out to.
- *
- * @return      Upon a successful completion, the fucntion will return a
- *              GCONST_TRUE. If an error in the codes execution occurs, the
- *              function will return a GCONST_FALSE
- */
-extern int GLegendrePoly_findAssociatedDerivitiveArrayOutput(
-    double *p_legendrePolyDerivitiveArray_out,
-    double *p_legendrePolyArray_in,
-    double  inputValue_in,
-    int     nDegreeMax_in);
 
 /*!
  * @brief       Function which finds the output a single output for the Legendre
@@ -118,7 +124,7 @@ extern int GLegendrePoly_findAssociatedDerivitiveArrayOutput(
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GLegendrePoly_findSingleOutput(
+extern int GLegPoly_legendrePolynomial(
     double *p_outputValue_out,
     double  inputValue_in,
     int     nDegree_in);
@@ -126,4 +132,4 @@ extern int GLegendrePoly_findSingleOutput(
 #ifdef __cplusplus
 }
 #endif
-#endif /* H_GLEGENDREPOLY_PUBLICFUNCTIONS_H */
+#endif /* H_GLEGPOLY_PUBLICFUNCTIONS_H */

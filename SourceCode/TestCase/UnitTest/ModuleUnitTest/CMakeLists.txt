@@ -9,7 +9,7 @@ add_executable(ModuleUnitTest
 set(LIB_LIST
   Igrf
   GMath
-  GLegendrePoly
+  GLegPoly
 )
 
 target_link_libraries(ModuleUnitTest ${LIB_LIST})
