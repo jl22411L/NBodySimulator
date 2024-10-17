@@ -20,7 +20,7 @@
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
-#include "GLegendrePoly/PublicFunctions/GLegendrePoly_PublicFunctions.h"
+#include "GLegPoly/PublicFunctions/GLegPoly_PublicFunctions.h"
 #include "GZero/GZero.h"
 
 #define step 1e-10
@@ -31,56 +31,26 @@ int main(void)
   int    i;
   int    j;
   double input;
-  double outputArray[14][14];
-  double outputArray2[14][14];
-  double outputDerArray[14][14];
+  double schmidtCoefficentArray[14][14];
 
-  input = 0.1;
+  /* Clear Arrays */
+  GZero(&(schmidtCoefficentArray[0][0]), double[14][14]);
 
-  GZero(&outputArray[0][0], double[14][14]);
-  GZero(&outputArray2[0][0], double[14][14]);
-  GZero(&outputDerArray[0][0], double[14][14]);
+  GLegPoly_findSchmidtQuasiNormFactors(&(schmidtCoefficentArray[0][0]), 13);
 
-  GLegendrePoly_findAssociatedArrayOutput(&outputArray[0][0], input, 13);
-  GLegendrePoly_findAssociatedArrayOutput(
-      &outputArray2[0][0],
-      input + step,
-      13);
-  GLegendrePoly_findAssociatedDerivitiveArrayOutput(
-      &outputDerArray[0][0],
-      &outputArray[0][0],
-      input,
-      13);
-
-  printf("Legendre Polynomial\n\n");
+  j = 0;
   for (i = 0; i <= 13; i++)
   {
-    for (j = 0; j <= 13; j++)
-    {
-      printf("%lf, ", outputArray[i][j]);
-    }
-    printf("\n");
-  }
+    printf("%lf", schmidtCoefficentArray[i][j]);
 
-  printf("\nLegendre Der Polynomial\n\n");
-  for (i = 0; i <= 13; i++)
-  {
-    for (j = 0; j <= 13; j++)
+    for (j = 1; j <= 13; j++)
     {
-      printf("%lf, ", outputDerArray[i][j]);
+      printf(",%lf", schmidtCoefficentArray[i][j]);
     }
-    printf("\n");
-  }
 
-  printf("\nLegendre Der2 Polynomial\n\n");
-  for (i = 0; i <= 13; i++)
-  {
-    for (j = 0; j <= 13; j++)
-    {
-      printf("%lf, ", (outputArray[i][j] - outputArray2[i][j]) / step);
-    }
     printf("\n");
   }
+  printf("\n\n");
 
   return GCONST_EXIT_SUCCESS;
 }

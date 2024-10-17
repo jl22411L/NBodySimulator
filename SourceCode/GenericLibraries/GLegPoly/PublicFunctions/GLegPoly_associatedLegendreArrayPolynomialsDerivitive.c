@@ -27,7 +27,7 @@ int GLegPoly_associatedLegendreArrayPolynomialsDerivitive(
     double *p_legPolyDerivitiveArray_out,
     double *p_legPolyArray_in,
     double  inputValue_in,
-    int     nDegreeMax_in)
+    int     maxDegreeN_in)
 {
   /* Declare local variables */
   double absDenominator;
@@ -50,32 +50,32 @@ int GLegPoly_associatedLegendreArrayPolynomialsDerivitive(
   /* Clear array */
   GZero(
       p_legPolyDerivitiveArray_out,
-      double[nDegreeMax_in + 1][nDegreeMax_in + 1]);
+      double[maxDegreeN_in + 1][maxDegreeN_in + 1]);
 
   /* Set initial value */
-  *(p_legPolyDerivitiveArray_out + (nDegreeMax_in + 1) * 0 + 0) = 0;
+  *(p_legPolyDerivitiveArray_out + (maxDegreeN_in + 1) * 0 + 0) = 0;
 
   /* Fill the first column */
-  for (n = 1; n <= nDegreeMax_in; n++)
+  for (n = 1; n <= maxDegreeN_in; n++)
   {
-    *(p_legPolyDerivitiveArray_out + (nDegreeMax_in + 1) * n + 0) =
+    *(p_legPolyDerivitiveArray_out + (maxDegreeN_in + 1) * n + 0) =
         -(((double)n) * inputValue_in *
-              *(p_legPolyArray_in + (nDegreeMax_in + 1) * n + 0) -
+              *(p_legPolyArray_in + (maxDegreeN_in + 1) * n + 0) -
           ((double)n) *
-              *(p_legPolyArray_in + (nDegreeMax_in + 1) * (n - 1) + 0)) /
+              *(p_legPolyArray_in + (maxDegreeN_in + 1) * (n - 1) + 0)) /
         (inputValue_in * inputValue_in - 1.0);
   }
 
   /* Iterate columns, filling the lower half of the array with coefficients */
-  for (m = 1; m <= nDegreeMax_in; m++)
+  for (m = 1; m <= maxDegreeN_in; m++)
   {
-    for (n = m; n <= nDegreeMax_in; n++)
+    for (n = m; n <= maxDegreeN_in; n++)
     {
-      *(p_legPolyDerivitiveArray_out + (nDegreeMax_in + 1) * n + m) =
+      *(p_legPolyDerivitiveArray_out + (maxDegreeN_in + 1) * n + m) =
           -(((double)n) * inputValue_in *
-                *(p_legPolyArray_in + (nDegreeMax_in + 1) * n + m) -
+                *(p_legPolyArray_in + (maxDegreeN_in + 1) * n + m) -
             ((double)(n + m)) *
-                *(p_legPolyArray_in + (nDegreeMax_in + 1) * (n - 1) + m)) /
+                *(p_legPolyArray_in + (maxDegreeN_in + 1) * (n - 1) + m)) /
           (inputValue_in * inputValue_in - 1.0);
     }
   }

@@ -29,11 +29,11 @@ extern "C" {
 /*!
  * @brief       Function which will load the IGRF model from the params .ini
  *              file. This will load the parameter to find the epoch data and
- *              the degree of freedom which to load the parameters for. The
- *              struct which is inputted into the function will be loaded with
- *              the coefficients for the epoch time.
+ *              the linear rates. The struct which is inputted into the function
+ *              will be loaded with the coefficients for the epoch time also
+ *              specified in the parameter file.
  *
- * @param[in]   p_igrfParams_in
+ * @param[out]   p_igrf_params_out
  *              Pointer containing the adress of an IGRF params struct. This
  *              struct will have its params loaded into.
  *

@@ -25,17 +25,18 @@
 #include "GParser/GParser.h"
 #include "GZero/GZero.h"
 
-int Igrf_init(Igrf_Params *p_igrfParams_in, const char *p_paramsFilePath_in)
+int Igrf_init(Igrf_Params *p_igrf_params_out, const char *p_paramsFilePath_in)
 {
   /* Declare local variables */
   dictionary   *p_dic;
   GParser_State GParser_state;
   char          parameterNameBuffer[IGRF_MAX_STRING_BUFFER_SIZE];
-  uint8_t       i;
+  uint8_t       n;
+  uint8_t       m;
 
   /* Clear the Igrf Params Struct */
   GZero(&GParser_state, GParser_State);
-  GZero(p_igrfParams_in, Igrf_Params);
+  GZero(p_igrf_params_out, Igrf_Params);
   p_dic = NULL;
 
   /* Loading parameters into dictionaries */
@@ -49,95 +50,100 @@ int Igrf_init(Igrf_Params *p_igrfParams_in, const char *p_paramsFilePath_in)
   GParser_loadUInt8(
       &GParser_state,
       p_dic,
-      &p_igrfParams_in->nDegree,
+      &p_igrf_params_out->nDegree,
       "modelParameters:nDegree");
 
   /* Load epoch year of the corresponding coefficients */
   GParser_loadUInt16(
       &GParser_state,
       p_dic,
-      &p_igrfParams_in->epochYear,
+      &p_igrf_params_out->epochYear,
       "modelParameters:epochYear");
 
   /* Iterate through dictionary and load coefficients */
-  for (i = 0; i <= p_igrfParams_in->nDegree; i++)
+  for (n = 1; n <= p_igrf_params_out->nDegree; n++)
   {
-    /* Clear name buffer */
-    GZero(&parameterNameBuffer[0], char[IGRF_MAX_STRING_BUFFER_SIZE]);
+    for (m = 0; m <= n; m++)
+    {
+      /* Clear the parameter name buffer */
+      GZero(&parameterNameBuffer[0], char[IGRF_MAX_STRING_BUFFER_SIZE]);
 
-    /* Write to name buffer */
-    sprintf(
-        &parameterNameBuffer[0],
-        "degree%d:sphericalHarmonicG_n%dm%d_epoch%d",
-        p_igrfParams_in->nDegree,
-        p_igrfParams_in->nDegree,
-        i,
-        p_igrfParams_in->epochYear);
+      /* Write the name of the parameter to load into buffer */
+      sprintf(
+          &parameterNameBuffer[0],
+          "degree%d:sphericalHarmonicG_n%dm%d_epoch%d",
+          n,
+          n,
+          m,
+          p_igrf_params_out->epochYear);
 
-    /* Load first linear rate gCoefficient */
-    GParser_loadDouble(
-        &GParser_state,
-        p_dic,
-        &p_igrfParams_in->gCoefficients[i],
-        &parameterNameBuffer[0]);
+      /* Load coefficient into array */
+      GParser_loadDouble(
+          &GParser_state,
+          p_dic,
+          &p_igrf_params_out->gEpochCoefficients_nT[n][m],
+          &parameterNameBuffer[0]);
 
-    /* Clear name buffer */
-    GZero(&parameterNameBuffer[0], char[IGRF_MAX_STRING_BUFFER_SIZE]);
+      /* Clear the parameter name buffer */
+      GZero(&parameterNameBuffer[0], char[IGRF_MAX_STRING_BUFFER_SIZE]);
 
-    /* Write to name buffer */
-    sprintf(
-        &parameterNameBuffer[0],
-        "degree%d:sphericalHarmonicG_n%dm%d_linearRate%d",
-        p_igrfParams_in->nDegree,
-        p_igrfParams_in->nDegree,
-        i,
-        p_igrfParams_in->epochYear);
+      /* Write the name of the parameter to load into buffer */
+      sprintf(
+          &parameterNameBuffer[0],
+          "degree%d:sphericalHarmonicG_n%dm%d_linearRate%d",
+          n,
+          n,
+          m,
+          p_igrf_params_out->epochYear);
 
-    /* Load first linear rate gCoefficient */
-    GParser_loadDouble(
-        &GParser_state,
-        p_dic,
-        &p_igrfParams_in->gLinearRateCoefficients[i],
-        &parameterNameBuffer[0]);
+      /* Load coefficient into array */
+      GParser_loadDouble(
+          &GParser_state,
+          p_dic,
+          &p_igrf_params_out->gLinearRateCoefficients_nTs[n][m],
+          &parameterNameBuffer[0]);
 
-    /* Clear name buffer */
-    GZero(&parameterNameBuffer[0], char[IGRF_MAX_STRING_BUFFER_SIZE]);
+      /* Clear the parameter name buffer */
+      GZero(&parameterNameBuffer[0], char[IGRF_MAX_STRING_BUFFER_SIZE]);
 
-    /* Write to name buffer */
-    sprintf(
-        &parameterNameBuffer[0],
-        "degree%d:sphericalHarmonicH_n%dm%d_epoch%d",
-        p_igrfParams_in->nDegree,
-        p_igrfParams_in->nDegree,
-        i,
-        p_igrfParams_in->epochYear);
+      /* Write the name of the parameter to load into buffer */
+      sprintf(
+          &parameterNameBuffer[0],
+          "degree%d:sphericalHarmonicH_n%dm%d_epoch%d",
+          n,
+          n,
+          m,
+          p_igrf_params_out->epochYear);
 
-    /* Load first linear rate hCoefficient */
-    GParser_loadDouble(
-        &GParser_state,
-        p_dic,
-        &p_igrfParams_in->hCoefficients[i],
-        &parameterNameBuffer[0]);
+      /* Load coefficient into array */
+      GParser_loadDouble(
+          &GParser_state,
+          p_dic,
+          &p_igrf_params_out->hEpochCoefficients_nT[n][m],
+          &parameterNameBuffer[0]);
+      /* Clear the parameter name buffer */
+      GZero(&parameterNameBuffer[0], char[IGRF_MAX_STRING_BUFFER_SIZE]);
 
-    /* Clear name buffer */
-    GZero(&parameterNameBuffer[0], char[IGRF_MAX_STRING_BUFFER_SIZE]);
+      /* Write the name of the parameter to load into buffer */
+      sprintf(
+          &parameterNameBuffer[0],
+          "degree%d:sphericalHarmonicH_n%dm%d_linearRate%d",
+          n,
+          n,
+          m,
+          p_igrf_params_out->epochYear);
 
-    /* Write to name buffer */
-    sprintf(
-        &parameterNameBuffer[0],
-        "degree%d:sphericalHarmonicH_n%dm%d_linearRate%d",
-        p_igrfParams_in->nDegree,
-        p_igrfParams_in->nDegree,
-        i,
-        p_igrfParams_in->epochYear);
-
-    /* Load first linear rate gCoefficient */
-    GParser_loadDouble(
-        &GParser_state,
-        p_dic,
-        &p_igrfParams_in->hLinearRateCoefficients[i],
-        &parameterNameBuffer[0]);
+      /* Load coefficient into array */
+      GParser_loadDouble(
+          &GParser_state,
+          p_dic,
+          &p_igrf_params_out->hLinearRateCoefficients_nTs[n][m],
+          &parameterNameBuffer[0]);
+    }
   }
+
+  /* Close parameters */
+  GParser_closeParams(&GParser_state, p_dic);
 
   return GCONST_TRUE;
 }

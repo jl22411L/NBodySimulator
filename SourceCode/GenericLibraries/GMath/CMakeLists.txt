@@ -9,6 +9,7 @@ add_library(GMath
   PublicFunctions/GMath_dcm2Quat.c
   PublicFunctions/GMath_eul2Dcm.c
   PublicFunctions/GMath_eul2Quat.c
+  PublicFunctions/GMath_factorial.c
   PublicFunctions/GMath_findUnitQuaternion.c
   PublicFunctions/GMath_findUnitVector.c
   PublicFunctions/GMath_invCol.c

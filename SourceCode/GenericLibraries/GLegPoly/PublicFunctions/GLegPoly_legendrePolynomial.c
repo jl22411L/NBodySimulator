@@ -23,7 +23,7 @@
 int GLegPoly_legendrePolynomial(
     double *p_outputValue_out,
     double  inputValue_in,
-    int     nDegree_in)
+    int     degreeN_in)
 {
   /* Declare local variables */
   double currentValue;
@@ -31,11 +31,11 @@ int GLegPoly_legendrePolynomial(
   double previousValue2;
   int    n;
 
-  if (nDegree_in == 0)
+  if (degreeN_in == 0)
   {
     *(p_outputValue_out) = 1;
   }
-  else if (nDegree_in == 1)
+  else if (degreeN_in == 1)
   {
     *(p_outputValue_out) = inputValue_in;
   }
@@ -44,7 +44,7 @@ int GLegPoly_legendrePolynomial(
     previousValue1 = 1;
     previousValue2 = inputValue_in;
 
-    for (n = 2; n <= nDegree_in; n++)
+    for (n = 2; n <= degreeN_in; n++)
     {
       /* Find the current value */
       currentValue = (((double)2 * n - 1) * inputValue_in * previousValue1 -

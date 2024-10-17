@@ -28,6 +28,32 @@ extern "C" {
 /* None */
 
 /*!
+ * @brief       Fills an array of assocaited legendre polynomial coefficients
+ *              for a particular input.
+ *
+ *              NOTE: Function was verified using MATLAB's legendre() function
+ *                    and comparing outputs
+ *
+ * @param[out]  p_assocatedLegPolyArray_out
+ *              Pointer containing the address of the array which the associated
+ *              legendre pollynomial coefficients.
+ *
+ * @param[in]   inputValue_in
+ *              Input value to find the legendre polynomial coefficients.
+ *
+ * @param[in]   maxDegreeN_in
+ *              Maximum degree to fill out to.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int GLegPoly_associatedLegendreArrayPolynomials(
+    double *p_assocatedLegPolyArray_out,
+    double  inputValue_in,
+    int     maxDegreeN_in);
+
+/*!
  * @brief       Finds the derivitive associated legendre polynomial and fills
  *              out the coefficients of an array.
  *
@@ -45,7 +71,7 @@ extern "C" {
  * @param[in]   inputValue_in
  *              Input value which the coefficients are found.
  *
- * @param[in]   nDegreeMax_in
+ * @param[in]   maxDegreeN_in
  *              Maximum degree to fill out to.
  *
  * @return      Upon a successful completion, the fucntion will return a
@@ -56,33 +82,42 @@ extern int GLegPoly_associatedLegendreArrayPolynomialsDerivitive(
     double *p_legPolyDerivitiveArray_out,
     double *p_legPolyArray_in,
     double  inputValue_in,
-    int     nDegreeMax_in);
+    int     maxDegreeN_in);
 
 /*!
- * @brief       Fills an array of assocaited legendre polynomial coefficients
- *              for a particular input.
+ * @brief       Finds the coefficients to apply to the schmidt quasi
+ *              normalisation.
+ *
+ *              [Ref:https://academic.oup.com/gji/article/160/2/487/659348?login=false]
  *
  *              NOTE: Function was verified using MATLAB's legendre() function
  *                    and comparing outputs
  *
- * @param[out]  p_assocatedLegPolyArray_out
- *              Pointer containing the address of the array which the associated
- *              legendre pollynomial coefficients.
+ *              NOTE: In the reference it does not mention a factor of (-1.0)^m
+ *                    however this is mentioned in other texts. To match up with
+ *                    the matlab version this was implemented but may need to be
+ *                    removed.
  *
- * @param[in]   inputValue_in
- *              Input value to find the legendre polynomial coefficients.
+ * @param[out]  p_schmidtQuasiNormFactors_out
+ *              Pointer containing the address of the array for which the
+ *              coefficients will be stored. The array will be cleared within
+ *              the function.
  *
- * @param[in]   nDegreeMax_in
- *              Maximum degree to fill out to.
+ *              NOTE: The array should be of size, maxDegreeN_in + 1, as the
+ *                    process is inclusive of the final degree.
+ *
+ *                    (Done this way to match with the maths better)
+ *
+ * @param[in]   maxDegreeN_in
+ *              The maximum degree to which the array will be filled.
  *
  * @return      Upon a successful completion, the fucntion will return a
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GLegPoly_associatedLegendreArrayPolynomials(
-    double *p_assocatedLegPolyArray_out,
-    double  inputValue_in,
-    int     nDegreeMax_in);
+extern int GLegPoly_findSchmidtQuasiNormFactors(
+    double *p_schmidtQuasiNormFactors_out,
+    uint8_t maxDegreeN_in);
 
 /*!
  * @brief       Function which fills an array with coefficients for the
@@ -95,8 +130,8 @@ extern int GLegPoly_associatedLegendreArrayPolynomials(
  * @param[in]   inputValue_in
  *              Input value to find the coefficients of the polynomials for.
  *
- * @param[in]   nDegree_in
- *              Degree which the polynomial will be filled with.
+ * @param[in]   degreeN_in
+ *              Degree to which the polynomial will be filled with.
  *
  * @return      Upon a successful completion, the fucntion will return a
  *              GCONST_TRUE. If an error in the codes execution occurs, the
@@ -105,7 +140,7 @@ extern int GLegPoly_associatedLegendreArrayPolynomials(
 extern int GLegPoly_legendreArrayPolynomials(
     double *p_outputArray_out,
     double  inputValue_in,
-    int     nDegree_in);
+    int     degreeN_in);
 
 /*!
  * @brief       Function which finds the output a single output for the Legendre
@@ -117,7 +152,7 @@ extern int GLegPoly_legendreArrayPolynomials(
  * @param[in]   inputValue_in
  *              Input value into legendre polynomial
  *
- * @param[in]   nDegree_in
+ * @param[in]   degreeN_in
  *              Integer representing the degree of the legendre polynomial.
  *
  * @return      Upon a successful completion, the fucntion will return a
@@ -127,7 +162,7 @@ extern int GLegPoly_legendreArrayPolynomials(
 extern int GLegPoly_legendrePolynomial(
     double *p_outputValue_out,
     double  inputValue_in,
-    int     nDegree_in);
+    int     degreeN_in);
 
 #ifdef __cplusplus
 }

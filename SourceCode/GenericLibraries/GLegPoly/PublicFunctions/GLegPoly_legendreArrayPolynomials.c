@@ -23,7 +23,7 @@
 int GLegPoly_legendreArrayPolynomials(
     double *p_outputArray_out,
     double  inputValue_in,
-    int     nDegree_in)
+    int     degreeN_in)
 {
   /* Declare local variables */
   double currentValue;
@@ -31,7 +31,7 @@ int GLegPoly_legendreArrayPolynomials(
   double previousValue2;
   int    n;
 
-  for (n = 0; n <= nDegree_in; n++)
+  for (n = 0; n <= degreeN_in; n++)
   {
     if (n == 0)
     {

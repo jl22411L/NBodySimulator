@@ -1,8 +1,9 @@
 add_library(GLegPoly
-  PublicFunctions/GLegePoly_associatedLegendreArrayPolynomials.c
-  PublicFunctions/GLegePoly_associatedLegendreArrayPolynomialsDerivitive.c
-  PublicFunctions/GLegePoly_legendreArrayPolynomials.c
-  PublicFunctions/GLegePoly_legendrePolynomial.c
+  PublicFunctions/GLegPoly_associatedLegendreArrayPolynomials.c
+  PublicFunctions/GLegPoly_associatedLegendreArrayPolynomialsDerivitive.c
+  PublicFunctions/GLegPoly_findSchmidtQuasiNormFactors.c
+  PublicFunctions/GLegPoly_legendreArrayPolynomials.c
+  PublicFunctions/GLegPoly_legendrePolynomial.c
 )
 
 target_link_libraries(GLegPoly

@@ -14,6 +14,8 @@
 extern "C" {
 #endif
 
+#include <stdint.h>
+
 /* Function Includes */
 /* None */
 
@@ -151,6 +153,24 @@ extern int
 extern int GMath_eul2Quat(
     double *p_eulerAnglevector_rad_in,
     double *p_quaternionVector_out);
+
+/*!
+ * @brief       Finds the factorial for a particular integer. The maximum value
+ *              the output can be is 65535.
+ *
+ * @param[in]   inputInteger_in
+ *              Input integer which is factorialed
+ *
+ * @param[out]  p_outputValue_out
+ *              Pointer containing the address of where the output integer will
+ *              be stored.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int
+    GMath_factorial(uint16_t inputInteger_in, uint16_t *p_outputValue_out);
 
 /*!
  * @brief       GMath function which uses recursion to find the legendre
