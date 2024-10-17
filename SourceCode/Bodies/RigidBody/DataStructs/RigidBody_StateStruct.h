@@ -25,7 +25,7 @@ extern "C" {
 /* None */
 
 /* Data include */
-/* None */
+#include "RigidBody/ConstantDefs/RigidBody_Const.h"
 
 /* Generic Libraries */
 #include "GArchive/GArchive.h"
@@ -169,7 +169,7 @@ typedef struct RigidBody_StateStruct
    * @unit      N/A
    * @frame     N/A
    */
-  char bodyName[GCONST_BUFFER_256];
+  char bodyName[RIGIDBODY_BODY_NAME_BUFFER];
 
   /*!
    * @details   Archive struct for RigidBody.

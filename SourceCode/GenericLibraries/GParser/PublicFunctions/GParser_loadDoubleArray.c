@@ -38,10 +38,9 @@ int GParser_loadDoubleArray(
     int            nRows)
 {
   /* Declaring local variables */
-  char    section_buffer[GCONST_BUFFER_256];
-  char    key_inputBuffer[GCONST_BUFFER_256];
-  char    key_iniBuffer[GCONST_BUFFER_256];
-  char    dataToLoad_buffer[GCONST_BUFFER_1024];
+  char    section_buffer[GPARSER_LOAD_ARRAY_SECTION_BUFFER];
+  char    key_inputBuffer[GPARSER_LOAD_ARRAY_KEY_INPUT_BUFFER];
+  char    dataToLoad_buffer[GPARSER_LOAD_ARRAY_DATA_TO_LOAD_BUFFER];
   int     dictionaryNumber;
   int16_t col;
   int16_t row;
@@ -50,10 +49,9 @@ int GParser_loadDoubleArray(
   int16_t k;
 
   /* Clearing Buffers */
-  GZero(&section_buffer, char[GCONST_BUFFER_256]);
-  GZero(&key_inputBuffer, char[GCONST_BUFFER_256]);
-  GZero(&dataToLoad_buffer, char[GCONST_BUFFER_1024]);
-  GZero(&key_iniBuffer, char[GCONST_BUFFER_256]);
+  GZero(&section_buffer, char[GPARSER_LOAD_ARRAY_SECTION_BUFFER]);
+  GZero(&key_inputBuffer, char[GPARSER_LOAD_ARRAY_KEY_INPUT_BUFFER]);
+  GZero(&dataToLoad_buffer, char[GPARSER_LOAD_ARRAY_DATA_TO_LOAD_BUFFER]);
 
   /* Defining local variables */
   dictionaryNumber = 0;
@@ -142,9 +140,6 @@ int GParser_loadDoubleArray(
       }
     }
   }
-
-  /* Clear buffer */
-  GZero(&key_iniBuffer, char[256]);
 
   return GCONST_TRUE;
 }

@@ -25,27 +25,27 @@
 int GMath_invMat(double *p_inputMat_in, double *p_outputMat_out, int sideN_in)
 {
   /* Defining Local variables */
-  double upperMatrixBuffer[GMATH_MATRIXINV_BUFFER];
-  double lowerMatrixBuffer[GMATH_MATRIXINV_BUFFER];
-  double inputColBuffer[GMATH_MATRIXINV_BUFFER];
-  double resultColumnBuffer[GMATH_MATRIXINV_BUFFER];
+  double upperMatrixBuffer[GMATH_MATRIX_INV_BUFFER];
+  double lowerMatrixBuffer[GMATH_MATRIX_INV_BUFFER];
+  double inputColBuffer[GMATH_MATRIX_INV_BUFFER];
+  double resultColumnBuffer[GMATH_MATRIX_INV_BUFFER];
   int    i;
   int    j;
 
   /* Clearing buffers */
-  GZero(&upperMatrixBuffer[0], double[GMATH_MATRIXINV_BUFFER]);
-  GZero(&lowerMatrixBuffer[0], double[GMATH_MATRIXINV_BUFFER]);
-  GZero(&inputColBuffer[0], double[GMATH_MATRIXINV_BUFFER]);
-  GZero(&resultColumnBuffer[0], double[GMATH_MATRIXINV_BUFFER]);
+  GZero(&upperMatrixBuffer[0], double[GMATH_MATRIX_INV_BUFFER]);
+  GZero(&lowerMatrixBuffer[0], double[GMATH_MATRIX_INV_BUFFER]);
+  GZero(&inputColBuffer[0], double[GMATH_MATRIX_INV_BUFFER]);
+  GZero(&resultColumnBuffer[0], double[GMATH_MATRIX_INV_BUFFER]);
 
   /* Check to make sure buffer size is large enough */
-  if (sideN_in > GMATH_MATRIXINV_BUFFER)
+  if (sideN_in > GMATH_MATRIX_INV_BUFFER)
     GError(
         "Buffer size is not large enough to handle %dX%d array.\nMax Buffer "
         "Size = %d",
         sideN_in,
         sideN_in,
-        GMATH_MATRIXINV_BUFFER);
+        GMATH_MATRIX_INV_BUFFER);
 
   /* Find LU decomposition matricies */
   GMath_luDecomp(

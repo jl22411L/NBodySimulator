@@ -15,6 +15,9 @@
 
 set -e
 
+# TODO: Write a documentation string of how the bash script works and will
+#       display when a -h flag is parsed.
+
 
 #------------------------------- SET VARIABLES -------------------------------#
 
@@ -72,7 +75,6 @@ while [[ $# -gt 0 ]]; do
     # Positional Arguments
     *)
       POSITIONAL_ARGUMENTS="${POSITIONAL_ARGUMENTS}${input}/"
-      EXECUTABLE_NAME="${input}"
       ;;
   esac
 
@@ -80,9 +82,31 @@ while [[ $# -gt 0 ]]; do
   shift
 done
 
-RELATIVE_PATH_TO_TEST=${POSITIONAL_ARGUMENTS}
+# Set the relative path to the positinal arguments
+RELATIVE_PATH_TO_TEST="${POSITIONAL_ARGUMENTS}"
 
-#---------------------- FINDING TEST & EXECUTABLE NAME -----------------------#
+# --------------------------- PROCESS RELATIVE PATH --------------------------- #
+
+# Remove all trailing /. (Done this way, instead of using %, to cover the event
+# user inputs / at the end of the string and hecne the POSITIONAL_ARGUMENTS
+# variable ends with //)
+while [ "${RELATIVE_PATH_TO_TEST: -1}" == "/" ]; do
+  RELATIVE_PATH_TO_TEST="${RELATIVE_PATH_TO_TEST%/}"
+done
+echo "${RELATIVE_PATH_TO_TEST}"
+
+# Check to make sure the path does not include "SourceCode/TestCase". This is
+# done so that if the user wants they can just put the relative path to the
+# test run source code, taking advantage of the Tab Autocomplete.
+if [[ "${RELATIVE_PATH_TO_TEST:0:20}" == "SourceCode/TestCase/" ]]; then
+  RELATIVE_PATH_TO_TEST="${RELATIVE_PATH_TO_TEST:20}"
+fi
+
+# Find the executable name based on the final subdirectory. (This follows the
+# standard that the executable name will have the same name as the test case)
+EXECUTABLE_NAME="${RELATIVE_PATH_TO_TEST##*/}"
+
+# --------------------- FIND TEST DIR & EXECUTABLE NAME ----------------------- #
 
 # Finding name of Test Case
 TEST_CASE="${EXECUTABLE_NAME}"
@@ -109,7 +133,7 @@ TEST_DATE="`date +%Y_%m_%d_%H_%M_%S`"
 
 # Defining path variables
 PATH_TO_ROOT=${PWD}
-PATH_TO_TEST_EXECUTABLE="BuildCode/TestCase/${RELATIVE_PATH_TO_TEST}${EXECUTABLE_NAME}"
+PATH_TO_TEST_EXECUTABLE="BuildCode/TestCase/${RELATIVE_PATH_TO_TEST}/${EXECUTABLE_NAME}"
 PATH_TO_TEST_RUN="TestRuns/${RELATIVE_PATH_TO_TEST}${TEST_CASE}_${TEST_DATE}/"
 
 # Checking path to Build Code exists
@@ -151,12 +175,12 @@ echo "[MSG] # ------------------------------ COPYING PARAMETERS ----------------
 echo "[...]"
 
 # Copy Default Parameter set for test run
-cp -r Parameters/TestParameters/${RELATIVE_PATH_TO_TEST}DefaultParameters/. ${PATH_TO_TEST_RUN}/Parameters/
+cp -r Parameters/TestParameters/${RELATIVE_PATH_TO_TEST}/DefaultParameters/. ${PATH_TO_TEST_RUN}/Parameters/
 echo "[MSG] Default Test Parameters copied successfully"
 
 # If there is a specific parameters, copy the parameters
 if [ -n "${SPECIFIC_PARAMETERS}" ]; then
-  cp -r Parameters/TestParameters/${RELATIVE_PATH_TO_TEST}${SPECIFIC_PARAMETERS}/. ${PATH_TO_TEST_RUN}/Parameters/
+  cp -r Parameters/TestParameters/${RELATIVE_PATH_TO_TEST}/${SPECIFIC_PARAMETERS}/. ${PATH_TO_TEST_RUN}/Parameters/
 fi
 echo "[INF] Parameters copied succesfully"
 

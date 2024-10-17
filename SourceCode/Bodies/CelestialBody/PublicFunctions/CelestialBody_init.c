@@ -16,7 +16,7 @@
 #include "CelestialBody/DataStructs/CelestialBody_StateStruct.h"
 
 /* Data include */
-/* None */
+#include "CelestialBody/ConstantDefs/CelestialBody_Const.h"
 
 /* Generic Libraries */
 #include "GArchive/GArchive.h"
@@ -31,12 +31,10 @@ int CelestialBody_init(
   /* Declare local variables */
   dictionary   *dic;
   GParser_State GParser_state;
-  char          archiveNameBuffer[GCONST_BUFFER_1024];
 
   /* Zeroing Local variables */
   GZero(&GParser_state, GParser_State);
   GZero(&dic, dictionary *);
-  GZero(&archiveNameBuffer[0], char[GCONST_BUFFER_1024]);
   GZero(p_celestialBody_state_in, CelestialBody_State);
 
   /* ------------------------------------------------------------------------ *
@@ -58,12 +56,6 @@ int CelestialBody_init(
   GParser_closeParams(&GParser_state, dic);
 
   /*---------------------------- CREATE ARCHIVES ----------------------------*/
-
-  /* Create Archive Name */
-  sprintf(
-      archiveNameBuffer,
-      "Bodies/%s/OutputData/CelestialBody",
-      p_celestialBody_state_in->rigidBody_state.bodyName);
 
   /* Create archives */
   CelestialBody_createArchives(

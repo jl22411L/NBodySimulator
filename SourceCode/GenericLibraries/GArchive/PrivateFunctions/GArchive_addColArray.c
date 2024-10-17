@@ -24,7 +24,6 @@
 #include "GLog/GLog.h"
 #include "GZero/GZero.h"
 
-
 int GArchive_addColArray(
     GArchive   *p_archive_inout,
     const char *p_colName_in,
@@ -32,13 +31,13 @@ int GArchive_addColArray(
     uint8_t     nRowsAdd_in)
 {
   /* Declaring local variables */
-  char    buffer[GARCHIVE_MAX_BUFFER];
+  char    buffer[GARCHIVE_MAX_COL_NAME_BUFFER];
   int8_t  columnIndex;
   int32_t i;
   int32_t j;
 
   /* Clear Buffer */
-  GZero(buffer, char[GARCHIVE_MAX_BUFFER]);
+  GZero(buffer, char[GARCHIVE_MAX_COL_NAME_BUFFER]);
 
   /* Check to make sure inputs are valid */
   if (nColsAdd_in < 1 || nRowsAdd_in < 1)

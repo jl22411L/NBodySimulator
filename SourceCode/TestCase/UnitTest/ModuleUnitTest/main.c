@@ -21,6 +21,7 @@
 /* Generic Libraries */
 #include "GConst/GConst.h"
 #include "GLegPoly/PublicFunctions/GLegPoly_PublicFunctions.h"
+#include "GLog/GLog.h"
 #include "GZero/GZero.h"
 
 #define step 1e-10

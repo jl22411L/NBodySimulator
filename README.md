@@ -1,6 +1,6 @@
-## SET UP ##
+# SET UP #
 
-# Clang #
+## Clang ##
 Clang auto formatter is used to manage code quality. Install Clang-Format by Xaver Hellauer. Then go to your user settings json file and add the following settings:
 ```
 "clang-format.executable": "C:/Users/jason/Desktop/Projects/NBodySimulator/.Configuration/Clang/clang-format.exe",
@@ -9,11 +9,11 @@ Clang auto formatter is used to manage code quality. Install Clang-Format by Xav
 
 When you run the `SetUpDevelopmentEnvironment.sh` script, the up to date clang formatting file should be moved into your workspace.
 
-# VARIABLE NAMING CONVENTION #
+## VARIABLE NAMING CONVENTION ##
 
 Variables follow the camel case naming convention with the following format.
 
-\<name\>_\<frame\>_\<unit\>_\<input/output\>
+`\<name\>_\<frame\>_\<unit\>_\<input/output\>`
 
 Note: If one or more of tags is not required then it can be ommited from the variable. For example, if a vector is independent of a frame, a frame
 tag should not be included. (The obvious exception is the 'name' tag)
@@ -38,6 +38,37 @@ For example kg m per seconds squared (Newton) is kgms2
 ### in/out ###
 
 This is to indicate if the variable is an input to a function or an output to a function. If the variable is defined within a function then this part should be ommitted. 
+
+# TEST CASES #
+
+## test case location and naming ##
+
+All test cases should be located in `SourceCode/TestCase/`. There can be multiple layers within this directory so that tests can be grouped together. An example can be found `SourceCode/TestCase/UnitTest/`.
+
+Within a test case, the script which contains the main function shall be called main.c. This is to clearly indicate the top level of where the test case is running from.
+
+In the `CMakeLists.txt`, when using the `add_executable()` function, the target name of the executable shall match the name of the test case. This is so that it is clear that the executable is linked to a particular test case. This will link
+to the `RunTest.sh` bash script which is used to offer an easy way to run the test case.
+
+## running a test case ##
+
+Running a test case is done using the `RunTest.sh` bash script. Essentially, you type: 
+
+```./RunTest.sh <additional_flags> <positional_arguments_to_test_case>```
+
+You can give an absolute path or a relative path as either a single input or listing each folder of the directory. It should be noted that it is the directory to the test case folder. This should match up with the directory to the folder which contains the executable in the `BuildCode` directory.
+
+Also note, that you can give the relative path from the root of the workspace. i.e:
+
+```./RunTest.sh SourceCode/TestCase/UnitTest/ModuleUnitTest/```
+
+This was implemented to take advantge of the auto tab complete.
+
+Use the -h flag to get an up to date description of what the script does.
+
+## parameters ##
+
+Parameters is an ongoing development. For the latest update on how they are set up, read `Parameters/README.md`.
 
 # FRAMES #
 

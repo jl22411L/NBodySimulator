@@ -83,7 +83,7 @@ int GMath_quaternionPointRotation(
   if (outputPureQuaternion[3] > GMATH_QUATERNION_ZERO_TOLERANCE)
   {
     GError(
-        "Resulting quatenrion is not a pure quaternion. \n",
+        "Resulting quatenrion is not a pure quaternion. ",
         "outputPureQuaternion = [%lf, %lf, %lf, %lf]",
         outputPureQuaternion[0],
         outputPureQuaternion[1],

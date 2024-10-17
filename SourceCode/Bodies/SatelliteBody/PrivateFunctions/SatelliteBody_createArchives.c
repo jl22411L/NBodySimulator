@@ -14,7 +14,7 @@
 #include "SatelliteBody/DataStructs/SatelliteBody_StateStruct.h"
 
 /* Data include */
-/* None */
+#include "SatelliteBody/ConstantDefs/SatelliteBody_Const.h"
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
@@ -25,10 +25,10 @@ int SatelliteBody_createArchives(
     const char          *p_bodyName_in)
 {
   /* Defining local variables */
-  char buffer[GCONST_BUFFER_1024];
+  char buffer[SATELLITEBODY_CREATE_ARCHIVE_BUFFER];
 
   /* Clearing buffer */
-  GZero(&buffer[0], char[GCONST_BUFFER_1024]);
+  GZero(&buffer[0], char[SATELLITEBODY_CREATE_ARCHIVE_BUFFER]);
 
   /* Create directory to body archive */
   sprintf(buffer, "Bodies/%s/OutputData/SatelliteBody", p_bodyName_in);

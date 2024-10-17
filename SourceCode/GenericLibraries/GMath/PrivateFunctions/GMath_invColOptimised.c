@@ -20,7 +20,7 @@
 /* None */
 
 /* Data include */
-/* None */
+#include "GMath/ConstantDefs/GMath_Const.h"
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
@@ -34,10 +34,13 @@ int GMath_invColOptimised(
     int     sideN_in)
 {
   /* Defining local variables */
-  double intermediateColumn[GCONST_BUFFER_32];
+  double
+      intermediateColumn[GMATH_OPTIMISED_INV_MATRIX_INTERMEDIATE_COLUMN_BUFFER];
 
   /* Clearing Buffers */
-  GZero(&intermediateColumn[0], double[GCONST_BUFFER_32]);
+  GZero(
+      &intermediateColumn[0],
+      double[GMATH_OPTIMISED_INV_MATRIX_INTERMEDIATE_COLUMN_BUFFER]);
 
   /* Forward propogate to find the solution for the intermediate column */
   GMath_forwardPropogation(

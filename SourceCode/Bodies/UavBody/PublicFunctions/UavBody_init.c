@@ -16,7 +16,7 @@
 #include "SatelliteBody/DataStructs/SatelliteBody_StateStruct.h"
 
 /* Data include */
-/* None */
+#include "UavBody/ConstantDefs/UavBody_Const.h"
 
 /* Generic Libraries */
 #include "GArchive/GArchive.h"
@@ -31,12 +31,10 @@ int UavBody_init(
   /* Declare local variables */
   dictionary   *dic;
   GParser_State GParser_state;
-  char          archiveNameBuffer[GCONST_BUFFER_1024];
 
   /* Clearing variables */
   GZero(&GParser_state, GParser_State);
   GZero(&dic, dictionary *);
-  GZero(&archiveNameBuffer[0], char[GCONST_BUFFER_1024]);
   GZero(p_uavBody_state_in, UavBody_State);
 
   /* ------------------------------------------------------------------------ *
@@ -56,12 +54,6 @@ int UavBody_init(
   GParser_closeParams(&GParser_state, dic);
 
   /*---------------------------- CREATE ARCHIVES ----------------------------*/
-
-  /* Create Archive Name */
-  sprintf(
-      archiveNameBuffer,
-      "Bodies/%s/OutputData/UavBody",
-      p_uavBody_state_in->rigidBody_state.bodyName);
 
   /* Create archives */
   UavBody_createArchives(

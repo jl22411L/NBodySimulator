@@ -28,30 +28,100 @@ extern "C" {
 
 /* ---------------------------- Global Constants ---------------------------- */
 
-// TODO: Give DOXYGEN comments for all the constants
+/* ------------------------------------------------------------------------ *
+ * EXECUTION PROCESS CONSTANTS
+ * ------------------------------------------------------------------------ */
+
+/*!
+ * @brief       Constant which is used to represent a true state.
+ *
+ * @frame       N/A
+ * @unit        N/A
+ */
 #define GCONST_TRUE         (1)
+
+/*!
+ * @brief       Constant which is used to represent a false state.
+ *
+ * @frame       N/A
+ * @unit        N/A
+ */
 #define GCONST_FALSE        (0)
 
+/*!
+ * @brief       Constant which is used to represent when an executable has
+ *              executed successfully.
+ *
+ * @frame       N/A
+ * @unit        N/A
+ */
 #define GCONST_EXIT_SUCCESS (0)
+
+/*!
+ * @brief       Constant which is used to represent when an executable has not
+ *              executed successfully.
+ *
+ * @frame       N/A
+ * @unit        N/A
+ */
 #define GCONST_EXIT_FAILURE (1)
 
-#define GCONST_UNIT_EMPTY   (-1)
+/* ------------------------------------------------------------------------ *
+ * TOLLERANCE CONSTANTS
+ * ------------------------------------------------------------------------ */
 
-#define GCONST_BUFFER_16    (16)
-#define GCONST_BUFFER_32    (32)
-#define GCONST_BUFFER_64    (64)
-#define GCONST_BUFFER_128   (128)
-#define GCONST_BUFFER_256   (256)
-#define GCONST_BUFFER_512   (512)
-#define GCONST_BUFFER_1024  (1024)
-
+/*!
+ * @brief       Constant which represents a milimeter in standard units.
+ *
+ * @frame       N/A
+ * @unit        m
+ */
 #define GCONST_MM_TOLERANCE (0.001)
+
+/*!
+ * @brief       Constant which represents a micrometer in standard units.
+ *
+ * @frame       N/A
+ * @unit        m
+ */
 #define GCONST_UM_TOLERANCE (0.000001)
+
+/*!
+ * @brief       Constant which represents a nanometer in standard units.
+ *
+ * @frame       N/A
+ * @unit        m
+ */
 #define GCONST_NM_TOLERANCE (0.000000001)
+
+/*!
+ * @brief       Constant which represents a picometer in standard units.
+ *
+ * @frame       N/A
+ * @unit        m
+ */
 #define GCONST_PM_TOLERANC  (0.000000000001)
 
+/* ------------------------------------------------------------------------ *
+ * ROTATION CONSTANTS
+ * ------------------------------------------------------------------------ */
+
+/*!
+ * @brief       Constant which represents the converstion from degrees to
+ *              radians.
+ *
+ * @frame       N/A
+ * @unit        deg / rad
+ */
 #define GCONST_DEG_TO_RAD   (3.14159265358979323846264338327950288419716939 / 180)
 
+/*!
+ * @brief       Constant which represents the converstion from radians to
+ *              degrees.
+ *
+ * @frame       N/A
+ * @unit        rad / deg
+ */
 #define GCONST_RAD_TO_DEG   (180 / 3.14159265358979323846264338327950288419716939)
 
 #ifdef __cplusplus

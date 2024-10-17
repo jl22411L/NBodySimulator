@@ -11,7 +11,7 @@
 /* None */
 
 /* Structure Include */
-#include "UavBody/DataStructs/UavBody_StateStruct.h"
+#include "CelestialBody/DataStructs/CelestialBody_StateStruct.h"
 
 /* Data include */
 /* None */
@@ -20,21 +20,22 @@
 #include "GConst/GConst.h"
 #include "GZero/GZero.h"
 
-int CelestialBody_findResultantForce(UavBody_State *p_uavBody_state_in)
+int CelestialBody_findResultantForce(
+    CelestialBody_State *p_celestialBody_state_in)
 {
   /* Defining local variables */
   int i;
 
   /* Clear resultance force. (This is to start from a fresh slate) */
   GZero(
-      &p_uavBody_state_in->rigidBody_state.resultantForce_N_Fixed[0],
+      &p_celestialBody_state_in->rigidBody_state.resultantForce_N_Fixed[0],
       double[3]);
 
   /* Add the gravity force to the resultant force */
   for (i = 0; i < 3; i++)
   {
-    p_uavBody_state_in->rigidBody_state.resultantForce_N_Fixed[i] +=
-        p_uavBody_state_in->rigidBody_state.gravityForce_N_Fixed[i];
+    p_celestialBody_state_in->rigidBody_state.resultantForce_N_Fixed[i] +=
+        p_celestialBody_state_in->rigidBody_state.gravityForce_N_Fixed[i];
   }
 
   return GCONST_TRUE;

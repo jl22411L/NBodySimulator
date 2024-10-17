@@ -26,8 +26,31 @@ extern "C" {
 /* Generic Libraries */
 /* None */
 
+/*!
+ * @brief       Integer which represents the max number of bodies that can be
+ *              loaded into a simulation.
+ *
+ * @frame       N/A
+ * @unit        N/A
+ */
 #define BODYMGR_MAX_NUMBER_OF_BODIES (256)
+
+/*!
+ * @brief      Integer which represents the maximum length of the name of a
+ *             body.
+ *
+ * @frame      N/A
+ * @unit       N/A
+ */
 #define BODYMGR_BODY_NAME_MAX_BUFFER (256)
+
+/*!
+ * @brief       Integer which represents the maximum size of the buffer used to
+ *              load the parameters for a body.
+ *
+ * @frame       N/A
+ * @unit        N/A
+ */
 #define BODYMGR_MAX_BUFFER_LENGTH    (256)
 
 #ifdef __cplusplus

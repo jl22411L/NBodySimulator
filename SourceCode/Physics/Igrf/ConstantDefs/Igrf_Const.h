@@ -26,10 +26,23 @@ extern "C" {
 /* Generic Libraries */
 /* None */
 
-// TODO
+/*!
+ * @brief       Constant which indicates the maximum number of coefficients that
+ *              can be loaded from the IGRF. Is 14, because it is inlusive of 0
+ *              and 13.
+ *
+ * @frame       N/A
+ * @unit        N/A
+ */
 #define IGRF_MAX_COEFFICIENTS       (14)
 
-// TODO
+/*!
+ * @brief       Constant used to define the size of the buffer which will be
+ * used to load the parameters in.
+ *
+ * @frame       N/A
+ * @unit        N/A
+ */
 #define IGRF_MAX_STRING_BUFFER_SIZE (50)
 
 #ifdef __cplusplus

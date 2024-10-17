@@ -31,6 +31,9 @@ extern "C" {
  *              the input for the differential legendre polynomial. If the
  *              absolute value of inputValue*inputValue - 1 is less then the
  *              tolerance value then an error will be thrown to indicate that
+ *
+ * @frame       N/A
+ * @unit        N/A
  */
 #define GLEGPOLY_SINGULARITY_TOLERANCE (1e-10)
 
