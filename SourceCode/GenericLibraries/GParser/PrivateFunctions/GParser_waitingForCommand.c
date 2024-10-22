@@ -80,13 +80,13 @@ int GParser_waitingForCommand(GParser_State *p_GParser_state, const char cursor)
       p_GParser_state->loadParamsState = GPARSER_STATE_LOADING_KEY;
 
       /* Loading the key with the cursor */
-      *(p_GParser_state->keyBuffer + p_GParser_state->keyIndex) = cursor;
+      *(p_GParser_state->keyBuffer + p_GParser_state->keyArrayIndex) = cursor;
 
       /* Incrimenting the key index */
-      p_GParser_state->keyIndex++;
+      p_GParser_state->keyArrayIndex++;
 
       /* Incrimenting the key size*/
-      p_GParser_state->keySize[p_GParser_state->sizeIndex]++;
+      p_GParser_state->keySize[p_GParser_state->sizeArrayIndex]++;
       break;
     }
   }

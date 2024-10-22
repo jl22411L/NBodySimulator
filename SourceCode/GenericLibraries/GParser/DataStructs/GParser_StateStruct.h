@@ -72,7 +72,7 @@ typedef struct GParser_stateStruct
    * @frame     N/A
    * @unit      N/A
    */
-  uint32_t keyIndex;
+  uint32_t keyArrayIndex;
 
   /*!
    * @brief     Integer which keeps track of what value within a section is
@@ -81,15 +81,16 @@ typedef struct GParser_stateStruct
    * @frame     N/A
    * @unit      N/A
    */
-  uint32_t valueIndex;
+  uint32_t valueArrayIndex;
 
   /*!
-   * @brief     Integer which keeps track of the size of a key or value.
+   * @brief     Integer which keeps track of the index used for the arrays which
+   *            keep track of the size of a key or value.
    *
    * @frame     N/A
    * @unit      N/A
    */
-  uint16_t sizeIndex;
+  uint16_t sizeArrayIndex;
 
   /*!
    * @brief     Integer which keeps track of the size of a section name.
@@ -106,7 +107,7 @@ typedef struct GParser_stateStruct
    * @frame     N/A
    * @unit      N/A
    */
-  int keySize[256];
+  int keySize[GPARSER_DICTIONARY_MAX_KEY_VALUE_PAIRS_NUMBER];
 
   /*!
    * @brief     Array which keeps track of the sizes of all the values within a
@@ -115,7 +116,7 @@ typedef struct GParser_stateStruct
    * @frame     N/A
    * @unit      N/A
    */
-  int valueSize[256];
+  int valueSize[GPARSER_DICTIONARY_MAX_KEY_VALUE_PAIRS_NUMBER];
 
   /*!
    * @brief     Integer which keeps track of the number of sections within the

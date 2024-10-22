@@ -23,9 +23,8 @@
 /*
  *  Refer to respective header file for function description
  */
-int GParser_loadingStringValue(
-    GParser_State *p_GParser_state,
-    const char     cursor)
+int GParser_loadingStringValue(GParser_State *p_GParser_state,
+                               const char     cursor)
 {
   switch (cursor)
   {
@@ -34,20 +33,20 @@ int GParser_loadingStringValue(
     break;
   case ('\"'):
     /* Incriment size index (Need to incriment for for loop) */
-    p_GParser_state->sizeIndex++;
+    p_GParser_state->sizeArrayIndex++;
 
     /* Update State */
     p_GParser_state->loadParamsState = GPARSER_STATE_WAITING_NEWLINE;
     break;
   default:
     /* Load value buffer with cursor */
-    *(p_GParser_state->valueBuffer + p_GParser_state->valueIndex) = cursor;
+    *(p_GParser_state->valueBuffer + p_GParser_state->valueArrayIndex) = cursor;
 
     /* Icnriment value index */
-    p_GParser_state->valueIndex++;
+    p_GParser_state->valueArrayIndex++;
 
     /* Incriment size buffer */
-    p_GParser_state->valueSize[p_GParser_state->sizeIndex]++;
+    p_GParser_state->valueSize[p_GParser_state->sizeArrayIndex]++;
     break;
   }
 

@@ -29,56 +29,57 @@ int GParser_loadingValue(GParser_State *p_GParser_state, const char cursor)
   {
   case (' '):
     /* Incriment size Index */
-    p_GParser_state->sizeIndex++;
+    p_GParser_state->sizeArrayIndex++;
 
     /* Update State */
     p_GParser_state->loadParamsState = GPARSER_STATE_WAITING_NEWLINE;
     break;
   case ('\t'):
     /* Incriment size Index */
-    p_GParser_state->sizeIndex++;
+    p_GParser_state->sizeArrayIndex++;
 
     /* Update State */
     p_GParser_state->loadParamsState = GPARSER_STATE_WAITING_NEWLINE;
     break;
   case ('\n'):
     /* Incriment size Index */
-    p_GParser_state->sizeIndex++;
+    p_GParser_state->sizeArrayIndex++;
 
     /* Update State */
     p_GParser_state->loadParamsState = GPARSER_STATE_WAITING_FOR_COMMAND;
     break;
   case ('#'):
     /* Incriment size Index */
-    p_GParser_state->sizeIndex++;
+    p_GParser_state->sizeArrayIndex++;
 
     /* Update State */
     p_GParser_state->loadParamsState = GPARSER_STATE_COMMENT;
     break;
   case (';'):
     /* Incriment size Index */
-    p_GParser_state->sizeIndex++;
+    p_GParser_state->sizeArrayIndex++;
 
     /* Update State */
     p_GParser_state->loadParamsState = GPARSER_STATE_COMMENT;
     break;
   default:
     /* Load value buffer with cursor */
-    *(p_GParser_state->valueBuffer + p_GParser_state->valueIndex) = cursor;
+    p_GParser_state->valueBuffer[p_GParser_state->valueArrayIndex] = cursor;
 
     /* Incriment value index */
-    p_GParser_state->valueIndex++;
+    p_GParser_state->valueArrayIndex++;
 
     /* Check to make sure the buffer has not been filled to max */
-    if (p_GParser_state->keyIndex > GPARSER_VALUE_BUFFERSIZE)
+    if (p_GParser_state->valueArrayIndex > GPARSER_VALUE_BUFFERSIZE)
     {
-      GError(
-          "Value Buffer has reached max capacity for section '%s'",
-          p_GParser_state->sectionBuffer);
+      GError("Value Buffer has reached max capacity for section %s. "
+             "\n[valueBuffer = %s]",
+             p_GParser_state->sectionBuffer,
+             p_GParser_state->valueBuffer);
     }
 
     /* incriment value size value */
-    p_GParser_state->valueSize[p_GParser_state->sizeIndex]++;
+    p_GParser_state->valueSize[p_GParser_state->sizeArrayIndex]++;
     break;
   }
 

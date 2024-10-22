@@ -37,27 +37,41 @@ extern "C" {
  * @frame       N/A
  * @unit        N/A
  */
-#define GPARSER_SECTION_BUFFERSIZE                    (1024)
+#define GPARSER_SECTION_BUFFERSIZE (1024)
 
 /*!
  * @brief       Constant used for declaring memory to the buffer which will
  *              contain the section name when a key from a section is being
  *              loaded from an ini file.
  *
+ *              NOTE: The buffer holds all keys in one long array befor it gets
+ *                    seperated into a dictionary. Hence, the maximum the buffer
+ *                    needs to be to fill up a dictionary section is the product
+ *                    of the two constants below.
+ *
  * @frame       N/A
  * @unit        N/A
  */
-#define GPARSER_KEY_BUFFERSIZE                        (4096)
+#define GPARSER_KEY_BUFFERSIZE                                                 \
+  (GPARSER_DICTIONARY_MAX_KEY_VALUE_PAIRS_NUMBER *                             \
+   GPARSER_DICTIONARY_MAX_KEY_LENGTH)
 
 /*!
  * @brief       Constant used for declaring memory to the buffer which will
  *              contain the section name when a value from a section is being
  *              loaded from an ini file.
  *
+ *              NOTE: The buffer holds all values in one long array befor it
+ *                    gets seperated into a dictionary. Hence, the maximum the
+ *                    buffer needs to be to fill up a dictionary section is the
+ *                    product of the two constants below.
+ *
  * @frame       N/A
  * @unit        N/A
  */
-#define GPARSER_VALUE_BUFFERSIZE                      (4096)
+#define GPARSER_VALUE_BUFFERSIZE                                               \
+  (GPARSER_DICTIONARY_MAX_KEY_VALUE_PAIRS_NUMBER *                             \
+   GPARSER_DICTIONARY_MAX_VALUE_LENGTH)
 
 /*!
  * @brief       Constant used for assigning memory on the stack to a buffer
@@ -100,7 +114,7 @@ extern "C" {
  * @frame       N/A
  * @unit        N/A
  */
-#define GPARSER_DICTIONARY_MAX_KEY_VALUE_PAIRS_NUMBER (128)
+#define GPARSER_DICTIONARY_MAX_KEY_VALUE_PAIRS_NUMBER (512)
 
 /*!
  * @brief       Constant which is used to indicate the maximum length a key can

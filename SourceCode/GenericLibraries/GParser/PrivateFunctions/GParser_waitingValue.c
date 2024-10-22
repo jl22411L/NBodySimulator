@@ -48,13 +48,13 @@ int GParser_waitingValue(GParser_State *p_GParser_state, const char cursor)
     break;
   default:
     /* Load value buffer with cursor */
-    *(p_GParser_state->valueBuffer + p_GParser_state->valueIndex) = cursor;
+    *(p_GParser_state->valueBuffer + p_GParser_state->valueArrayIndex) = cursor;
 
     /* Incriment value index */
-    p_GParser_state->valueIndex++;
+    p_GParser_state->valueArrayIndex++;
 
     /* Incriment value size */
-    p_GParser_state->valueSize[p_GParser_state->sizeIndex]++;
+    p_GParser_state->valueSize[p_GParser_state->sizeArrayIndex]++;
 
     /* Update state */
     p_GParser_state->loadParamsState = GPARSER_STATE_LOADING_VALUE;
