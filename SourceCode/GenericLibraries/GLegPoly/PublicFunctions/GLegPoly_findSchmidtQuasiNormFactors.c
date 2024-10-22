@@ -25,9 +25,8 @@
 #include "GMath/GMath.h"
 #include "GZero/GZero.h"
 
-int GLegPoly_findSchmidtQuasiNormFactors(
-    double *p_schmidtQuasiNormFactors_out,
-    uint8_t maxDegreeN_in)
+int GLegPoly_findSchmidtQuasiNormFactors(double *p_schmidtQuasiNormFactors_out,
+                                         uint8_t maxDegreeN_in)
 {
   /* Declare local variables */
   uint16_t factoraialValue;
@@ -38,9 +37,8 @@ int GLegPoly_findSchmidtQuasiNormFactors(
   int      i;
 
   /* Clear array  */
-  GZero(
-      p_schmidtQuasiNormFactors_out,
-      double[maxDegreeN_in + 1][maxDegreeN_in + 1]);
+  GZero(p_schmidtQuasiNormFactors_out,
+        double[maxDegreeN_in + 1][maxDegreeN_in + 1]);
 
   /* Fill first column */
   for (n = 0; n <= maxDegreeN_in; n++)

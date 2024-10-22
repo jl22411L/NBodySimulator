@@ -11,6 +11,7 @@
 #include <stdio.h>
 
 /* Function Includes */
+#include "Igrf/PublicFunctions/Igrf_PublicFunctions.h"
 
 /* Structure Include */
 #include "Igrf/DataStructs/Igrf_ParamsStruct.h"
@@ -29,29 +30,12 @@
 int main(void)
 {
   /* Declare local variables */
-  int    i;
-  int    j;
-  double input;
-  double schmidtCoefficentArray[14][14];
+  Igrf_Params igrf_params;
 
   /* Clear Arrays */
-  GZero(&(schmidtCoefficentArray[0][0]), double[14][14]);
+  GZero(&igrf_params, Igrf_Params);
 
-  GLegPoly_findSchmidtQuasiNormFactors(&(schmidtCoefficentArray[0][0]), 13);
-
-  j = 0;
-  for (i = 0; i <= 13; i++)
-  {
-    printf("%lf", schmidtCoefficentArray[i][j]);
-
-    for (j = 1; j <= 13; j++)
-    {
-      printf(",%lf", schmidtCoefficentArray[i][j]);
-    }
-
-    printf("\n");
-  }
-  printf("\n\n");
+  Igrf_init(&igrf_params, "Parameters/IgrfParameters.ini", 13, 13);
 
   return GCONST_EXIT_SUCCESS;
 }

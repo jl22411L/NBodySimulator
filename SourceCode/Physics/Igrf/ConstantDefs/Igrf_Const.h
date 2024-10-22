@@ -28,13 +28,22 @@ extern "C" {
 
 /*!
  * @brief       Constant which indicates the maximum number of coefficients that
- *              can be loaded from the IGRF. Is 14, because it is inlusive of 0
- *              and 13.
+ *              can be loaded from the IGRF.
+ *
+ *              NOTE: The IGRF parameters go from 1 to 13, inclusive. This is to
+ *                    keep it in line with the literature as well as keep it in
+ *                    line with the parameters released in the IGRF model.
+ *
+ *              NOTE: While their can be a legendre polynomial for P[0][0], it
+ *                    is not actually used within the IGRF model, with the
+ *                    spherical harmonics starting from degree of n=1. Hence,
+ *                    care should be taken with the for loops.
+ *
  *
  * @frame       N/A
  * @unit        N/A
  */
-#define IGRF_MAX_COEFFICIENTS       (14)
+#define IGRF_MAX_DEGREE             (13)
 
 /*!
  * @brief       Constant used to define the size of the buffer which will be

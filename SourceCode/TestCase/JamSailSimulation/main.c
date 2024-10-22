@@ -99,6 +99,7 @@ int main(void)
      * ---------------------------------------------------------------------- */
 
     /* Find vector from JamSail to Sun in fixed frame */
+    // TODO: The jamSail_state is not initialised, hence this has a sig fault
     // GMath_vectorSub(
     //     &(*(bodyMgr_state.p_rigidBodyPointerList + 2))->position_m_Fix[0],
     //     &((jamSail_state.p_satelliteBody_state)

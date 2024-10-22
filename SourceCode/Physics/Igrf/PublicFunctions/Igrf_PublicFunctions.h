@@ -45,8 +45,10 @@ extern "C" {
  *              function. GCONST_FALSE is returned to indicate that an error has
  *              occured which prohibits the software from going further.
  */
-extern int
-    Igrf_init(Igrf_Params *p_igrfParams_in, const char *p_paramsFilePath_in);
+extern int Igrf_init(Igrf_Params *p_igrf_params_out,
+                     const char  *p_paramsFilePath_in,
+                     uint8_t      nMaxDegree_in,
+                     uint8_t      igrfIteration_in);
 
 #ifdef __cplusplus
 }
