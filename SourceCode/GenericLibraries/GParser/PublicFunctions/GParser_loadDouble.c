@@ -36,15 +36,15 @@ int GParser_loadDouble(
     char          *p_dataFromIni_in)
 {
   /* Defining local variables */
-  char section_buffer[256];
-  char key_buffer[256];
+  char sectionBuffer[256];
+  char keyBuffer[256];
   int  dictionaryNumber;
   int  i;
   int  j;
 
   /* Clearing Buffers */
-  GZero(&section_buffer, char[256]);
-  GZero(&key_buffer, char[256]);
+  GZero(&sectionBuffer, char[256]);
+  GZero(&keyBuffer, char[256]);
 
   /* Declaring local variables */
   dictionaryNumber = -1;
@@ -54,13 +54,13 @@ int GParser_loadDouble(
   /* Parsing data input for section */
   for (i = 0; *(p_dataFromIni_in + i) != ':'; i++)
   {
-    section_buffer[i] = *(p_dataFromIni_in + i);
+    sectionBuffer[i] = *(p_dataFromIni_in + i);
   }
 
   /* Parsing data input for key */
   for (i; *(p_dataFromIni_in + i) != '\0'; i++)
   {
-    key_buffer[j] = *(p_dataFromIni_in + i + 1);
+    keyBuffer[j] = *(p_dataFromIni_in + i + 1);
     j++;
   }
 
@@ -68,7 +68,7 @@ int GParser_loadDouble(
   for (i = 0; i < p_GParser_state->maxNumberSection; i++)
   {
     /* check to see if section name matches */
-    if (strcmp((p_dic + i)->section, section_buffer) == 0)
+    if (strcmp((p_dic + i)->section, sectionBuffer) == 0)
     {
       /* if key was found, break main for loop */
       dictionaryNumber = i;
@@ -79,7 +79,7 @@ int GParser_loadDouble(
   /* Check to see if section was found */
   if (i == p_GParser_state->maxNumberSection)
   {
-    GError("Section not found: %s", section_buffer);
+    GError("Section not found: %s", sectionBuffer);
   }
 
   /* Check to make sure dictionary number was assigned correctly */
@@ -92,7 +92,7 @@ int GParser_loadDouble(
   for (i = 0; i < (p_dic + dictionaryNumber)->nKeys; i++)
   {
     /* See if key matches with key inputted */
-    if (strcmp(((p_dic + dictionaryNumber)->key[i]), key_buffer) == 0)
+    if (strcmp(((p_dic + dictionaryNumber)->key[i]), keyBuffer) == 0)
     {
       /* If key matches, store convert value to int and store in member */
       GConversions_string2double(
@@ -105,7 +105,7 @@ int GParser_loadDouble(
   /* Throw an error if no key was found */
   if (i == (p_dic + dictionaryNumber)->nKeys)
   {
-    GError("Key not found in section: %s", key_buffer);
+    GError("Key %s not found in section %s", keyBuffer, sectionBuffer);
   }
 
   return GCONST_TRUE;

@@ -7,8 +7,9 @@ add_executable(ModuleUnitTest
 )
 
 set(LIB_LIST
+  Igrf
   GMath
-  TriadAlgorithm
+  Igrf
 )
 
 target_link_libraries(ModuleUnitTest ${LIB_LIST})

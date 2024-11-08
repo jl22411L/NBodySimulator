@@ -30,8 +30,8 @@ dictionary GParser_loadDictionary(GParser_State *p_GParser_state)
 {
   /* Defining local variables */
   dictionary dic_section;
-  int        keyIndex;
-  int        valueIndex;
+  int        keyArrayIndex;
+  int        valueArrayIndex;
   int        i;
   int        j;
 
@@ -39,8 +39,8 @@ dictionary GParser_loadDictionary(GParser_State *p_GParser_state)
   GZero(&dic_section, dictionary);
 
   /* Set indexes to 0 */
-  keyIndex   = 0;
-  valueIndex = 0;
+  keyArrayIndex   = 0;
+  valueArrayIndex = 0;
 
   /* Setting the section name to dictionary */
   for (i = 0; i < p_GParser_state->sectionIndex; i++)
@@ -49,24 +49,24 @@ dictionary GParser_loadDictionary(GParser_State *p_GParser_state)
   }
 
   /* Loading the keys and values into dictionary */
-  for (i = 0; i < p_GParser_state->sizeIndex; i++)
+  for (i = 0; i < p_GParser_state->sizeArrayIndex; i++)
   {
     /* Fill tmp Key Buffer */
     for (j = 0; j < p_GParser_state->keySize[i]; j++)
     {
-      dic_section.key[i][j] = p_GParser_state->keyBuffer[keyIndex];
-      keyIndex++;
+      dic_section.key[i][j] = p_GParser_state->keyBuffer[keyArrayIndex];
+      keyArrayIndex++;
     }
 
     /* Fill tmp Value Buffer */
     for (j = 0; j < p_GParser_state->valueSize[i]; j++)
     {
-      dic_section.value[i][j] = p_GParser_state->valueBuffer[valueIndex];
-      valueIndex++;
+      dic_section.value[i][j] = p_GParser_state->valueBuffer[valueArrayIndex];
+      valueArrayIndex++;
     }
 
     /* set number of keys in a section */
-    dic_section.nKeys = p_GParser_state->sizeIndex;
+    dic_section.nKeys = p_GParser_state->sizeArrayIndex;
   }
 
   return dic_section;

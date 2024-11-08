@@ -29,6 +29,7 @@
 /* Generic Libraries */
 #include "GConst/GConst.h"
 #include "GLog/GLog.h"
+#include "GMath/GMath.h"
 #include "GUtilities/GUtilities.h"
 #include "GZero/GZero.h"
 
@@ -41,6 +42,7 @@ int main(void)
   int            i;
 
   /* Clear local variables */
+  GZero(&jamSail_state, JamSail_State);
   GZero(&bodyMgr_state, BodyMgr_State);
   GZero(&gravity_params, Gravity_Params);
 
@@ -76,13 +78,11 @@ int main(void)
   do
   {
     /* ###################################################################### *
-     *                    SIMULATION PRE-STEP CALCULATIONS                    *
+     *                             PRE-STEP PHASE                             *
      * ###################################################################### */
 
-    /* None */
-
     /* ---------------------------------------------------------------------- *
-     *                   APPLY EXTERNAL LOADS TO RIGID BODY                   *
+     *                    SIMULATION PRE-STEP CALCULATIONS                    *
      * ---------------------------------------------------------------------- */
 
     /* Apply gravity to UAV body */
@@ -94,28 +94,56 @@ int main(void)
     /* Step the bodies */
     BodyMgr_step(&bodyMgr_state);
 
+    /* ---------------------------------------------------------------------- *
+     *                     JAM-SAIL PRE-STEP CALCULATIONS                     *
+     * ---------------------------------------------------------------------- */
+
+    /* Find vector from JamSail to Sun in fixed frame */
+    // TODO: The jamSail_state is not initialised, hence this has a sig fault
+    // GMath_vectorSub(
+    //     &(*(bodyMgr_state.p_rigidBodyPointerList + 2))->position_m_Fix[0],
+    //     &((jamSail_state.p_satelliteBody_state)
+    //           ->rigidBody_state.position_m_Fix[0]),
+    //     &jamSail_state.trueSunVector_m_fix[0]);
+
+    // /* Find vector from JamSail to Sun in body frame */
+    // GMath_quaternionPointRotation(
+    //     &jamSail_state.trueSunVector_m_bod[0],
+    //     &jamSail_state.trueSunVector_m_fix[0],
+    //     &((jamSail_state.p_satelliteBody_state)
+    //           ->rigidBody_state.quaternion_FixedToBody[0]));
+
+    /* Find magnetic vector in fixed frame */
+    // Need to apply model for magnetic field
+
+    /* Find magnectic vector in body frame */
+    // Some quaternion rotation
+
     /* ###################################################################### *
-     *                      JAMSAIL PRE-STEP CALCULATIONS                     *
+     *                               STEP PHASE                               *
      * ###################################################################### */
 
-    /* None */
-
-    /* ###################################################################### *
-     *                            STEP SIMULATION                             *
-     * ###################################################################### */
-
-    /* ------------------------------- Bodies ------------------------------- */
-
-    /* -------------------------------- Time -------------------------------- */
+    /* ---------------------------------------------------------------------- *
+     *                      SIMULATION STEP CALCULATIONS                      *
+     * ---------------------------------------------------------------------- */
 
     /* Step forawrd in time */
     Utilities.simTime_s += Utilities.simTimeStep_s;
+
+    /* ---------------------------------------------------------------------- *
+     *                       JAM-SAIL STEP CALCULATIONS                       *
+     * ---------------------------------------------------------------------- */
+
+    /* None */
 
     /* ###################################################################### *
      *                          CHECK END CONDITIONS                          *
      * ###################################################################### */
 
     /* Check if the simulation duration has been reached */
+    // TODO: Should make this its own function in GUtilities
+    // TODO: Should also put all termination functions in a function within
+    //       JamSailSimulation function
     if (Utilities.simTime_s >= Utilities.simTimeDuration_s)
     {
       /* Set sim status to False to indicate that sim has completed */

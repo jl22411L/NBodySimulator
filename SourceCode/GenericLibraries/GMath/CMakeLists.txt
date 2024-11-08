@@ -3,11 +3,13 @@ add_library(GMath
   PrivateFunctions/GMath_forwardPropogation.c
   PrivateFunctions/GMath_invColOptimised.c
   PrivateFunctions/GMath_luDecomp.c
+  PublicFunctions/GMath_abs.c
   PublicFunctions/GMath_crossProduct.c
   PublicFunctions/GMath_dcm2Eul.c
   PublicFunctions/GMath_dcm2Quat.c
   PublicFunctions/GMath_eul2Dcm.c
   PublicFunctions/GMath_eul2Quat.c
+  PublicFunctions/GMath_factorial.c
   PublicFunctions/GMath_findUnitQuaternion.c
   PublicFunctions/GMath_findUnitVector.c
   PublicFunctions/GMath_invCol.c
@@ -25,4 +27,5 @@ add_library(GMath
   PublicFunctions/GMath_quaternionRateCalc.c
   PublicFunctions/GMath_vectorMag.c
   PublicFunctions/GMath_vectorNorm.c
+  PublicFunctions/GMath_vectorSub.c
 )

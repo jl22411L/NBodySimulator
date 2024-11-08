@@ -28,6 +28,9 @@ extern "C" {
 /* Generic Libraries */
 /* None */
 
+// TODO: Tempted to make this a GMem library which is used for managing memory
+//       Thinking could have wrappers for Calloc and malloc and free.
+
 /*!
  *  @description: Sets inputted Data to zero
  *

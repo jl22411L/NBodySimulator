@@ -27,7 +27,7 @@ BraceWrapping:
   SplitEmptyFunction: false
   SplitEmptyRecord: false
   SplitEmptyNamespace: false
-AlignAfterOpenBracket: AlwaysBreak
+AlignAfterOpenBracket: true
 AlignConsecutiveAssignments: Consecutive
 AlignConsecutiveBitFields: AcrossComments
 AlignConsecutiveDeclarations: AcrossComments

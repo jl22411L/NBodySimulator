@@ -19,7 +19,7 @@ extern "C" {
 /* None */
 
 /* Data include */
-/* None */
+#include "GParser/ConstantDefs/GParser_Const.h"
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
@@ -28,10 +28,40 @@ extern "C" {
 
 typedef struct dictionaryStruct
 {
-  char section[GCONST_BUFFER_32];
-  char key[GCONST_BUFFER_128][GCONST_BUFFER_64];
-  char value[GCONST_BUFFER_128][GCONST_BUFFER_64];
-  int  nKeys;
+  /*!
+   * @brief     Buffer which contains the name of the section.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
+  char section[GPARSER_SECTION_BUFFERSIZE];
+
+  /*!
+   * @brief     Array of strings which contain the key names for a section.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
+  char key[GPARSER_DICTIONARY_MAX_KEY_VALUE_PAIRS_NUMBER]
+          [GPARSER_DICTIONARY_MAX_KEY_LENGTH];
+
+  /*!
+   * @brief     Array of strings which contain the value names for a section.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
+  char value[GPARSER_DICTIONARY_MAX_KEY_VALUE_PAIRS_NUMBER]
+            [GPARSER_DICTIONARY_MAX_VALUE_LENGTH];
+
+  /*!
+   * @brief     Integer which contains the number of keys within a section
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
+  int nKeys;
+
 } dictionary;
 
 #ifdef __cplusplus

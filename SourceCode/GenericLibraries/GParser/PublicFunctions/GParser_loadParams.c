@@ -29,8 +29,8 @@
 /*
  *  Refer to respective header file for function description
  */
-dictionary *
-    GParser_loadParams(GParser_State *p_GParser_state, const char *filePath)
+dictionary *GParser_loadParams(GParser_State *p_GParser_state,
+                               const char    *filePath)
 {
   /* Defining Local Variables */
   dictionary *p_dic;
@@ -54,9 +54,8 @@ dictionary *
   GParser_findNumberOfSections(file, &p_GParser_state->maxNumberSection);
 
   /* Assigning Memory to Dictionary */
-  p_dic = (dictionary *)calloc(
-      p_GParser_state->maxNumberSection,
-      sizeof(dictionary));
+  p_dic = (dictionary *)calloc(p_GParser_state->maxNumberSection,
+                               sizeof(dictionary));
 
   /* Set the initial state */
   p_GParser_state->loadParamsState = GPARSER_STATE_WAITING_FOR_COMMAND;
@@ -73,13 +72,13 @@ dictionary *
       switch (p_GParser_state->loadParamsState)
       {
       case (GPARSER_STATE_LOADING_VALUE):
-        p_GParser_state->sizeIndex++;
+        p_GParser_state->sizeArrayIndex++;
         break;
       case (GPARSER_STATE_LOADING_STRING_VALUE):
-        p_GParser_state->sizeIndex++;
+        p_GParser_state->sizeArrayIndex++;
         break;
       }
-      /* Update state to finidh reading */
+      /* Update state to finish reading */
       p_GParser_state->loadParamsState = GPARSER_STATE_FINISHED;
 
       /* Set flag to load dictionary */
@@ -125,6 +124,24 @@ dictionary *
       /* Loading a string value into buffers */
       GParser_loadingStringValue(p_GParser_state, cursor);
       break;
+    }
+
+    /*!
+     * Check that the max number of sections has not been reached. The reason it
+     * is > and not >= is to cover the case where their is exactly
+     * GPARSER_DICTIONARY_MAX_KEY_VALUE_PAIRS_NUMBER value-key pairs. In this
+     * case, p_GParser_state->sizeArrayIndex will eventually equal
+     * GPARSER_DICTIONARY_MAX_KEY_VALUE_PAIRS_NUMBER before the dictionary is
+     * loaded and the index is reset.
+     */
+    if (p_GParser_state->sizeArrayIndex >
+        GPARSER_DICTIONARY_MAX_KEY_VALUE_PAIRS_NUMBER)
+    {
+      GError("Maximum number of values/keys has been reached: \n"
+             "  p_GParser_state->sizeArrayIndex = %d \n"
+             "  GPARSER_DICTIONARY_MAX_KEY_VALUE_PAIRS_NUMBER = %d",
+             p_GParser_state->sizeArrayIndex,
+             GPARSER_DICTIONARY_MAX_KEY_VALUE_PAIRS_NUMBER);
     }
 
     /* If flag enabled, load section into dictionary */

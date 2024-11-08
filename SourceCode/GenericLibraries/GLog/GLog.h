@@ -47,20 +47,19 @@ extern "C" {
  *            running of the code. This should be used in tandem with GError
  *            to allow for neater formatting on the terminal.
  */
-#define GWarn(...) (printf("\033[0;33[WRN]\033[0m %s: %d \n", __FILE__, __LINE__)), \
-                   (printf("\033[0;33[WRN]\033[0m ")),                              \
+#define GWarn(...) (printf("\033[0;33m[WRN]\033[1m %s: %d \n", __FILE__, __LINE__)), \
+                   (printf("\033[0;33m[WRN]\033[0m ")),                              \
                    (printf(__VA_ARGS__)),                           \
                    (printf("\n"))                                   
 
 /*!
  * @brief     Throw an error, outputting the file and line of the file.
- *
  */
-#define GError(...) (printf("\033[0;31[ERR]\033[0m %s: %d \n", __FILE__, __LINE__)), \
-                    (printf("\033[0;31[ERR]\033[0m ")),                              \
+#define GError(...) (printf("\033[0;31m[ERR]\033[1m %s: %d \n", __FILE__, __LINE__)), \
+                    (printf("\033[0;31m[ERR]\033[0m ")),                              \
                     (printf(__VA_ARGS__)),                           \
                     (printf("\n")),                                  \
-                    (printf("\033[0;31[ERR]\033[0m exiting programme...\n")),        \
+                    (printf("\033[0;31m[ERR]\033[0m exiting programme...\n")),        \
                     (exit(GCONST_EXIT_FAILURE))
 
 #define GAssess(Test) (if(Test != GCONST_TRUE)),                               \

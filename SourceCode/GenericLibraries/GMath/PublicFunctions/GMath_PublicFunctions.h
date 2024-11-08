@@ -14,6 +14,8 @@
 extern "C" {
 #endif
 
+#include <stdint.h>
+
 /* Function Includes */
 /* None */
 
@@ -25,6 +27,22 @@ extern "C" {
 
 /* Generic Libraries */
 /* None */
+
+/*!
+ * @brief       Finds the absolute value of an input value.
+ *
+ * @param[in]   inputValue_in
+ *              Input value which the absolute value will be outputted.
+ *
+ * @param[out]  p_outputValue_out
+ *              Pointer containing the address of the output value which will be
+ *              the absolute value of the input value.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int GMath_abs(double inputValue_in, double *p_outputValue_out);
 
 /*!
  * @brief       Finds the cross product of vectors A and B, outputting results
@@ -135,6 +153,71 @@ extern int
 extern int GMath_eul2Quat(
     double *p_eulerAnglevector_rad_in,
     double *p_quaternionVector_out);
+
+/*!
+ * @brief       Finds the factorial for a particular integer. The maximum value
+ *              the output can be is 65535.
+ *
+ * @param[in]   inputInteger_in
+ *              Input integer which is factorialed
+ *
+ * @param[out]  p_outputValue_out
+ *              Pointer containing the address of where the output integer will
+ *              be stored.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int
+    GMath_factorial(uint16_t inputInteger_in, uint16_t *p_outputValue_out);
+
+/*!
+ * @brief       GMath function which uses recursion to find the legendre
+ *              polynomial for a particular input.
+ *
+ *       [Ref: https://www.bragitoff.com/2017/12/legendre-polynomial-c-program/]
+ *
+ * @param[in]   inputValue_in
+ *              Value which is inputted into the Legendre polynomial function.
+ *
+ * @param[in]   polynomialDegree_in
+ *              Degree of the legendre polynomial
+ *
+ * @return      Returns the output of the legendre polynomial.
+ */
+extern double
+    GMath_findLegendrePolynomial(double inputValue_in, int polynomialDegree_in);
+
+/*!
+ * @brief       GMath function which fills an array with the output for the
+ *              associated legendre polynomials to a maximum degree.
+ *
+ *              Array is cleared assuming that the size of the array is of size
+ *              [degree_in x degree_in].
+ *
+ *              NOTE: This also assumes that all the degrees within the array
+ *                    are positive and hence negative legendre polynomials are
+ *                    not considered.
+ *
+ * @param[out]  p_associatedLegendrePolynomialArray_out
+ *              Pointer to double array which will be filled with the output of
+ *              the legendre polynomials.
+ *
+ * @param[in]   inputValue_in
+ *              Input value to input into the legendre polynomials
+ *
+ * @param[in]   degree_in
+ *              Maximum degree which will be applied to the legendre polynomials
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int GMath_findLegendrePolynomialAssociated(
+    double *p_associatedLegendrePolynomialArray_out,
+    double  inputValue_in,
+    int     degree_in);
 
 /*!
  * @brief       GMath function which finds the unit quaternion of an inputted
@@ -604,6 +687,30 @@ extern int GMath_vectorNorm(
     double *outputVector_out,
     double *vector_in,
     int     vectorSize_in);
+
+/*!
+ * @brief       Finds the difference between two 3x1 vectors. Subtracts vector B
+ *              from vector A to output vector C.
+ *
+ *              [C] = [A] - [B]
+ *
+ * @param[in]   p_vectorA_in
+ *              Pointer containing the address of vector A
+ *
+ * @param[in]   p_vectorB_in
+ *              Pointer containing the address of vector B
+ *
+ * @param       p_vectorC_out
+ *              Pointer containing the address of vector C
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int GMath_vectorSub(
+    double *p_vectorA_in,
+    double *p_vectorB_in,
+    double *p_vectorC_out);
 
 #ifdef __cplusplus
 }

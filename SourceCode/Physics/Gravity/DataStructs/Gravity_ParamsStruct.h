@@ -34,7 +34,10 @@ typedef struct Gravity_ParamsStruct
    * @details   Integer indicating what gravity model should be used.
    *            (Look at Grvaity Module enumerators for up to date list)
    *
+   *            0  - No Gravity
    *            10 - Flat Earth
+   *            20 - Dual Gravity Model
+   *            30 - N-Body Gravity Model
    *
    * @unit      N/A
    * @frame     N/A

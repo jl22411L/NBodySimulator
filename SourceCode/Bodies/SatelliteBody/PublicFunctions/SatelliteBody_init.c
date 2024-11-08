@@ -16,7 +16,7 @@
 #include "SatelliteBody/DataStructs/SatelliteBody_StateStruct.h"
 
 /* Data include */
-/* None */
+#include "SatelliteBody/ConstantDefs/SatelliteBody_Const.h"
 
 /* Generic Libraries */
 #include "GArchive/GArchive.h"
@@ -31,12 +31,10 @@ int SatelliteBody_init(
   /* Declare local variables */
   dictionary   *dic;
   GParser_State GParser_state;
-  char          archiveNameBuffer[GCONST_BUFFER_1024];
 
   /* Zeroing Local variables */
   GZero(&GParser_state, GParser_State);
   GZero(&dic, dictionary *);
-  GZero(&archiveNameBuffer[0], char[GCONST_BUFFER_1024]);
   GZero(p_satelliteBody_state_in, SatelliteBody_State);
 
   /* ------------------------------------------------------------------------ *
@@ -58,12 +56,6 @@ int SatelliteBody_init(
   GParser_closeParams(&GParser_state, dic);
 
   /*---------------------------- CREATE ARCHIVES ----------------------------*/
-
-  /* Create Archive Name */
-  sprintf(
-      archiveNameBuffer,
-      "Bodies/%s/OutputData/SatelliteBody",
-      p_satelliteBody_state_in->rigidBody_state.bodyName);
 
   /* Create archives */
   SatelliteBody_createArchives(

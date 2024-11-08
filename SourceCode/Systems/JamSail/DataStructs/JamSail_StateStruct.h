@@ -32,7 +32,43 @@ typedef struct JamSail_StateStruct
    * SATELLITE MEMBERS
    * ######################################################################## */
 
-  /* None */
+  /*!
+   * @brief     Vector from JamSail to the sun in the fixed frame. This is the
+   *            true value of the vector with no noise or errors added on.
+   *
+   * @unit      m
+   * @frame     Fixed Frame
+   */
+  double trueSunVector_m_fix[3];
+
+  /*!
+   * @brief     Vector from JamSail to the sun in the body frame. This is the
+   *            true value of the vector with no noise or errors added on.
+   *
+   * @unit      m
+   * @frame     Body Frame
+   */
+  double trueSunVector_m_bod[3];
+
+  /*!
+   * @brief     Vector from of magneitc field at JamSail in the fixed frame.
+   *            This is the true value of the vector with no noise or errors
+   *            added on.
+   *
+   * @unit      m
+   * @frame     Fixed Frame
+   */
+  double trueMagneticFieldVector_m_fix[3];
+
+  /*!
+   * @brief     Vector from of magneitc field at JamSail in the body frame.
+   *            This is the true value of the vector with no noise or errors
+   *            added on.
+   *
+   * @unit      m
+   * @frame     Body Frame
+   */
+  double trueMagneticFieldVector_m_bod[3];
 
   /* TODO: The intention here is to have the different models such as IMU and
    *       sun sensors here.

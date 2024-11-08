@@ -36,10 +36,8 @@ extern "C" {
  *                  Pointer to dictionary with sections laoded
  *
  * @return          Upon a successful completion, the fucntion will return a
- *                  GCONST_TRUE
- *
- *                  If an error in the codes execution occurs, the function will
- *                  return a GCONST_FALSE
+ *                  GCONST_TRUE. If an error in the codes execution occurs, the
+ *                  function will return a GCONST_FALSE
  */
 extern int
     GParser_closeParams(GParser_State *p_GParser_state, dictionary *p_dic);
@@ -405,6 +403,39 @@ extern int GParser_loadUInt8(
     GParser_State *p_GParser_state,
     dictionary    *p_dic,
     uint8_t       *p_dataDestination_out,
+    char          *p_dataFromIni_in);
+
+/*!
+ * @details         Function which will load a unsigned 16 bit integer into a
+ *                  data destionation.
+ *
+ * @param[in]       p_GParser_state
+ *                  Pointer to state struct for GParser module
+ *
+ * @param[in]       p_dic
+ *                  Pointer to dictionary with sections laoded
+ *
+ * @param[in]       p_dataDestination_out
+ *                  Pointer with the address to store the data in from the ini
+ *                  file.
+ *
+ * @param[in]       p_dataFromIni_in
+ *                  String which contains the name of the section and key for
+ *                  which to load the data from. The format of the string should
+ *                  be:
+ *
+ *                  <SETION>:<KEY>
+ *
+ * @return          Upon a successful completion, the fucntion will return a
+ *                  GCONST_TRUE
+ *
+ *                  If an error in the codes execution occurs, the function will
+ *                  return a GCONST_FALSE
+ */
+extern int GParser_loadUInt16(
+    GParser_State *p_GParser_state,
+    dictionary    *p_dic,
+    uint16_t      *p_dataDestination_out,
     char          *p_dataFromIni_in);
 
 #ifdef __cplusplus

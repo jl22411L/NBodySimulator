@@ -52,6 +52,12 @@ GConversions_string2uint8(uint8_t *p_dataDestination_out, char *p_dataSource_in)
     /* Move cursor */
     cursor = *(p_dataSource_in + i);
 
+    /* If floating point detected break */
+    if (cursor == '.')
+    {
+      break;
+    }
+
     /* Subtract the '0' charecter to get value as integer */
     outputNumber = outputNumber * 10 + (uint8_t)(cursor - '0');
   }

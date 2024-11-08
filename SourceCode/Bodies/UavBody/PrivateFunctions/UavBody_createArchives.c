@@ -14,7 +14,7 @@
 #include "UavBody/DataStructs/UavBody_StateStruct.h"
 
 /* Data include */
-/* None */
+#include "UavBody/ConstantDefs/UavBody_Const.h"
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
@@ -25,10 +25,10 @@ int UavBody_createArchives(
     const char    *p_bodyName_in)
 {
   /* Defining local variables */
-  char buffer[GCONST_BUFFER_1024];
+  char buffer[UAVBODY_CREATE_ARCHIVE_BUFFER];
 
   /* Clearing buffer */
-  GZero(&buffer[0], char[GCONST_BUFFER_1024]);
+  GZero(&buffer[0], char[UAVBODY_CREATE_ARCHIVE_BUFFER]);
 
   /* Create directory to body archive */
   sprintf(buffer, "Bodies/%s/OutputData/UavBody", p_bodyName_in);

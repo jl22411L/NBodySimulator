@@ -27,30 +27,44 @@ GConversions_string2uint(
     char         *p_dataSource_in)
 {
   /* Defining local variables */
-  unsigned int number;
+  unsigned int outputNumber;
   char         cursor;
-  int          sign;
-  int          i;
+  int8_t       i;
 
   /* Checking the sign of the input */
   cursor = *(p_dataSource_in + 0);
   switch (cursor)
   {
   case ('-'):
-    GError("Unsigned int can not have a negative sign");
+    GError("Can't have a '-' when trying to convert to unsigned int");
+    break;
+  case ('+'):
+    i = 1;
+    break;
+  default:
+    i = 0;
     break;
   }
 
   /* Finding the integer value and shifting left */
-  number = 0;
-  for (i = 0; (cursor = *(p_dataSource_in + i)) != '\0'; i++)
+  outputNumber = 0;
+  for (i; *(p_dataSource_in + i) != '\0'; i++)
   {
+    /* Move cursor */
+    cursor = *(p_dataSource_in + i);
 
-    number = number * 10 + (unsigned int)(cursor - '0');
+    /* If floating point detected break */
+    if (cursor == '.')
+    {
+      break;
+    }
+
+    /* Subtract the '0' charecter to get value as integer */
+    outputNumber = outputNumber * 10 + (uint8_t)(cursor - '0');
   }
 
   /* Outputting result */
-  *p_dataDestination_out = number;
+  *p_dataDestination_out = (unsigned int)outputNumber;
 
   return GCONST_TRUE;
 }

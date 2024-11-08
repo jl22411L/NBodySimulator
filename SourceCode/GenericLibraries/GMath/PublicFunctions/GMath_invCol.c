@@ -29,18 +29,18 @@ int GMath_invCol(
     int     sideN_in)
 {
   /* Defining local variables */
-  double lowerMatrixBuffer[GMATH_COLUMNINV_BUFFER][GMATH_COLUMNINV_BUFFER];
-  double upperMatrixBuffer[GMATH_COLUMNINV_BUFFER][GMATH_COLUMNINV_BUFFER];
-  double intermediateColumn[GMATH_COLUMNINV_BUFFER];
+  double lowerMatrixBuffer[GMATH_COLUMN_INV_BUFFER][GMATH_COLUMN_INV_BUFFER];
+  double upperMatrixBuffer[GMATH_COLUMN_INV_BUFFER][GMATH_COLUMN_INV_BUFFER];
+  double intermediateColumn[GMATH_COLUMN_INV_BUFFER];
 
   /* Clearing Buffers */
   GZero(
       &lowerMatrixBuffer[0][0],
-      double[GMATH_COLUMNINV_BUFFER][GMATH_COLUMNINV_BUFFER]);
+      double[GMATH_COLUMN_INV_BUFFER][GMATH_COLUMN_INV_BUFFER]);
   GZero(
       &upperMatrixBuffer[0][0],
-      double[GMATH_COLUMNINV_BUFFER][GMATH_COLUMNINV_BUFFER]);
-  GZero(&intermediateColumn[0], double[GMATH_COLUMNINV_BUFFER]);
+      double[GMATH_COLUMN_INV_BUFFER][GMATH_COLUMN_INV_BUFFER]);
+  GZero(&intermediateColumn[0], double[GMATH_COLUMN_INV_BUFFER]);
 
   /* Find LU decomposition matricies */
   GMath_luDecomp(

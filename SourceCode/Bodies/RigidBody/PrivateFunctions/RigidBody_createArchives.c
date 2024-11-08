@@ -14,7 +14,7 @@
 #include "RigidBody/DataStructs/RigidBody_StateStruct.h"
 
 /* Data include */
-/* None */
+#include "RigidBody/ConstantDefs/RigidBody_Const.h"
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
@@ -23,10 +23,10 @@
 int RigidBody_createArchives(RigidBody_State *p_rigidBody_state_in)
 {
   /* Defining local variables */
-  char filenameBuffer[GCONST_BUFFER_1024];
+  char filenameBuffer[RIGIDBODY_BODY_NAME_BUFFER];
 
   /* Clearing filenameBuffer */
-  GZero(&filenameBuffer[0], char[GCONST_BUFFER_1024]);
+  GZero(&filenameBuffer[0], char[RIGIDBODY_BODY_NAME_BUFFER]);
 
   /* Create directory to body archive */
   sprintf(

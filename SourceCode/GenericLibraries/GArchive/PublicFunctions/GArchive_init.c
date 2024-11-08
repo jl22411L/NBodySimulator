@@ -30,14 +30,15 @@
 int GArchive_init(GArchive *p_archive_in, char *p_archiveDataFilename_in)
 {
   /* Declaring local variables */
-  char directoryBuffer[GCONST_BUFFER_512];
-  char dataFileDirectory[GCONST_BUFFER_1024];
+  char directoryBuffer[GARCHIVE_DIRECTORY_BUFFER];
+  char dataFileDirectory[GARCHIVE_DATA_FILE_BUFFER];
   int  isFileFlag;
   int  i;
 
   /* Clearing Variables */
   GZero(p_archive_in, GArchive);
-  GZero(directoryBuffer, char[GCONST_BUFFER_512]);
+  GZero(&directoryBuffer[0], char[GARCHIVE_DIRECTORY_BUFFER]);
+  GZero(&dataFileDirectory[0], char[GARCHIVE_DATA_FILE_BUFFER]);
 
   /* Setting flag to false */
   isFileFlag = GCONST_FALSE;
@@ -63,7 +64,7 @@ int GArchive_init(GArchive *p_archive_in, char *p_archiveDataFilename_in)
     }
   }
 
-  /* Check to make sure input directory ends with '/' and if not add it */
+  /* Check input directory does not end with '/' and if so remove it */
   if (directoryBuffer[i - 1] == '/')
   {
     directoryBuffer[i - 1] = '\0';
@@ -92,7 +93,9 @@ int GArchive_init(GArchive *p_archive_in, char *p_archiveDataFilename_in)
   }
 
   /* Clear colum names */
-  GZero(p_archive_in->colName, char[GARCHIVE_MAX_COLS][GARCHIVE_MAX_BUFFER]);
+  GZero(
+      p_archive_in->colName,
+      char[GARCHIVE_MAX_COLS][GARCHIVE_MAX_COL_NAME_BUFFER]);
 
   /* Set number of columns to 0 */
   p_archive_in->nCols = 0;

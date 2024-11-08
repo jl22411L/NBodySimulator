@@ -37,33 +37,51 @@ extern "C" {
 typedef struct GArchive_Struct
 {
   /*!
-   * @brief Pointer to FILE stream which data will be archived to.
+   * @brief     Pointer to FILE stream which data will be archived to.
+   *
+   * @frame     N/A
+   * @unit      N/A
    */
   FILE *p_archiveFile;
 
   /*!
-   * @brief String containing the directory to the archive file.
+   * @brief     String containing the directory to the archive file.
+   *
+   * @frame     N/A
+   * @unit      N/A
    */
-  char p_archiveDirectory[GARCHIVE_MAX_BUFFER];
+  char p_archiveDirectory[GARCHIVE_DIRECTORY_BUFFER];
 
   /*!
-   * @brief Array containing the data to be archived.
+   * @brief     Array containing the data to be archived.
+   *
+   * @frame     N/A
+   * @unit      N/A
    */
   double variableRow[GARCHIVE_MAX_COLS];
 
   /*!
-   * @brief Array for which names of columns will be stored. These will be the
-   *        keys of an ini file.
+   * @brief     Array for which names of columns will be stored. These will be
+   * the keys of an ini file.
+   *
+   * @frame     N/A
+   * @unit      N/A
    */
-  char colName[GARCHIVE_MAX_COLS][GARCHIVE_MAX_BUFFER];
+  char colName[GARCHIVE_MAX_COLS][GARCHIVE_MAX_COL_NAME_BUFFER];
 
   /*!
-   * @brief Integer which contains the number of columns to be archived.
+   * @brief     Integer which contains the number of columns to be archived.
+   *
+   * @frame     N/A
+   * @unit      N/A
    */
   int8_t nCols;
 
   /*!
    * @brief Integer which contains the index of value loaded to be archived.
+   *
+   * @frame     N/A
+   * @unit      N/A
    */
   int8_t nVals;
 } GArchive;
