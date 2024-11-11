@@ -9,7 +9,7 @@
  */
 
 /* Function Includes */
-/* None */
+#include "SunSensor/PrivateFunctions/SunSensor_PrivateFunctions.h"
 
 /* Structure Include */
 #include "SunSensor/DataStructs/SunSensor_Params.h"
@@ -70,7 +70,7 @@ int SunSensor_step(double           *p_sunPosition_Fix_m_in,
       p_sunSensor_state_out->noiseVector_Sensor_m[2];
 
   /* Write archive */
-  // TODO
+  SunSensor_archiveData(p_sunSensor_state_out);
 
   return GCONST_TRUE;
 }
