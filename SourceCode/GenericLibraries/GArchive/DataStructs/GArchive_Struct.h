@@ -53,7 +53,8 @@ typedef struct GArchive_Struct
   char p_archiveDirectory[GARCHIVE_DIRECTORY_BUFFER];
 
   /*!
-   * @brief     Array containing the data to be archived.
+   * @brief     Array containing the data to be archived for a particular time
+   *            step.
    *
    * @frame     N/A
    * @unit      N/A

@@ -1,5 +1,5 @@
 # Set minimum required version of cmake
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 
 # Set project name
 project(NBodySim)
@@ -21,6 +21,7 @@ set(BODIES_PATH ${SRC_DIRECTORY}/Bodies)
 set(GENERIC_PATH ${SRC_DIRECTORY}/GenericLibraries)
 set(GNC_ALGORITHMS_PATH ${SRC_DIRECTORY}/GncAlgorithms)
 set(PHYSICS_PATH ${SRC_DIRECTORY}/Physics)
+set(SENSOR_PATH ${SRC_DIRECTORY}/Sensors)
 set(SYSTEM_PATH ${SRC_DIRECTORY}/Systems)
 set(TEST_PATH ${SRC_DIRECTORY}/TestCase)
 set(UNITTEST_PATH ${TEST_PATH}/UnitTest)
@@ -30,6 +31,7 @@ include_directories(${BODIES_PATH})
 include_directories(${GENERIC_PATH})
 include_directories(${GNC_ALGORITHMS_PATH})
 include_directories(${PHYSICS_PATH})
+include_directories(${SENSOR_PATH})
 include_directories(${SYSTEM_PATH})
 include_directories(${TEST_PATH})
 include_directories(${UNITTEST_PATH})
@@ -56,9 +58,12 @@ add_subdirectory(${GENERIC_PATH}/GUtilities)
 # GNC Algorithms
 add_subdirectory(${GNC_ALGORITHMS_PATH}/Guidance/TriadAlgorithm)
 
-# Physics Module
+# Physics Modules
 add_subdirectory(${PHYSICS_PATH}/Gravity)
 add_subdirectory(${PHYSICS_PATH}/Igrf)
+
+# Sensor Modules
+add_subdirectory(${SENSOR_PATH}/SunSensor)
 
 # System Modules
 add_subdirectory(${SYSTEM_PATH}/JamSail)
