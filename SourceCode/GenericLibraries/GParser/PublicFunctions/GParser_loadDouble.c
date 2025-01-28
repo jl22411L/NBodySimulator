@@ -29,11 +29,10 @@
 /*
  *  Refer to respective header file for function description
  */
-int GParser_loadDouble(
-    GParser_State *p_GParser_state,
-    dictionary    *p_dic,
-    double        *p_dataDestination_out,
-    char          *p_dataFromIni_in)
+int GParser_loadDouble(GParser_State *p_GParser_state,
+                       dictionary    *p_dic,
+                       double        *p_dataDestination_out,
+                       char          *p_dataFromIni_in)
 {
   /* Defining local variables */
   char sectionBuffer[256];
@@ -95,9 +94,8 @@ int GParser_loadDouble(
     if (strcmp(((p_dic + dictionaryNumber)->key[i]), keyBuffer) == 0)
     {
       /* If key matches, store convert value to int and store in member */
-      GConversions_string2double(
-          p_dataDestination_out,
-          &((p_dic + dictionaryNumber)->value[i][0]));
+      GConversions_string2double(p_dataDestination_out,
+                                 &((p_dic + dictionaryNumber)->value[i][0]));
       break;
     }
   }

@@ -29,6 +29,8 @@ This is the name of the variable. Generally it should contain at least 2 descrip
 
 This is to indicate the frame which the vector is orientated against. It does not necessairly mean that it is the frame the variable is in as during transitions you can have a vector that is within an intermediatary frame. If a vector is in the orientation of frame1 but has its origin in frame 2 then the 'frame' is frame1 but the vector is relative to frame2. Hence the term 'RelTo\<frame2\>' should be used in the name tag.
 
+For variables which represent a rotation this should should clearly indicate the starting frame and which frame the rotation will result in. For example, say a quaternion variable represents a rotation from frame1 to frame 2, the frame tag will say '\<fram1\>To\<Frame2\>'
+
 ### unit ###
 
 This part of the tag represents the unit of the variable. All units should be lower case, except for places where it may be easier to read if camel case was used. Numbers represent the power to raise the unit to the left.

@@ -14,8 +14,8 @@
 /* None */
 
 /* Structure Include */
-#include "SunSensor/DataStructs/SunSensor_Params.h"
-#include "SunSensor/DataStructs/SunSensor_State.h"
+#include "SunSensor/DataStructs/SunSensor_ParamsStruct.h"
+#include "SunSensor/DataStructs/SunSensor_StateStruct.h"
 
 /* Data include */
 #include "SunSensor/ConstantDefs/SunSensor_ConstDefs.h"
@@ -64,7 +64,7 @@ int SunSensor_createArchives(SunSensor_Params *p_sunSensor_params_in,
                   3);
 
   /* Add columns for albedo effects of sun vector */
-  GArchive_addCol(&p_sunSesor_state_in->albedoComponentNoise_Sensor_m,
+  GArchive_addCol(&p_sunSesor_state_in->sunSensorArchive,
                   "albedoComponentNoise_Sensor_m",
                   1,
                   3);

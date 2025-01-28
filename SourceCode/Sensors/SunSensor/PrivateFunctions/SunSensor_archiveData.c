@@ -14,7 +14,7 @@
 /* None */
 
 /* Structure Include */
-#include "SunSensor/DataStructs/SunSensor_State.h"
+#include "SunSensor/DataStructs/SunSensor_StateStruct.h"
 
 /* Data include */
 /* None */

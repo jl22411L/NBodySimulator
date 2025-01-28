@@ -1,5 +1,5 @@
 /*
- *    @File:         SatelliteBody_StateStruct.h
+ *    @File:         SatelliteBody_State.h
  *
  *    @ Brief:       State struct of the satellite
  *

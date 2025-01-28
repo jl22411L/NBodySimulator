@@ -1,4 +1,4 @@
-/*
+/*!
  *    @File:         JamSail_StateStruct.h
  *
  *    @Brief:        Header file containing state struct for JamSail
@@ -19,6 +19,7 @@ extern "C" {
 
 /* Structure Include */
 #include "SatelliteBody/DataStructs/SatelliteBody_StateStruct.h"
+#include "SunSensor/DataStructs/SunSensor_StateStruct.h"
 
 /* Data include */
 /* None */
@@ -28,9 +29,9 @@ extern "C" {
 
 typedef struct JamSail_StateStruct
 {
-  /* ######################################################################## *
-   * SATELLITE MEMBERS
-   * ######################################################################## */
+  /* ------------------------------------------------------------------------ *
+   * Satellite Members
+   * ------------------------------------------------------------------------ */
 
   /*!
    * @brief     Vector from JamSail to the sun in the fixed frame. This is the
@@ -70,13 +71,22 @@ typedef struct JamSail_StateStruct
    */
   double trueMagneticFieldVector_m_bod[3];
 
-  /* TODO: The intention here is to have the different models such as IMU and
-   *       sun sensors here.
-   */
+  /* ------------------------------------------------------------------------ *
+   * Sensor State Structs
+   * ------------------------------------------------------------------------ */
 
-  /* ######################################################################## *
-   * SIMULATION MEMBERS
-   * ######################################################################## */
+  /*!
+   * @brief     Struct which keeps track of the state of the sun sensor on
+   *            JamSail.
+   *
+   * @units     N/A
+   * @frame     N/A
+   */
+  SunSensor_State sunSensor_state;
+
+  /* ------------------------------------------------------------------------ *
+   * Simulation Members
+   * ------------------------------------------------------------------------ */
 
   /*!
    * @details   This member contains the address to the satellite body struct

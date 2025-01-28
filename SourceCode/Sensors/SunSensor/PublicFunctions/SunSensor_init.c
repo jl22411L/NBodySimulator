@@ -11,8 +11,8 @@
 #include "SunSensor/PrivateFunctions/SunSensor_PrivateFunctions.h"
 
 /* Structure Include */
-#include "SunSensor/DataStructs/SunSensor_Params.h"
-#include "SunSensor/DataStructs/SunSensor_State.h"
+#include "SunSensor/DataStructs/SunSensor_ParamsStruct.h"
+#include "SunSensor/DataStructs/SunSensor_StateStruct.h"
 
 /* Data include */
 /* None */
@@ -62,16 +62,16 @@ int SunSensor_init(const char       *p_sunSensorParamFilename_in,
                           p_dic,
                           &(p_sunSensor_params_out->sensorPosition_Bod_m[0]),
                           "SensorOrientation:sensorPosition_Bod_m",
-                          1,
-                          3);
+                          3,
+                          1);
 
   /* Load position of sensor relative to COG */
   GParser_loadDoubleArray(&GParser_state,
                           p_dic,
                           &(p_sunSensor_params_out->sensorQuaternion_Bod[0]),
-                          "SensorOrientation:sensorQuaternion_Bod",
-                          1,
-                          4);
+                          "SensorOrientation:sensorQuaternion_BodToSen",
+                          4,
+                          1);
 
   /* Close parameters */
   GParser_closeParams(&GParser_state, p_dic);

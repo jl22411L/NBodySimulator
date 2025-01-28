@@ -13,6 +13,7 @@ set(LIB_LIST
   CelestialBody
   BodyMgr
   JamSail
+  SunSensor
 )
 
 target_link_libraries(JamSailSimulation ${LIB_LIST})

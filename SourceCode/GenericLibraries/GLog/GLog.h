@@ -49,7 +49,7 @@ extern "C" {
  */
 #define GWarn(...) (printf("\033[0;33m[WRN]\033[1m %s: %d \n", __FILE__, __LINE__)), \
                    (printf("\033[0;33m[WRN]\033[0m ")),                              \
-                   (printf(__VA_ARGS__)),                           \
+                   (printf(__VA_ARGS__)),                                            \
                    (printf("\n"))                                   
 
 /*!
@@ -57,13 +57,21 @@ extern "C" {
  */
 #define GError(...) (printf("\033[0;31m[ERR]\033[1m %s: %d \n", __FILE__, __LINE__)), \
                     (printf("\033[0;31m[ERR]\033[0m ")),                              \
-                    (printf(__VA_ARGS__)),                           \
-                    (printf("\n")),                                  \
+                    (printf(__VA_ARGS__)),                                            \
+                    (printf("\n")),                                                   \
                     (printf("\033[0;31m[ERR]\033[0m exiting programme...\n")),        \
                     (exit(GCONST_EXIT_FAILURE))
 
-#define GAssess(Test) (if(Test != GCONST_TRUE)),                               \
-                      ({GError("Function failed to complete successfully");})
+/*!
+ * @brief     Macro which checks that the return of a function is GCONST_TRUE
+ *            and if not throws an error.
+ */
+#define GAssess(Test) ({                                \
+  if(Test != GCONST_TRUE)                               \
+  {                                                     \
+    GError("Function failed to complete successfully"); \
+  }                                                     \
+})
 
 // clang-format on
 

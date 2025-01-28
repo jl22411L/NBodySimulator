@@ -1,4 +1,4 @@
-/*
+/*!
  *    @File:         SunSensor_Params.h
  *
  *    @Brief:        Header file which contains the parameters of a SunSensor

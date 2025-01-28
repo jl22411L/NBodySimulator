@@ -19,8 +19,8 @@ extern "C" {
 /* None */
 
 /* Structure Include */
-#include "SunSensor/DataStructs/SunSensor_Params.h"
-#include "SunSensor/DataStructs/SunSensor_State.h"
+#include "SunSensor/DataStructs/SunSensor_ParamsStruct.h"
+#include "SunSensor/DataStructs/SunSensor_StateStruct.h"
 
 /* Data include */
 /* None */

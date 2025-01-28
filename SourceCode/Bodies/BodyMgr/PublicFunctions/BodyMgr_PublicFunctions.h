@@ -27,6 +27,32 @@ extern "C" {
 /* None */
 
 /*!
+ * @brief       Function which will return the address of the struct of a
+ *              satellite body from bodyMgr_state struct with the same name
+ *              as the inputted string.
+ *
+ * @param[in]   p_bodyMgr_state_in
+ *              Pointer containing the address of bodyMgr_state struct with the
+ *              bodies loaded into it.
+ *
+ * @param[out]  p_satelliteBody_state_out
+ *              Pointer which will contain the address of a pointer which
+ *              contains the address of the body will be stored once found. The
+ *              reason it has to be a pointer of a pointer is if it is just a
+ *              pointer the output will not be stored.
+ *
+ * @param[in]   p_bodyName
+ *              String with the name of the body.
+ *
+ * @return      If GCONST_TRUE is returned, a body was found successfully with
+ *              the corresponding name. If GCONST_FALSE was returned, no body
+ *              with the coresponding name was found.
+ */
+int BodyMgr_findSatelliteBody(BodyMgr_State        *p_bodyMgr_state_in,
+                              SatelliteBody_State **p_satelliteBody_state_out,
+                              const char           *p_bodyName);
+
+/*!
  * @brief       This inits the BogyMgr state struct. It will open the parameter
  *              file which contains the names of the bodies and the type of body
  *              that is is. From this it will then initialize the bodies and
@@ -43,9 +69,8 @@ extern "C" {
  * @return      On a successful completion, will return a GCONST_TRUE. If
  *              execution of function fails, will return a GCONST_FALSE.
  */
-extern int BodyMgr_init(
-    BodyMgr_State *p_bodyMgr_state_out,
-    const char    *p_bodyMgrFilename);
+extern int BodyMgr_init(BodyMgr_State *p_bodyMgr_state_out,
+                        const char    *p_bodyMgrFilename);
 
 /*!
  * @brief       Function which will step all the bodies during the simulation.

@@ -1,4 +1,4 @@
-/*
+/*!
  *    @File:         JamSail_init.c
  *
  *    @Brief:        Init function for Jam Sail
@@ -8,27 +8,76 @@
  */
 
 /* Function Includes */
-/* None */
+#include "BodyMgr/PublicFunctions/BodyMgr_PublicFunctions.h"
+#include "SunSensor/PublicFunctions/SunSensor_PublicFunctions.h"
 
 /* Structure Include */
+#include "BodyMgr/DataStructs/BodyMgr_StateStruct.h"
+#include "JamSail/DataStructs/JamSail_ParamsStruct.h"
 #include "JamSail/DataStructs/JamSail_StateStruct.h"
-#include "SatelliteBody/DataStructs/SatelliteBody_StateStruct.h"
 
 /* Data include */
 /* None */
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
+#include "GLog/GLog.h"
 
-int JamSail_init(JamSail_State *p_jamSail_state_in)
+int JamSail_init(JamSail_State  *p_jamSail_state_out,
+                 JamSail_Params *p_jamSail_params_out,
+                 BodyMgr_State  *p_bodyMgr_state_in)
 {
-  /* ######################################################################## *
-   * SATELLITE INITIALIZATION
-   * ######################################################################## */
+  /* Define Local Variables */
+  /* None */
 
-  /* TODO: The intention is to initialize the different structs relating to
-   *       the satellite here.
+  /* Clear Variables */
+  p_jamSail_state_out->p_satelliteBody_state = NULL;
+
+  /* ------------------------------------------------------------------------ *
+   * Satellite Initialization
+   * ------------------------------------------------------------------------ */
+
+  /* Find the JamSail body within bodyMgr */
+  BodyMgr_findSatelliteBody(p_bodyMgr_state_in,
+                            &(p_jamSail_state_out->p_satelliteBody_state),
+                            "JamSail");
+
+  /* ------------------------------------------------------------------------
+   * * Sensor Initialization
+   * ------------------------------------------------------------------------
    */
+
+  /* Initialize Sun Sensor */
+  SunSensor_init("Parameters/SunSensor.ini",
+                 &(p_jamSail_params_out->sunSensor_params),
+                 &(p_jamSail_state_out->sunSensor_state),
+                 &((p_jamSail_state_out->p_satelliteBody_state)
+                       ->rigidBody_state.bodyName[0]));
+
+  if (p_jamSail_state_out->p_satelliteBody_state = NULL)
+  {
+    GError("Could not link Satellite Body to JamSail successfully");
+  }
+
+  /* Initialize Magnetometer */
+  // TODO
+
+  /* Initialize Gyro */
+  // TODO
+
+  /* Initialize Acceleraometer */
+  // TODO
+
+  /* ------------------------------------------------------------------------
+   * * Actuator Initialization
+   * ------------------------------------------------------------------------
+   */
+
+  /* Initialize Magnetorquer */
+  // TODO
+
+  /* Initialze Solar Sail */
+  // TODO
 
   return GCONST_TRUE;
 }
