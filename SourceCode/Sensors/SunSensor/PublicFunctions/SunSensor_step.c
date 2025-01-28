@@ -12,6 +12,7 @@
 #include "SunSensor/PrivateFunctions/SunSensor_PrivateFunctions.h"
 
 /* Structure Include */
+#include "CelestialBody/DataStructs/CelestialBody_StateStruct.h"
 #include "SunSensor/DataStructs/SunSensor_Params.h"
 #include "SunSensor/DataStructs/SunSensor_State.h"
 
@@ -23,11 +24,12 @@
 #include "GMath/GMath.h"
 #include "GZero/GZero.h"
 
-int SunSensor_step(double           *p_sunPosition_Fix_m_in,
-                   double           *p_bodyPosition_Fix_m_in,
-                   double           *p_quaternion_FixToBod_in,
-                   SunSensor_Params *p_sunSensor_params_in,
-                   SunSensor_State  *p_sunSensor_state_out)
+int SunSensor_step(double              *p_sunPosition_Fix_m_in,
+                   double              *p_bodyPosition_Fix_m_in,
+                   double              *p_quaternion_FixToBod_in,
+                   CelestialBody_State *p_celestialBodyList_in,
+                   SunSensor_Params    *p_sunSensor_params_in,
+                   SunSensor_State     *p_sunSensor_state_out)
 {
   /* Declare local variables */
   double sunVector_Bod_m[3];
@@ -37,10 +39,17 @@ int SunSensor_step(double           *p_sunPosition_Fix_m_in,
   GZero(&sunVector_Bod_m[0], double[3]);
   GZero(&sunVectorRelToSensor_Bod_m[0], double[3]);
 
+  /* ------------------------------------------------------------------------ *
+   * Sun Component of Sun Sensor
+   * ------------------------------------------------------------------------ */
+
   /* Find the true position of the sun in the body frame */
   GMath_vectorSub(p_sunPosition_Fix_m_in,
                   p_bodyPosition_Fix_m_in,
                   &sunVector_Bod_m[0]);
+
+  /* Find if the vector is blocked by a celestial body */
+  // TODO
 
   /* Find the true measurent in the body frame relative to the sensor frame */
   GMath_vectorSub(&(sunVector_Bod_m[0]),
@@ -52,6 +61,9 @@ int SunSensor_step(double           *p_sunPosition_Fix_m_in,
       &(p_sunSensor_state_out->trueSunVector_Sensor_m[0]),
       &(sunVectorRelToSensor_Bod_m[0]),
       &(p_sunSensor_params_in->sensorQuaternion_Bod[0]));
+
+  /* Find albedo effects from celestial bodies */
+  // TODO
 
   /* Find noise component of the measurement */
   // TODO

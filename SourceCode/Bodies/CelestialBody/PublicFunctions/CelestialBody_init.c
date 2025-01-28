@@ -24,17 +24,16 @@
 #include "GParser/GParser.h"
 #include "GZero/GZero.h"
 
-int CelestialBody_init(
-    CelestialBody_State *p_celestialBody_state_in,
-    const char          *p_paramFilename_in)
+int CelestialBody_init(CelestialBody_State *p_celestialBody_state_in,
+                       const char          *p_paramFilename_in)
 {
   /* Declare local variables */
-  dictionary   *dic;
+  dictionary   *p_dic;
   GParser_State GParser_state;
 
   /* Zeroing Local variables */
   GZero(&GParser_state, GParser_State);
-  GZero(&dic, dictionary *);
+  GZero(&p_dic, dictionary *);
   GZero(p_celestialBody_state_in, CelestialBody_State);
 
   /* ------------------------------------------------------------------------ *
@@ -42,18 +41,20 @@ int CelestialBody_init(
    * ------------------------------------------------------------------------ */
 
   /* Load parameters of the body */
-  dic = GParser_loadParams(&GParser_state, p_paramFilename_in);
+  p_dic = GParser_loadParams(&GParser_state, p_paramFilename_in);
 
-  /* CURRENTLY NO PARAMETERS TO LOAD */
-  // TODO Add load parameters into celestial body struct
+  /* Load equitorial Radius of celestial body */
+  GParser_loadDouble(&GParser_state,
+                     p_dic,
+                     &(p_celestialBody_state_in->equitorialRadius_m),
+                     "GeometryProperties:equtorialRadius_m");
 
   /* Load Rigid Body parameters */
-  RigidBody_init(
-      &p_celestialBody_state_in->rigidBody_state,
-      p_paramFilename_in);
+  RigidBody_init(&p_celestialBody_state_in->rigidBody_state,
+                 p_paramFilename_in);
 
   /* Close Params */
-  GParser_closeParams(&GParser_state, dic);
+  GParser_closeParams(&GParser_state, p_dic);
 
   /*---------------------------- CREATE ARCHIVES ----------------------------*/
 

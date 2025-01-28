@@ -32,16 +32,12 @@ int GArchive_init(GArchive *p_archive_in, char *p_archiveDataFilename_in)
   /* Declaring local variables */
   char directoryBuffer[GARCHIVE_DIRECTORY_BUFFER];
   char dataFileDirectory[GARCHIVE_DATA_FILE_BUFFER];
-  int  isFileFlag;
   int  i;
 
   /* Clearing Variables */
   GZero(p_archive_in, GArchive);
   GZero(&directoryBuffer[0], char[GARCHIVE_DIRECTORY_BUFFER]);
   GZero(&dataFileDirectory[0], char[GARCHIVE_DATA_FILE_BUFFER]);
-
-  /* Setting flag to false */
-  isFileFlag = GCONST_FALSE;
 
   /* Cycle through file name and make directories recursively */
   for (i = 0; GCONST_TRUE; i++)
@@ -93,9 +89,8 @@ int GArchive_init(GArchive *p_archive_in, char *p_archiveDataFilename_in)
   }
 
   /* Clear colum names */
-  GZero(
-      p_archive_in->colName,
-      char[GARCHIVE_MAX_COLS][GARCHIVE_MAX_COL_NAME_BUFFER]);
+  GZero(p_archive_in->colName,
+        char[GARCHIVE_MAX_COLS][GARCHIVE_MAX_COL_NAME_BUFFER]);
 
   /* Set number of columns to 0 */
   p_archive_in->nCols = 0;

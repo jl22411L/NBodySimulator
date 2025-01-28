@@ -74,12 +74,14 @@ Parameters is an ongoing development. For the latest update on how they are set 
 
 Unless in very specific situations, all frames can be assumed to follow a right handed orthogonal axis system. For more infomration about rotations, read the ** ROTATION SEQUENCES** section.
 
-|   Frame Name    | Abbreviation |                  Description                 |     Origin    | Definition of x-axis |  Definition of y-axis  |     Definition of z-axis     |                           Note                           |
-|:---------------:|:------------:|:--------------------------------------------:|:-------------:|:--------------------:|:----------------------:|:----------------------------:|:--------------------------------------------------------:|
-|  Fixed Frame    |     Fix      | Origin which all frames are based around.    |    [0,0,0]    |      [1,0,0]         |         [0,1,0]        |            [0,0,1]           |                                                          |
-|   Body Frame    |     Bod      | Frame used to define the body of rigid body. |      COG      |  Longitudinal Axis   |      Lateral Axis      |    Cross Product of x & y    | Note that definition may vary for some bodies.           |
-| Perifocal Frame |     Per      | Frame used to project orbits of satellites.  |   Body1 COG   |  Towards Periapsis   | Cross Product of x & z | Unit angular momentum vector | y-axis is parrallel to the Semilatus rectum.             |
-|  Sensor Frame   |    Sensor    | Frame which the sensor is orientated.        | Sensor Origin |    Sensor x-axis     |      Sensor y-axis     |        Sensor z-axis         | This frame is dependent on the sensor it is representing |
+|       Frame Name      | Abbreviation |                 Description                  |     Origin    | Definition of x-axis |  Definition of y-axis  |     Definition of z-axis     |                           Note                           |
+|:---------------------:|:------------:|:--------------------------------------------:|:-------------:|:--------------------:|:----------------------:|:----------------------------:|:--------------------------------------------------------:|
+|       Fixed Frame     |     Fix      | Origin which all frames are based around.    |    [0,0,0]    |      [1,0,0]         |         [0,1,0]        |            [0,0,1]           |                                                          |
+|       Body Frame      |     Bod      | Frame used to define the body of rigid body. |      COG      |  Longitudinal Axis   |      Lateral Axis      |    Cross Product of x & y    | Note that definition may vary for some bodies.           |
+| Celestial Body Frame  | <bodyName>Cb | Body frame of Celestial Body.                |      COG      |  Longitudinal Axis   |      Lateral Axis      |    Cross Product of x & y    | Useful for orbital analysis and offering clarification.  |
+| Celestial Fixed Frame | <bodyName>Cf | Inertial frame of Celestial Body.            |      COG      |    BODY DEPENDENT    |     BODY DEPENDENT     |        BODY DEPENDENT        | Useful for orbital analysis and offering clarification.  |
+|   Perifocal Frame     |     Per      | Frame used to project orbits of satellites.  |   Body1 COG   |  Towards Periapsis   | Cross Product of x & z | Unit angular momentum vector | y-axis is parrallel to the Semilatus rectum.             |
+|     Sensor Frame      |    Sensor    | Frame which the sensor is orientated.        | Sensor Origin |    Sensor x-axis     |      Sensor y-axis     |        Sensor z-axis         | This frame is dependent on the sensor it is representing |
  
 # ROTATIONS #
 ## QUATERNIONS ##

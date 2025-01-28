@@ -137,7 +137,7 @@ int BodyMgr_init(BodyMgr_State *p_bodyMgr_state_out,
                                  sizeof(RigidBody_State *));
 
   /* Assign memory for Pure Rigid Bodies */
-  p_bodyMgr_state_out->p_rigidBodyList =
+  p_bodyMgr_state_out->p_pureRigidBodyList =
       (RigidBody_State **)calloc(p_bodyMgr_state_out->nRigidBodies,
                                  sizeof(RigidBody_State *));
 
@@ -172,16 +172,16 @@ int BodyMgr_init(BodyMgr_State *p_bodyMgr_state_out,
     case RIGID_BODY:
 
       /* Assign memory for body */
-      *(p_bodyMgr_state_out->p_rigidBodyList + iRigidBody) =
+      *(p_bodyMgr_state_out->p_pureRigidBodyList + iRigidBody) =
           (RigidBody_State *)calloc(1, sizeof(RigidBody_State));
 
       /* Init RigidBody Body */
-      RigidBody_init(*(p_bodyMgr_state_out->p_rigidBodyList + iRigidBody),
+      RigidBody_init(*(p_bodyMgr_state_out->p_pureRigidBodyList + iRigidBody),
                      &parameterBuffer[0]);
 
       /* Assign Rigid Body to list */
       *(p_bodyMgr_state_out->p_rigidBodyPointerList + iRigidBodyPointers) =
-          *(p_bodyMgr_state_out->p_rigidBodyList + iRigidBody);
+          *(p_bodyMgr_state_out->p_pureRigidBodyList + iRigidBody);
 
       /* Incriment iterators */
       iRigidBodyPointers++;

@@ -63,6 +63,12 @@ int SunSensor_createArchives(SunSensor_Params *p_sunSensor_params_in,
                   1,
                   3);
 
+  /* Add columns for albedo effects of sun vector */
+  GArchive_addCol(&p_sunSesor_state_in->albedoComponentNoise_Sensor_m,
+                  "albedoComponentNoise_Sensor_m",
+                  1,
+                  3);
+
   /* Add columns for noise vector od sensor */
   GArchive_addCol(&p_sunSesor_state_in->sunSensorArchive,
                   "noiseVector_Bod_m",

@@ -35,6 +35,13 @@ int SunSensor_archiveData(SunSensor_State *p_sunSensor_state_in)
                     p_sunSensor_state_in->trueSunVector_Sensor_m[i]);
   }
 
+  /* Add albedo component to archive */
+  for (i = 0; i < 3; i++)
+  {
+    GArchive_addVal(&(p_sunSensor_state_in->sunSensorArchive),
+                    p_sunSensor_state_in->albedoComponentNoise_Sensor_m[i]);
+  }
+
   /* Add noise component to archive */
   for (i = 0; i < 3; i++)
   {

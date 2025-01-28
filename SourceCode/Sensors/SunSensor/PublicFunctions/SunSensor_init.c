@@ -1,4 +1,4 @@
-/*
+/*!
  *    @File:         SunSensor_init.c
  *
  *    @Brief:        Function which will init SunSensor model

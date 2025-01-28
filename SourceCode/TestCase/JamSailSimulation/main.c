@@ -1,4 +1,4 @@
-/*
+/*!
  *    @File:         main.c
  *
  *    @ Brief:       Main c file for system test, which is meant to test new
@@ -86,10 +86,9 @@ int main(void)
      * ---------------------------------------------------------------------- */
 
     /* Apply gravity to UAV body */
-    Gravity_findGravity(
-        &gravity_params,
-        bodyMgr_state.p_rigidBodyPointerList,
-        bodyMgr_state.nBodies);
+    Gravity_findGravity(&gravity_params,
+                        bodyMgr_state.p_rigidBodyPointerList,
+                        bodyMgr_state.nBodies);
 
     /* Step the bodies */
     BodyMgr_step(&bodyMgr_state);
