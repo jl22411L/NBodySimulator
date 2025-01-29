@@ -31,6 +31,7 @@ int SunSensor_init(const char       *p_sunSensorParamFilename_in,
   /* Declare local variables */
   dictionary   *p_dic;
   GParser_State GParser_state;
+  double        sensorFov_deg;
 
   /* Clear variables */
   GZero(&GParser_state, GParser_State);
@@ -72,6 +73,15 @@ int SunSensor_init(const char       *p_sunSensorParamFilename_in,
                           "SensorOrientation:sensorQuaternion_BodToSen",
                           4,
                           1);
+
+  /* Load FOV of sun sensor into temporary variable */
+  GParser_loadDouble(&GParser_state,
+                     p_dic,
+                     &sensorFov_deg,
+                     "SensorCharecteristics:sensorFov_deg");
+
+  /* Load the fov of sun sensor as radians into params struct */
+  p_sunSensor_params_out->sensorFov_rad = sensorFov_deg * GCONST_DEG_TO_RAD;
 
   /* Close parameters */
   GParser_closeParams(&GParser_state, p_dic);

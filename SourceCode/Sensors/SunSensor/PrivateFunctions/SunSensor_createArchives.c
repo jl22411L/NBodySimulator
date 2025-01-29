@@ -84,7 +84,7 @@ int SunSensor_createArchives(SunSensor_Params *p_sunSensor_params_in,
 
   /* Add columns which represent if the sensor is blcoked */
   GArchive_addCol(&p_sunSensor_state_in->sunSensorArchive,
-                  "isSensorBlockedFlag",
+                  "isSensorReadingInvalid",
                   1,
                   1);
 

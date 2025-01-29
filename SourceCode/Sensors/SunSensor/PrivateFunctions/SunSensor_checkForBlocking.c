@@ -51,9 +51,6 @@ int SunSensor_checkForBlocking(double               *p_sunPosition_Fix_m_in,
   y2 = *(p_sunPosition_Fix_m_in + 1);
   z2 = *(p_sunPosition_Fix_m_in + 2);
 
-  /* Set flag to false */
-  *(p_isSensorBlockedFlag_out) = GCONST_FALSE;
-
   /*!
    * Method involves finding the coefficients of a quadratic equation:
    *    a*u^2 + b*u + c = 0
@@ -90,7 +87,7 @@ int SunSensor_checkForBlocking(double               *p_sunPosition_Fix_m_in,
             ((*(p_celestialBodyList_in + i))->equitorialRadius_m);
 
     /* Check if there is a collision. */
-    if ((b * b - 4 * a * c) < 0)
+    if ((b * b - 4 * a * c) > 0)
     {
       /* Collision detected, so set flag to true and break loop */
       *(p_isSensorBlockedFlag_out) = GCONST_TRUE;

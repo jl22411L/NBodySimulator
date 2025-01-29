@@ -74,13 +74,27 @@ int SunSensor_step(double              *p_bodyPosition_Fix_m_in,
                    &(sunPosition_Sen_m[0]),
                    3);
 
+  /* ------------------------------------------------------------------------ *
+   * Check reading on sun sensor is valid
+   * ------------------------------------------------------------------------ */
+
+  /* Set blocked flag to false and let checks change if this is not the case */
+  p_sunSensor_state_out->isSensorReadingInvalid = GCONST_FALSE;
+
   /* Find if the vector is blocked by a celestial body */
   SunSensor_checkForBlocking(
       &(p_sunCelestialBody_in->rigidBody_state.position_m_Fix[0]),
       p_bodyPosition_Fix_m_in,
       (p_bodyMgr_state_in->p_celestialBodyList),
       p_bodyMgr_state_in->nCelestialBodies,
-      &(p_sunSensor_state_out->isSensorBlockedFlag));
+      &(p_sunSensor_state_out->isSensorReadingInvalid));
+
+  /* Check that sun vector is within fov of sun sensor */
+  SunSensor_checkWithinFov(p_sunSensor_state_out, p_sunSensor_params_in);
+
+  /* ------------------------------------------------------------------------ *
+   * Find Noise
+   * ------------------------------------------------------------------------ */
 
   /* Find albedo effects from celestial bodies */
   // TODO
@@ -88,8 +102,12 @@ int SunSensor_step(double              *p_bodyPosition_Fix_m_in,
   /* Find noise component of the measurement */
   // TODO
 
+  /* ------------------------------------------------------------------------ *
+   * Determine Measured Result of Sensor
+   * ------------------------------------------------------------------------ */
+
   /* Find the output measured reading of the sun vector */
-  if (p_sunSensor_state_out->isSensorBlockedFlag == GCONST_TRUE)
+  if (p_sunSensor_state_out->isSensorReadingInvalid == GCONST_TRUE)
   {
     /* If sun is blocked only include the noise components in measurement */
     p_sunSensor_state_out->measuredSunVector_Sensor_m[0] =

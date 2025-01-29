@@ -58,7 +58,7 @@ int SunSensor_archiveData(SunSensor_State *p_sunSensor_state_in)
 
   /* Add flag to show if sun sensor is blocked to archive */
   GArchive_addVal(&(p_sunSensor_state_in->sunSensorArchive),
-                  p_sunSensor_state_in->isSensorBlockedFlag);
+                  p_sunSensor_state_in->isSensorReadingInvalid);
 
   /* Write data to archive */
   GArchive_writeLine(&(p_sunSensor_state_in->sunSensorArchive));

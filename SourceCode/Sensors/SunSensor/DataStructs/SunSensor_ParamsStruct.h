@@ -58,6 +58,14 @@ typedef struct SunSensor_ParamsStruct
    */
   double sensorQuaternion_Bod[4];
 
+  /*!
+   * @brief     Double which contains the fov of the sun sensor.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
+  double sensorFov_rad;
+
 } SunSensor_Params;
 
 #ifdef __cplusplus

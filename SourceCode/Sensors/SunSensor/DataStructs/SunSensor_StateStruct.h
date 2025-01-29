@@ -67,15 +67,14 @@ typedef struct SunSensor_StateStruct
   double measuredSunVector_Sensor_m[3];
 
   /*!
-   * @brief     Flag which indicates if the sun sensor was blocked by a
-   *            celestial body. If so, when finding the measured components
-   *            of the sun vector the true vector will be said to be zero.
-   *            Hence, the sensor will only read noise.
+   * @brief     Flag which indicates if the sun sensor can detect the sun. If
+   *            the flag is GCONST_TRUE, then the measured sun vector will only
+   *            be noise.
    *
    * @units     N/A
    * @frame     N/A
    */
-  uint8_t isSensorBlockedFlag;
+  uint8_t isSensorReadingInvalid;
 
   /*!
    * @brief     Archive struct for sensor.
