@@ -12,6 +12,7 @@
 #include "SunSensor/PrivateFunctions/SunSensor_PrivateFunctions.h"
 
 /* Structure Include */
+#include "BodyMgr/DataStructs/BodyMgr_StateStruct.h"
 #include "CelestialBody/DataStructs/CelestialBody_StateStruct.h"
 #include "SunSensor/DataStructs/SunSensor_ParamsStruct.h"
 #include "SunSensor/DataStructs/SunSensor_StateStruct.h"
@@ -24,43 +25,62 @@
 #include "GMath/GMath.h"
 #include "GZero/GZero.h"
 
-int SunSensor_step(double              *p_sunPosition_Fix_m_in,
-                   double              *p_bodyPosition_Fix_m_in,
+int SunSensor_step(double              *p_bodyPosition_Fix_m_in,
                    double              *p_quaternion_FixToBod_in,
-                   CelestialBody_State *p_celestialBodyList_in,
+                   CelestialBody_State *p_sunCelestialBody_in,
+                   BodyMgr_State       *p_bodyMgr_state_in,
                    SunSensor_Params    *p_sunSensor_params_in,
                    SunSensor_State     *p_sunSensor_state_out)
 {
   /* Declare local variables */
-  double sunVector_Bod_m[3];
-  double sunVectorRelToSensor_Bod_m[3];
+  double sunPositionRelToBody_Fix_m[3];
+  double sunPosition_Bod_m[3];
+  double sunPositionRelToSen_Bod_m[3];
+  double sunPosition_Sen_m[3];
 
   /* Clear Buffers */
-  GZero(&sunVector_Bod_m[0], double[3]);
-  GZero(&sunVectorRelToSensor_Bod_m[0], double[3]);
+  GZero(&(sunPositionRelToBody_Fix_m[0]), double[3]);
+  GZero(&(sunPosition_Bod_m[0]), double[3]);
+  GZero(&(sunPositionRelToSen_Bod_m[0]), double[3]);
+  GZero(&(sunPosition_Sen_m[0]), double[3]);
 
   /* ------------------------------------------------------------------------ *
    * Sun Component of Sun Sensor
    * ------------------------------------------------------------------------ */
 
-  /* Find the true position of the sun in the body frame */
-  GMath_vectorSub(p_sunPosition_Fix_m_in,
+  /* Find true position of sun in fixed frame relative to the body frame */
+  GMath_vectorSub(&(p_sunCelestialBody_in->rigidBody_state.position_m_Fix[0]),
                   p_bodyPosition_Fix_m_in,
-                  &sunVector_Bod_m[0]);
+                  &(sunPositionRelToBody_Fix_m[0]));
+
+  /* Find true position of sun in body frame */
+  GMath_quaternionPointRotation(&(sunPosition_Bod_m[0]),
+                                &(sunPositionRelToBody_Fix_m[0]),
+                                &(sunPosition_Bod_m[0]));
+
+  /* Find true position of sun in sensor frame relative to body frame */
+  GMath_vectorSub(&(sunPosition_Bod_m[0]),
+                  &(p_sunSensor_params_in->sensorPosition_Bod_m[0]),
+                  &(sunPositionRelToSen_Bod_m[0]));
+
+  /* Find true position of sun in sensor frame */
+  GMath_quaternionPointRotation(
+      &(sunPosition_Sen_m[0]),
+      &(sunPositionRelToSen_Bod_m[0]),
+      &(p_sunSensor_params_in->sensorQuaternion_Bod[0]));
+
+  /* Find the direction of the sun as a unit vector */
+  GMath_vectorNorm(&(p_sunSensor_state_out->trueSunVector_Sensor_m[0]),
+                   &(sunPosition_Sen_m[0]),
+                   3);
 
   /* Find if the vector is blocked by a celestial body */
-  // TODO
-
-  /* Find the true measurent in the body frame relative to the sensor frame */
-  GMath_vectorSub(&(sunVector_Bod_m[0]),
-                  &(p_sunSensor_params_in->sensorPosition_Bod_m[0]),
-                  &(sunVectorRelToSensor_Bod_m[0]));
-
-  /* Find the true value in the sensor frame */
-  GMath_quaternionPointRotation(
-      &(p_sunSensor_state_out->trueSunVector_Sensor_m[0]),
-      &(sunVectorRelToSensor_Bod_m[0]),
-      &(p_sunSensor_params_in->sensorQuaternion_Bod[0]));
+  SunSensor_checkForBlocking(
+      &(p_sunCelestialBody_in->rigidBody_state.position_m_Fix[0]),
+      p_bodyPosition_Fix_m_in,
+      (p_bodyMgr_state_in->p_celestialBodyList),
+      p_bodyMgr_state_in->nCelestialBodies,
+      &(p_sunSensor_state_out->isSensorBlockedFlag));
 
   /* Find albedo effects from celestial bodies */
   // TODO
@@ -69,17 +89,39 @@ int SunSensor_step(double              *p_sunPosition_Fix_m_in,
   // TODO
 
   /* Find the output measured reading of the sun vector */
-  p_sunSensor_state_out->measuredSunVector_Sensor_m[0] =
-      p_sunSensor_state_out->trueSunVector_Sensor_m[0] +
-      p_sunSensor_state_out->noiseVector_Sensor_m[0];
+  if (p_sunSensor_state_out->isSensorBlockedFlag == GCONST_TRUE)
+  {
+    /* If sun is blocked only include the noise components in measurement */
+    p_sunSensor_state_out->measuredSunVector_Sensor_m[0] =
+        p_sunSensor_state_out->noiseVector_Sensor_m[0] +
+        p_sunSensor_state_out->albedoComponentNoise_Sensor_m[0];
 
-  p_sunSensor_state_out->measuredSunVector_Sensor_m[1] =
-      p_sunSensor_state_out->trueSunVector_Sensor_m[1] +
-      p_sunSensor_state_out->noiseVector_Sensor_m[1];
+    p_sunSensor_state_out->measuredSunVector_Sensor_m[1] =
+        p_sunSensor_state_out->noiseVector_Sensor_m[1] +
+        p_sunSensor_state_out->albedoComponentNoise_Sensor_m[1];
 
-  p_sunSensor_state_out->measuredSunVector_Sensor_m[2] =
-      p_sunSensor_state_out->trueSunVector_Sensor_m[2] +
-      p_sunSensor_state_out->noiseVector_Sensor_m[2];
+    p_sunSensor_state_out->measuredSunVector_Sensor_m[2] =
+        p_sunSensor_state_out->noiseVector_Sensor_m[2] +
+        p_sunSensor_state_out->albedoComponentNoise_Sensor_m[2];
+  }
+  else
+  {
+    /* Else, include the true sun sensor vecor */
+    p_sunSensor_state_out->measuredSunVector_Sensor_m[0] =
+        p_sunSensor_state_out->trueSunVector_Sensor_m[0] +
+        p_sunSensor_state_out->noiseVector_Sensor_m[0] +
+        p_sunSensor_state_out->albedoComponentNoise_Sensor_m[0];
+
+    p_sunSensor_state_out->measuredSunVector_Sensor_m[1] =
+        p_sunSensor_state_out->trueSunVector_Sensor_m[1] +
+        p_sunSensor_state_out->noiseVector_Sensor_m[1] +
+        p_sunSensor_state_out->albedoComponentNoise_Sensor_m[1];
+
+    p_sunSensor_state_out->measuredSunVector_Sensor_m[2] =
+        p_sunSensor_state_out->trueSunVector_Sensor_m[2] +
+        p_sunSensor_state_out->noiseVector_Sensor_m[2] +
+        p_sunSensor_state_out->albedoComponentNoise_Sensor_m[2];
+  }
 
   /* Write archive */
   SunSensor_archiveData(p_sunSensor_state_out);

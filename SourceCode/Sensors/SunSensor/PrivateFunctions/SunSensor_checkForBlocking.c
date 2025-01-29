@@ -8,6 +8,8 @@
  *
  */
 
+#include <stdint.h>
+
 /* Function Includes */
 /* None */
 
@@ -23,7 +25,8 @@
 int SunSensor_checkForBlocking(double               *p_sunPosition_Fix_m_in,
                                double               *p_bodyPosition_Fix_m_in,
                                CelestialBody_State **p_celestialBodyList_in,
-                               int                   nCelestialBodies_in)
+                               int                   nCelestialBodies_in,
+                               uint8_t              *p_isSensorBlockedFlag_out)
 {
   /* Declare local variables */
   double a;
@@ -47,6 +50,9 @@ int SunSensor_checkForBlocking(double               *p_sunPosition_Fix_m_in,
   x2 = *(p_sunPosition_Fix_m_in + 0);
   y2 = *(p_sunPosition_Fix_m_in + 1);
   z2 = *(p_sunPosition_Fix_m_in + 2);
+
+  /* Set flag to false */
+  *(p_isSensorBlockedFlag_out) = GCONST_FALSE;
 
   /*!
    * Method involves finding the coefficients of a quadratic equation:
@@ -83,9 +89,12 @@ int SunSensor_checkForBlocking(double               *p_sunPosition_Fix_m_in,
         ((*(p_celestialBodyList_in + i))->equitorialRadius_m) *
             ((*(p_celestialBodyList_in + i))->equitorialRadius_m);
 
+    /* Check if there is a collision. */
     if ((b * b - 4 * a * c) < 0)
     {
-      return GCONST_FALSE;
+      /* Collision detected, so set flag to true and break loop */
+      *(p_isSensorBlockedFlag_out) = GCONST_TRUE;
+      break;
     }
   }
 

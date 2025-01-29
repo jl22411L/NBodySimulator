@@ -19,6 +19,7 @@ extern "C" {
 /* None */
 
 /* Structure Include */
+#include "CelestialBody/DataStructs/CelestialBody_StateStruct.h"
 #include "SunSensor/DataStructs/SunSensor_ParamsStruct.h"
 #include "SunSensor/DataStructs/SunSensor_StateStruct.h"
 
@@ -41,6 +42,40 @@ extern "C" {
  *              function will return a GCONST_FALSE.
  */
 extern int SunSensor_archiveData(SunSensor_State *p_sunSensor_state_in);
+
+/*!
+ * @brief       Function which checks to see if the sun sensor is blocked by
+ *              any of the celestial bodies.
+ *
+ * @param[in]   p_sunPosition_Fix_m_in
+ *              Pointer containing address of vector which contains the sun
+ *              position in the fixed frame.
+ *
+ * @param[in]   p_bodyPosition_Fix_m_in
+ *              Pointer containing the address of vector which contains the
+ *              position of the satellite in the fixed frame.
+ *
+ * @param[in]   p_celestialBodyList_in
+ *              Pointer containing the address of the list of celestial bodies
+ *              which will be checked to see if blocking the sun.
+ *
+ * @param[in]   nCelestialBodies_in
+ *              Integer containing the number of celestial bodies in list.
+ *
+ * @param[out]  p_isSensorBlockedFlag_out
+ *              Pointer to flag which will be set to true if the sensor if being
+ *              blocked by a celestial body or false if it is not.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE.
+ */
+extern int
+    SunSensor_checkForBlocking(double               *p_sunPosition_Fix_m_in,
+                               double               *p_bodyPosition_Fix_m_in,
+                               CelestialBody_State **p_celestialBodyList_in,
+                               int                   nCelestialBodies_in,
+                               uint8_t              *p_isSensorBlockedFlag_out);
 
 /*!
  * @brief       Private function which will create the archives for the sun

@@ -15,6 +15,8 @@
 extern "C" {
 #endif
 
+#include <stdint.h>
+
 /* Function Includes */
 /* None */
 
@@ -48,7 +50,8 @@ typedef struct SunSensor_StateStruct
   double albedoComponentNoise_Sensor_m[3];
 
   /*!
-   * @brief     Vector which contains the noise reading of the vector.
+   * @brief     Vector which contains the noise reading of the vector. This is
+   *            just random noise.
    *
    * @unit      m
    * @frame     sensor
@@ -62,6 +65,17 @@ typedef struct SunSensor_StateStruct
    * @frame     Sensor
    */
   double measuredSunVector_Sensor_m[3];
+
+  /*!
+   * @brief     Flag which indicates if the sun sensor was blocked by a
+   *            celestial body. If so, when finding the measured components
+   *            of the sun vector the true vector will be said to be zero.
+   *            Hence, the sensor will only read noise.
+   *
+   * @units     N/A
+   * @frame     N/A
+   */
+  uint8_t isSensorBlockedFlag;
 
   /*!
    * @brief     Archive struct for sensor.

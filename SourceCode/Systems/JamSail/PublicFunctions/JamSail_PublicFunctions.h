@@ -54,6 +54,26 @@ extern int JamSail_init(JamSail_State  *p_jamSail_state_out,
                         JamSail_Params *p_jamSail_params_out,
                         BodyMgr_State  *p_bodyMgr_state_in);
 
+/*!
+ * @brief       Function which steps JamSail and its models forward.
+ *
+ * @param[out]  p_jamSail_state_out
+ *              Pointer containing address of JamSail State struct.
+ *
+ * @param[out]  p_jamSail_params_out
+ *              Pointer containing address of JamSail Params struct
+ *
+ * @param[in]   p_bodyMgr_state_in
+ *              Pointer containing BodyMgr state struct.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+int JamSail_step(JamSail_State  *p_jamSail_state_out,
+                 JamSail_Params *p_jamSail_params_out,
+                 BodyMgr_State  *p_bodyMgr_state_in);
+
 #ifdef __cplusplus
 }
 #endif

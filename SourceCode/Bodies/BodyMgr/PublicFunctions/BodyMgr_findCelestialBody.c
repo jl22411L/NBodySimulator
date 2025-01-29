@@ -1,10 +1,10 @@
 /*!
- *    @File:         BodyMgr_findSatelliteBody.c
+ *    @File:         BodyMgr_findCeletialBody.c
  *
- *    @Brief:        Function which will find a satellite body with a specific
+ *    @Brief:        Function which will find a celestial body with a specific
  *                   name.
  *
- *    @Date:         28/01/2025
+ *    @Date:         29/01/2025
  *
  */
 
@@ -16,7 +16,7 @@
 
 /* Structure Include */
 #include "BodyMgr/DataStructs/BodyMgr_StateStruct.h"
-#include "SatelliteBody/DataStructs/SatelliteBody_StateStruct.h"
+#include "CelestialBody/DataStructs/CelestialBody_StateStruct.h"
 
 /* Data include */
 /* None */
@@ -25,24 +25,24 @@
 #include "GConst/GConst.h"
 #include "GLog/GLog.h"
 
-int BodyMgr_findSatelliteBody(BodyMgr_State        *p_bodyMgr_state_in,
-                              SatelliteBody_State **p_satelliteBody_state_out,
+int BodyMgr_findCelestialBody(BodyMgr_State        *p_bodyMgr_state_in,
+                              CelestialBody_State **p_celestialBody_state_out,
                               const char           *p_bodyName)
 {
   /* Declare local variables */
   uint16_t i;
 
-  /* Iterate through the satellite bodies until a name matches */
-  for (i = 0; i < p_bodyMgr_state_in->nSatelliteBodies; i++)
+  /* Iterate through the celestial bodies until a name matches */
+  for (i = 0; i < p_bodyMgr_state_in->nCelestialBodies; i++)
   {
     /* Compare the name of the body with the inputted name */
     if (strcmp(p_bodyName,
-               &((*(p_bodyMgr_state_in->p_satelliteBodyList + i))
+               &((*(p_bodyMgr_state_in->p_celestialBodyList + i))
                      ->rigidBody_state.bodyName[0])) == GCONST_FALSE)
     {
       /* Store the address of the body */
-      *(p_satelliteBody_state_out) =
-          *(p_bodyMgr_state_in->p_satelliteBodyList + i);
+      *(p_celestialBody_state_out) =
+          *(p_bodyMgr_state_in->p_celestialBodyList + i);
 
       /* Return GCONST_TRUE to indicate that the body was found successfully */
       return GCONST_TRUE;

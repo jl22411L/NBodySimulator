@@ -41,18 +41,16 @@ int GArchive_addCol(GArchive   *p_archive_inout,
            nRowsAdd_in);
   }
 
-  switch (nColsAdd_in)
+  if (nColsAdd_in == 1 && nRowsAdd_in == 1)
   {
-  case (1):
     /* Add the column name to the struct archive */
     strcpy(&p_archive_inout->colName[p_archive_inout->nCols][0], p_colName_in);
 
     /* Incriment the number of columns */
     p_archive_inout->nCols++;
-
-    break;
-
-  default:
+  }
+  else
+  {
     GArchive_addColArray(p_archive_inout,
                          p_colName_in,
                          nColsAdd_in,

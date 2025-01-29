@@ -42,6 +42,12 @@ int JamSail_init(JamSail_State  *p_jamSail_state_out,
                             &(p_jamSail_state_out->p_satelliteBody_state),
                             "JamSail");
 
+  /* Check that body was assigned correctly */
+  if (p_jamSail_state_out->p_satelliteBody_state == NULL)
+  {
+    GError("Satellite body was not asssigned to JamSail state correctly");
+  }
+
   /* ------------------------------------------------------------------------
    * * Sensor Initialization
    * ------------------------------------------------------------------------
@@ -53,11 +59,6 @@ int JamSail_init(JamSail_State  *p_jamSail_state_out,
                  &(p_jamSail_state_out->sunSensor_state),
                  &((p_jamSail_state_out->p_satelliteBody_state)
                        ->rigidBody_state.bodyName[0]));
-
-  if (p_jamSail_state_out->p_satelliteBody_state = NULL)
-  {
-    GError("Could not link Satellite Body to JamSail successfully");
-  }
 
   /* Initialize Magnetometer */
   // TODO

@@ -21,11 +21,12 @@
 #include "SunSensor/ConstantDefs/SunSensor_ConstDefs.h"
 
 /* Generic Libraries */
+#include "GArchive/Garchive.h"
 #include "GConst/GConst.h"
 #include "GZero/GZero.h"
 
 int SunSensor_createArchives(SunSensor_Params *p_sunSensor_params_in,
-                             SunSensor_State  *p_sunSesor_state_in,
+                             SunSensor_State  *p_sunSensor_state_in,
                              const char       *p_sensorBody_in)
 {
   /* Declare local variables */
@@ -43,46 +44,52 @@ int SunSensor_createArchives(SunSensor_Params *p_sunSensor_params_in,
   if (strlen(p_sensorBody_in) == 0)
   {
     sprintf(filenameBuffer,
-            "Bodies/%s/ArchiveData/%s",
-            p_sensorBody_in,
+            "ArchiveData/%s",
             p_sunSensor_params_in->sunSensorName);
   }
   else
   {
     sprintf(filenameBuffer,
-            "ArchiveData/%s",
+            "Bodies/%s/ArchiveData/%s",
+            p_sensorBody_in,
             p_sunSensor_params_in->sunSensorName);
   }
 
   /* Init archive */
-  GArchive_init(&p_sunSesor_state_in->sunSensorArchive, &filenameBuffer[0]);
+  GArchive_init(&p_sunSensor_state_in->sunSensorArchive, &filenameBuffer[0]);
 
   /* Add columns for true value of sun vector */
-  GArchive_addCol(&p_sunSesor_state_in->sunSensorArchive,
+  GArchive_addCol(&p_sunSensor_state_in->sunSensorArchive,
                   "trueSunVector_Bod_m",
-                  1,
-                  3);
+                  3,
+                  1);
 
   /* Add columns for albedo effects of sun vector */
-  GArchive_addCol(&p_sunSesor_state_in->sunSensorArchive,
+  GArchive_addCol(&p_sunSensor_state_in->sunSensorArchive,
                   "albedoComponentNoise_Sensor_m",
-                  1,
-                  3);
+                  3,
+                  1);
 
   /* Add columns for noise vector od sensor */
-  GArchive_addCol(&p_sunSesor_state_in->sunSensorArchive,
+  GArchive_addCol(&p_sunSensor_state_in->sunSensorArchive,
                   "noiseVector_Bod_m",
-                  1,
-                  3);
+                  3,
+                  1);
 
   /* Add columns which represent the measured output of the sensor */
-  GArchive_addCol(&p_sunSesor_state_in->sunSensorArchive,
+  GArchive_addCol(&p_sunSensor_state_in->sunSensorArchive,
                   "measuredSunVector_Bod_m",
+                  3,
+                  1);
+
+  /* Add columns which represent if the sensor is blcoked */
+  GArchive_addCol(&p_sunSensor_state_in->sunSensorArchive,
+                  "isSensorBlockedFlag",
                   1,
-                  3);
+                  1);
 
   /* Write the header of the archive */
-  GArchive_writeHeader(&p_sunSesor_state_in->sunSensorArchive);
+  GArchive_writeHeader(&p_sunSensor_state_in->sunSensorArchive);
 
   return GCONST_TRUE;
 }
