@@ -83,7 +83,7 @@ Unless in very specific situations, all frames can be assumed to follow a right 
 | Celestial Body Frame  | <bodyName>Cb | Body frame of Celestial Body.                |      COG      |  Longitudinal Axis   |      Lateral Axis      |    Cross Product of x & y    | Useful for orbital analysis and offering clarification.  |
 | Celestial Fixed Frame | <bodyName>Cf | Inertial frame of Celestial Body.            |      COG      |    BODY DEPENDENT    |     BODY DEPENDENT     |        BODY DEPENDENT        | Useful for orbital analysis and offering clarification.  |
 |   Perifocal Frame     |     Per      | Frame used to project orbits of satellites.  |   Body1 COG   |  Towards Periapsis   | Cross Product of x & z | Unit angular momentum vector | y-axis is parrallel to the Semilatus rectum.             |
-|     Sensor Frame      |    Sensor    | Frame which the sensor is orientated.        | Sensor Origin |    Sensor x-axis     |      Sensor y-axis     |        Sensor z-axis         | This frame is dependent on the sensor it is representing |
+|     Sensor Frame      |     Sen      | Frame which the sensor is orientated.        | Sensor Origin |    Sensor x-axis     |      Sensor y-axis     |        Sensor z-axis         | This frame is dependent on the sensor it is representing |
  
 # ROTATIONS #
 ## QUATERNIONS ##
