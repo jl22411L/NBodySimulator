@@ -14,6 +14,7 @@ set(LIB_LIST
   BodyMgr
   JamSail
   SunSensor
+  Magnetometer
 )
 
 target_link_libraries(JamSailSimulation ${LIB_LIST})

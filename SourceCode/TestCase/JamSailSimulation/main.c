@@ -16,6 +16,7 @@
 #include "CelestialBody/PublicFunctions/CelestialBody_PublicFunctions.h"
 #include "Gravity/PublicFunctions/Gravity_PublicFunctions.h"
 #include "JamSail/PublicFunctions/JamSail_PublicFunctions.h"
+#include "Magnetometer/PublicFunctions/Magnetometer_PublicFunctions.h"
 #include "SatelliteBody/PublicFunctions/SatelliteBody_PublicFunctions.h"
 #include "SunSensor/PublicFunctions/SunSensor_PublicFunctions.h"
 

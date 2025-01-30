@@ -28,7 +28,7 @@ extern "C" {
 
 /* ------------------------------ STRUCTURES ------------------------------- */
 
-typedef struct GParser_stateStruct
+typedef struct GParser_StateStruct
 {
   /*!
    * @brief     Buffer which will contain the name of the section.

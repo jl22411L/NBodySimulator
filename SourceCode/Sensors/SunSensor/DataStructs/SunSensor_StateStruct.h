@@ -77,7 +77,7 @@ typedef struct SunSensor_StateStruct
   uint8_t isSensorReadingInvalid;
 
   /*!
-   * @brief     Archive struct for sensor.
+   * @brief     Archive member for sensor.
    *
    * @unit      N/A
    * @frame     N/A

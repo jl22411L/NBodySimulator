@@ -99,7 +99,8 @@ extern int SunSensor_checkWithinFov(SunSensor_State  *p_sunSensor_state_inout,
 
 /*!
  * @brief         Private function which will create the archives for the sun
- *                sensor.
+ *                sensor. Will create the archive wihtin the body that the
+ *                sensor belongs to.
  *
  * @param[in]     p_sunSensor_params_in
  *                Pointer containing the address of params struct for sun
