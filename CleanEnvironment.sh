@@ -15,9 +15,9 @@
 
 set -e
 
-if [[ -d BuildCode/CMakeFiles ]]; then
-  echo "[MSG] Removing contents within BuildCode..."
-  rm -r BuildCode/*
+if [[ -d BuildEnvironment/CMakeFiles ]]; then
+  echo "[MSG] Removing contents within BuildEnvironment..."
+  rm -r BuildEnvironment/*
   echo "[...] Contents removed"
 else
   echo "[MSG] No contents to remove"

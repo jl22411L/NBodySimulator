@@ -87,7 +87,7 @@ typedef struct BodyMgr_StateStruct
    *            memory where the rigid bodies are stored.
    *
    *            This member is used for Gravity module to keep track of all
-   *            the bodies. It varies from p_rigidBodyList which has memory
+   *            the bodies. It varies from p_pureRigidBodyList which has memory
    *            assigned dynamically for the bodies.
    *
    * @unit      N/A
@@ -100,6 +100,11 @@ typedef struct BodyMgr_StateStruct
    *            array of pointer that point to pure rigid bodies within the
    *            simulation.
    *
+   * @warning   This is different to p_rigidBodyPointerList which contains the
+   *            addresses of all the rigid bodies, including the ones wrapped
+   *            within antoher body. This member contains the bodies which are
+   *            ONLY rigid bodies.
+   *
    * @note      Reason it needs to be pointer of pointers is so that it is
    *            not a copy that is made but rather points to the place in
    *            memory where the Satellite bodies are stored.
@@ -107,7 +112,7 @@ typedef struct BodyMgr_StateStruct
    * @unit      N/A
    * @frame     N/A
    */
-  RigidBody_State **p_rigidBodyList;
+  RigidBody_State **p_pureRigidBodyList;
 
   /*!
    * @details   Pointer to pointers of Satellite bodies. This will contain an

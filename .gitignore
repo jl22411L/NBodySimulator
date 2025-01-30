@@ -1,3 +1,4 @@
-BuildCode/**
+BuildEnvironment/**
 TestRuns/**
 **.VSCodeCounter
+**.vscode

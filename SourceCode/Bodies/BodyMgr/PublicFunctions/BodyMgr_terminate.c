@@ -38,20 +38,20 @@ int BodyMgr_terminate(BodyMgr_State *p_bodyMgr_state_in)
   for (i = 0; i < p_bodyMgr_state_in->nRigidBodies; i++)
   {
     /* Terminate Body */
-    RigidBody_terminate(*(p_bodyMgr_state_in->p_rigidBodyList + i));
+    RigidBody_terminate(*(p_bodyMgr_state_in->p_pureRigidBodyList + i));
 
     /* Free memory from Heap */
-    free(*(p_bodyMgr_state_in->p_rigidBodyList + i));
+    free(*(p_bodyMgr_state_in->p_pureRigidBodyList + i));
 
     /* Assign pointer value of NULL */
-    *(p_bodyMgr_state_in->p_rigidBodyList + i) = NULL;
+    *(p_bodyMgr_state_in->p_pureRigidBodyList + i) = NULL;
   }
 
   /* Free memory of rigid body list from heap */
-  free(p_bodyMgr_state_in->p_rigidBodyList);
+  free(p_bodyMgr_state_in->p_pureRigidBodyList);
 
   /* Set pointer to array of rigid bodies to NULL */
-  p_bodyMgr_state_in->p_rigidBodyList = NULL;
+  p_bodyMgr_state_in->p_pureRigidBodyList = NULL;
 
   /* -------------------------- CELESTIAL BODIES --------------------------- */
 

@@ -44,7 +44,7 @@ extern "C" {
  * @frame       N/A
  * @unit        N/A
  */
-#define GARCHIVE_DATA_FILE_BUFFER    (522)
+#define GARCHIVE_DATA_FILE_BUFFER    (GARCHIVE_DIRECTORY_BUFFER + 10)
 
 /*!
  * @brief       Integer representing the maximum number of columns that can be

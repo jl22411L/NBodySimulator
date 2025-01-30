@@ -18,6 +18,7 @@ extern "C" {
 /* None */
 
 /* Structure Include */
+#include "JamSail/DataStructs/JamSail_ParamsStruct.h"
 #include "JamSail/DataStructs/JamSail_StateStruct.h"
 #include "SatelliteBody/DataStructs/SatelliteBody_StateStruct.h"
 
@@ -31,15 +32,47 @@ extern "C" {
  * @brief       This function will init the JamSail body, loading all the
  *              parameters it will need to run its operation.
  *
- * @param[in]   p_jamSail_state_in
+ * @param[out]  p_jamSail_state_in
  *              Pointer containing the address of the struct which contains
- *              JamSail. This will be used to init JamSail
+ *              JamSail. This function will load the members of the struct.
+ *
+ * @param[out]  p_jamSail_params_out
+ *              Pointer to the params struct of JamSail whose members will be
+ *              filled.
+ *
+ * @param[in]   p_bodyMgr_state_in
+ *              Pointer containing the address of an initialized BodyMgr_State
+ *              struct. The address of the satelliite body within the
+ *              BodyMgr_State struct that corresponds to JamSail will be found
+ *              and stored in the approporate member of JamSail_State struct.
  *
  * @return      Upon a successful completion, the fucntion will return a
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int JamSail_init(JamSail_State *p_jamSail_state_in);
+extern int JamSail_init(JamSail_State  *p_jamSail_state_out,
+                        JamSail_Params *p_jamSail_params_out,
+                        BodyMgr_State  *p_bodyMgr_state_in);
+
+/*!
+ * @brief       Function which steps JamSail and its models forward.
+ *
+ * @param[out]  p_jamSail_state_out
+ *              Pointer containing address of JamSail State struct.
+ *
+ * @param[out]  p_jamSail_params_out
+ *              Pointer containing address of JamSail Params struct
+ *
+ * @param[in]   p_bodyMgr_state_in
+ *              Pointer containing BodyMgr state struct.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+int JamSail_step(JamSail_State  *p_jamSail_state_out,
+                 JamSail_Params *p_jamSail_params_out,
+                 BodyMgr_State  *p_bodyMgr_state_in);
 
 #ifdef __cplusplus
 }

@@ -29,12 +29,20 @@ extern "C" {
 typedef struct CelestialBody_StateStruct
 {
   /*!
-   * @brief   Rigid Body struct which is used for the dynamic simulations
+   * @brief     Rigid Body struct which is used for the dynamic simulations
    *
-   * @unit    N/A
-   * @frame   N/A
+   * @unit      N/A
+   * @frame     N/A
    */
   RigidBody_State rigidBody_state;
+
+  /*!
+   * @brief     Double which holds the equatorial radius of the body.
+   *
+   * @unit      m
+   * @frame     N/A
+   */
+  double equitorialRadius_m;
 
   /*!
    * @details   Archive struct for RigidBody.

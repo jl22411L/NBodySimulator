@@ -31,9 +31,8 @@
 #include "GParser/GParser.h"
 #include "GZero/GZero.h"
 
-int BodyMgr_init(
-    BodyMgr_State *p_bodyMgr_state_out,
-    const char    *p_bodyMgrFilename)
+int BodyMgr_init(BodyMgr_State *p_bodyMgr_state_out,
+                 const char    *p_bodyMgrFilename_in)
 {
   /* Declare Local Variables */
   dictionary   *p_dic;
@@ -57,10 +56,10 @@ int BodyMgr_init(
   GZero(p_bodyMgr_state_out, BodyMgr_State);
   GZero(&GParser_state, GParser_State);
   GZero(&parameterBuffer[0], char[BODYMGR_MAX_BUFFER_LENGTH]);
-  GZero(
-      &bodyNameBuffer[0][0],
-      char[BODYMGR_MAX_NUMBER_OF_BODIES][BODYMGR_BODY_NAME_MAX_BUFFER]);
+  GZero(&bodyNameBuffer[0][0],
+        char[BODYMGR_MAX_NUMBER_OF_BODIES][BODYMGR_BODY_NAME_MAX_BUFFER]);
   GZero(&bodyTypeList[0], int[BODYMGR_MAX_NUMBER_OF_BODIES]);
+  p_dic              = NULL;
   iRigidBodyPointers = 0;
   iRigidBody         = 0;
   iCelestialBodies   = 0;
@@ -68,7 +67,13 @@ int BodyMgr_init(
   iUavBodies         = 0;
 
   /* Load parameters */
-  p_dic = GParser_loadParams(&GParser_state, p_bodyMgrFilename);
+  p_dic = GParser_loadParams(&GParser_state, p_bodyMgrFilename_in);
+
+  /* Check that the parameters from BodyMgr have been loaded */
+  if (p_dic == NULL)
+  {
+    GError("Failed to load parameters for BodyMgr: %s", p_bodyMgrFilename_in);
+  }
 
   /* Find number of bodies */
   p_bodyMgr_state_out->nBodies = GParser_state.maxNumberSection;
@@ -84,11 +89,10 @@ int BodyMgr_init(
     sprintf(&parameterBuffer[0], "Body%d:bodyType", i);
 
     /* Load the type of body */
-    GParser_loadInt(
-        &GParser_state,
-        p_dic,
-        &bodyTypeList[i],
-        &parameterBuffer[0]);
+    GParser_loadInt(&GParser_state,
+                    p_dic,
+                    &bodyTypeList[i],
+                    &parameterBuffer[0]);
 
     /* See what type of body is being loaded */
     switch (bodyTypeList[i])
@@ -117,11 +121,10 @@ int BodyMgr_init(
     sprintf(&parameterBuffer[0], "Body%d:bodyName", i);
 
     /* Load the name of the body */
-    GParser_loadString(
-        &GParser_state,
-        p_dic,
-        &bodyNameBuffer[i][0],
-        &parameterBuffer[0]);
+    GParser_loadString(&GParser_state,
+                       p_dic,
+                       &bodyNameBuffer[i][0],
+                       &parameterBuffer[0]);
   }
 
   /* ------------------------------------------------------------------------ *
@@ -129,29 +132,29 @@ int BodyMgr_init(
    * ------------------------------------------------------------------------ */
 
   /* Assign memory for Rigid bodies pointers */
-  p_bodyMgr_state_out->p_rigidBodyPointerList = (RigidBody_State **)calloc(
-      p_bodyMgr_state_out->nBodies,
-      sizeof(RigidBody_State *));
+  p_bodyMgr_state_out->p_rigidBodyPointerList =
+      (RigidBody_State **)calloc(p_bodyMgr_state_out->nBodies,
+                                 sizeof(RigidBody_State *));
 
   /* Assign memory for Pure Rigid Bodies */
-  p_bodyMgr_state_out->p_rigidBodyList = (RigidBody_State **)calloc(
-      p_bodyMgr_state_out->nRigidBodies,
-      sizeof(RigidBody_State *));
+  p_bodyMgr_state_out->p_pureRigidBodyList =
+      (RigidBody_State **)calloc(p_bodyMgr_state_out->nRigidBodies,
+                                 sizeof(RigidBody_State *));
 
   /* Assign memory for Satellite bodies pointers */
-  p_bodyMgr_state_out->p_satelliteBodyList = (SatelliteBody_State **)calloc(
-      p_bodyMgr_state_out->nSatelliteBodies,
-      sizeof(SatelliteBody_State *));
+  p_bodyMgr_state_out->p_satelliteBodyList =
+      (SatelliteBody_State **)calloc(p_bodyMgr_state_out->nSatelliteBodies,
+                                     sizeof(SatelliteBody_State *));
 
   /* Assign memory for Celestial bodies pointers */
-  p_bodyMgr_state_out->p_celestialBodyList = (CelestialBody_State **)calloc(
-      p_bodyMgr_state_out->nCelestialBodies,
-      sizeof(CelestialBody_State *));
+  p_bodyMgr_state_out->p_celestialBodyList =
+      (CelestialBody_State **)calloc(p_bodyMgr_state_out->nCelestialBodies,
+                                     sizeof(CelestialBody_State *));
 
   /* Assign memory for UAV bodies pointers */
-  p_bodyMgr_state_out->p_uavBodyList = (UavBody_State **)calloc(
-      p_bodyMgr_state_out->nUavBodies,
-      sizeof(UavBody_State *));
+  p_bodyMgr_state_out->p_uavBodyList =
+      (UavBody_State **)calloc(p_bodyMgr_state_out->nUavBodies,
+                               sizeof(UavBody_State *));
 
   /* ------------------------------------------------------------------------ *
    *                           Load Specific Bodies                           *
@@ -169,17 +172,16 @@ int BodyMgr_init(
     case RIGID_BODY:
 
       /* Assign memory for body */
-      *(p_bodyMgr_state_out->p_rigidBodyList + iRigidBody) =
+      *(p_bodyMgr_state_out->p_pureRigidBodyList + iRigidBody) =
           (RigidBody_State *)calloc(1, sizeof(RigidBody_State));
 
       /* Init RigidBody Body */
-      RigidBody_init(
-          *(p_bodyMgr_state_out->p_rigidBodyList + iRigidBody),
-          &parameterBuffer[0]);
+      RigidBody_init(*(p_bodyMgr_state_out->p_pureRigidBodyList + iRigidBody),
+                     &parameterBuffer[0]);
 
       /* Assign Rigid Body to list */
       *(p_bodyMgr_state_out->p_rigidBodyPointerList + iRigidBodyPointers) =
-          *(p_bodyMgr_state_out->p_rigidBodyList + iRigidBody);
+          *(p_bodyMgr_state_out->p_pureRigidBodyList + iRigidBody);
 
       /* Incriment iterators */
       iRigidBodyPointers++;
@@ -235,9 +237,8 @@ int BodyMgr_init(
           (UavBody_State *)calloc(1, sizeof(UavBody_State));
 
       /* Init Celestial Body */
-      UavBody_init(
-          *(p_bodyMgr_state_out->p_uavBodyList + iUavBodies),
-          &parameterBuffer[0]);
+      UavBody_init(*(p_bodyMgr_state_out->p_uavBodyList + iUavBodies),
+                   &parameterBuffer[0]);
 
       /* Assign Rigid Body to list */
       *(p_bodyMgr_state_out->p_rigidBodyPointerList + iRigidBodyPointers) =
@@ -265,14 +266,13 @@ int BodyMgr_init(
           p_bodyMgr_state_out->nUavBodies +
           p_bodyMgr_state_out->nCelestialBodies)
   {
-    GError(
-        "Bodies do not match, nBodies=%d, nRigidBodies=%d, "
-        "nSatelliteBodies=%d, nUavBodies=%d, nCelestialBodies=%d",
-        p_bodyMgr_state_out->nBodies,
-        p_bodyMgr_state_out->nRigidBodies,
-        p_bodyMgr_state_out->nSatelliteBodies,
-        p_bodyMgr_state_out->nUavBodies,
-        p_bodyMgr_state_out->nCelestialBodies);
+    GError("Bodies do not match, nBodies=%d, nRigidBodies=%d, "
+           "nSatelliteBodies=%d, nUavBodies=%d, nCelestialBodies=%d",
+           p_bodyMgr_state_out->nBodies,
+           p_bodyMgr_state_out->nRigidBodies,
+           p_bodyMgr_state_out->nSatelliteBodies,
+           p_bodyMgr_state_out->nUavBodies,
+           p_bodyMgr_state_out->nCelestialBodies);
   }
 
   /* Terminate GParser */

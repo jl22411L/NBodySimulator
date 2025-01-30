@@ -32,9 +32,9 @@ extern "C" {
 //       Thinking could have wrappers for Calloc and malloc and free.
 
 /*!
- *  @description: Sets inputted Data to zero
+ * @brief         Sets inputted Data to zero
  *
- *  @param[in]    p_data
+ * @param[in]     p_data
  *                Pointer to the data that will have its memory be set to zero
  *
  * @param[in]     dataType

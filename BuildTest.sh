@@ -37,10 +37,10 @@ operating_system="$(uname -s)"
 
 # Run cmake depending on the system being run on
 case "${operating_system}" in
-  Linux*)   cmake -S SourceCode -B BuildCode ${debug_argument} -G "Unix Makefiles"
+  Linux*)   cmake -S SourceCode -B BuildEnvironment ${debug_argument} -G "Unix Makefiles"
   ;;
 
-  MINGW*)   cmake -S SourceCode -B BuildCode ${debug_argument} -G "MinGW Makefiles"
+  MINGW*)   cmake -S SourceCode -B BuildEnvironment ${debug_argument} -G "MinGW Makefiles"
   ;;
 
   *)        echo "[ERR] Could not recognize operating system"
@@ -51,7 +51,7 @@ esac
 
 echo "[...] # ------------------------------------ BUILDING ----------------------------------- # "
 
-cmake --build BuildCode
+cmake --build BuildEnvironment
 
 echo "[...] # --------------------------------- BUILD COMPLETE -------------------------------- # "
 

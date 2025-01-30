@@ -133,7 +133,7 @@ TEST_DATE="`date +%Y_%m_%d_%H_%M_%S`"
 
 # Defining path variables
 PATH_TO_ROOT=${PWD}
-PATH_TO_TEST_EXECUTABLE="BuildCode/TestCase/${RELATIVE_PATH_TO_TEST}/${EXECUTABLE_NAME}"
+PATH_TO_TEST_EXECUTABLE="BuildEnvironment/TestCase/${RELATIVE_PATH_TO_TEST}/${EXECUTABLE_NAME}"
 PATH_TO_TEST_RUN="TestRuns/${RELATIVE_PATH_TO_TEST}/${TEST_CASE}_${TEST_DATE}/"
 
 # Checking path to Build Code exists
