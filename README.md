@@ -76,15 +76,61 @@ Parameters is an ongoing development. For the latest update on how they are set 
 
 Unless in very specific situations, all frames can be assumed to follow a right handed orthogonal axis system. For more infomration about rotations, read the ** ROTATION SEQUENCES** section.
 
-|       Frame Name      | Abbreviation |                 Description                  |     Origin    | Definition of x-axis |  Definition of y-axis  |     Definition of z-axis     |                           Note                           |
-|:---------------------:|:------------:|:--------------------------------------------:|:-------------:|:--------------------:|:----------------------:|:----------------------------:|:--------------------------------------------------------:|
-|       Fixed Frame     |     Fix      | Origin which all frames are based around.    |    [0,0,0]    |      [1,0,0]         |         [0,1,0]        |            [0,0,1]           |                                                          |
-|       Body Frame      |     Bod      | Frame used to define the body of rigid body. |      COG      |  Longitudinal Axis   |      Lateral Axis      |    Cross Product of x & y    | Note that definition may vary for some bodies.           |
-| Celestial Body Frame  | <bodyName>Cb | Body frame of Celestial Body.                |      COG      |  Longitudinal Axis   |      Lateral Axis      |    Cross Product of x & y    | Useful for orbital analysis and offering clarification.  |
-| Celestial Fixed Frame | <bodyName>Cf | Inertial frame of Celestial Body.            |      COG      |    BODY DEPENDENT    |     BODY DEPENDENT     |        BODY DEPENDENT        | Useful for orbital analysis and offering clarification.  |
-|   Perifocal Frame     |     Per      | Frame used to project orbits of satellites.  |   Body1 COG   |  Towards Periapsis   | Cross Product of x & z | Unit angular momentum vector | y-axis is parrallel to the Semilatus rectum.             |
-|     Sensor Frame      |     Sen      | Frame which the sensor is orientated.        | Sensor Origin |    Sensor x-axis     |      Sensor y-axis     |        Sensor z-axis         | This frame is dependent on the sensor it is representing |
+|       Frame Name      | Abbreviation |                 Description                  |     Origin    |  Definition of x-axis  |   Definition of y-axis   |     Definition of z-axis     |                                     Note                                      |
+|:---------------------:|:------------:|:--------------------------------------------:|:-------------:|:----------------------:|:------------------------:|:----------------------------:|:-----------------------------------------------------------------------------:|
+|       Fixed Frame     |     Fix      | Origin which all frames are based around.    |    [0,0,0]    |       [1,0,0]          |          [0,1,0]         |            [0,0,1]           |                                                                               |
+|       Body Frame      |     Bod      | Frame used to define the body of rigid body. |      COG      |   Longitudinal Axis    |       Lateral Axis       |    Cross Product of x & y    | Note that definition may vary for some bodies.                                |
+| Celestial Body Frame  | <bodyName>Cb | Body frame of Celestial Body.                |      COG      |   Longitudinal Axis    |       Lateral Axis       |    Cross Product of x & y    | Useful for orbital analysis and offering clarification.                       |
+| Celestial Fixed Frame | <bodyName>Cf | Inertial frame of Celestial Body.            |      COG      |     BODY DEPENDENT     |      BODY DEPENDENT      |        BODY DEPENDENT        | Useful for orbital analysis and offering clarification.                       |
+|   Perifocal Frame     |     Per      | Frame used to project orbits of satellites.  |   Body1 COG   |   Towards Periapsis    |  Cross Product of x & z  | Unit angular momentum vector | y-axis is parrallel to the Semilatus rectum.                                  |
+|      Geo-Centric      |    GeoCen    | Frame centered around a body.                |   Body COG    |    Dependent on Body   |    Dependent on Body     |       Dependent on Body      | Axis definitions should be documented in Geo-Centric Body Definitions section |
+|    North-East-Down    |     ned      | Frame which orientates to geographic areas.  |   <varries>   | North of orbiting body | Cross Product of x and z |   To COG of orbiting body    | Shoule be noted that x and y are tangental to orbital body, and z is radial   |
+|     Sensor Frame      |     Sen      | Frame which the sensor is orientated.        | Sensor Origin |     Sensor x-axis      |       Sensor y-axis      |        Sensor z-axis         | This frame is dependent on the sensor it is representing                      |
  
+## Geo-Centric Body Definitions ##
+
+GeoCentric frame is a general term for a Celestial Body Frame. This is used where functions aren't clear about the body that is being used. For example, in the IGRF model, the primary body which the magnetic field is being simulated for can be used for planets such as Saturn or Earth. So, for inputs into the function,
+the term GeoCen is used as the frame tag in the name convention.
+
+# VECTOS #
+
+# Cartesian Vectors #
+
+All cartesian vectors shall be broken down into the form:
+
+cartesianVector = [
+
+  X_COMPONENTS,
+
+  Y_COMPONENT,
+
+  Z_COMPONENT
+
+]
+
+# Spherical Vectors #
+
+All spherical vectors shall be broken down into the form:
+
+sphericalVector = [
+
+  RADIUS,
+
+  AZIMUTH,
+
+  ELEVATION
+
+]
+
+NOTE: azimuth and elevation can be refered to as longitude and latitude.
+
+**Azimuth**: Defined as the angle between the projection of the radius vector on the xy plane and x axis, with positive rotation being applied as the right hand rule around the z axis.
+
+**Elevation**: Defined as the angle between the projection of the radius vector on the xy plane and the radius vector, with positive rotation applied as the right hand rule on the x axis.
+
+### Units for a Spherical Vector ###
+
+Their is a problem of tagging the units for spherical vector variables. This is because their is a distance and an angle in the same vector. To get around this, the angles will **ALWAYS** be in radians. Hence the unit tag is their to describe the units of the radius element.
 # ROTATIONS #
 ## QUATERNIONS ##
 

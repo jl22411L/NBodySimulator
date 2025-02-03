@@ -38,7 +38,7 @@ extern "C" {
  * @frame       N/A
  * @unit        N/A
  */
-#define GCONST_TRUE         (1)
+#define GCONST_TRUE                        (1)
 
 /*!
  * @brief       Constant which is used to represent a false state.
@@ -46,7 +46,7 @@ extern "C" {
  * @frame       N/A
  * @unit        N/A
  */
-#define GCONST_FALSE        (0)
+#define GCONST_FALSE                       (0)
 
 /*!
  * @brief       Constant which is used to represent when an executable has
@@ -55,7 +55,7 @@ extern "C" {
  * @frame       N/A
  * @unit        N/A
  */
-#define GCONST_EXIT_SUCCESS (0)
+#define GCONST_EXIT_SUCCESS                (0)
 
 /*!
  * @brief       Constant which is used to represent when an executable has not
@@ -64,7 +64,7 @@ extern "C" {
  * @frame       N/A
  * @unit        N/A
  */
-#define GCONST_EXIT_FAILURE (1)
+#define GCONST_EXIT_FAILURE                (1)
 
 /* ------------------------------------------------------------------------ *
  * TOLLERANCE CONSTANTS
@@ -76,7 +76,7 @@ extern "C" {
  * @frame       N/A
  * @unit        m
  */
-#define GCONST_MM_TOLERANCE (0.001)
+#define GCONST_MM_TOLERANCE                (0.001)
 
 /*!
  * @brief       Constant which represents a micrometer in standard units.
@@ -84,7 +84,7 @@ extern "C" {
  * @frame       N/A
  * @unit        m
  */
-#define GCONST_UM_TOLERANCE (0.000001)
+#define GCONST_UM_TOLERANCE                (0.000001)
 
 /*!
  * @brief       Constant which represents a nanometer in standard units.
@@ -92,7 +92,7 @@ extern "C" {
  * @frame       N/A
  * @unit        m
  */
-#define GCONST_NM_TOLERANCE (0.000000001)
+#define GCONST_NM_TOLERANCE                (0.000000001)
 
 /*!
  * @brief       Constant which represents a picometer in standard units.
@@ -100,11 +100,19 @@ extern "C" {
  * @frame       N/A
  * @unit        m
  */
-#define GCONST_PM_TOLERANC  (0.000000000001)
+#define GCONST_PM_TOLERANC                 (0.000000000001)
 
 /* ------------------------------------------------------------------------ *
  * ROTATION CONSTANTS
  * ------------------------------------------------------------------------ */
+
+/*!
+ * @brief       Constant used to define Pi.
+ *
+ * @frame       N/A
+ * @unit        N/A
+ */
+#define GCONST_PI                          (3.14159265358979323846264338327950288419716939)
 
 /*!
  * @brief       Constant which represents the converstion from degrees to
@@ -113,7 +121,7 @@ extern "C" {
  * @frame       N/A
  * @unit        deg / rad
  */
-#define GCONST_DEG_TO_RAD   (3.14159265358979323846264338327950288419716939 / 180)
+#define GCONST_DEG_TO_RAD                  (GCONST_PI / 180)
 
 /*!
  * @brief       Constant which represents the converstion from radians to
@@ -122,7 +130,19 @@ extern "C" {
  * @frame       N/A
  * @unit        rad / deg
  */
-#define GCONST_RAD_TO_DEG   (180 / 3.14159265358979323846264338327950288419716939)
+#define GCONST_RAD_TO_DEG                  (180 / GCONST_PI)
+
+/* ------------------------------------------------------------------------ *
+ * CONVERSION CONSTANTS
+ * ------------------------------------------------------------------------ */
+
+/*!
+ * @brief       Constant used to convert a year into seconds.
+ *
+ * @frame       N/A
+ * @unit        Seconds per Year
+ */
+#define GCONST_YEARS_TO_SECONDS_CONVERSION (31536000)
 
 #ifdef __cplusplus
 }

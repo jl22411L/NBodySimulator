@@ -50,6 +50,40 @@ extern int Igrf_init(Igrf_Params *p_igrf_params_out,
                      uint8_t      nMaxDegree_in,
                      uint8_t      igrfIteration_in);
 
+/*!
+ * @brief       Function which finds the magnetic field in Ned frame of primary
+ *              body.
+ *
+ * @param[in]   p_igrf_params_in
+ *              Pointer to Igrf_Params struct with parameters loaded.
+ *
+ * @param[in]   p_sphericalCoordinates_GeoCen_m_in
+ *              Pointer containing the addres of spherical coordinates of the
+ *              point in the geo centri frame which the magnetic field will be
+ *              modelled. Note, the function will find the co latitude from the
+ *              latitude will not change the value in the inputted vector.
+ *
+ * @param[in]   primaryBodyRadius_m_in
+ *              Radius of primary body producing the magnetic field.
+ *
+ * @param[in]   simTime_s_in
+ *              Time of simulation in unix format. If not using unix time, set
+ *              to 0.
+ *
+ * @param[out]  p_magneticFieldVector_Ned_nT_out
+ *              Pointer to vector which magnetic field in North-East-Down frame
+ *              will be outputted.
+ *
+ * @return      GCONST_TRUE is returned upon the successful completion of the
+ *              function. GCONST_FALSE is returned to indicate that an error has
+ *              occured which prohibits the software from going further.
+ */
+extern int Igrf_step(Igrf_Params *p_igrf_params_in,
+                     double      *p_sphericalCoordinates_GeoCen_m_in,
+                     double       primaryBodyRadius_m_in,
+                     double       simTime_s_in,
+                     double      *p_magneticFieldVector_Ned_nT_out);
+
 #ifdef __cplusplus
 }
 #endif

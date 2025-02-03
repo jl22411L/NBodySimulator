@@ -30,7 +30,6 @@ extern "C" {
 
 typedef struct Igrf_ParamsStruct
 {
-
   /*!
    * @brief     Unisgned integer which contains the iteration number of the
    *            IGRF model that is loaded into the parameters structs.
@@ -45,7 +44,21 @@ typedef struct Igrf_ParamsStruct
    */
   uint8_t igrfIteration;
 
-  // TODO: Add parameter for unix time of epoch time
+  /*!
+   * @brief     Unix time for start of generation.
+   *
+   * @frame     N/A
+   * @unit      s
+   */
+  double startUnixTime_s;
+
+  /*!
+   * @brief     Unix time for end of generation.
+   *
+   * @frame     N/A
+   * @unit      s
+   */
+  double endUnixTime_s;
 
   /*!
    * @brief     Unsigned integer which contains the maximum degree which is

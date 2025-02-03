@@ -6,6 +6,7 @@ add_library(Magnetometer
 set(LIB_LIST
   GParser
   GArchive
+  Igrf
 )
 
 target_link_libraries(Magnetometer ${LIB_LIST})
