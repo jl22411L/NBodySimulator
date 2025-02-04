@@ -27,6 +27,7 @@ int Magnetometer_step(Magnetometer_Params *p_magnetometer_params_in,
                       Igrf_Params         *p_igrf_params_in,
                       CelestialBody_State *p_magneticFieldCelestialBody_in,
                       double              *p_bodyPosition_fix_m_in,
+                      double              *p_quaternionToBody_FixToBod_in,
                       double               simTime_s_in)
 {
   /* Declare local variables */
