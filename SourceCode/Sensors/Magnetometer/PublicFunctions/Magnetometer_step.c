@@ -21,6 +21,8 @@
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
+#include "GMath/GMath.h"
+#include "GZero/GZero.h"
 
 int Magnetometer_step(Magnetometer_Params *p_magnetometer_params_in,
                       Magnetometer_State  *p_magnetometer_state_out,
@@ -31,10 +33,16 @@ int Magnetometer_step(Magnetometer_Params *p_magnetometer_params_in,
                       double               simTime_s_in)
 {
   /* Declare local variables */
-  /* None */
+  double sensorPositionRelBody_Fix_m[3];
 
-  /* Find position of sensor in fix frame */
-  // TODO
+  /* Clear Variables */
+  GZero(&(sensorPositionRelBody_Fix_m[0]), double[3]);
+
+  /* Find position of sensor relative to body in fix frame */
+  GMath_quaternionFrameRotation(
+      &(sensorPositionRelBody_Fix_m[0]),
+      &(p_magnetometer_params_in->sensorPosition_Bod_m[0]),
+      p_quaternionToBody_FixToBod_in);
 
   /* Find the magnetic field in the geocentric frame */
   // TODO

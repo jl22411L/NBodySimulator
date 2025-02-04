@@ -37,20 +37,18 @@ int Gravity_findGravityForceBetweenBodies(
   GZero(&relativePositionVector_m_Fixed, double[3]);
 
   /* Find the relative position vector */
-  GMath_matSub(
-      &((p_internalRigidBody_in)->position_m_Fix[0]),
-      3,
-      1,
-      &((p_externalRigidBody_in)->position_m_Fix[0]),
-      3,
-      1,
-      &relativePositionVector_m_Fixed);
+  GMath_matSub(&((p_internalRigidBody_in)->position_Fix_m[0]),
+               3,
+               1,
+               &((p_externalRigidBody_in)->position_Fix_m[0]),
+               3,
+               1,
+               &relativePositionVector_m_Fixed);
 
   /* Find the magnitude of the position vector */
-  GMath_vectorMag(
-      &relativePositionMagnitude_m,
-      &relativePositionVector_m_Fixed,
-      3);
+  GMath_vectorMag(&relativePositionMagnitude_m,
+                  &relativePositionVector_m_Fixed,
+                  3);
 
   /* Find the masses of the objects */
   internalObjectMass_kg = (p_internalRigidBody_in->rigidBodyMass_kg);

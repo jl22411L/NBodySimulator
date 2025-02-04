@@ -68,12 +68,13 @@ int SunSensor_init(const char       *p_sunSensorParamFilename_in,
                           1);
 
   /* Load position of sensor relative to COG */
-  GParser_loadDoubleArray(&GParser_state,
-                          p_dic,
-                          &(p_sunSensor_params_out->sensorQuaternion_Bod[0]),
-                          "SensorOrientation:sensorQuaternion_BodToSen",
-                          4,
-                          1);
+  GParser_loadDoubleArray(
+      &GParser_state,
+      p_dic,
+      &(p_sunSensor_params_out->sensorQuaternion_BodToSen[0]),
+      "SensorOrientation:sensorQuaternion_BodToSen",
+      4,
+      1);
 
   /* Load FOV of sun sensor into temporary variable */
   GParser_loadDouble(&GParser_state,

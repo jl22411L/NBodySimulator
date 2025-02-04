@@ -72,9 +72,9 @@ int SunSensor_checkForBlocking(double               *p_sunPosition_Fix_m_in,
   for (i = 0; i < nCelestialBodies_in; i++)
   {
     /* Extract coefficients of celestial */
-    x3 = (*(p_celestialBodyList_in + i))->rigidBody_state.position_m_Fix[0];
-    y3 = (*(p_celestialBodyList_in + i))->rigidBody_state.position_m_Fix[1];
-    z3 = (*(p_celestialBodyList_in + i))->rigidBody_state.position_m_Fix[2];
+    x3 = (*(p_celestialBodyList_in + i))->rigidBody_state.position_Fix_m[0];
+    y3 = (*(p_celestialBodyList_in + i))->rigidBody_state.position_Fix_m[1];
+    z3 = (*(p_celestialBodyList_in + i))->rigidBody_state.position_Fix_m[2];
 
     /* Find b coefficient */
     b = 2 *

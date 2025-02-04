@@ -56,7 +56,7 @@ typedef struct Magnetometer_ParamsStruct
    * @frame     bod
    * @unit      N/A
    */
-  double sensorQuaternion_Bod[4];
+  double sensorQuaternion_BodToSen[4];
 } Magnetometer_Params;
 
 #ifdef __cplusplus

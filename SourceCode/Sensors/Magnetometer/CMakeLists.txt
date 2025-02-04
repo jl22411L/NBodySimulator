@@ -7,6 +7,7 @@ set(LIB_LIST
   GParser
   GArchive
   Igrf
+  GMath
 )
 
 target_link_libraries(Magnetometer ${LIB_LIST})

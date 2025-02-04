@@ -67,7 +67,7 @@ int RigidBody_init(RigidBody_State *p_rigidBody_state_in,
   /* Load initial position */
   GParser_loadDoubleArray(&GParser_state,
                           dic,
-                          &(p_rigidBody_state_in->position_m_Fix[0]),
+                          &(p_rigidBody_state_in->position_Fix_m[0]),
                           "TranslationalProperties:fixedFramePosition_m",
                           3,
                           1);

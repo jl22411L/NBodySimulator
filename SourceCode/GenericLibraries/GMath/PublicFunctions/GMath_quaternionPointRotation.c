@@ -1,10 +1,12 @@
 /*
  *    @File:         GMath_quaternionPointRotation.c
  *
- *    @ Brief:       Rotate a point wihtin the frame it is represented in,
- *                   using a quaternion
+ *    @Brief:        Rotate a frame, keeping the respective point fixed
+ *                   relative to the fixed frame.
  *
- *    @ Date:        14/05/2024
+ *    @Note:         This is the inverse of GMath_quaternionFrameRotation()
+ *
+ *    @Date:         15/05/2024
  *
  */
 
@@ -24,10 +26,9 @@
 #include "GLog/GLog.h"
 #include "GZero/GZero.h"
 
-int GMath_quaternionPointRotation(
-    double *p_rotatedVector_out,
-    double *p_vectorToRotate_in,
-    double *p_quaternion_in)
+int GMath_quaternionPointRotation(double *p_rotatedVector_out,
+                                  double *p_vectorToRotate_in,
+                                  double *p_quaternion_in)
 {
   /* Declaring Local Variables Local variables */
   double  quaternionBuffer[4];
@@ -57,38 +58,35 @@ int GMath_quaternionPointRotation(
 
   /*
    * Note: The rotation is defined as;
-   *              outputVector = quaternion * inputVector * quaternionConjugate
+   *              outputVector = quaternionConjufate * inputVector * quaternion
    *
-   *              quaternionBuffer = quaternion * inputVector
+   *              quaternionBuffer = quaternionConjugate * inputVector
    *
-   *              outputVector = quaternionBuffer * quaternionConjugate
+   *              outputVector = quaternionBuffer * quaternion
    *
    *        Where, the * represent quaternion multiplication and not normal
    *        multiplication.
    */
 
   /* Find Quaternion Buffer for itermediate multiplication */
-  GMath_quaternionMul(
-      &quaternionBuffer[0],
-      p_quaternion_in,
-      &inputPureQuaternion[0]);
+  GMath_quaternionMul(&quaternionBuffer[0],
+                      &quaternionConjugate[0],
+                      &inputPureQuaternion[0]);
 
   /* Find output pure quaternion */
-  GMath_quaternionMul(
-      &outputPureQuaternion[0],
-      &quaternionBuffer[0],
-      &quaternionConjugate[0]);
+  GMath_quaternionMul(&outputPureQuaternion[0],
+                      &quaternionBuffer[0],
+                      p_quaternion_in);
 
   /* Check that it is q pure quaternion */
   if (outputPureQuaternion[3] > GMATH_QUATERNION_ZERO_TOLERANCE)
   {
-    GError(
-        "Resulting quatenrion is not a pure quaternion. ",
-        "outputPureQuaternion = [%lf, %lf, %lf, %lf]",
-        outputPureQuaternion[0],
-        outputPureQuaternion[1],
-        outputPureQuaternion[2],
-        outputPureQuaternion[3]);
+    GError("Resulting quatenrion is not a pure quaternion. \n",
+           "outputPureQuaternion = [%lf, %lf, %lf, %lf]",
+           outputPureQuaternion[0],
+           outputPureQuaternion[1],
+           outputPureQuaternion[2],
+           outputPureQuaternion[3]);
   }
 
   /* Extract the gibs vector from the output quaternion */

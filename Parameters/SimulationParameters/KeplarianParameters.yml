@@ -37,7 +37,7 @@ keplarianElementsBody0ToBody1:
   argumentOfPerigee_deg: 102.947
   raans_deg: -11.26064
   timeSincePeriapsis_s: 931362709
-  quaternion_Body1FrameToBody0Frame: [0.2027872954, 0.0, 0.0, 0.9792228106]
+  quaternion_Body0FrameToBody1Frame: [0.2027872954, 0.0, 0.0, 0.9792228106]
 
 # Keplarian elements of body 3 with relation to body 2
 keplarianElementsBody1ToBody2:
@@ -47,4 +47,4 @@ keplarianElementsBody1ToBody2:
   argumentOfPerigee_deg: 30
   raans_deg: 0
   timeSincePeriapsis_s: 1740830400
-  quaternion_Body2FrameToBody1Frame: [0.0, 0.0, 0.0, 1.0]
+  quaternion_Body1FrameToBody2Frame: [0.0, 0.0, 0.0, 1.0]

@@ -49,14 +49,14 @@ int SunSensor_step(double              *p_bodyPosition_Fix_m_in,
    * ------------------------------------------------------------------------ */
 
   /* Find true position of sun in fixed frame relative to the body frame */
-  GMath_vectorSub(&(p_sunCelestialBody_in->rigidBody_state.position_m_Fix[0]),
+  GMath_vectorSub(&(p_sunCelestialBody_in->rigidBody_state.position_Fix_m[0]),
                   p_bodyPosition_Fix_m_in,
                   &(sunPositionRelToBody_Fix_m[0]));
 
   /* Find true position of sun in body frame */
   GMath_quaternionPointRotation(&(sunPosition_Bod_m[0]),
                                 &(sunPositionRelToBody_Fix_m[0]),
-                                &(sunPosition_Bod_m[0]));
+                                p_quaternion_FixToBod_in);
 
   /* Find true position of sun in sensor frame relative to body frame */
   GMath_vectorSub(&(sunPosition_Bod_m[0]),
@@ -64,10 +64,10 @@ int SunSensor_step(double              *p_bodyPosition_Fix_m_in,
                   &(sunPositionRelToSen_Bod_m[0]));
 
   /* Find true position of sun in sensor frame */
-  GMath_quaternionPointRotation(
+  GMath_quaternionFrameRotation(
       &(sunPosition_Sen_m[0]),
       &(sunPositionRelToSen_Bod_m[0]),
-      &(p_sunSensor_params_in->sensorQuaternion_Bod[0]));
+      &(p_sunSensor_params_in->sensorQuaternion_BodToSen[0]));
 
   /* Find the direction of the sun as a unit vector */
   GMath_vectorNorm(&(p_sunSensor_state_out->trueSunVector_Sensor_m[0]),
@@ -83,7 +83,7 @@ int SunSensor_step(double              *p_bodyPosition_Fix_m_in,
 
   /* Find if the vector is blocked by a celestial body */
   SunSensor_checkForBlocking(
-      &(p_sunCelestialBody_in->rigidBody_state.position_m_Fix[0]),
+      &(p_sunCelestialBody_in->rigidBody_state.position_Fix_m[0]),
       p_bodyPosition_Fix_m_in,
       (p_bodyMgr_state_in->p_celestialBodyList),
       p_bodyMgr_state_in->nCelestialBodies,

@@ -26,7 +26,7 @@ GMATH_QUATERNION_ZERO_TOLERANCE = 1 * 10**-10
 # ----------------------------------------------------------------------------- #
 
 
-def quaternionPointRotation(quaternion_in: np.ndarray, vector_in: np.ndarray):
+def quaternionFrameRotation(quaternion_in: np.ndarray, vector_in: np.ndarray):
   """
   @details      Function which will perform a quaternion rotation on an input
                 vector.
@@ -212,8 +212,6 @@ def keplarianToCartesian(massBody1_kg_in: float,
   # Check to make sure true anomoly is positive
   if trueAnomoly < 0:
     trueAnomoly + 2 * PI
-
-  print(f'TrueAnomoly = {trueAnomoly * 180 / np.pi}')
 
   # Find the position magnitude of body 2 with respect to body 1
   orbitalPositionMag_km = ((orbitalAngularMomentum_km2s**2) /
@@ -489,27 +487,24 @@ def satellitePreProcessing(configFile_in: Path):
 
     if i > 1:
       # Find quaternion from fix frame to body frame of previous body parameters
-      quaternion_CurBodyToPrevBody = parameters[(f'keplarianElementsBody{
-                                                 i - 2}ToBody{i - 1}')][(f'quaternion_Body{i - 1}FrameToBody{i - 2}Frame')]
+      quaternion_PrevBodyToCurBody = parameters[(f'keplarianElementsBody{
+                                                 i - 2}ToBody{i - 1}')][(f'quaternion_Body{i - 2}FrameToBody{i - 1}Frame')]
     else:
-      quaternion_CurBodyToPrevBody = np.array([0.0, 0.0, 0.0, 1.0])
+      quaternion_PrevBodyToCurBody = np.array([0.0, 0.0, 0.0, 1.0])
 
     # Find accumulated quaternion
     accumulatedQuaternion_FixToCurBod = quaternionMultiplication(
-      quaternion_CurBodyToPrevBody, accumulatedQuaternion_FixToCurBod)
+      quaternion_PrevBodyToCurBody, accumulatedQuaternion_FixToCurBod)
+
+    # Find the accumulated quaternion from the current body to the fix frame
+    accumulatedQuaternion_CurBodToFix = quaternionConjugate(
+      accumulatedQuaternion_FixToCurBod)
 
     # Rotate vectors by quaternion so that they are in fix frame
-    positionCurrBodyRelToPrevBody_Fix_km = quaternionPointRotation(
-      accumulatedQuaternion_FixToCurBod, positionCurrBodyRelToPrevBody_km)
-    velocityCurrBodyRelToPrevBody_Fix_km = quaternionPointRotation(
-      accumulatedQuaternion_FixToCurBod, velocityCurrBodyRelToPrevBody_km)
-
-    print(positionCurrBodyRelToPrevBody_km)
-    print(velocityCurrBodyRelToPrevBody_km)
-    print(accumulatedQuaternion_FixToCurBod)
-    print(positionCurrBodyRelToPrevBody_Fix_km)
-    print(velocityCurrBodyRelToPrevBody_Fix_km)
-    print('----------')
+    positionCurrBodyRelToPrevBody_Fix_km = quaternionFrameRotation(
+      accumulatedQuaternion_CurBodToFix, positionCurrBodyRelToPrevBody_km)
+    velocityCurrBodyRelToPrevBody_Fix_km = quaternionFrameRotation(
+      accumulatedQuaternion_CurBodToFix, velocityCurrBodyRelToPrevBody_km)
 
     # Append the posittion and velcoity to respective lists
     bodyPositionList.append(np.add(positionCurrBodyRelToPrevBody_Fix_km,

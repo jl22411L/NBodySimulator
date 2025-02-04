@@ -68,12 +68,13 @@ int Magnetometer_init(const char          *p_magnetometerParamFilename_in,
                           1);
 
   /* Load position of sensor relative to COG */
-  GParser_loadDoubleArray(&GParser_state,
-                          p_dic,
-                          &(p_magnetometerParams_out->sensorQuaternion_Bod[0]),
-                          "SensorOrientation:sensorQuaternion_BodToSen",
-                          4,
-                          1);
+  GParser_loadDoubleArray(
+      &GParser_state,
+      p_dic,
+      &(p_magnetometerParams_out->sensorQuaternion_BodToSen[0]),
+      "SensorOrientation:sensorQuaternion_BodToSen",
+      4,
+      1);
 
   /* Close parameters */
   GParser_closeParams(&GParser_state, p_dic);

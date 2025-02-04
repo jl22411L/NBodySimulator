@@ -70,10 +70,9 @@ extern int GMath_abs(double inputValue_in, double *p_outputValue_out);
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GMath_crossProduct(
-    double *p_vectorA_in,
-    double *p_vectorB_in,
-    double *p_vectrocC_out);
+extern int GMath_crossProduct(double *p_vectorA_in,
+                              double *p_vectorB_in,
+                              double *p_vectrocC_out);
 
 /*!
  * @brief       Function which takes in a DCM to then output Euler Angle 123
@@ -89,8 +88,8 @@ extern int GMath_crossProduct(
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int
-    GMath_dcm2Eul(double *p_dcmMatrix_in, double *p_eulerAngleVector_rad_out);
+extern int GMath_dcm2Eul(double *p_dcmMatrix_in,
+                         double *p_eulerAngleVector_rad_out);
 
 /*!
  * @brief       Function which converts a DCM to a quaternion.
@@ -105,8 +104,8 @@ extern int
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int
-    GMath_dcm2Quat(double *p_dcmMatrix_in, double *p_quaternionVector_out);
+extern int GMath_dcm2Quat(double *p_dcmMatrix_in,
+                          double *p_quaternionVector_out);
 
 /*!
  * @brief       Function which converts a 123 Euler Vector to a DCM.
@@ -121,8 +120,8 @@ extern int
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int
-    GMath_eul2Dcm(double *p_eulerAngleVector_rad_in, double *p_dcmMatrix_out);
+extern int GMath_eul2Dcm(double *p_eulerAngleVector_rad_in,
+                         double *p_dcmMatrix_out);
 /*!
  * @brief       GMath function which takes euler angles and converts them to
  *              a quaternion.
@@ -150,9 +149,8 @@ extern int
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GMath_eul2Quat(
-    double *p_eulerAnglevector_rad_in,
-    double *p_quaternionVector_out);
+extern int GMath_eul2Quat(double *p_eulerAnglevector_rad_in,
+                          double *p_quaternionVector_out);
 
 /*!
  * @brief       Finds the factorial for a particular integer. The maximum value
@@ -169,8 +167,8 @@ extern int GMath_eul2Quat(
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int
-    GMath_factorial(uint16_t inputInteger_in, uint16_t *p_outputValue_out);
+extern int GMath_factorial(uint16_t  inputInteger_in,
+                           uint16_t *p_outputValue_out);
 
 /*!
  * @brief       GMath function which uses recursion to find the legendre
@@ -186,8 +184,8 @@ extern int
  *
  * @return      Returns the output of the legendre polynomial.
  */
-extern double
-    GMath_findLegendrePolynomial(double inputValue_in, int polynomialDegree_in);
+extern double GMath_findLegendrePolynomial(double inputValue_in,
+                                           int    polynomialDegree_in);
 
 /*!
  * @brief       GMath function which fills an array with the output for the
@@ -235,9 +233,8 @@ extern int GMath_findLegendrePolynomialAssociated(
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GMath_findUnitQuaternion(
-    double *p_inputQuaternion_in,
-    double *p_outputQuaternion_out);
+extern int GMath_findUnitQuaternion(double *p_inputQuaternion_in,
+                                    double *p_outputQuaternion_out);
 
 /*!
  * @brief       Finds the unit vector. Finds the square of each element and sums
@@ -284,11 +281,10 @@ extern int GMath_findUnitVector(double *p_vector_in, double *p_vector_out);
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GMath_invCol(
-    double *p_inputMatrix_in,
-    double *p_resultCol_in,
-    double *p_initialCol_out,
-    int     sideN_in);
+extern int GMath_invCol(double *p_inputMatrix_in,
+                        double *p_resultCol_in,
+                        double *p_initialCol_out,
+                        int     sideN_in);
 
 /*!
  * @brief       Finds the sum of two matricies A and B and saves
@@ -321,14 +317,13 @@ extern int GMath_invCol(
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GMath_matAdd(
-    double *p_matrixA_in,
-    int     rowsA_in,
-    int     colsA_in,
-    double *p_matrixB_in,
-    int     rowsB_in,
-    int     colsB_in,
-    double *p_matrixC_out);
+extern int GMath_matAdd(double *p_matrixA_in,
+                        int     rowsA_in,
+                        int     colsA_in,
+                        double *p_matrixB_in,
+                        int     rowsB_in,
+                        int     colsB_in,
+                        double *p_matrixC_out);
 
 /*!
  * @brief       Function which inverts a matrix. Takes input matrix, finds the
@@ -393,14 +388,13 @@ extern int
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GMath_matMul(
-    double *p_matrixA_in,
-    int     rowsA_in,
-    int     colsA_in,
-    double *p_matrixB_in,
-    int     rowsB_in,
-    int     colsB_in,
-    double *p_matrixC_out);
+extern int GMath_matMul(double *p_matrixA_in,
+                        int     rowsA_in,
+                        int     colsA_in,
+                        double *p_matrixB_in,
+                        int     rowsB_in,
+                        int     colsB_in,
+                        double *p_matrixC_out);
 
 /*!
  * @brief       A function that will multiply matrix A (3x3) and B (3x3) to get
@@ -427,10 +421,9 @@ extern int GMath_matMul(
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GMath_matMul3x3by3x3(
-    double *p_matrixA_in,
-    double *p_matrixB_in,
-    double *p_matrixC_out);
+extern int GMath_matMul3x3by3x3(double *p_matrixA_in,
+                                double *p_matrixB_in,
+                                double *p_matrixC_out);
 
 /*!
  * @brief       Finds the difference of two matricies A and B and saves
@@ -463,14 +456,13 @@ extern int GMath_matMul3x3by3x3(
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GMath_matSub(
-    double *p_matrixA_in,
-    int     rowsA_in,
-    int     colsA_in,
-    double *p_matrixB_in,
-    int     rowsB_in,
-    int     colsB_in,
-    double *p_matrixC_out);
+extern int GMath_matSub(double *p_matrixA_in,
+                        int     rowsA_in,
+                        int     colsA_in,
+                        double *p_matrixB_in,
+                        int     rowsB_in,
+                        int     colsB_in,
+                        double *p_matrixC_out);
 
 /*!
  * @brief       GMath function which converts a quaternion into a DCM.
@@ -485,9 +477,8 @@ extern int GMath_matSub(
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GMath_quaternion2Dcm(
-    double *p_quaternionVector_in,
-    double *p_dcmMatrix_out);
+extern int GMath_quaternion2Dcm(double *p_quaternionVector_in,
+                                double *p_dcmMatrix_out);
 
 /*!
  * @brief       GMath function which converts quaterniond to euler angles
@@ -515,9 +506,8 @@ extern int GMath_quaternion2Dcm(
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GMath_quaternion2Eul(
-    double *p_quaternionVector_in,
-    double *p_eulerAnglesVector_rad_out);
+extern int GMath_quaternion2Eul(double *p_quaternionVector_in,
+                                double *p_eulerAnglesVector_rad_out);
 
 /*!
  * @brief       GMath function which finds the conjugate of a quaternion.
@@ -532,20 +522,21 @@ extern int GMath_quaternion2Eul(
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GMath_quaternionConjugate(
-    double *p_outputQuaternion_out,
-    double *p_inputQuaternion_in);
+extern int GMath_quaternionConjugate(double *p_outputQuaternion_out,
+                                     double *p_inputQuaternion_in);
 
 /*!
  * @brief       GMath function which rotates a frame around its origin, leaving
  *              the inputted point where it in the fixed frame. This is useful
  *              for seeing how the perspective of a point shifts in a rotating
- *              frame.
+ *              frame. This is a passive rotation.
  *
  *              The operation can be represented as:
- *              outputVector = quaternionConjugate * inputVector * quaternion
+ *              outputVector = quaternion * inputVector * quaternionConjugate
  *
  *              where * is quaternion multiplication.
+ *
+ *              [ref:https://danceswithcode.net/engineeringnotes/quaternions/quaternions.html#:~:text=Quaternion%20Rotation&text=Active%20rotation%20is%20when%20the,are%20opposite%20from%20each%20other.]
  *
  * @param[out]  p_rotatedVector_out
  *              Pointer to double array where the outputted vector will be
@@ -559,10 +550,9 @@ extern int GMath_quaternionConjugate(
  *              Pointer to double array containing the quaternion vector
  *              which the frame will rotate by.
  */
-extern int GMath_quaternionFrameRotation(
-    double *p_rotatedVector_out,
-    double *p_vectorToRotate_in,
-    double *p_quaternion_in);
+extern int GMath_quaternionFrameRotation(double *p_rotatedVector_out,
+                                         double *p_vectorToRotate_in,
+                                         double *p_quaternion_in);
 
 /*!
  * @brief       GMath function to multiply two quaternions together.
@@ -583,20 +573,21 @@ extern int GMath_quaternionFrameRotation(
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GMath_quaternionMul(
-    double *p_outputQuaternion_out,
-    double *p_quaternionP_in,
-    double *p_quaternionQ_in);
+extern int GMath_quaternionMul(double *p_outputQuaternion_out,
+                               double *p_quaternionP_in,
+                               double *p_quaternionQ_in);
 
 /*!
  * @brief       GMath function which applies a rotation to a point around the
  *              origin of the frame it is represented in, by the input
- *              quaternion.
+ *              quaternion. This is an active rotation.
  *
  *              The operation can be represented as:
- *              outputVector = quaternion * inputVector * quaternionConjugate
+ *              outputVector = quaternionConjugate * inputVector * quaternion
  *
  *              where * is quaternion multiplication.
+ *
+ *              [ref:https://danceswithcode.net/engineeringnotes/quaternions/quaternions.html#:~:text=Quaternion%20Rotation&text=Active%20rotation%20is%20when%20the,are%20opposite%20from%20each%20other.]
  *
  * @param[out]  p_rotatedVector_out
  *              Pointer to double array where the outputted vector will be
@@ -609,11 +600,14 @@ extern int GMath_quaternionMul(
  * @param[in]   p_quaternion_in
  *              Pointer to double array containing the quaternion vector
  *              which the frame will rotate by.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
  */
-extern int GMath_quaternionPointRotation(
-    double *p_rotatedVector_out,
-    double *p_vectorToRotate_in,
-    double *p_quaternion_in);
+extern int GMath_quaternionPointRotation(double *p_rotatedVector_out,
+                                         double *p_vectorToRotate_in,
+                                         double *p_quaternion_in);
 
 /*!
  * @brief       Finds the derivitive of the quaternion from the angular
@@ -639,10 +633,9 @@ extern int GMath_quaternionPointRotation(
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GMath_quaternionRateCalc(
-    double *p_quaternionRate_out,
-    double *p_quaternion_in,
-    double *p_angularVelocity_in);
+extern int GMath_quaternionRateCalc(double *p_quaternionRate_out,
+                                    double *p_quaternion_in,
+                                    double *p_angularVelocity_in);
 
 /*!
  * @brief       Function which finds the magnitude of a vector. The vectos can
@@ -661,10 +654,9 @@ extern int GMath_quaternionRateCalc(
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  * function will return a GCONST_FALSE
  */
-extern int GMath_vectorMag(
-    double *outputValue_out,
-    double *vector_in,
-    int     vectorSize_in);
+extern int GMath_vectorMag(double *outputValue_out,
+                           double *vector_in,
+                           int     vectorSize_in);
 
 /*!
  * @brief       Finds the unit vector from an input vector. Output should be
@@ -683,10 +675,9 @@ extern int GMath_vectorMag(
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GMath_vectorNorm(
-    double *outputVector_out,
-    double *vector_in,
-    int     vectorSize_in);
+extern int GMath_vectorNorm(double *outputVector_out,
+                            double *vector_in,
+                            int     vectorSize_in);
 
 /*!
  * @brief       Finds the difference between two 3x1 vectors. Subtracts vector B
@@ -707,10 +698,9 @@ extern int GMath_vectorNorm(
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GMath_vectorSub(
-    double *p_vectorA_in,
-    double *p_vectorB_in,
-    double *p_vectorC_out);
+extern int GMath_vectorSub(double *p_vectorA_in,
+                           double *p_vectorB_in,
+                           double *p_vectorC_out);
 
 #ifdef __cplusplus
 }

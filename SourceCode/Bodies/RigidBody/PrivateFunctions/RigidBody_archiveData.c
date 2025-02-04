@@ -29,99 +29,87 @@ int RigidBody_archiveData(RigidBody_State *p_rigidBody_state_in)
   uint8_t j;
 
   /* Writing mass to archive */
-  GArchive_addVal(
-      &p_rigidBody_state_in->rigidBodyArchive,
-      p_rigidBody_state_in->rigidBodyMass_kg);
+  GArchive_addVal(&p_rigidBody_state_in->rigidBodyArchive,
+                  p_rigidBody_state_in->rigidBodyMass_kg);
 
   /* Writing Inertia Matrix to archive */
   for (i = 0; i < 3; i++)
   {
     for (j = 0; j < 3; j++)
     {
-      GArchive_addVal(
-          &p_rigidBody_state_in->rigidBodyArchive,
-          p_rigidBody_state_in->inertiaMatrix_kgm2_Bod[i][j]);
+      GArchive_addVal(&p_rigidBody_state_in->rigidBodyArchive,
+                      p_rigidBody_state_in->inertiaMatrix_kgm2_Bod[i][j]);
     }
   }
 
   /* Writing gravity force to archive */
   for (i = 0; i < 3; i++)
   {
-    GArchive_addVal(
-        &p_rigidBody_state_in->rigidBodyArchive,
-        p_rigidBody_state_in->gravityForce_N_Fixed[i]);
+    GArchive_addVal(&p_rigidBody_state_in->rigidBodyArchive,
+                    p_rigidBody_state_in->gravityForce_N_Fixed[i]);
   }
 
   /* Writing resultant force to archive */
   for (i = 0; i < 3; i++)
   {
-    GArchive_addVal(
-        &p_rigidBody_state_in->rigidBodyArchive,
-        p_rigidBody_state_in->resultantForce_N_Fixed[i]);
+    GArchive_addVal(&p_rigidBody_state_in->rigidBodyArchive,
+                    p_rigidBody_state_in->resultantForce_N_Fixed[i]);
   }
 
   /* Writing fixed frame acceleration to archive */
   for (i = 0; i < 3; i++)
   {
-    GArchive_addVal(
-        &p_rigidBody_state_in->rigidBodyArchive,
-        p_rigidBody_state_in->acceleration_ms2_Fix[i]);
+    GArchive_addVal(&p_rigidBody_state_in->rigidBodyArchive,
+                    p_rigidBody_state_in->acceleration_ms2_Fix[i]);
   }
 
   /* Writing fixed frame velocity to archive */
   for (i = 0; i < 3; i++)
   {
-    GArchive_addVal(
-        &p_rigidBody_state_in->rigidBodyArchive,
-        p_rigidBody_state_in->velocity_ms_Fix[i]);
+    GArchive_addVal(&p_rigidBody_state_in->rigidBodyArchive,
+                    p_rigidBody_state_in->velocity_ms_Fix[i]);
   }
 
   /* Writing fixed frame velocity to archive */
   for (i = 0; i < 3; i++)
   {
-    GArchive_addVal(
-        &p_rigidBody_state_in->rigidBodyArchive,
-        p_rigidBody_state_in->position_m_Fix[i]);
+    GArchive_addVal(&p_rigidBody_state_in->rigidBodyArchive,
+                    p_rigidBody_state_in->position_Fix_m[i]);
   }
 
   /* Writing resultant moment to archive */
   for (i = 0; i < 3; i++)
   {
-    GArchive_addVal(
-        &p_rigidBody_state_in->rigidBodyArchive,
-        p_rigidBody_state_in->resultantMoment_Nm_Bod[i]);
+    GArchive_addVal(&p_rigidBody_state_in->rigidBodyArchive,
+                    p_rigidBody_state_in->resultantMoment_Nm_Bod[i]);
   }
 
   /* Writing angular acceleration to archive */
   for (i = 0; i < 3; i++)
   {
-    GArchive_addVal(
-        &p_rigidBody_state_in->rigidBodyArchive,
-        p_rigidBody_state_in->angularAcceleration_rads2_Bod[i]);
+    GArchive_addVal(&p_rigidBody_state_in->rigidBodyArchive,
+                    p_rigidBody_state_in->angularAcceleration_rads2_Bod[i]);
   }
 
   /* Writing angular velocity to archive */
   for (i = 0; i < 3; i++)
   {
-    GArchive_addVal(
-        &p_rigidBody_state_in->rigidBodyArchive,
-        p_rigidBody_state_in->angularVelocity_rads_Bod[i]);
+    GArchive_addVal(&p_rigidBody_state_in->rigidBodyArchive,
+                    p_rigidBody_state_in->angularVelocity_rads_Bod[i]);
   }
 
   /* Writing quaternion rate to archive */
   for (i = 0; i < 4; i++)
   {
-    GArchive_addVal(
-        &p_rigidBody_state_in->rigidBodyArchive,
-        p_rigidBody_state_in->quaternionRate_FixedToBody[i]);
+    GArchive_addVal(&p_rigidBody_state_in->rigidBodyArchive,
+                    p_rigidBody_state_in->quaternionRate_FixedToBody[i]);
   }
 
   /* Writing quaternion to archive */
   for (i = 0; i < 4; i++)
   {
-    GArchive_addVal(
-        &p_rigidBody_state_in->rigidBodyArchive,
-        p_rigidBody_state_in->quaternion_FixedToBody[i]);
+    GArchive_addVal(&p_rigidBody_state_in->rigidBodyArchive,
+                    p_rigidBody_state_in->quaternion_FixedToBody[i]);
   }
 
   GArchive_writeLine(&p_rigidBody_state_in->rigidBodyArchive);
