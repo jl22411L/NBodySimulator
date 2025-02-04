@@ -19,6 +19,7 @@ extern "C" {
 /* None */
 
 /* Structure Include */
+#include "Igrf/DataStructs/Igrf_ParamsStruct.h"
 #include "Magnetometer/DataStructs/Magnetometer_ParamsStruct.h"
 #include "Magnetometer/DataStructs/Magnetometer_StateStruct.h"
 
@@ -62,6 +63,54 @@ extern int Magnetometer_init(const char *p_magnetometerParamFilename_in,
                              Magnetometer_Params *p_magnetometerParams_out,
                              Magnetometer_State  *p_magnetometerState_out,
                              const char          *p_sensorBody_in);
+
+/*!
+ * @brief         Function which steps the magnetometer. Using the IGRF, a
+ *                measurement of the magnetic field is found in the sensor
+ *                frame and updated in the magnetometer state struct.
+ *
+ * @param[in]     p_magnetometer_params_in
+ *                Pointer containing the address of magnotometer params struct.
+ *
+ * @param[out]    p_magnetometer_state_out
+ *                Pointer containing the address of the magnotometr state
+ *                struct.
+ *
+ * @param[in]     p_igrf_params_in
+ *                Pointer contaiing the address of the IGRF params struct.
+ *
+ * @param[in]     p_magneticFieldCelestialBody_in
+ *                Pointer containing the address of the celestial body struct
+ *                for the celestial body which is producing the magnetic field.
+ *
+ * @param[in]     p_bodyPosition_Fix_m_in
+ *                Pointer containing the address of the vector of the position
+ *                of the body which contains the magnotometer. Note it is
+ *                assumed that the magnotometer params struct is from the body
+ *                this vector represents.
+ *
+ * @param[in]     p_quaternionToBody_FixToBod_in
+ *                Pointer containing the address of the quaternion representing
+ *                the body rotation from the fix frame to the body frame of the
+ *                body which contains the magnotometer. Note it is assumed that
+ *                the magnotometer params struct is from the body this vector
+ *                represents.
+ *
+ * @param[in]     simTime_s_in
+ *                Unix time which the simulation is running at.
+ *
+ * @return        Upon a successful completion, the fucntion will return a
+ *                GCONST_TRUE. If an error in the codes execution occurs, the
+ *                function will return a GCONST_FALSE.
+ */
+extern int
+    Magnetometer_step(Magnetometer_Params *p_magnetometer_params_in,
+                      Magnetometer_State  *p_magnetometer_state_out,
+                      Igrf_Params         *p_igrf_params_in,
+                      CelestialBody_State *p_magneticFieldCelestialBody_in,
+                      double              *p_bodyPosition_Fix_m_in,
+                      double              *p_quaternionToBody_FixToBod_in,
+                      double               simTime_s_in);
 
 #ifdef __cplusplus
 }

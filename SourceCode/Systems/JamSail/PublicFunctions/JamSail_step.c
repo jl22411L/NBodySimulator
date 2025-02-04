@@ -9,6 +9,7 @@
 
 /* Function Includes */
 #include "BodyMgr/PublicFunctions/BodyMgr_PublicFunctions.h"
+#include "Magnetometer/PublicFunctions/Magnetometer_PublicFunctions.h"
 #include "SunSensor/PublicFunctions/SunSensor_PublicFunctions.h"
 
 /* Structure Include */
@@ -25,8 +26,10 @@
 #include "GLog/GLog.h"
 
 int JamSail_step(JamSail_State  *p_jamSail_state_out,
-                 JamSail_Params *p_jamSail_params_out,
-                 BodyMgr_State  *p_bodyMgr_state_in)
+                 JamSail_Params *p_jamSail_params_in,
+                 BodyMgr_State  *p_bodyMgr_state_in,
+                 Igrf_Params    *p_igrf_params_in,
+                 double          simTime_s_in)
 {
   /* Declare local variables */
   CelestialBody_State *p_sunCelestialBody;
@@ -56,11 +59,19 @@ int JamSail_step(JamSail_State  *p_jamSail_state_out,
                        ->rigidBody_state.quaternion_FixToBody[0]),
                  p_sunCelestialBody,
                  p_bodyMgr_state_in,
-                 &(p_jamSail_params_out->sunSensor_params),
+                 &(p_jamSail_params_in->sunSensor_params),
                  &(p_jamSail_state_out->sunSensor_state));
 
   /* Step Magnetometer */
-  // TODO
+  Magnetometer_step(&(p_jamSail_params_in->magnetometer_params),
+                    &(p_jamSail_state_out->magnetometer_state),
+                    p_igrf_params_in,
+                    p_sunCelestialBody,
+                    &(p_jamSail_state_out->p_satelliteBody_state
+                          ->rigidBody_state.position_Fix_m[0]),
+                    &(p_jamSail_state_out->p_satelliteBody_state
+                          ->rigidBody_state.quaternion_FixToBody[0]),
+                    simTime_s_in);
 
   /* Step IMU */
   // TODO
