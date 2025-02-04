@@ -83,14 +83,18 @@ Unless in very specific situations, all frames can be assumed to follow a right 
 | Celestial Body Frame  | <bodyName>Cb | Body frame of Celestial Body.                |      COG      |   Longitudinal Axis    |       Lateral Axis       |    Cross Product of x & y    | Useful for orbital analysis and offering clarification.                       |
 | Celestial Fixed Frame | <bodyName>Cf | Inertial frame of Celestial Body.            |      COG      |     BODY DEPENDENT     |      BODY DEPENDENT      |        BODY DEPENDENT        | Useful for orbital analysis and offering clarification.                       |
 |   Perifocal Frame     |     Per      | Frame used to project orbits of satellites.  |   Body1 COG   |   Towards Periapsis    |  Cross Product of x & z  | Unit angular momentum vector | y-axis is parrallel to the Semilatus rectum.                                  |
-|      Geo-Centric      |    GeoCen    | Frame centered around a body.                |   Body COG    |    Dependent on Body   |    Dependent on Body     |       Dependent on Body      | Axis definitions should be documented in Geo-Centric Body Definitions section |
+|      Geo-Centric      |    GeoCen    | Frame centered at body and fixed to sufrace  |   Body COG    |    Dependent on Body   |    Dependent on Body     |       Dependent on Body      | Axis definitions should be documented in Geo-Centric Body Definitions section |
+|   Inertial-Centric    |   InertCen   | Frame centered around a body.                |   Body COG    |    Dependent on Body   |    Dependent on Body     |       Dependent on Body      | Axis definitions should be documented in Geo-Centric Body Definitions section |
 |    North-East-Down    |     ned      | Frame which orientates to geographic areas.  |   <varries>   | North of orbiting body | Cross Product of x and z |   To COG of orbiting body    | Shoule be noted that x and y are tangental to orbital body, and z is radial   |
 |     Sensor Frame      |     Sen      | Frame which the sensor is orientated.        | Sensor Origin |     Sensor x-axis      |       Sensor y-axis      |        Sensor z-axis         | This frame is dependent on the sensor it is representing                      |
  
 ## Geo-Centric Body Definitions ##
 
-GeoCentric frame is a general term for a Celestial Body Frame. This is used where functions aren't clear about the body that is being used. For example, in the IGRF model, the primary body which the magnetic field is being simulated for can be used for planets such as Saturn or Earth. So, for inputs into the function,
-the term GeoCen is used as the frame tag in the name convention.
+Geo-Centric frame is a general term for a Celestial Body Frame. This is used where functions aren't clear about the body that is being used. For example, in the IGRF model, the primary body which the magnetic field is being simulated for can be used for planets such as Saturn or Earth. So, for inputs into the function, the term GeoCen is used as the frame tag in the name convention. Similar thinking is behind Inertial Centric frame.
+
+GeoCen is bassically a body frame of celestial body. Its origin is at the bodies COG and it rotates with the body, meaning it is fixed relative to the surface.
+
+InertCen is bassically an inertial frame for a body. Its origin is at the bodies COG but it does not rotate with the body.
 
 # VECTOS #
 

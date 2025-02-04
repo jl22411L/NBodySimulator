@@ -83,7 +83,7 @@ int RigidBody_init(RigidBody_State *p_rigidBody_state_in,
   /* Load initial angular velocity */
   GParser_loadDoubleArray(&GParser_state,
                           dic,
-                          &(p_rigidBody_state_in->quaternion_FixedToBody[0]),
+                          &(p_rigidBody_state_in->quaternion_FixToBody[0]),
                           "AngularProperties:quaternion",
                           4,
                           1);

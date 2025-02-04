@@ -45,6 +45,26 @@ extern "C" {
 extern int GMath_abs(double inputValue_in, double *p_outputValue_out);
 
 /*!
+ * @brief       Function which will convert a vector from cartesian coordinates
+ *              into spherical coordinates. This assumes a perfect sphere and
+ *              does not take into account oblateness.
+ *
+ * @param[out]  p_sphericalVector_out
+ *              Pointer contaiing address of vector with spherical coordiantes
+ *              which result of conversion will be stored.
+ *
+ * @param[in]   p_cartesianVector_in
+ *              Pointer containing address of cartesian vector which will be
+ *              converted to spherical coordinates.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int GMath_cartesianToSpherical(double *p_sphericalVector_out,
+                                      double *p_cartesianVector_in);
+
+/*!
  * @brief       Finds the cross product of vectors A and B, outputting results
  *              to vector C. This does not clear the output vector in operation,
  *              and hence it is down to the user to do so at there own

@@ -157,7 +157,7 @@ typedef struct RigidBody_StateStruct
    * @unit      N/A
    * @frame     Fixed Frame -> Body Frame
    */
-  double quaternion_FixedToBody[4];
+  double quaternion_FixToBody[4];
 
   /*--------------------------------------------------------------------------*
    *                             BODY INFORMATION                             *

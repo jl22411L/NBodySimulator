@@ -53,7 +53,7 @@ int JamSail_step(JamSail_State  *p_jamSail_state_out,
   SunSensor_step(&((p_jamSail_state_out->p_satelliteBody_state)
                        ->rigidBody_state.position_Fix_m[0]),
                  &((p_jamSail_state_out->p_satelliteBody_state)
-                       ->rigidBody_state.quaternion_FixedToBody[0]),
+                       ->rigidBody_state.quaternion_FixToBody[0]),
                  p_sunCelestialBody,
                  p_bodyMgr_state_in,
                  &(p_jamSail_params_out->sunSensor_params),

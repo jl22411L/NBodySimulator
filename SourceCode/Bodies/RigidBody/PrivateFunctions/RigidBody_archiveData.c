@@ -109,7 +109,7 @@ int RigidBody_archiveData(RigidBody_State *p_rigidBody_state_in)
   for (i = 0; i < 4; i++)
   {
     GArchive_addVal(&p_rigidBody_state_in->rigidBodyArchive,
-                    p_rigidBody_state_in->quaternion_FixedToBody[i]);
+                    p_rigidBody_state_in->quaternion_FixToBody[i]);
   }
 
   GArchive_writeLine(&p_rigidBody_state_in->rigidBodyArchive);
