@@ -6,6 +6,7 @@ add_library(JamSail
 set(LIB_LIST
   PRIVATE BodyMgr
   PRIVATE SunSensor
+  PRIVATE Magnetometer
 )
 
 target_link_libraries(JamSail ${LIB_LIST})

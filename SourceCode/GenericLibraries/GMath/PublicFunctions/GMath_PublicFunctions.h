@@ -658,6 +658,29 @@ extern int GMath_quaternionRateCalc(double *p_quaternionRate_out,
                                     double *p_angularVelocity_in);
 
 /*!
+ * @brief       Finds the addition between two 3x1 vectors. Sums vector B
+ *              with vector A to output vector C.
+ *
+ *              [C] = [A] + [B]
+ *
+ * @param[in]   p_vectorA_in
+ *              Pointer containing the address of vector A
+ *
+ * @param[in]   p_vectorB_in
+ *              Pointer containing the address of vector B
+ *
+ * @param       p_vectorC_out
+ *              Pointer containing the address of vector C
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int GMath_vectorAdd(double *p_vectorA_in,
+                           double *p_vectorB_in,
+                           double *p_vectorC_out);
+
+/*!
  * @brief       Function which finds the magnitude of a vector. The vectos can
  *              be any size of a column vector.
  *
