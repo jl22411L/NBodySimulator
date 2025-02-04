@@ -9,7 +9,7 @@ import yaml
 
 
 # ----------------------------------------------------------------------------- #
-#                                   CONSTANTS                                   #
+# CONSTANTS
 # ----------------------------------------------------------------------------- #
 
 # Conversion Constants
@@ -17,6 +17,114 @@ DEG_TO_RAD = PI / 180
 
 # Universal Gravitation Constant
 UNIVERSAL_GRAVITATIONAL_CONSTANT_KM3KGS2 = 6.6743 * 10**-20
+
+# Tolerance for pure quaternion
+GMATH_QUATERNION_ZERO_TOLERANCE = 1 * 10**-10
+
+# ----------------------------------------------------------------------------- #
+# FUNCTION DEFINITION
+# ----------------------------------------------------------------------------- #
+
+
+def quaternionPointRotation(quaternion_in: np.ndarray, vector_in: np.ndarray):
+  """
+  @details      Function which will perform a quaternion rotation on an input
+                vector.
+
+  @param[in]    quaternion_in
+                Array containing quaternion with with the scalar element being
+                the 4th element in array.
+
+  @param[in]    vector_in
+                Input vector which will be rotated.
+  """
+
+  # Find quaternion conjugate
+  quaternionConj = quaternionConjugate(quaternion_in)
+
+  # Make vector component a pure quaternion
+  pureQuaternion = np.zeros(4)
+  pureQuaternion[0] = vector_in[0]
+  pureQuaternion[1] = vector_in[1]
+  pureQuaternion[2] = vector_in[2]
+
+  # Perform first multiplication
+  intermediateQuaternion = quaternionMultiplication(
+    quaternion_in, pureQuaternion)
+
+  # Perform second multiplication
+  pureQuaternionOutput = quaternionMultiplication(
+    intermediateQuaternion, quaternionConj)
+
+  # Check that output is a pure quaternion
+  if pureQuaternionOutput[3] > GMATH_QUATERNION_ZERO_TOLERANCE:
+    print('Tolerance of output pure quaternion is not met.')
+    print(f'pureQuaternionOutput = {pureQuaternionOutput}')
+    raise ValueError
+
+  # Extract vector from pure quaternion
+  outputVector_out = pureQuaternionOutput[0:3]
+
+  return outputVector_out
+
+
+def quaternionConjugate(quaternion_in: np.ndarray):
+  """
+  @details      Function which finds the quaternion conjugate.
+
+  @param[in]    quaternion_in
+                Input quaternion with 4th element being the scalar element.
+
+  @return       quaternionConjugate_out
+                Output quaternion conjugate of input quaternion.
+  """
+
+  # Find the conjugate of the quaternion
+  quaternionConjugate_out = np.zeros(4)
+  quaternionConjugate_out[0] = -quaternion_in[0]
+  quaternionConjugate_out[1] = -quaternion_in[1]
+  quaternionConjugate_out[2] = -quaternion_in[2]
+  quaternionConjugate_out[3] = quaternion_in[3]
+
+  return quaternionConjugate_out
+
+
+def quaternionMultiplication(pQuaternion_in: np.ndarray, qQuaternion_in: np.ndarray):
+  """
+  @details      Function which performs quaternion multiplication of two 
+                elements. The format of the result is:
+                outputQuaternion_out = p*q
+
+  @param[in]    pQuaternion_in
+                Input p quaternion
+
+  @param[in]    qQuaternion_in
+                Input q quaternion
+
+  @return       outputQuaternion_out
+                Output quaternion after the quaternion multiplication
+  """
+
+  # Create array for output quaternion
+  outputQuaternion_out = np.zeros(4)
+
+  # Extract elements of input quaternion
+  xP = pQuaternion_in[0]
+  yP = pQuaternion_in[1]
+  zP = pQuaternion_in[2]
+  sP = pQuaternion_in[3]
+  xQ = qQuaternion_in[0]
+  yQ = qQuaternion_in[1]
+  zQ = qQuaternion_in[2]
+  sQ = qQuaternion_in[3]
+
+  # Perform quaternion multiplation
+  outputQuaternion_out[0] = xP * sQ + yP * zQ - zP * yQ + sP * xQ
+  outputQuaternion_out[1] = -xP * zQ + yP * sQ + zP * xQ + sP * yQ
+  outputQuaternion_out[2] = xP * yQ - yP * xQ + zP * sQ + sP * zQ
+  outputQuaternion_out[3] = -xP * xQ - yP * yQ - zP * zQ + sP * sQ
+
+  return outputQuaternion_out
 
 
 def keplarianToCartesian(massBody1_kg_in: float,
@@ -104,6 +212,8 @@ def keplarianToCartesian(massBody1_kg_in: float,
   # Check to make sure true anomoly is positive
   if trueAnomoly < 0:
     trueAnomoly + 2 * PI
+
+  print(f'TrueAnomoly = {trueAnomoly * 180 / np.pi}')
 
   # Find the position magnitude of body 2 with respect to body 1
   orbitalPositionMag_km = ((orbitalAngularMomentum_km2s**2) /
@@ -307,12 +417,14 @@ def satellitePreProcessing(configFile_in: Path):
     parameters = yaml.safe_load(configFile)
 
   # Initiate variable which will be used to keep track of transformations
-  accumlatedTranslation_km = np.zeros(3)
-  accumlatedVelocity_kms = np.zeros(3)
+  accumlatedTranslation_Fix_km = np.zeros(3)
+  accumlatedVelocity_Fix_kms = np.zeros(3)
+  accumulatedQuaternion_FixToCurBod = np.zeros(4)
+  accumulatedQuaternion_FixToCurBod[3] = 1.0
 
   # Initiate list to keep track of bodies positions
-  bodyPositionList = [accumlatedTranslation_km]
-  bodyVelocityList = [accumlatedVelocity_kms]
+  bodyPositionList = [accumlatedTranslation_Fix_km]
+  bodyVelocityList = [accumlatedVelocity_Fix_kms]
 
   # Start for loop and iterate through, preprocessing for all
   for i in range(1, parameters['nBodies']):
@@ -375,17 +487,41 @@ def satellitePreProcessing(configFile_in: Path):
                              raans_deg * DEG_TO_RAD,
                              timeSincePeriapsis_s))
 
+    if i > 1:
+      # Find quaternion from fix frame to body frame of previous body parameters
+      quaternion_CurBodyToPrevBody = parameters[(f'keplarianElementsBody{
+                                                 i - 2}ToBody{i - 1}')][(f'quaternion_Body{i - 1}FrameToBody{i - 2}Frame')]
+    else:
+      quaternion_CurBodyToPrevBody = np.array([0.0, 0.0, 0.0, 1.0])
+
+    # Find accumulated quaternion
+    accumulatedQuaternion_FixToCurBod = quaternionMultiplication(
+      quaternion_CurBodyToPrevBody, accumulatedQuaternion_FixToCurBod)
+
+    # Rotate vectors by quaternion so that they are in fix frame
+    positionCurrBodyRelToPrevBody_Fix_km = quaternionPointRotation(
+      accumulatedQuaternion_FixToCurBod, positionCurrBodyRelToPrevBody_km)
+    velocityCurrBodyRelToPrevBody_Fix_km = quaternionPointRotation(
+      accumulatedQuaternion_FixToCurBod, velocityCurrBodyRelToPrevBody_km)
+
+    print(positionCurrBodyRelToPrevBody_km)
+    print(velocityCurrBodyRelToPrevBody_km)
+    print(accumulatedQuaternion_FixToCurBod)
+    print(positionCurrBodyRelToPrevBody_Fix_km)
+    print(velocityCurrBodyRelToPrevBody_Fix_km)
+    print('----------')
+
     # Append the posittion and velcoity to respective lists
-    bodyPositionList.append(np.add(positionCurrBodyRelToPrevBody_km,
-                                   accumlatedTranslation_km))
-    bodyVelocityList.append(np.add(velocityCurrBodyRelToPrevBody_km,
-                                   accumlatedVelocity_kms))
+    bodyPositionList.append(np.add(positionCurrBodyRelToPrevBody_Fix_km,
+                                   accumlatedTranslation_Fix_km))
+    bodyVelocityList.append(np.add(velocityCurrBodyRelToPrevBody_Fix_km,
+                                   accumlatedVelocity_Fix_kms))
 
     # Add current position and velcoity to respective accumulated vectors
-    accumlatedTranslation_km = np.add(accumlatedTranslation_km,
-                                      positionCurrBodyRelToPrevBody_km)
-    accumlatedVelocity_kms = np.add(accumlatedVelocity_kms,
-                                    velocityCurrBodyRelToPrevBody_km)
+    accumlatedTranslation_Fix_km = np.add(accumlatedTranslation_Fix_km,
+                                          positionCurrBodyRelToPrevBody_Fix_km)
+    accumlatedVelocity_Fix_kms = np.add(accumlatedVelocity_Fix_kms,
+                                        velocityCurrBodyRelToPrevBody_Fix_km)
 
   # Save the bodies positions and velocities
   for i, (bodyPosition_km, bodyVelocity_kms) in enumerate(zip(bodyPositionList, bodyVelocityList)):
@@ -413,3 +549,75 @@ if __name__ == '__main__':
 
   # Run pre-processibng
   satellitePreProcessing(args.configFile)
+
+  r_RelGeoCen_Fix = np.array([
+    15976874319.895042 - 15981738725.42555,
+    -151248211684.79922 - -151246836991.7831,
+    -6696982.181598193 - 0.0
+  ])
+
+  v_RelGeoCen_Fix = np.array([
+    34067.95947097746 - 29126.62377605486,
+    2372.661997578899 - 3115.6149835238452,
+    -3619.3847283043892 - 0.0
+  ])
+
+  q_GeoCenToFix = np.array([
+    0.2027872954,
+    0.0,
+    0.0,
+    0.9792228106
+  ])
+
+  q_FixToGeoCen = quaternionConjugate(q_GeoCenToFix)
+
+  r_GeoCen = quaternionPointRotation(q_FixToGeoCen, r_RelGeoCen_Fix) / 1000
+  v_GeoCen = quaternionPointRotation(q_FixToGeoCen, v_RelGeoCen_Fix) / 1000
+
+  print(r_GeoCen, r_RelGeoCen_Fix)
+  print(v_GeoCen, v_RelGeoCen_Fix)
+
+  mu = 3.986e5  # km^3/s^2
+
+  r = np.linalg.norm(r_GeoCen)
+  v = np.linalg.norm(v_GeoCen)
+  v_r = np.dot(r_GeoCen / r, v_GeoCen)
+  v_p = np.sqrt(v**2 - v_r**2)
+
+  h_vec = np.cross(r_GeoCen, v_GeoCen)
+  h = np.linalg.norm(h_vec)
+
+  i = np.arccos(h_vec[2] / h)
+
+  K = np.array((0, 0, 1))
+  N_vec = np.cross(K, h_vec)
+  N = np.linalg.norm(N_vec)
+  if N_vec[1] >= 0:
+    Omega = np.arccos(N_vec[0] / N)
+  else:
+    Omega = 2 * np.pi - np.arccos(N_vec[0] / N)
+
+  K = np.array((0, 0, 1))
+  N_vec = np.cross(K, h_vec)
+  N = np.linalg.norm(N_vec)
+  Omega = 2 * np.pi - np.arccos(N_vec[0] / N)
+
+  # [section-5]
+  e_vec = np.cross(v_GeoCen, h_vec) / mu - r_GeoCen / r
+  e = np.linalg.norm(e_vec)
+
+  nu = np.arccos(np.dot(r_GeoCen / r, e_vec / e))
+
+  if e_vec[2] >= 0:
+    omega = np.arccos(np.dot(N_vec, e_vec) / (N * e))
+  else:
+    omega = 2 * np.pi - np.arccos(np.dot(N_vec, e_vec) / (N * e))
+
+  a = h**2 / (mu * (1 - e**2))
+
+  print(f'a = {a}')
+  print(f'e = {e}')
+  print(f'i = {i * 180 / np.pi}')
+  print(f'omega = {omega * 180 / np.pi}')
+  print(f'Omega = {Omega * 180 / np.pi}')
+  print(f'nu = {nu * 180 / np.pi}')
