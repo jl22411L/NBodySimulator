@@ -9,6 +9,7 @@
 
 /* Function Includes */
 #include "BodyMgr/PublicFunctions/BodyMgr_PublicFunctions.h"
+#include "Magnetometer/PublicFunctions/Magnetometer_PublicFunctions.h"
 #include "SunSensor/PublicFunctions/SunSensor_PublicFunctions.h"
 
 /* Structure Include */
@@ -61,7 +62,11 @@ int JamSail_init(JamSail_State  *p_jamSail_state_out,
                        ->rigidBody_state.bodyName[0]));
 
   /* Initialize Magnetometer */
-  // TODO
+  Magnetometer_init("Parameters/Magnetometer.ini",
+                    &(p_jamSail_params_out->magnetometer_params),
+                    &(p_jamSail_state_out->magnetometer_state),
+                    &((p_jamSail_state_out->p_satelliteBody_state)
+                          ->rigidBody_state.bodyName[0]));
 
   /* Initialize Gyro */
   // TODO

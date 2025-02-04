@@ -25,7 +25,7 @@
 
 int SunSensor_init(const char       *p_sunSensorParamFilename_in,
                    SunSensor_Params *p_sunSensor_params_out,
-                   SunSensor_State  *p_sunSesor_state_out,
+                   SunSensor_State  *p_sunSensor_state_out,
                    const char       *p_sensorBody_in)
 {
   /* Declare local variables */
@@ -36,6 +36,7 @@ int SunSensor_init(const char       *p_sunSensorParamFilename_in,
   /* Clear variables */
   GZero(&GParser_state, GParser_State);
   GZero(p_sunSensor_params_out, SunSensor_Params);
+  GZero(p_sunSensor_state_out, SunSensor_State);
   p_dic = NULL;
 
   /* Load parameters */
@@ -55,7 +56,7 @@ int SunSensor_init(const char       *p_sunSensorParamFilename_in,
   /* load name of sensor */
   GParser_loadString(&GParser_state,
                      p_dic,
-                     &p_sunSensor_params_out->sunSensorName[0],
+                     &(p_sunSensor_params_out->sunSensorName[0]),
                      "Sensor:sensorName");
 
   /* Load position of sensor relative to COG */
@@ -67,12 +68,13 @@ int SunSensor_init(const char       *p_sunSensorParamFilename_in,
                           1);
 
   /* Load position of sensor relative to COG */
-  GParser_loadDoubleArray(&GParser_state,
-                          p_dic,
-                          &(p_sunSensor_params_out->sensorQuaternion_Bod[0]),
-                          "SensorOrientation:sensorQuaternion_BodToSen",
-                          4,
-                          1);
+  GParser_loadDoubleArray(
+      &GParser_state,
+      p_dic,
+      &(p_sunSensor_params_out->sensorQuaternion_BodToSen[0]),
+      "SensorOrientation:sensorQuaternion_BodToSen",
+      4,
+      1);
 
   /* Load FOV of sun sensor into temporary variable */
   GParser_loadDouble(&GParser_state,
@@ -90,7 +92,7 @@ int SunSensor_init(const char       *p_sunSensorParamFilename_in,
 
   /* Create archives */
   SunSensor_createArchives(p_sunSensor_params_out,
-                           p_sunSesor_state_out,
+                           p_sunSensor_state_out,
                            p_sensorBody_in);
 
   return GCONST_TRUE;

@@ -102,7 +102,7 @@ typedef struct RigidBody_StateStruct
    * @unit      m
    * @frame     fixed frame -> body frame
    */
-  double position_m_Fix[3];
+  double position_Fix_m[3];
 
   /*--------------------------------------------------------------------------*
    *                              ANGULAR VECTORS                             *
@@ -157,7 +157,7 @@ typedef struct RigidBody_StateStruct
    * @unit      N/A
    * @frame     Fixed Frame -> Body Frame
    */
-  double quaternion_FixedToBody[4];
+  double quaternion_FixToBody[4];
 
   /*--------------------------------------------------------------------------*
    *                             BODY INFORMATION                             *

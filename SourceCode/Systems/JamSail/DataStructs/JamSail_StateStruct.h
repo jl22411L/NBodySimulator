@@ -18,6 +18,7 @@ extern "C" {
 /* None */
 
 /* Structure Include */
+#include "Magnetometer/DataStructs/Magnetometer_StateStruct.h"
 #include "SatelliteBody/DataStructs/SatelliteBody_StateStruct.h"
 #include "SunSensor/DataStructs/SunSensor_StateStruct.h"
 
@@ -83,6 +84,15 @@ typedef struct JamSail_StateStruct
    * @frame     N/A
    */
   SunSensor_State sunSensor_state;
+
+  /*!
+   * @brief     Struct which keeps track of the state of the sun sensor on
+   *            JamSail.
+   *
+   * @units     N/A
+   * @frame     N/A
+   */
+  Magnetometer_State magnetometer_state;
 
   /* ------------------------------------------------------------------------ *
    * Simulation Members

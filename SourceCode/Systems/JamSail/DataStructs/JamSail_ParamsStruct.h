@@ -18,6 +18,7 @@ extern "C" {
 /* None */
 
 /* Structure Include */
+#include "Magnetometer/DataStructs/Magnetometer_ParamsStruct.h"
 #include "SunSensor/DataStructs/SunSensor_ParamsStruct.h"
 
 /* Data include */
@@ -46,6 +47,15 @@ typedef struct JamSail_ParamsStruct
    * @unit      N/A
    */
   SunSensor_Params sunSensor_params;
+
+  /*!
+   * @brief     Struct which contains the parameters of the Magnetometer on
+   *            JamSail.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
+  Magnetometer_Params magnetometer_params;
 
 } JamSail_Params;
 

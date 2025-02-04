@@ -106,7 +106,7 @@ int RigidBody_createArchives(RigidBody_State *p_rigidBody_state_in)
 
   /* Add quaternion columns */
   GArchive_addCol(&p_rigidBody_state_in->rigidBodyArchive,
-                  "quaternion_FixedToBody",
+                  "quaternion_FixToBody",
                   4,
                   1);
 

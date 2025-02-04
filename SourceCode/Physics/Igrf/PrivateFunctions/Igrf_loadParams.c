@@ -60,7 +60,33 @@ int Igrf_loadParams(Igrf_Params *p_igrf_params_out,
    * LOAD PARAMETERS INTO STRUCT
    * ------------------------------------------------------------------------ */
 
-  // TODO: Add functionality to load a unix time parameter into struct
+  /* -------------------------- LOAD TIME VARIABLES ------------------------- */
+
+  /* Clear the parameter name buffer */
+  GZero(&parameterNameBuffer[0], char[IGRF_MAX_STRING_BUFFER_SIZE]);
+
+  /* Write the name of the parameter to load into buffer */
+  sprintf(&parameterNameBuffer[0], "igrf%d:unixStartTime_s", igrfIteration_in);
+
+  /* Load start time parameter */
+  GParser_loadDouble(&GParser_state,
+                     p_dic,
+                     &p_igrf_params_out->startUnixTime_s,
+                     &parameterNameBuffer[0]);
+
+  /* Clear the parameter name buffer */
+  GZero(&parameterNameBuffer[0], char[IGRF_MAX_STRING_BUFFER_SIZE]);
+
+  /* Write the name of the parameter to load into buffer */
+  sprintf(&parameterNameBuffer[0], "igrf%d:unixEndTime_s", igrfIteration_in);
+
+  /* Load end time parameter */
+  GParser_loadDouble(&GParser_state,
+                     p_dic,
+                     &p_igrf_params_out->endUnixTime_s,
+                     &parameterNameBuffer[0]);
+
+  /* --------------------- LOAD COEFFICIENTS VARIABLES ---------------------- */
 
   /* Iterate through dictionary and load coefficients */
   for (n = 1; n <= nMaxDegree_in; n++)
@@ -116,11 +142,21 @@ int Igrf_loadParams(Igrf_Params *p_igrf_params_out,
               n,
               m);
 
-      /* Load coefficient into array */
+      /*!
+       * Load coefficient into array.
+       *
+       * Note: The coefficients are first loaded with the units nT per year.
+       *       they are then converted to nT per second. This is done for
+       *        simplicity.
+       */
       GParser_loadDouble(&GParser_state,
                          p_dic,
                          &p_igrf_params_out->gLinearRateCoefficients_nTs[n][m],
                          &parameterNameBuffer[0]);
+
+      /* Convert coefficient to seconds */
+      p_igrf_params_out->gLinearRateCoefficients_nTs[n][m] /=
+          GCONST_YEARS_TO_SECONDS_CONVERSION;
 
       /* Clear the parameter name buffer */
       GZero(&parameterNameBuffer[0], char[IGRF_MAX_STRING_BUFFER_SIZE]);
@@ -133,11 +169,21 @@ int Igrf_loadParams(Igrf_Params *p_igrf_params_out,
               n,
               m);
 
-      /* Load coefficient into array */
+      /*!
+       * Load coefficient into array.
+       *
+       * Note: The coefficients are first loaded with the units nT per year.
+       *       they are then converted to nT per second. This is done for
+       *        simplicity.
+       */
       GParser_loadDouble(&GParser_state,
                          p_dic,
                          &p_igrf_params_out->hLinearRateCoefficients_nTs[n][m],
                          &parameterNameBuffer[0]);
+
+      /* Convert coefficient to seconds */
+      p_igrf_params_out->hLinearRateCoefficients_nTs[n][m] /=
+          GCONST_YEARS_TO_SECONDS_CONVERSION;
     }
   }
 

@@ -15,13 +15,16 @@
 #include "BodyMgr/PublicFunctions/BodyMgr_PublicFunctions.h"
 #include "CelestialBody/PublicFunctions/CelestialBody_PublicFunctions.h"
 #include "Gravity/PublicFunctions/Gravity_PublicFunctions.h"
+#include "Igrf/PublicFunctions/Igrf_PublicFunctions.h"
 #include "JamSail/PublicFunctions/JamSail_PublicFunctions.h"
+#include "Magnetometer/PublicFunctions/Magnetometer_PublicFunctions.h"
 #include "SatelliteBody/PublicFunctions/SatelliteBody_PublicFunctions.h"
 #include "SunSensor/PublicFunctions/SunSensor_PublicFunctions.h"
 
 /* Structure Include */
 #include "BodyMgr/DataStructs/BodyMgr_StateStruct.h"
 #include "Gravity/DataStructs/Gravity_ParamsStruct.h"
+#include "Igrf/DataStructs/Igrf_ParamsStruct.h"
 #include "JamSail/DataStructs/JamSail_StateStruct.h"
 
 /* Data include */
@@ -41,6 +44,7 @@ int main(void)
   BodyMgr_State  bodyMgr_state;
   JamSail_State  jamSail_state;
   JamSail_Params jamSail_params;
+  Igrf_Params    igrf_params;
   int            i;
 
   /* Clear local variables */
@@ -48,6 +52,7 @@ int main(void)
   GZero(&jamSail_params, JamSail_Params);
   GZero(&bodyMgr_state, BodyMgr_State);
   GZero(&gravity_params, Gravity_Params);
+  GZero(&igrf_params, Igrf_Params);
 
   /* ------------------------------------------------------------------------ *
    * Initialze Simulation
@@ -61,6 +66,9 @@ int main(void)
 
   /* Initialize BodyMgr */
   BodyMgr_init(&bodyMgr_state, "Parameters/BodyMgrParameters.ini");
+
+  /* Initialize the IGRF model (This is simulating true earth magnetic field) */
+  Igrf_init(&igrf_params, "Parameters/IgrfParameters.ini", 13, 13);
 
   /* ------------------------------------------------------------------------ *
    * Initialize JamSail
@@ -94,7 +102,11 @@ int main(void)
      * ---------------------------------------------------------------------- */
 
     /* Step JamSail */
-    JamSail_step(&jamSail_state, &jamSail_params, &bodyMgr_state);
+    JamSail_step(&jamSail_state,
+                 &jamSail_params,
+                 &bodyMgr_state,
+                 &igrf_params,
+                 Utilities.simTime_s);
 
     /* Step the bodies */
     BodyMgr_step(&bodyMgr_state);

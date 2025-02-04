@@ -4,6 +4,7 @@ add_library(GMath
   PrivateFunctions/GMath_invColOptimised.c
   PrivateFunctions/GMath_luDecomp.c
   PublicFunctions/GMath_abs.c
+  PublicFunctions/GMath_cartesianToSpherical.c
   PublicFunctions/GMath_crossProduct.c
   PublicFunctions/GMath_dcm2Eul.c
   PublicFunctions/GMath_dcm2Quat.c
@@ -25,6 +26,7 @@ add_library(GMath
   PublicFunctions/GMath_quaternionMul.c
   PublicFunctions/GMath_quaternionPointRotation.c
   PublicFunctions/GMath_quaternionRateCalc.c
+  PublicFunctions/GMath_vectorAdd.c
   PublicFunctions/GMath_vectorMag.c
   PublicFunctions/GMath_vectorNorm.c
   PublicFunctions/GMath_vectorSub.c

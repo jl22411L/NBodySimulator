@@ -55,24 +55,33 @@ extern int JamSail_init(JamSail_State  *p_jamSail_state_out,
                         BodyMgr_State  *p_bodyMgr_state_in);
 
 /*!
- * @brief       Function which steps JamSail and its models forward.
+ * @brief       Function which will step JamSail forward along with all its
+ *              sensors.
  *
  * @param[out]  p_jamSail_state_out
- *              Pointer containing address of JamSail State struct.
+ *              Pointer containing the address of JamSail state struct.
  *
- * @param[out]  p_jamSail_params_out
- *              Pointer containing address of JamSail Params struct
+ * @param[in]   p_jamSail_params_in
+ *              Pointer contaiing the address of JamSail params struct.
  *
  * @param[in]   p_bodyMgr_state_in
- *              Pointer containing BodyMgr state struct.
+ *              Pointer containing the address of bodyMgr state struct.
+ *
+ * @param[in]   p_igrf_params_in
+ *              Pointer contaiing the address of IGRF params struct.
+ *
+ * @param[in]   simTime_s_in
+ *              Time of simulation in Unix time in seconds.
  *
  * @return      Upon a successful completion, the fucntion will return a
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-int JamSail_step(JamSail_State  *p_jamSail_state_out,
-                 JamSail_Params *p_jamSail_params_out,
-                 BodyMgr_State  *p_bodyMgr_state_in);
+extern int JamSail_step(JamSail_State  *p_jamSail_state_out,
+                        JamSail_Params *p_jamSail_params_in,
+                        BodyMgr_State  *p_bodyMgr_state_in,
+                        Igrf_Params    *p_igrf_params_in,
+                        double          simTime_s_in);
 
 #ifdef __cplusplus
 }

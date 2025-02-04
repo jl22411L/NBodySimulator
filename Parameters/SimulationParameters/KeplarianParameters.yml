@@ -1,0 +1,50 @@
+# This yaml file contains the keplarian parameters between the bodies for the
+# simulation.
+#
+# Note: This file needs to be in the same folder as the .ini files which contain
+#       the parameters of the bodies so that the files can be accessed.
+
+# Parameter containing the number of bodies within the simulation
+nBodies : 3
+
+# Parameters to indiacte the order with which the bodies should follow.
+#
+# Note:   The bodies are in this order because the avilable data of the Earth is
+#         given with respect to Sun, and JamSail will have its elements given
+#         respect to the Earth.
+body0 : Sun
+body1: Earth
+body2: JamSail
+
+# Argument to define how the positions of the other bodies should be defined to
+mainBody: body0
+
+# Keplarian elements of body 2 with relation to body 1
+# [Ref: https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.htmlf]
+#
+# Note: timeSincePeriapsis_s was found from taking the mean longitude and using
+#       the equation: 
+#
+#                     timeSincePeriapsis_s = t_j2000 - T/2*PI
+#                                   *(meanLongitude_rad - argumentOfPerigee_rad)
+#     
+#       Where t_j2000 is the unix time of January 1st 2000 at 12 noon. The time
+#       of timeSincePeriapsis_s is given in unix time.
+keplarianElementsBody0ToBody1:
+  semiMajorAxis_km: 149598000
+  eccentricity: 0.01670
+  inclination_deg: 0
+  argumentOfPerigee_deg: 102.947
+  raans_deg: -11.26064
+  timeSincePeriapsis_s: 931362709
+  quaternion_Body0FrameToBody1Frame: [0.2027872954, 0.0, 0.0, 0.9792228106]
+
+# Keplarian elements of body 3 with relation to body 2
+keplarianElementsBody1ToBody2:
+  semiMajorAxis_km: 7000
+  eccentricity: 0
+  inclination_deg: 55
+  argumentOfPerigee_deg: 30
+  raans_deg: 0
+  timeSincePeriapsis_s: 1740830400
+  quaternion_Body1FrameToBody2Frame: [0.0, 0.0, 0.0, 1.0]

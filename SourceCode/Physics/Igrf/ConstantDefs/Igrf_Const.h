@@ -43,7 +43,7 @@ extern "C" {
  * @frame       N/A
  * @unit        N/A
  */
-#define IGRF_MAX_DEGREE             (13)
+#define IGRF_MAX_DEGREE                    (13)
 
 /*!
  * @brief       Constant used to define the size of the buffer which will be
@@ -52,7 +52,22 @@ extern "C" {
  * @frame       N/A
  * @unit        N/A
  */
-#define IGRF_MAX_STRING_BUFFER_SIZE (50)
+#define IGRF_MAX_STRING_BUFFER_SIZE        (50)
+
+/*!
+ * @brief       Constant used to define the toelrance for the longitude to
+ *              avoid a singularity when finding the latitude component of the
+ *              magnetic field vector. If the longitude is below this threshold,
+ *              the threshold will be summed to the longitude.
+ *
+ *              Number was chosen because:
+ *                          cos(GCONST_PI - 0.0001) = -0.9999999995
+ *                          sin(GCONST_PI - 0.0001) = 0.00009999999983
+ *
+ *              Hence it should not round to a number when passed through the
+ *              functions but still capture the magnitude of these expressions.
+ */
+#define IGRF_COLATITUDE_ZERO_TOLERANCE_RAD (0.0001)
 
 #ifdef __cplusplus
 }
