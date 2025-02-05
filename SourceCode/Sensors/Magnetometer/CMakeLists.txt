@@ -1,14 +1,16 @@
 add_library(Magnetometer
   PrivateFunctions/Magnetometer_createArchives.c
+  PrivateFunctions/Magnetometer_archiveData.c
   PublicFunctions/Magnetometer_init.c
   PublicFunctions/Magnetometer_step.c
 )
 
 set(LIB_LIST
-  GParser
-  GArchive
-  Igrf
-  GMath
+  PRIVATE GParser
+  PRIVATE GArchive
+  PRIVATE Igrf
+  PRIVATE GMath
+  PRIVATE CelestialBody
 )
 
 target_link_libraries(Magnetometer ${LIB_LIST})

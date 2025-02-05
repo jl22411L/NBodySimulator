@@ -37,6 +37,7 @@ int GMath_quaternionFrameRotation(double *p_rotatedVector_out,
   double  yQuaternionComponent;
   double  zQuaternionComponent;
   double  sQuaternionComponent;
+  double  outputUnitQuaternion[4];
   uint8_t i;
 
   /* Clear Buffer */
@@ -44,6 +45,7 @@ int GMath_quaternionFrameRotation(double *p_rotatedVector_out,
   GZero(&quaternionConjugate[0], double[4]);
   GZero(&inputPureQuaternion[0], double[4]);
   GZero(&outputPureQuaternion[0], double[4]);
+  GZero(&outputUnitQuaternion[0], double[4]);
 
   /* Turn the vector into a pure quaternion */
   for (i = 0; i < 3; i++)
@@ -76,8 +78,12 @@ int GMath_quaternionFrameRotation(double *p_rotatedVector_out,
                       &quaternionBuffer[0],
                       &quaternionConjugate[0]);
 
+  /* Find the unit quaternion of the output */
+  GMath_findUnitQuaternion(&(outputPureQuaternion[0]),
+                           &(outputUnitQuaternion[0]));
+
   /* Check that it is q pure quaternion */
-  if (outputPureQuaternion[3] > GMATH_QUATERNION_ZERO_TOLERANCE)
+  if (outputUnitQuaternion[3] > GMATH_QUATERNION_ZERO_TOLERANCE)
   {
     GError("Resulting quatenrion is not a pure quaternion. ",
            "outputPureQuaternion = [%lf, %lf, %lf, %lf]",

@@ -73,10 +73,9 @@ int main(void)
      * ---------------------------------------------------------------------- */
 
     /* Apply gravity to UAV body */
-    Gravity_findGravity(
-        &gravity_params,
-        bodyMgr_state.p_rigidBodyPointerList,
-        bodyMgr_state.nBodies);
+    Gravity_findGravity(&gravity_params,
+                        bodyMgr_state.p_rigidBodyPointerList,
+                        bodyMgr_state.nBodies);
 
     /* ---------------------------------------------------------------------- *
      *                            STEP SIMULATION                             *
@@ -94,7 +93,7 @@ int main(void)
      * ---------------------------------------------------------------------- */
 
     /* Check if the simulation duration has been reached */
-    if (Utilities.simTime_s >= Utilities.simTimeDuration_s)
+    if (Utilities.simTime_s >= Utilities.simTimeEnd_s)
     {
       /* Set sim status to False to indicate that sim has completed */
       Utilities.runSimStatus = GCONST_FALSE;

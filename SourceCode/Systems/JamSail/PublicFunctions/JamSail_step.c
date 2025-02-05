@@ -33,11 +33,13 @@ int JamSail_step(JamSail_State  *p_jamSail_state_out,
 {
   /* Declare local variables */
   CelestialBody_State *p_sunCelestialBody;
+  CelestialBody_State *p_earthCelestialBody;
 
   /* Clear Variables */
-  p_sunCelestialBody = NULL;
+  p_sunCelestialBody   = NULL;
+  p_earthCelestialBody = NULL;
 
-  /* Find the sun body */
+  /* Find the Sun body */
   GAssess(BodyMgr_findCelestialBody(p_bodyMgr_state_in,
                                     &(p_sunCelestialBody),
                                     "Sun"));
@@ -46,6 +48,17 @@ int JamSail_step(JamSail_State  *p_jamSail_state_out,
   if (p_sunCelestialBody == NULL)
   {
     GError("Sun Body was not found correctly");
+  }
+
+  /* Find the Earth body */
+  GAssess(BodyMgr_findCelestialBody(p_bodyMgr_state_in,
+                                    &(p_earthCelestialBody),
+                                    "Earth"));
+
+  /* Check that a celestial body was found */
+  if (p_earthCelestialBody == NULL)
+  {
+    GError("Earth Body was not found correctly");
   }
 
   /* ------------------------------------------------------------------------ *
@@ -66,7 +79,7 @@ int JamSail_step(JamSail_State  *p_jamSail_state_out,
   Magnetometer_step(&(p_jamSail_params_in->magnetometer_params),
                     &(p_jamSail_state_out->magnetometer_state),
                     p_igrf_params_in,
-                    p_sunCelestialBody,
+                    p_earthCelestialBody,
                     &(p_jamSail_state_out->p_satelliteBody_state
                           ->rigidBody_state.position_Fix_m[0]),
                     &(p_jamSail_state_out->p_satelliteBody_state

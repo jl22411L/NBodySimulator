@@ -144,6 +144,19 @@ extern "C" {
  */
 #define GCONST_YEARS_TO_SECONDS_CONVERSION (31536000)
 
+/* ------------------------------------------------------------------------ *
+ * TIME CONSTANTS
+ * ------------------------------------------------------------------------ */
+
+/*!
+ * @brief       Constant used to define Janurary 2020 1st 12:00 in unix time in
+ *              seconds.
+ *
+ * @frame       N/A
+ * @unit        Seconds
+ */
+#define GCONST_J2000_UNIX_TIME_S           (946728000)
+
 #ifdef __cplusplus
 }
 #endif

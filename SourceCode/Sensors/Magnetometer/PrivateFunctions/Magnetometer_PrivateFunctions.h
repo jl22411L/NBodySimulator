@@ -29,6 +29,20 @@ extern "C" {
 /* None */
 
 /*!
+ * @brief         Function which will archive the values of the magnetometer.
+ *
+ * @param[in]     p_magnetometer_state_in
+ *                Pointer containing the addres of the magnetometer state
+ *                struct.
+ *
+ * @return        Upon a successful completion, the fucntion will return a
+ *                GCONST_TRUE. If an error in the codes execution occurs, the
+ *                function will return a GCONST_FALSE.
+ */
+extern int
+    Magnetometer_archiveData(Magnetometer_State *p_magnetometer_state_in);
+
+/*!
  * @brief         Function which will create archives for magnetometer sensor.
  *                Will create the archive wihtin the body that the sensor
  *                belongs to.

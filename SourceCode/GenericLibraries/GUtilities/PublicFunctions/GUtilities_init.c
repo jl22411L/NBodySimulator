@@ -49,23 +49,20 @@ int GUtilities_init(const char *p_paramsFilePath)
 
   /* ---------------- Load parameters into Utilities struct ---------------- */
 
-  GParser_loadDouble(
-      &GParser_state,
-      dic,
-      &Utilities.simTimeDuration_s,
-      "TimeParameters:simTimeDuration");
+  GParser_loadDouble(&GParser_state,
+                     dic,
+                     &Utilities.simTimeEnd_s,
+                     "TimeParameters:simTimeEnd");
 
-  GParser_loadDouble(
-      &GParser_state,
-      dic,
-      &Utilities.simTimeStep_s,
-      "TimeParameters:simTimeStep");
+  GParser_loadDouble(&GParser_state,
+                     dic,
+                     &Utilities.simTimeStep_s,
+                     "TimeParameters:simTimeStep");
 
-  GParser_loadDouble(
-      &GParser_state,
-      dic,
-      &Utilities.simTime_s,
-      "TimeParameters:simTimeInitial");
+  GParser_loadDouble(&GParser_state,
+                     dic,
+                     &Utilities.simTime_s,
+                     "TimeParameters:simTimeInitial");
 
   /* Set the simulation status to True */
   Utilities.runSimStatus = GCONST_TRUE;
