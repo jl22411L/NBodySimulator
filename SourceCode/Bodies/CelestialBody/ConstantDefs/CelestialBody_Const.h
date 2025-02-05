@@ -33,7 +33,17 @@ extern "C" {
  * @frame       N/A
  * @unit        N/A
  */
-#define CELESTIALBODY_CREATE_ARCHIVE_BUFFER (1024)
+#define CELESTIALBODY_CREATE_ARCHIVE_BUFFER        (1024)
+
+/*!
+ * @brief       Constant used to define the tolerance for checking if the
+ *              simulated rotated angle matches up with the theoretical rotated
+ *              angle.
+ *
+ * @frame       N/A
+ * @unit        rad
+ */
+#define CELESTIALBODY_ROTATION_ANGLE_TOLERANCE_RAD (1E-5)
 
 #ifdef __cplusplus
 }

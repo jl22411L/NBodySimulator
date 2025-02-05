@@ -51,12 +51,12 @@ typedef struct GUtilities_struct
   double simTimeStep_s;
 
   /*!
-   * @details   Duration of simulation
+   * @details   Time at which the simulation will end.
    *
    * @unit      Seconds
    * @frame     N/A
    */
-  double simTimeDuration_s;
+  double simTimeEnd_s;
 
   /*!
    * @details   Integer used to indicate the status of the simulation. If

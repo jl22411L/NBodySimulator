@@ -60,7 +60,7 @@ int main(void)
     /* Step time forward a step */
     Utilities.simTime_s += Utilities.simTimeStep_s;
   }
-  while (Utilities.simTime_s <= Utilities.simTimeDuration_s);
+  while (Utilities.simTime_s <= Utilities.simTimeEnd_s);
 
   /*-------------------------------------------------------------------------*
    *                             CLOSE ARCHIVES                              *

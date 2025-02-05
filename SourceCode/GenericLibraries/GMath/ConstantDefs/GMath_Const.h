@@ -57,7 +57,7 @@ extern "C" {
  * @frame       N/A
  * @unit        N/A
  */
-#define GMATH_QUATERNION_ZERO_TOLERANCE                       (1E-15)
+#define GMATH_QUATERNION_ZERO_TOLERANCE                       (1E-8)
 
 /*!
  * @brief       Tolerance used to indicate which set of equations should be used

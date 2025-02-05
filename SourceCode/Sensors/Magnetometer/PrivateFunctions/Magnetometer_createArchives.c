@@ -58,32 +58,26 @@ int Magnetometer_createArchives(Magnetometer_Params *p_magnetometer_params_in,
 
   /* Add columns for true value of sun vector */
   GArchive_addCol(&p_magnetometer_state_in->magnetometerArchive,
-                  "trueSunVector_Bod_m",
+                  "trueMagneticFieldMeasurement_Sen_nT",
                   3,
                   1);
 
   /* Add columns for albedo effects of sun vector */
   GArchive_addCol(&p_magnetometer_state_in->magnetometerArchive,
-                  "albedoComponentNoise_Sensor_m",
+                  "externalMagneticFieldNoise_Sen_nT",
                   3,
                   1);
 
   /* Add columns for noise vector od sensor */
   GArchive_addCol(&p_magnetometer_state_in->magnetometerArchive,
-                  "noiseVector_Bod_m",
+                  "sensorMagneticFieldNoise_Sen_nT",
                   3,
                   1);
 
   /* Add columns which represent the measured output of the sensor */
   GArchive_addCol(&p_magnetometer_state_in->magnetometerArchive,
-                  "measuredSunVector_Bod_m",
+                  "measuredMagneticField_Sen_nT",
                   3,
-                  1);
-
-  /* Add columns which represent if the sensor is blcoked */
-  GArchive_addCol(&p_magnetometer_state_in->magnetometerArchive,
-                  "isSensorReadingInvalid",
-                  1,
                   1);
 
   /* Write the header of the archive */

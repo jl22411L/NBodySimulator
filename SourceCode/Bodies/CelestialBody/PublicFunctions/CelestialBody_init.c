@@ -49,6 +49,21 @@ int CelestialBody_init(CelestialBody_State *p_celestialBody_state_in,
                      &(p_celestialBody_state_in->equitorialRadius_m),
                      "GeometryProperties:equtorialRadius_m");
 
+  /* Load quaternion rotating from fix frame to body inertical centric frame */
+  GParser_loadDoubleArray(
+      &GParser_state,
+      p_dic,
+      &(p_celestialBody_state_in->quaternion_FixToCenInert[0]),
+      "AngularProperties:quaternion_FixToInertCen",
+      4,
+      1);
+
+  /* Load equitorial Radius of celestial body */
+  GParser_loadDouble(&GParser_state,
+                     p_dic,
+                     &(p_celestialBody_state_in->sideRealTime_s),
+                     "BodyProperties:sideRealTime_s");
+
   /* Load Rigid Body parameters */
   RigidBody_init(&p_celestialBody_state_in->rigidBody_state,
                  p_paramFilename_in);

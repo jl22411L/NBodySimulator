@@ -60,7 +60,7 @@ int RigidBody_init(RigidBody_State *p_rigidBody_state_in,
   GParser_loadDoubleArray(&GParser_state,
                           dic,
                           &(p_rigidBody_state_in->velocity_ms_Fix[0]),
-                          "TranslationalProperties:fixedFrameVelocity_ms",
+                          "TranslationalProperties:fixedFrameVelocity_ms_Fix",
                           3,
                           1);
 
@@ -68,7 +68,7 @@ int RigidBody_init(RigidBody_State *p_rigidBody_state_in,
   GParser_loadDoubleArray(&GParser_state,
                           dic,
                           &(p_rigidBody_state_in->position_Fix_m[0]),
-                          "TranslationalProperties:fixedFramePosition_m",
+                          "TranslationalProperties:fixedFramePosition_m_Fix",
                           3,
                           1);
 
@@ -76,7 +76,7 @@ int RigidBody_init(RigidBody_State *p_rigidBody_state_in,
   GParser_loadDoubleArray(&GParser_state,
                           dic,
                           &(p_rigidBody_state_in->angularVelocity_rads_Bod[0]),
-                          "AngularProperties:angularVelocity_rads",
+                          "AngularProperties:angularVelocity_rads_Fix",
                           3,
                           1);
 
@@ -84,7 +84,7 @@ int RigidBody_init(RigidBody_State *p_rigidBody_state_in,
   GParser_loadDoubleArray(&GParser_state,
                           dic,
                           &(p_rigidBody_state_in->quaternion_FixToBody[0]),
-                          "AngularProperties:quaternion",
+                          "AngularProperties:quaternion_FixToBod",
                           4,
                           1);
 

@@ -122,7 +122,7 @@ int main(void)
     // TODO: Should make this its own function in GUtilities
     // TODO: Should also put all termination functions in a function within
     //       JamSailSimulation function
-    if (Utilities.simTime_s >= Utilities.simTimeDuration_s)
+    if (Utilities.simTime_s >= Utilities.simTimeEnd_s)
     {
       /* Set sim status to False to indicate that sim has completed */
       Utilities.runSimStatus = GCONST_FALSE;

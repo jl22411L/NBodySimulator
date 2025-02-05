@@ -18,6 +18,7 @@ extern "C" {
 /* None */
 
 /* Structure Include */
+#include "Igrf/DataStructs/Igrf_ParamsStruct.h"
 #include "JamSail/DataStructs/JamSail_ParamsStruct.h"
 #include "JamSail/DataStructs/JamSail_StateStruct.h"
 #include "SatelliteBody/DataStructs/SatelliteBody_StateStruct.h"
