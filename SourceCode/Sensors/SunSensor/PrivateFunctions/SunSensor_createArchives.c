@@ -66,7 +66,7 @@ int SunSensor_createArchives(SunSensor_Params *p_sunSensor_params_in,
 
   /* Add columns for albedo effects of sun vector */
   GArchive_addCol(&p_sunSensor_state_in->sunSensorArchive,
-                  "albedoComponentNoise_Sensor_m",
+                  "albedoComponentNoise_Sen_m",
                   3,
                   1);
 

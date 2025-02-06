@@ -9,6 +9,7 @@
 
 /* Function Includes */
 #include "BodyMgr/PublicFunctions/BodyMgr_PublicFunctions.h"
+#include "Gyro/PublicFunctions/Gyro_PublicFunctions.h"
 #include "Magnetometer/PublicFunctions/Magnetometer_PublicFunctions.h"
 #include "SunSensor/PublicFunctions/SunSensor_PublicFunctions.h"
 
@@ -69,9 +70,13 @@ int JamSail_init(JamSail_State  *p_jamSail_state_out,
                           ->rigidBody_state.bodyName[0]));
 
   /* Initialize Gyro */
-  // TODO
+  Gyro_init("Parameters/Gyro.ini",
+            &(p_jamSail_params_out->gyro_params),
+            &(p_jamSail_state_out->gyro_state),
+            &((p_jamSail_state_out->p_satelliteBody_state)
+                  ->rigidBody_state.bodyName[0]));
 
-  /* Initialize Acceleraometer */
+  /* Initialize Accelerometer */
   // TODO
 
   /* ------------------------------------------------------------------------

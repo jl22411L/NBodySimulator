@@ -32,28 +32,28 @@ int SunSensor_archiveData(SunSensor_State *p_sunSensor_state_in)
   for (i = 0; i < 3; i++)
   {
     GArchive_addVal(&(p_sunSensor_state_in->sunSensorArchive),
-                    p_sunSensor_state_in->trueSunVector_Sensor_m[i]);
+                    p_sunSensor_state_in->trueSunVector_Sen_m[i]);
   }
 
   /* Add albedo component to archive */
   for (i = 0; i < 3; i++)
   {
     GArchive_addVal(&(p_sunSensor_state_in->sunSensorArchive),
-                    p_sunSensor_state_in->albedoComponentNoise_Sensor_m[i]);
+                    p_sunSensor_state_in->albedoComponentNoise_Sen_m[i]);
   }
 
   /* Add noise component to archive */
   for (i = 0; i < 3; i++)
   {
     GArchive_addVal(&(p_sunSensor_state_in->sunSensorArchive),
-                    p_sunSensor_state_in->noiseVector_Sensor_m[i]);
+                    p_sunSensor_state_in->noiseVector_Sen_m[i]);
   }
 
   /* Add measured value to archive */
   for (i = 0; i < 3; i++)
   {
     GArchive_addVal(&(p_sunSensor_state_in->sunSensorArchive),
-                    p_sunSensor_state_in->measuredSunVector_Sensor_m[i]);
+                    p_sunSensor_state_in->measuredSunVector_Sen_m[i]);
   }
 
   /* Add flag to show if sun sensor is blocked to archive */

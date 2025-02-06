@@ -9,6 +9,7 @@
 
 /* Function Includes */
 #include "BodyMgr/PublicFunctions/BodyMgr_PublicFunctions.h"
+#include "Gyro/PublicFunctions/Gyro_PublicFunctions.h"
 #include "Magnetometer/PublicFunctions/Magnetometer_PublicFunctions.h"
 #include "SunSensor/PublicFunctions/SunSensor_PublicFunctions.h"
 
@@ -86,8 +87,13 @@ int JamSail_step(JamSail_State  *p_jamSail_state_out,
                           ->rigidBody_state.quaternion_FixToBody[0]),
                     simTime_s_in);
 
-  /* Step IMU */
-  // TODO
+  /* Step Gyro */
+  Gyro_step(&(p_jamSail_params_in->gyro_params),
+            &(p_jamSail_state_out->gyro_state),
+            &((p_jamSail_state_out->p_satelliteBody_state)
+                  ->rigidBody_state.angularVelocity_rads_Bod[0]),
+            &((p_jamSail_state_out->p_satelliteBody_state)
+                  ->rigidBody_state.quaternion_FixToBody[0]));
 
   /* ------------------------------------------------------------------------ *
    * Step Determination Algorithms

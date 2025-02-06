@@ -65,6 +65,7 @@ add_subdirectory(${PHYSICS_PATH}/Igrf)
 # Sensor Modules
 add_subdirectory(${SENSOR_PATH}/SunSensor)
 add_subdirectory(${SENSOR_PATH}/Magnetometer)
+add_subdirectory(${SENSOR_PATH}/Gyro)
 
 # System Modules
 add_subdirectory(${SYSTEM_PATH}/JamSail)
