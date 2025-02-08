@@ -38,7 +38,7 @@ typedef struct SunSensor_StateStruct
    * @unit      m
    * @frame     Sensor
    */
-  double trueSunVector_Sensor_m[3];
+  double trueSunVector_Sen_m[3];
 
   /*!
    * @brief     Vector which repressents the bias caused to the measurement from
@@ -47,7 +47,7 @@ typedef struct SunSensor_StateStruct
    * @unit      m
    * @frame     Sensor
    */
-  double albedoComponentNoise_Sensor_m[3];
+  double albedoComponentNoise_Sen_m[3];
 
   /*!
    * @brief     Vector which contains the noise reading of the vector. This is
@@ -56,7 +56,7 @@ typedef struct SunSensor_StateStruct
    * @unit      m
    * @frame     sensor
    */
-  double noiseVector_Sensor_m[3];
+  double noiseVector_Sen_m[3];
 
   /*!
    * @brief     Measured vector of the sensor.
@@ -64,7 +64,7 @@ typedef struct SunSensor_StateStruct
    * @unit      m
    * @frame     Sensor
    */
-  double measuredSunVector_Sensor_m[3];
+  double measuredSunVector_Sen_m[3];
 
   /*!
    * @brief     Flag which indicates if the sun sensor can detect the sun. If

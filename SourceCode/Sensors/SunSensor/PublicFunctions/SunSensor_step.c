@@ -70,7 +70,7 @@ int SunSensor_step(double              *p_bodyPosition_Fix_m_in,
       &(p_sunSensor_params_in->sensorQuaternion_BodToSen[0]));
 
   /* Find the direction of the sun as a unit vector */
-  GMath_vectorNorm(&(p_sunSensor_state_out->trueSunVector_Sensor_m[0]),
+  GMath_vectorNorm(&(p_sunSensor_state_out->trueSunVector_Sen_m[0]),
                    &(sunPosition_Sen_m[0]),
                    3);
 
@@ -110,35 +110,35 @@ int SunSensor_step(double              *p_bodyPosition_Fix_m_in,
   if (p_sunSensor_state_out->isSensorReadingInvalid == GCONST_TRUE)
   {
     /* If sun is blocked only include the noise components in measurement */
-    p_sunSensor_state_out->measuredSunVector_Sensor_m[0] =
-        p_sunSensor_state_out->noiseVector_Sensor_m[0] +
-        p_sunSensor_state_out->albedoComponentNoise_Sensor_m[0];
+    p_sunSensor_state_out->measuredSunVector_Sen_m[0] =
+        p_sunSensor_state_out->noiseVector_Sen_m[0] +
+        p_sunSensor_state_out->albedoComponentNoise_Sen_m[0];
 
-    p_sunSensor_state_out->measuredSunVector_Sensor_m[1] =
-        p_sunSensor_state_out->noiseVector_Sensor_m[1] +
-        p_sunSensor_state_out->albedoComponentNoise_Sensor_m[1];
+    p_sunSensor_state_out->measuredSunVector_Sen_m[1] =
+        p_sunSensor_state_out->noiseVector_Sen_m[1] +
+        p_sunSensor_state_out->albedoComponentNoise_Sen_m[1];
 
-    p_sunSensor_state_out->measuredSunVector_Sensor_m[2] =
-        p_sunSensor_state_out->noiseVector_Sensor_m[2] +
-        p_sunSensor_state_out->albedoComponentNoise_Sensor_m[2];
+    p_sunSensor_state_out->measuredSunVector_Sen_m[2] =
+        p_sunSensor_state_out->noiseVector_Sen_m[2] +
+        p_sunSensor_state_out->albedoComponentNoise_Sen_m[2];
   }
   else
   {
     /* Else, include the true sun sensor vecor */
-    p_sunSensor_state_out->measuredSunVector_Sensor_m[0] =
-        p_sunSensor_state_out->trueSunVector_Sensor_m[0] +
-        p_sunSensor_state_out->noiseVector_Sensor_m[0] +
-        p_sunSensor_state_out->albedoComponentNoise_Sensor_m[0];
+    p_sunSensor_state_out->measuredSunVector_Sen_m[0] =
+        p_sunSensor_state_out->trueSunVector_Sen_m[0] +
+        p_sunSensor_state_out->noiseVector_Sen_m[0] +
+        p_sunSensor_state_out->albedoComponentNoise_Sen_m[0];
 
-    p_sunSensor_state_out->measuredSunVector_Sensor_m[1] =
-        p_sunSensor_state_out->trueSunVector_Sensor_m[1] +
-        p_sunSensor_state_out->noiseVector_Sensor_m[1] +
-        p_sunSensor_state_out->albedoComponentNoise_Sensor_m[1];
+    p_sunSensor_state_out->measuredSunVector_Sen_m[1] =
+        p_sunSensor_state_out->trueSunVector_Sen_m[1] +
+        p_sunSensor_state_out->noiseVector_Sen_m[1] +
+        p_sunSensor_state_out->albedoComponentNoise_Sen_m[1];
 
-    p_sunSensor_state_out->measuredSunVector_Sensor_m[2] =
-        p_sunSensor_state_out->trueSunVector_Sensor_m[2] +
-        p_sunSensor_state_out->noiseVector_Sensor_m[2] +
-        p_sunSensor_state_out->albedoComponentNoise_Sensor_m[2];
+    p_sunSensor_state_out->measuredSunVector_Sen_m[2] =
+        p_sunSensor_state_out->trueSunVector_Sen_m[2] +
+        p_sunSensor_state_out->noiseVector_Sen_m[2] +
+        p_sunSensor_state_out->albedoComponentNoise_Sen_m[2];
   }
 
   /* Write archive */

@@ -37,7 +37,7 @@ int SunSensor_checkWithinFov(SunSensor_State  *p_sunSensor_state_inout,
    * x axis having the vector [1, 0, 0] and the magnitude of both vectors being
    * one. (If confused do the math and simplify and you shall get this result)
    */
-  sunVectorAngle_rad = acos(p_sunSensor_state_inout->trueSunVector_Sensor_m[0]);
+  sunVectorAngle_rad = acos(p_sunSensor_state_inout->trueSunVector_Sen_m[0]);
 
   /* Check if vector is outside FOV of sensor */
   if (sunVectorAngle_rad >= p_sunSensor_params_in->sensorFov_rad)

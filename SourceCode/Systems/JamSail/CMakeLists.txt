@@ -7,6 +7,7 @@ set(LIB_LIST
   PRIVATE BodyMgr
   PRIVATE SunSensor
   PRIVATE Magnetometer
+  PRIVATE Gyro
 )
 
 target_link_libraries(JamSail ${LIB_LIST})

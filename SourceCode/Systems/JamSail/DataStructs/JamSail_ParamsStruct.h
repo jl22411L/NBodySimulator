@@ -18,6 +18,7 @@ extern "C" {
 /* None */
 
 /* Structure Include */
+#include "Gyro/DataStructs/Gyro_ParamsStruct.h"
 #include "Magnetometer/DataStructs/Magnetometer_ParamsStruct.h"
 #include "SunSensor/DataStructs/SunSensor_ParamsStruct.h"
 
@@ -56,6 +57,14 @@ typedef struct JamSail_ParamsStruct
    * @unit      N/A
    */
   Magnetometer_Params magnetometer_params;
+
+  /*!
+   * @brief     Struct which contains the parameters of the Gyro on JamSail.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
+  Gyro_Params gyro_params;
 
 } JamSail_Params;
 

@@ -103,8 +103,8 @@ extern int SunSensor_checkWithinFov(SunSensor_State  *p_sunSensor_state_inout,
  *                sensor belongs to.
  *
  * @param[in]     p_sunSensor_params_in
- *                Pointer containing the address of params struct for sun
- * sensor.
+ *                Pointer containing the address of params struct for sun.
+ *                sensor.
  *
  * @param[in]     p_sunSesor_state_in
  *                Pointer containing the address of state struct of sensor.
