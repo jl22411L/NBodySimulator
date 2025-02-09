@@ -7,9 +7,7 @@ add_executable(ModuleUnitTest
 )
 
 set(LIB_LIST
-  Igrf
-  GMath
-  Igrf
+  GRand
 )
 
 target_link_libraries(ModuleUnitTest ${LIB_LIST})
