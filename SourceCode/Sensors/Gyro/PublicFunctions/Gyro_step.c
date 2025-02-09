@@ -21,6 +21,7 @@
 /* Generic Libraries */
 #include "GConst/GConst.h"
 #include "GMath/GMath.h"
+#include "GRand/GRand.h"
 #include "GZero/GZero.h"
 
 int Gyro_step(Gyro_Params *p_gyro_params_in,
@@ -45,7 +46,21 @@ int Gyro_step(Gyro_Params *p_gyro_params_in,
                                 &(quaternion_FixToSen[0]));
 
   /* Find noise component of Gyro */
-  // TODO
+  p_gyro_state_out->noiseGyroVector_Sen_rads[0] =
+      (p_gyro_params_in->noiseAmplitude_Sen_rads[0]) *
+      GRand_gaussianDistribution(
+          p_gyro_params_in->noiseMean_Sen_rads[0],
+          p_gyro_params_in->noiseStandardDeviation_Sen_rads[0]);
+  p_gyro_state_out->noiseGyroVector_Sen_rads[1] =
+      (p_gyro_params_in->noiseAmplitude_Sen_rads[1]) *
+      GRand_gaussianDistribution(
+          p_gyro_params_in->noiseMean_Sen_rads[1],
+          p_gyro_params_in->noiseStandardDeviation_Sen_rads[1]);
+  p_gyro_state_out->noiseGyroVector_Sen_rads[2] =
+      (p_gyro_params_in->noiseAmplitude_Sen_rads[2]) *
+      GRand_gaussianDistribution(
+          p_gyro_params_in->noiseMean_Sen_rads[2],
+          p_gyro_params_in->noiseStandardDeviation_Sen_rads[2]);
 
   /* Find measurement component of Gyro */
   p_gyro_state_out->measuredGyroVector_Sen_rads[0] =

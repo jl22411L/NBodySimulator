@@ -57,6 +57,33 @@ typedef struct Magnetometer_ParamsStruct
    * @unit      N/A
    */
   double sensorQuaternion_BodToSen[4];
+
+  /*!
+   * @brief     Vector which keeps track of the mean gaussian noise in the
+   *            sensor for all components of the vector.
+   *
+   * @frame     Sensosr Frame
+   * @units     Rads
+   */
+  double noiseMean_Sen_rads[3];
+
+  /*!
+   * @brief     Vector which keeps track of the standard deviation of the
+   *            gaussian noise in the sensor for all components of the vector.
+   *
+   * @frame     Sensosr Frame
+   * @units     Rads
+   */
+  double noiseStandardDeviation_Sen_rads[3];
+
+  /*!
+   * @brief     Vector which keeps track of the amplitude of the gaussian noise
+   *            in the sensor for all components of the vector.
+   *
+   * @frame     Sensosr Frame
+   * @units     Rads
+   */
+  double noiseAmplitude_Sen_rads[3];
 } Magnetometer_Params;
 
 #ifdef __cplusplus

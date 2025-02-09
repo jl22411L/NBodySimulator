@@ -9,6 +9,7 @@ set(LIB_LIST
   PRIVATE GParser
   PRIVATE GArchive
   PRIVATE GMath
+  PRIVATE GRand
 )
 
 target_link_libraries(Gyro ${LIB_LIST})
