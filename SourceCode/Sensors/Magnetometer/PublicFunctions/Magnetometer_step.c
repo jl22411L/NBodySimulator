@@ -24,6 +24,7 @@
 /* Generic Libraries */
 #include "GConst/GConst.h"
 #include "GMath/GMath.h"
+#include "GRand/GRand.h"
 #include "GZero/GZero.h"
 
 int Magnetometer_step(Magnetometer_Params *p_magnetometer_params_in,
@@ -160,21 +161,21 @@ int Magnetometer_step(Magnetometer_Params *p_magnetometer_params_in,
   // TODO
 
   /* Find noise component of sensor measurement in body frame */
-  //   p_magnetometer_state_out->sensorMagneticFieldNoise_Sen_nT[0] =
-  //       (p_magnetometer_params_in->noiseAmplitude_Sen_rads[0]) *
-  //       GRand_gaussianDistribution(
-  //           p_magnetometer_params_in->noiseMean_Sen_rads[0],
-  //           p_magnetometer_params_in->noiseStandardDeviation_Sen_rads[0]);
-  //   p_magnetometer_state_out->sensorMagneticFieldNoise_Sen_nT[1] =
-  //       (p_magnetometer_params_in->noiseAmplitude_Sen_rads[1]) *
-  //       GRand_gaussianDistribution(
-  //           p_magnetometer_params_in->noiseMean_Sen_rads[1],
-  //           p_magnetometer_params_in->noiseStandardDeviation_Sen_rads[1]);
-  //   p_magnetometer_state_out->sensorMagneticFieldNoise_Sen_nT[2] =
-  //       (p_magnetometer_params_in->noiseAmplitude_Sen_rads[2]) *
-  //       GRand_gaussianDistribution(
-  //           p_magnetometer_params_in->noiseMean_Sen_rads[2],
-  //           p_magnetometer_params_in->noiseStandardDeviation_Sen_rads[2]);
+  p_magnetometer_state_out->sensorMagneticFieldNoise_Sen_nT[0] =
+      (p_magnetometer_params_in->noiseAmplitude_Sen_nT[0]) *
+      GRand_gaussianDistribution(
+          p_magnetometer_params_in->noiseMean_Sen_nT[0],
+          p_magnetometer_params_in->noiseStandardDeviation_Sen_nT[0]);
+    p_magnetometer_state_out->sensorMagneticFieldNoise_Sen_nT[1] =
+        (p_magnetometer_params_in->noiseAmplitude_Sen_nT[1]) *
+        GRand_gaussianDistribution(
+            p_magnetometer_params_in->noiseMean_Sen_nT[1],
+            p_magnetometer_params_in->noiseStandardDeviation_Sen_nT[1]);
+    p_magnetometer_state_out->sensorMagneticFieldNoise_Sen_nT[2] =
+        (p_magnetometer_params_in->noiseAmplitude_Sen_nT[2]) *
+        GRand_gaussianDistribution(
+            p_magnetometer_params_in->noiseMean_Sen_nT[2],
+            p_magnetometer_params_in->noiseStandardDeviation_Sen_nT[2]);
 
   /* Find measured component of magnetic field vector in body frame */
   p_magnetometer_state_out->measuredMagneticField_Sen_nT[0] =

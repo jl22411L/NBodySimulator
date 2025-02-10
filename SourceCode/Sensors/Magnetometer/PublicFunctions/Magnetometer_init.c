@@ -76,6 +76,31 @@ int Magnetometer_init(const char          *p_magnetometerParamFilename_in,
       4,
       1);
 
+  /* Load noise mean value of sensor */
+  GParser_loadDoubleArray(&GParser_state,
+                          p_dic,
+                          &(p_magnetometerParams_out->noiseMean_Sen_nT[0]),
+                          "SensorNoise:noiseMean_Sen_nT",
+                          3,
+                          1);
+
+  /* Load noise standard deviation value of sensor */
+  GParser_loadDoubleArray(
+      &GParser_state,
+      p_dic,
+      &(p_magnetometerParams_out->noiseStandardDeviation_Sen_nT[0]),
+      "SensorNoise:noiseStandardDeviation_Sen_nT",
+      3,
+      1);
+
+  /* Load noise amplitude value of sensor */
+  GParser_loadDoubleArray(&GParser_state,
+                          p_dic,
+                          &(p_magnetometerParams_out->noiseAmplitude_Sen_nT[0]),
+                          "SensorNoise:noiseAmplitude_Sen_nT",
+                          3,
+                          1);
+
   /* Close parameters */
   GParser_closeParams(&GParser_state, p_dic);
 
