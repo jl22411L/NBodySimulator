@@ -11,6 +11,7 @@ set(LIB_LIST
   PRIVATE Igrf
   PRIVATE GMath
   PRIVATE CelestialBody
+  PRIVATE GRand
 )
 
 target_link_libraries(Magnetometer ${LIB_LIST})

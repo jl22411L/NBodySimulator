@@ -23,6 +23,7 @@
 /* Generic Libraries */
 #include "GConst/GConst.h"
 #include "GMath/GMath.h"
+#include "GRand/GRand.h"
 #include "GZero/GZero.h"
 
 int SunSensor_step(double              *p_bodyPosition_Fix_m_in,
@@ -100,7 +101,21 @@ int SunSensor_step(double              *p_bodyPosition_Fix_m_in,
   // TODO
 
   /* Find noise component of the measurement */
-  // TODO
+  p_sunSensor_state_out->noiseVector_Sen_m[0] =
+      (p_sunSensor_params_in->noiseAmplitude_Sen_rads[0]) *
+      GRand_gaussianDistribution(
+          p_sunSensor_params_in->noiseMean_Sen_rads[0],
+          p_sunSensor_params_in->noiseStandardDeviation_Sen_rads[0]);
+  p_sunSensor_state_out->noiseVector_Sen_m[1] =
+      (p_sunSensor_params_in->noiseAmplitude_Sen_rads[1]) *
+      GRand_gaussianDistribution(
+          p_sunSensor_params_in->noiseMean_Sen_rads[1],
+          p_sunSensor_params_in->noiseStandardDeviation_Sen_rads[1]);
+  p_sunSensor_state_out->noiseVector_Sen_m[2] =
+      (p_sunSensor_params_in->noiseAmplitude_Sen_rads[2]) *
+      GRand_gaussianDistribution(
+          p_sunSensor_params_in->noiseMean_Sen_rads[2],
+          p_sunSensor_params_in->noiseStandardDeviation_Sen_rads[2]);
 
   /* ------------------------------------------------------------------------ *
    * Determine Measured Result of Sensor

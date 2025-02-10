@@ -85,6 +85,31 @@ int SunSensor_init(const char       *p_sunSensorParamFilename_in,
   /* Load the fov of sun sensor as radians into params struct */
   p_sunSensor_params_out->sensorFov_rad = sensorFov_deg * GCONST_DEG_TO_RAD;
 
+  /* Load noise mean value of sensor */
+  GParser_loadDoubleArray(&GParser_state,
+                          p_dic,
+                          &(p_sunSensor_params_out->noiseMean_Sen_rads[0]),
+                          "SensorNoise:noiseMean_Sen_rads",
+                          3,
+                          1);
+
+  /* Load noise standard deviation value of sensor */
+  GParser_loadDoubleArray(
+      &GParser_state,
+      p_dic,
+      &(p_sunSensor_params_out->noiseStandardDeviation_Sen_rads[0]),
+      "SensorNoise:noiseStandardDeviation_Sen_rads",
+      3,
+      1);
+
+  /* Load noise amplitude value of sensor */
+  GParser_loadDoubleArray(&GParser_state,
+                          p_dic,
+                          &(p_sunSensor_params_out->noiseAmplitude_Sen_rads[0]),
+                          "SensorNoise:noiseAmplitude_Sen_rads",
+                          3,
+                          1);
+
   /* Close parameters */
   GParser_closeParams(&GParser_state, p_dic);
 

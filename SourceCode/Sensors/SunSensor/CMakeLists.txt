@@ -10,6 +10,7 @@ add_library(SunSensor
 set(LIB_LIST
   PRIVATE GParser
   PRIVATE GArchive
+  PRIVATE GRand
 )
 
 target_link_libraries(SunSensor ${LIB_LIST})
