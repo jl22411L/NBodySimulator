@@ -18,10 +18,11 @@ extern "C" {
 /* None */
 
 /* Structure Include */
-#include "Gyro/DataStructs/Gyro_StateStruct.h"
-#include "Magnetometer/DataStructs/Magnetometer_StateStruct.h"
 #include "SatelliteBody/DataStructs/SatelliteBody_StateStruct.h"
-#include "SunSensor/DataStructs/SunSensor_StateStruct.h"
+#include "Sensors/Gyro/DataStructs/Gyro_StateStruct.h"
+#include "Sensors/Magnetometer/DataStructs/Magnetometer_StateStruct.h"
+#include "Sensors/SunSensor/DataStructs/SunSensor_StateStruct.h"
+
 
 /* Data include */
 /* None */

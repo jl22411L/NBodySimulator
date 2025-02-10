@@ -17,9 +17,9 @@
 #include "Gravity/PublicFunctions/Gravity_PublicFunctions.h"
 #include "Igrf/PublicFunctions/Igrf_PublicFunctions.h"
 #include "JamSail/PublicFunctions/JamSail_PublicFunctions.h"
-#include "Magnetometer/PublicFunctions/Magnetometer_PublicFunctions.h"
 #include "SatelliteBody/PublicFunctions/SatelliteBody_PublicFunctions.h"
-#include "SunSensor/PublicFunctions/SunSensor_PublicFunctions.h"
+#include "Sensors/Magnetometer/PublicFunctions/Magnetometer_PublicFunctions.h"
+#include "Sensors/SunSensor/PublicFunctions/SunSensor_PublicFunctions.h"
 
 /* Structure Include */
 #include "BodyMgr/DataStructs/BodyMgr_StateStruct.h"
@@ -82,8 +82,8 @@ int main(void)
    * ----------------------------------------------------------------------- */
 
   /* Display text to indicate that cyclical execution has been reached */
-  GLog("# ------------------------ ENTERING CYLICAL EXECUTION "
-       "------------------------ #");
+  GLog("# -------------------------- ENTERING CYLICAL EXECUTION "
+       "-------------------------- #");
 
   /* Enter into cyclic execution */
   do

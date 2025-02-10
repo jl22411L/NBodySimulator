@@ -9,9 +9,10 @@
 
 /* Function Includes */
 #include "BodyMgr/PublicFunctions/BodyMgr_PublicFunctions.h"
-#include "Gyro/PublicFunctions/Gyro_PublicFunctions.h"
-#include "Magnetometer/PublicFunctions/Magnetometer_PublicFunctions.h"
-#include "SunSensor/PublicFunctions/SunSensor_PublicFunctions.h"
+#include "Sensors/Gyro/PublicFunctions/Gyro_PublicFunctions.h"
+#include "Sensors/Magnetometer/PublicFunctions/Magnetometer_PublicFunctions.h"
+#include "Sensors/SunSensor/PublicFunctions/SunSensor_PublicFunctions.h"
+
 
 /* Structure Include */
 #include "BodyMgr/DataStructs/BodyMgr_StateStruct.h"
