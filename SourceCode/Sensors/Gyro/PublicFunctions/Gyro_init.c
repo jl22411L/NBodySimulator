@@ -74,6 +74,31 @@ int Gyro_init(const char  *p_gyroParamFilename_in,
                           4,
                           1);
 
+  /* Load mean noise components of sensor */
+  GParser_loadDoubleArray(&GParser_state,
+                          p_dic,
+                          &(p_gyro_params_out->noiseMean_Sen_rads[0]),
+                          "SensorNoise:noiseMean_Sen_rads",
+                          3,
+                          1);
+
+  /* Load standard deviation of noise components for sensor */
+  GParser_loadDoubleArray(
+      &GParser_state,
+      p_dic,
+      &(p_gyro_params_out->noiseStandardDeviation_Sen_rads[0]),
+      "SensorNoise:noiseStandardDeviation_Sen_rads",
+      3,
+      1);
+
+  /* Load amplitude of noise comonents for sensor */
+  GParser_loadDoubleArray(&GParser_state,
+                          p_dic,
+                          &(p_gyro_params_out->noiseAmplitude_Sen_rads[0]),
+                          "SensorNoise:noiseAmplitude_Sen_rads",
+                          3,
+                          1);
+
   /* Close parameters */
   GParser_closeParams(&GParser_state, p_dic);
 
