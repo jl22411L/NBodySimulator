@@ -9,7 +9,7 @@
  */
 
 /* Function Includes */
-/* None */
+#include "Actuators/Magnetorquer/PrivateFunctions/Magnetorquer_PrivateFunctions.h"
 
 /* Structure Include */
 #include "Actuators/Magnetorquer/DataStructs/Magnetorquer_ParamsStruct.h"
@@ -61,22 +61,6 @@ int Magnetorquer_init(const char          *p_magnetorquerParamFilename_in,
                      "Actuator:actuatorName");
 
   /* Load position of actuator relative to COG */
-  GParser_loadDoubleArray(&GParser_state,
-                          p_dic,
-                          &(p_magnetorquerParams_out->coilArea_Sen_m2[0]),
-                          "ActuatorCharecteristics:coilArea_Sen_m2",
-                          3,
-                          1);
-
-  /* Load position of actuator relative to COG */
-  GParser_loadDoubleArray(&GParser_state,
-                          p_dic,
-                          &(p_magnetorquerParams_out->coilTurns_Sen[0]),
-                          "ActuatorCharecteristics:coilTurns_Sen",
-                          3,
-                          1);
-
-  /* Load position of actuator relative to COG */
   GParser_loadDoubleArray(
       &GParser_state,
       p_dic,
@@ -93,6 +77,22 @@ int Magnetorquer_init(const char          *p_magnetorquerParamFilename_in,
       "ActuatorOrientation:actuatorQuaternion_BodToSen",
       4,
       1);
+
+  /* Load position of actuator relative to COG */
+  GParser_loadDoubleArray(&GParser_state,
+                          p_dic,
+                          &(p_magnetorquerParams_out->coilArea_Sen_m2[0]),
+                          "ActuatorCharecteristics:coilArea_Sen_m2",
+                          3,
+                          1);
+
+  /* Load position of actuator relative to COG */
+  GParser_loadDoubleArray(&GParser_state,
+                          p_dic,
+                          &(p_magnetorquerParams_out->coilTurns_Sen[0]),
+                          "ActuatorCharecteristics:coilTurns_Sen",
+                          3,
+                          1);
 
   /* Load noise mean value of actuator */
   GParser_loadDoubleArray(
@@ -127,9 +127,9 @@ int Magnetorquer_init(const char          *p_magnetorquerParamFilename_in,
   /*---------------------------- CREATE ARCHIVES ----------------------------*/
 
   /* Create archives */
-  Magnetometer_createArchives(p_magnetometerParams_out,
-                              p_magnetometerState_out,
-                              p_sensorBody_in);
+  Magnetorquer_createArchives(p_magnetorquerParams_out,
+                              p_magnetorquerState_out,
+                              p_actuatorBody_in);
 
   return GCONST_TRUE;
 }

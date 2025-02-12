@@ -11,7 +11,7 @@
 #include <stdint.h>
 
 /* Function Includes */
-/* None */
+#include "Actuators/Magnetorquer/PrivateFunctions/Magnetorquer_PrivateFunctions.h"
 
 /* Structure Include */
 #include "Actuators/Magnetorquer/DataStructs/Magnetorquer_ParamsStruct.h"
@@ -202,6 +202,9 @@ int Magnetorquer_step(Magnetorquer_State  *p_magnetorquer_state_in,
       &(p_magnetorquer_state_in->totalTorque_Fix_Nm[0]),
       &(p_magnetorquer_state_in->totalTorque_Bod_Nm[0]),
       p_quaternionToBody_FixToBod_in);
+
+  /* Archive data */
+  Magnetorquer_archiveData(p_magnetorquer_state_in);
 
   return GCONST_TRUE;
 }

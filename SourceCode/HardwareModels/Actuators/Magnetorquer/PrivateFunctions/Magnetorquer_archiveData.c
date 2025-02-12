@@ -35,6 +35,13 @@ int Magnetorquer_archiveData(Magnetorquer_State *p_magnetorquer_state_in)
                     p_magnetorquer_state_in->inputCurrent_Sen_A[i]);
   }
 
+  /* Archive dipole moment */
+  for (i = 0; i < 3; i++)
+  {
+    GArchive_addVal(&(p_magnetorquer_state_in->magnetorquerArchive),
+                    p_magnetorquer_state_in->dipoleMoment_Sen_Am2[i]);
+  }
+
   /* Archive external magnetic field noise */
   for (i = 0; i < 3; i++)
   {

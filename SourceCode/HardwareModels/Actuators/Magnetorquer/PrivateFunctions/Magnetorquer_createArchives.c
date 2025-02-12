@@ -22,7 +22,7 @@
 #include "GConst/GConst.h"
 #include "GZero/GZero.h"
 
-int Magnetometer_createArchives(Magnetorquer_Params *p_magnetorquer_params_in,
+int Magnetorquer_createArchives(Magnetorquer_Params *p_magnetorquer_params_in,
                                 Magnetorquer_State  *p_magnetorquer_state_in,
                                 const char          *p_sensorBody_in)
 {
@@ -62,6 +62,12 @@ int Magnetometer_createArchives(Magnetorquer_Params *p_magnetorquer_params_in,
                   3,
                   1);
 
+  /* Add columns for input currents of magnetorquer */
+  GArchive_addCol(&p_magnetorquer_state_in->magnetorquerArchive,
+                  "dipoleMoment_Sen_Am2",
+                  3,
+                  1);
+
   /* Add columns for external magnetic field of magnetorquer */
   GArchive_addCol(&p_magnetorquer_state_in->magnetorquerArchive,
                   "externalMagneticField_Sen_nT",
@@ -81,19 +87,19 @@ int Magnetometer_createArchives(Magnetorquer_Params *p_magnetorquer_params_in,
                   1);
 
   /* Add columns which represent the total torque in sensor frame */
-  GArchive_addCol(&p_magnetorquer_state_in->totalTorque_Sen_Nm,
+  GArchive_addCol(&p_magnetorquer_state_in->magnetorquerArchive,
                   "totalTorque_Sen_Nm",
                   3,
                   1);
 
   /* Add columns which represent the total torque in body frame */
-  GArchive_addCol(&p_magnetorquer_state_in->totalTorque_Bod_Nm,
+  GArchive_addCol(&p_magnetorquer_state_in->magnetorquerArchive,
                   "totalTorque_Bod_Nm",
                   3,
                   1);
 
   /* Add columns which represent the total torque in fix frame */
-  GArchive_addCol(&p_magnetorquer_state_in->totalTorque_Bod_Nm,
+  GArchive_addCol(&p_magnetorquer_state_in->magnetorquerArchive,
                   "totalTorque_Fix_Nm",
                   3,
                   1);
