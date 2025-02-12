@@ -18,9 +18,10 @@ extern "C" {
 /* None */
 
 /* Structure Include */
-#include "Gyro/DataStructs/Gyro_ParamsStruct.h"
-#include "Magnetometer/DataStructs/Magnetometer_ParamsStruct.h"
-#include "SunSensor/DataStructs/SunSensor_ParamsStruct.h"
+#include "Actuators/Magnetorquer/DataStructs/Magnetorquer_ParamsStruct.h"
+#include "Sensors/Gyro/DataStructs/Gyro_ParamsStruct.h"
+#include "Sensors/Magnetometer/DataStructs/Magnetometer_ParamsStruct.h"
+#include "Sensors/SunSensor/DataStructs/SunSensor_ParamsStruct.h"
 
 /* Data include */
 /* None */
@@ -65,6 +66,19 @@ typedef struct JamSail_ParamsStruct
    * @unit      N/A
    */
   Gyro_Params gyro_params;
+
+  /* ------------------------------------------------------------------------ *
+   * Actuator Parameters
+   * ------------------------------------------------------------------------ */
+
+  /*!
+   * @brief     Struct which contains the parameters of the magnetorquer on
+   *            JamSail
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  Magnetorquer_Params magnetorquer_params;
 
 } JamSail_Params;
 

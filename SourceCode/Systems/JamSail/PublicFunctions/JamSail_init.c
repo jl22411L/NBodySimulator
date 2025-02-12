@@ -8,10 +8,11 @@
  */
 
 /* Function Includes */
+#include "Actuators/Magnetorquer/PublicFunctions/Magnetorquer_PublicFunctions.h"
 #include "BodyMgr/PublicFunctions/BodyMgr_PublicFunctions.h"
-#include "Gyro/PublicFunctions/Gyro_PublicFunctions.h"
-#include "Magnetometer/PublicFunctions/Magnetometer_PublicFunctions.h"
-#include "SunSensor/PublicFunctions/SunSensor_PublicFunctions.h"
+#include "Sensors/Gyro/PublicFunctions/Gyro_PublicFunctions.h"
+#include "Sensors/Magnetometer/PublicFunctions/Magnetometer_PublicFunctions.h"
+#include "Sensors/SunSensor/PublicFunctions/SunSensor_PublicFunctions.h"
 
 /* Structure Include */
 #include "BodyMgr/DataStructs/BodyMgr_StateStruct.h"
@@ -85,7 +86,11 @@ int JamSail_init(JamSail_State  *p_jamSail_state_out,
    */
 
   /* Initialize Magnetorquer */
-  // TODO
+  Magnetorquer_init("Parameters/Magnetorquer.ini",
+                    &(p_jamSail_params_out->magnetorquer_params),
+                    &(p_jamSail_state_out->magnetorquer_state),
+                    &((p_jamSail_state_out->p_satelliteBody_state)
+                          ->rigidBody_state.bodyName[0]));
 
   /* Initialze Solar Sail */
   // TODO

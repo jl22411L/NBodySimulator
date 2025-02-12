@@ -8,6 +8,7 @@ set(LIB_LIST
   PRIVATE SunSensor
   PRIVATE Magnetometer
   PRIVATE Gyro
+  PRIVATE Magnetorquer
 )
 
 target_link_libraries(JamSail ${LIB_LIST})

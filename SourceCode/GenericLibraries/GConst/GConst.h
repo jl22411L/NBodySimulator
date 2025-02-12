@@ -71,6 +71,30 @@ extern "C" {
  * ------------------------------------------------------------------------ */
 
 /*!
+ * @brief       Constant which represents a giga meter in standard units.
+ *
+ * @frame       N/A
+ * @unit        m
+ */
+#define GCONST_GM_TOLERANCE                (1000000000)
+
+/*!
+ * @brief       Constant which represents a mega meter in standard units.
+ *
+ * @frame       N/A
+ * @unit        m
+ */
+#define GCONST_MEGAM_TOLERANCE             (1000000)
+
+/*!
+ * @brief       Constant which represents a kilometer in standard units.
+ *
+ * @frame       N/A
+ * @unit        m
+ */
+#define GCONST_KM_TOLERANCE                (1000)
+
+/*!
  * @brief       Constant which represents a milimeter in standard units.
  *
  * @frame       N/A
