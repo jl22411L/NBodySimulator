@@ -15,7 +15,7 @@
 #include "Sensors/Magnetometer/DataStructs/Magnetometer_StateStruct.h"
 
 /* Data include */
-#include "Sensors/Magnetometer/ConstantDefs/Magnetometer_ConstDefs.h"
+#include "Sensors/Magnetometer/ConstantDefs/Magnetometer_Constants.h"
 
 /* Generic Libraries */
 #include "GArchive/Garchive.h"

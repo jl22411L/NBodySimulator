@@ -28,7 +28,7 @@ int GArchive_writeHeader(GArchive *p_archive_in)
   /* Defining local variables */
   int16_t i;
 
-  /* Add sim time */
+  /* Add sim time. The white space is to have columns alligned */
   fprintf(p_archive_in->p_archiveFile, "simTime_s");
 
   /* Write the header for the different columns */

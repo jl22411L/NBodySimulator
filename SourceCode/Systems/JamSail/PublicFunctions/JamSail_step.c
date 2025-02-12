@@ -8,6 +8,7 @@
  */
 
 /* Function Includes */
+#include "Actuators/Magnetorquer/PublicFunctions/Magnetorquer_PublicFunctions.h"
 #include "BodyMgr/PublicFunctions/BodyMgr_PublicFunctions.h"
 #include "Sensors/Gyro/PublicFunctions/Gyro_PublicFunctions.h"
 #include "Sensors/Magnetometer/PublicFunctions/Magnetometer_PublicFunctions.h"
@@ -117,6 +118,21 @@ int JamSail_step(JamSail_State  *p_jamSail_state_out,
    * ------------------------------------------------------------------------ */
 
   /* Step Magnetorquer */
+  Magnetorquer_step(&(p_jamSail_state_out->magnetorquer_state),
+                    &(p_jamSail_params_in->magnetorquer_params),
+                    p_igrf_params_in,
+                    p_earthCelestialBody,
+                    &((p_jamSail_state_out->p_satelliteBody_state)
+                          ->rigidBody_state.position_Fix_m[0]),
+                    &((p_jamSail_state_out->p_satelliteBody_state)
+                          ->rigidBody_state.quaternion_FixToBody[0]),
+                    simTime_s_in);
+
+  /* ------------------------------------------------------------------------ *
+   * Find resultant loads
+   * ------------------------------------------------------------------------ */
+
+  /* Find the resultant force on */
   // TODO
 
   return GCONST_TRUE;

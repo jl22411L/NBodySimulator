@@ -28,8 +28,8 @@
 #include "GRand/GRand.h"
 #include "GZero/GZero.h"
 
-int Magnetorquer_step(Magnetorquer_State  *p_magnetorquer_state_in,
-                      Magnetorquer_Params *p_magnetorquer_params_out,
+int Magnetorquer_step(Magnetorquer_State  *p_magnetorquer_state_out,
+                      Magnetorquer_Params *p_magnetorquer_params_in,
                       Igrf_Params         *p_igrf_params_in,
                       CelestialBody_State *p_magneticFieldCelestialBody_in,
                       double              *p_bodyPosition_Fix_m_in,
@@ -74,7 +74,7 @@ int Magnetorquer_step(Magnetorquer_State  *p_magnetorquer_state_in,
    */
   GMath_quaternionPointRotation(
       &(actuatorPositionRelBody_Fix_m[0]),
-      &(p_magnetorquer_params_out->actuatorPosition_Bod_m[0]),
+      &(p_magnetorquer_params_in->actuatorPosition_Bod_m[0]),
       p_quaternionToBody_FixToBod_in);
 
   /*!
@@ -151,60 +151,71 @@ int Magnetorquer_step(Magnetorquer_State  *p_magnetorquer_state_in,
   /* Find quaternion which represents from fix to sensor frame */
   GMath_quaternionMul(
       &(quaternion_FixToSen[0]),
-      &(p_magnetorquer_params_out->actuatorQuaternion_BodToSen[0]),
+      &(p_magnetorquer_params_in->actuatorQuaternion_BodToSen[0]),
       p_quaternionToBody_FixToBod_in);
 
   /* Find the magnetic field vector on the actuator in the sensor frame */
   GMath_quaternionFrameRotation(
-      &(p_magnetorquer_state_in->externalMagneticField_Sen_nT[0]),
+      &(p_magnetorquer_state_out->externalMagneticField_Sen_nT[0]),
       &(magneticFieldVector_Fix_nT[0]),
       &(quaternion_FixToSen[0]));
 
   /* Find the dipole moment in the sensor frame */
   for (i = 0; i < 3; i++)
   {
-    p_magnetorquer_state_in->dipoleMoment_Sen_Am2[i] =
-        (p_magnetorquer_state_in->inputCurrent_Sen_A[i]) *
-        (p_magnetorquer_params_out->coilTurns_Sen[i]) *
-        (p_magnetorquer_params_out->coilArea_Sen_m2[i]) * GCONST_GM_TOLERANCE;
+    p_magnetorquer_state_out->dipoleMoment_Sen_Am2[i] =
+        (p_magnetorquer_state_out->inputCurrent_Sen_A[i]) *
+        (p_magnetorquer_params_in->coilTurns_Sen[i]) *
+        (p_magnetorquer_params_in->coilArea_Sen_m2[i]) * GCONST_GM_TOLERANCE;
   }
 
   /* Find the true magnetic torque of the actuatr */
   GMath_crossProduct(
-      &(p_magnetorquer_state_in->dipoleMoment_Sen_Am2[0]),
-      &(p_magnetorquer_state_in->externalMagneticField_Sen_nT[0]),
-      &(p_magnetorquer_state_in->trueMagnetorquerTorque_Sen_Nm[0]));
+      &(p_magnetorquer_state_out->dipoleMoment_Sen_Am2[0]),
+      &(p_magnetorquer_state_out->externalMagneticField_Sen_nT[0]),
+      &(p_magnetorquer_state_out->trueMagnetorquerTorque_Sen_Nm[0]));
 
   for (i = 0; i < 3; i++)
   {
-    /* Find the system noise of the actuator */
-    p_magnetorquer_state_in->systemNoiseTorque_Sen_Nm[i] =
-        (p_magnetorquer_params_out->systemNoiseAmplitude_Sen_Nm[i]) *
-        GRand_gaussianDistribution(
-            (p_magnetorquer_params_out->systemNoiseMean_Sen_Nm[i]),
-            (p_magnetorquer_params_out
-                 ->systemNoiseStandardDeviation_Sen_Nm[i]));
+    /*!
+     * Find the system noise of the actuator. If current is below threshold, set
+     * the system noise to zero. OTherwise, apply a gaussian noise.
+     */
+    if ((p_magnetorquer_state_out->inputCurrent_Sen_A[i]) <
+        MAGNETORQUER_MIN_CURRENT_THRESHOLD_A)
+    {
+      p_magnetorquer_state_out->systemNoiseTorque_Sen_Nm[i] = 0.0;
+    }
+    else
+    {
+      p_magnetorquer_state_out->systemNoiseTorque_Sen_Nm[i] =
+          (p_magnetorquer_params_in->systemNoiseAmplitude_Sen_Nm[i]) *
+          GRand_gaussianDistribution(
+              (p_magnetorquer_params_in->systemNoiseMean_Sen_Nm[i]),
+              (p_magnetorquer_params_in
+                   ->systemNoiseStandardDeviation_Sen_Nm[i]));
+    }
 
     /* Find the total torque of the system in the sensor frame */
-    p_magnetorquer_state_in->totalTorque_Sen_Nm[i] =
-        p_magnetorquer_state_in->trueMagnetorquerTorque_Sen_Nm[i] +
-        p_magnetorquer_state_in->systemNoiseTorque_Sen_Nm[i];
+    p_magnetorquer_state_out->totalTorque_Sen_Nm[i] =
+        p_magnetorquer_state_out->trueMagnetorquerTorque_Sen_Nm[i] +
+        p_magnetorquer_state_out->systemNoiseTorque_Sen_Nm[i];
   }
 
   /* Find the total torque in the body frame frame */
   GMath_quaternionPointRotation(
-      &(p_magnetorquer_state_in->totalTorque_Bod_Nm[0]),
-      &(p_magnetorquer_state_in->totalTorque_Sen_Nm[0]),
-      &(p_magnetorquer_params_out->actuatorQuaternion_BodToSen[0]));
+      &(p_magnetorquer_state_out->totalTorque_Bod_Nm[0]),
+      &(p_magnetorquer_state_out->totalTorque_Sen_Nm[0]),
+      &(p_magnetorquer_params_in->actuatorQuaternion_BodToSen[0]));
 
   /* Find the total torque in the fix frame */
   GMath_quaternionPointRotation(
-      &(p_magnetorquer_state_in->totalTorque_Fix_Nm[0]),
-      &(p_magnetorquer_state_in->totalTorque_Bod_Nm[0]),
+      &(p_magnetorquer_state_out->totalTorque_Fix_Nm[0]),
+      &(p_magnetorquer_state_out->totalTorque_Bod_Nm[0]),
       p_quaternionToBody_FixToBod_in);
 
   /* Archive data */
-  Magnetorquer_archiveData(p_magnetorquer_state_in);
+  Magnetorquer_archiveData(p_magnetorquer_state_out);
 
   return GCONST_TRUE;
 }

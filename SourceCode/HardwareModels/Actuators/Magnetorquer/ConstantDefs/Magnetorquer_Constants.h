@@ -31,9 +31,18 @@ extern "C" {
  *              contain the name of the magnetorquer.
  *
  * @frame       N/A
- * @unit        N/A
+ * @units       N/A
  */
-#define MAGNETORQUER_MAX_SENSOR_NAME_BUFFER (64)
+#define MAGNETORQUER_MAX_SENSOR_NAME_BUFFER  (64)
+
+/*!
+ * @brief       Constant used to determint the minimum current required for
+ *              there to be system noise in the magnetorquer.
+ *
+ * @frame       N/A
+ * @units       Amperes
+ */
+#define MAGNETORQUER_MIN_CURRENT_THRESHOLD_A (0.0001)
 
 #ifdef __cplusplus
 }

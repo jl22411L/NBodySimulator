@@ -18,11 +18,11 @@ extern "C" {
 /* None */
 
 /* Structure Include */
+#include "Actuators/Magnetorquer/DataStructs/Magnetorquer_StateStruct.h"
 #include "SatelliteBody/DataStructs/SatelliteBody_StateStruct.h"
 #include "Sensors/Gyro/DataStructs/Gyro_StateStruct.h"
 #include "Sensors/Magnetometer/DataStructs/Magnetometer_StateStruct.h"
 #include "Sensors/SunSensor/DataStructs/SunSensor_StateStruct.h"
-
 
 /* Data include */
 /* None */
@@ -40,8 +40,8 @@ typedef struct JamSail_StateStruct
    * @brief     Vector from JamSail to the sun in the fixed frame. This is the
    *            true value of the vector with no noise or errors added on.
    *
-   * @unit      m
    * @frame     Fixed Frame
+   * @units     m
    */
   double trueSunVector_m_fix[3];
 
@@ -49,8 +49,8 @@ typedef struct JamSail_StateStruct
    * @brief     Vector from JamSail to the sun in the body frame. This is the
    *            true value of the vector with no noise or errors added on.
    *
-   * @unit      m
    * @frame     Body Frame
+   * @units     m
    */
   double trueSunVector_m_bod[3];
 
@@ -59,8 +59,8 @@ typedef struct JamSail_StateStruct
    *            This is the true value of the vector with no noise or errors
    *            added on.
    *
-   * @unit      m
    * @frame     Fixed Frame
+   * @units     m
    */
   double trueMagneticFieldVector_m_fix[3];
 
@@ -69,12 +69,12 @@ typedef struct JamSail_StateStruct
    *            This is the true value of the vector with no noise or errors
    *            added on.
    *
-   * @unit      m
    * @frame     Body Frame
+   * @units     m
    */
   double trueMagneticFieldVector_m_bod[3];
 
-  /* ------------------------------------------------------------------------ *
+  /* ------2------------------------------------------------------------------ *
    * Sensor State Structs
    * ------------------------------------------------------------------------ */
 
@@ -82,8 +82,8 @@ typedef struct JamSail_StateStruct
    * @brief     Struct which keeps track of the state of the sun sensor on
    *            JamSail.
    *
-   * @units     N/A
    * @frame     N/A
+   * @units     N/A
    */
   SunSensor_State sunSensor_state;
 
@@ -91,18 +91,31 @@ typedef struct JamSail_StateStruct
    * @brief     Struct which keeps track of the state of the magnetometer on
    *            JamSail.
    *
-   * @units     N/A
    * @frame     N/A
+   * @units     N/A
    */
   Magnetometer_State magnetometer_state;
 
   /*!
    * @brief     Struct which keeps track of the state of the gyro on JamSail.
    *
-   * @units     N/A
    * @frame     N/A
+   * @units     N/A
    */
   Gyro_State gyro_state;
+
+  /* ------------------------------------------------------------------------ *
+   * Actuator State Structs
+   * ------------------------------------------------------------------------ */
+
+  /*!
+   * @brief    Struct which keeps track of the state of the magnetoruer on
+   *           JamSail.
+   *
+   * @frame    N/A
+   * @units    N/A
+   */
+  Magnetorquer_State magnetorquer_state;
 
   /* ------------------------------------------------------------------------ *
    * Simulation Members

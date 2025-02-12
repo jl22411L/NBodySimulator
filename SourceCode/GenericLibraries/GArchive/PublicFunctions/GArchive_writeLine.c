@@ -34,11 +34,10 @@ int GArchive_writeLine(GArchive *p_archive_in)
   /* Check to make sure the right number of values have been written */
   if (p_archive_in->nVals != p_archive_in->nCols)
   {
-    GError(
-        "The number of vals does not match with the number of columns "
-        "(nVals=%d, nCols=%d)",
-        p_archive_in->nVals,
-        p_archive_in->nCols);
+    GError("The number of vals does not match with the number of columns "
+           "(nVals=%d, nCols=%d)",
+           p_archive_in->nVals,
+           p_archive_in->nCols);
   }
 
   /* Write the timestamp for the data row */
