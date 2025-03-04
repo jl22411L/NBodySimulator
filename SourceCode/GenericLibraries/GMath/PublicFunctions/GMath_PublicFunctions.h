@@ -348,9 +348,10 @@ extern int GMath_matAdd(double *p_matrixA_in,
 /*!
  * @brief       Function which inverts a matrix. Takes input matrix, finds the
  *              LU decomposition and sovles for each column building up an
- *              inverted matrix.
+ *              inverted matrix. This function can have the same array address
+ *              for input and output matrix.
  *
- *              [A][invA] = [I]
+ *              [invA][A] = [I]
  *
  * @param[in]   p_inputMat_in
  *              Pointer containing adderss of first element of matrix A which

@@ -1,33 +1,71 @@
-/*
- *    @File:         Triad_getQuaternion.c
+/*!
+ *    @File:         JamSail_Adcs.h
  *
- *    @Brief:        Function which returns a quaternion of the attitude.
+ *    @Brief:        Header file containing all the function definitions for
+ *                   JamSail's ADCS.
  *
- *    @Date:         03/07/2024
+ *    @Date:         01/03/2025
  *
  */
 
+#ifndef H_JAMSAIL_ADCS_H
+#define H_JAMSAIL_ADCS_H
+
+#ifdef __cplusplus
+extern "C" {
+/*!
+ * LIBRARY INCLUDES
+ * GENERIC CONSTANTS
+ * GENERIC MACROS
+ * GENERIC MATH FUNCTIONS
+ * ADCS DETERMINATION
+ * ADCS CONTROL
+ */
+
+#include <math.h>
 #include <stdint.h>
+#include <string.h>
 
-/* Function Includes */
-/* None */
+/* ------------------------------------------------------------------------ *
+ * GENERIC MATH FUNCTIONS
+ * ------------------------------------------------------------------------ */
 
-/* Structure Include */
-/* None */
+/* ------------------------------------------------------------------------ *
+ * ADCS DETERMINATION
+ * ------------------------------------------------------------------------ */
 
-/* Data include */
-/* None */
-
-/* Generic Libraries */
-#include "GConst/GConst.h"
-#include "GMath/GMath.h"
-#include "GZero/GZero.h"
-
-int TriadAlgorithm_getQuat(double *p_vector1_Bod_in,
-                           double *p_vector1_Fix_in,
-                           double *p_vector2_Bod_in,
-                           double *p_vector2_Fix_in,
-                           double *p_quat_FixToBod_out)
+/*!
+ * @brief       Triad algorithm which finds the quaternion from the inertial
+ *              frame to the body frame. It takes 2 vectors which have been both
+ *              measured in the body frame as well as the fixed frame. The first
+ *              vector should be the one which is more accurate and has less
+ *              noise for better performance.
+ *
+ * @param[in]   p_vector1_bod_in
+ *              Pointer to vector 1 measured in the body frame.
+ *
+ * @param[in]   p_vector1_fix_in
+ *              Pointer to vector 1 measured in the fixed frame.
+ *
+ * @param[in]   p_vector2_bod_in
+ *              Pointer to vector 2 measured in the body frame.
+ *
+ * @param[in]   p_vector2_fix_in
+ *              Pointer to vector 1 measured in the fixed frame.
+ *
+ * @param[out]  p_quat_fixToBod_out
+ *              Pointer containing address of quaternion which contains the
+ *              transformation from fixed frame to body frame.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+int JamSail_TriadGetQuat(double *p_vector1_Bod_in,
+                         double *p_vector1_Fix_in,
+                         double *p_vector2_Bod_in,
+                         double *p_vector2_Fix_in,
+                         double *p_quat_FixToBod_out)
 {
   /*
    * Declare Local Variables. Note that the buffers for the vectors are so that
@@ -119,3 +157,12 @@ int TriadAlgorithm_getQuat(double *p_vector1_Bod_in,
 
   return GCONST_TRUE;
 }
+
+/* ------------------------------------------------------------------------ *
+ * ADCS CONTROL
+ * ------------------------------------------------------------------------ */
+
+#ifdef __cplusplus
+}
+#endif
+#endif /* H_JAMSAIL_ADCS_H */
