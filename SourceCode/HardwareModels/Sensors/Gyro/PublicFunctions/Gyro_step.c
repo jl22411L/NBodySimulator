@@ -73,6 +73,14 @@ int Gyro_step(Gyro_Params *p_gyro_params_in,
       p_gyro_state_out->trueGyroVector_Sen_rads[2] +
       p_gyro_state_out->noiseGyroVector_Sen_rads[2];
 
+  /* Move old sensor reading to previous reading (Used in low pass filter )*/
+  p_gyro_state_out->previousFilteredGyroVector_Sen_rads[0] =
+      p_gyro_state_out->filteredGyroVector_Sen_rads[0];
+  p_gyro_state_out->previousFilteredGyroVector_Sen_rads[1] =
+      p_gyro_state_out->filteredGyroVector_Sen_rads[1];
+  p_gyro_state_out->previousFilteredGyroVector_Sen_rads[2] =
+      p_gyro_state_out->filteredGyroVector_Sen_rads[2];
+
   /* Archive data */
   Gyro_archiveData(p_gyro_state_out);
 

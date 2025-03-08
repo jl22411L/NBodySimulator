@@ -22,11 +22,10 @@
 /* Generic Libraries */
 #include "GConst/GConst.h"
 
-int ContinuousEkf_stepCovariance(double *p_systemCovarianceDerivitive_in,
-                                 double *p_previousSystemCovariance_in,
+int ContinuousEkf_stepCovariance(double *p_errorCovarianceDerivitive_in,
                                  double  timeStep_s_in,
                                  uint8_t ekfOrderN_in,
-                                 double *p_currentSystemCovariance_out)
+                                 double *p_errorCovariance_inout)
 {
   /* Declare local variables */
   uint8_t i;
@@ -36,10 +35,9 @@ int ContinuousEkf_stepCovariance(double *p_systemCovarianceDerivitive_in,
   {
     for (j = 0; j < ekfOrderN_in; j++)
     {
-      *(p_currentSystemCovariance_out + ekfOrderN_in * i + j) =
-          *(p_previousSystemCovariance_in + ekfOrderN_in * i + j) +
-          timeStep_s_in(
-              *(p_systemCovarianceDerivitive_in + ekfOrderN_in * i + j));
+      *(p_errorCovariance_inout + ekfOrderN_in * i + j) +=
+          timeStep_s_in *
+          (*(p_errorCovarianceDerivitive_in + ekfOrderN_in * i + j));
     }
   }
 

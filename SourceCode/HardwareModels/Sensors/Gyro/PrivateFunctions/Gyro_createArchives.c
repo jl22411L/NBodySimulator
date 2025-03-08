@@ -73,6 +73,12 @@ int Gyro_createArchives(Gyro_Params *p_gyro_params_in,
                   3,
                   1);
 
+  /* Add columns which represent the measured output of the sensor */
+  GArchive_addCol(&p_gyro_state_in->gyroArchive,
+                  "filteredGyroVector_Sen_rads",
+                  3,
+                  1);
+
   /* Write the header of the archive */
   GArchive_writeHeader(&p_gyro_state_in->gyroArchive);
 

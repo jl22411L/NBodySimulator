@@ -26,16 +26,18 @@
 #include "Gravity/DataStructs/Gravity_ParamsStruct.h"
 #include "Igrf/DataStructs/Igrf_ParamsStruct.h"
 #include "JamSail/DataStructs/JamSail_StateStruct.h"
+#include "SatelliteBody/DataStructs/SatelliteBody_StateStruct.h"
 
 /* Data include */
 /* None */
 
 /* Generic Libraries */
+#include "GArchive/GArchive.h" // TODO: Complete todo at bottom of function and remove
 #include "GConst/GConst.h"
 #include "GLog/GLog.h"
-#include "GMath/GMath.h"
 #include "GUtilities/GUtilities.h"
 #include "GZero/GZero.h"
+
 
 int main(void)
 {
@@ -136,6 +138,10 @@ int main(void)
 
   /* Terminate BodyMgr */
   BodyMgr_terminate(&bodyMgr_state);
+
+  /* Terminate JamSail */
+  // TODO: Put in a function
+  GArchive_close(&jamSail_state.ekfArchive);
 
   return GCONST_EXIT_SUCCESS;
 }

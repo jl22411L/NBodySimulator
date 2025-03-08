@@ -58,7 +58,7 @@ typedef struct RigidBody_StateStruct
    * @unit      Kgm^2
    * @frame     Body Frame
    */
-  double inertiaMatrix_kgm2_Bod[3][3];
+  double inertiaMatrix_Bod_kgm2[3][3];
 
   /*--------------------------------------------------------------------------*
    *                          TRANSLATIONAL VECTORS                           *
@@ -144,7 +144,7 @@ typedef struct RigidBody_StateStruct
    * @unit      N/A
    * @frame     Fixed Frame -> Body Frame
    */
-  double quaternionRate_FixedToBody[4];
+  double quaternionRate_FixToBody[4];
 
   /*!
    * @details   Quaternion to translate from the fixed frame to the body frame

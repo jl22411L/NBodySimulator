@@ -76,7 +76,7 @@ int GArchive_init(GArchive *p_archive_in, char *p_archiveDataFilename_in)
   /* Check file exists */
   if (GArchive_checkFileExists(dataFileDirectory) == GCONST_TRUE)
   {
-    GError("File '%s' already exists", dataFileDirectory);
+    GWarn("File '%s' already exists", dataFileDirectory);
   }
 
   /* Open file which to archive data */

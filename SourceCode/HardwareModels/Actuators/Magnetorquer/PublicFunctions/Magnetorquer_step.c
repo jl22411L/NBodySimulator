@@ -96,19 +96,13 @@ int Magnetorquer_step(Magnetorquer_State  *p_magnetorquer_state_out,
   /* Find the quaternion representing rotation from InertCen to GeoCen frame */
   GMath_quaternionConjugate(
       &(quaternion_InertCenToFix[0]),
-      &(p_magneticFieldCelestialBody_in->quaternion_FixToCenInert[0]));
+      &(p_magneticFieldCelestialBody_in->quaternion_FixToInertCen[0]));
 
   /* Find the quaternion which is from InertCen to GeoCen frame */
   GMath_quaternionMul(&(quaternion_InertCenToGeoCen[0]),
                       &(p_magneticFieldCelestialBody_in->rigidBody_state
                             .quaternion_FixToBody[0]),
                       &(quaternion_InertCenToFix[0]));
-
-  /* Check that quaternion from InertCen to GeoCen is correct */
-  CelestialBody_checkRotationAngle(
-      &(quaternion_InertCenToGeoCen[0]),
-      (p_magneticFieldCelestialBody_in->sideRealTime_s),
-      simTime_s_in);
 
   /* Find the position of point in Geo-Centric frame */
   GMath_quaternionFrameRotation(

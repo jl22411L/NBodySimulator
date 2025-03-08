@@ -156,6 +156,14 @@ int SunSensor_step(double              *p_bodyPosition_Fix_m_in,
         p_sunSensor_state_out->albedoComponentNoise_Sen_m[2];
   }
 
+  /* Move old sensor reading to previous reading (Used in low pass filter ) */
+  p_sunSensor_state_out->previousFilteredSunVector_Sen_m[0] =
+      p_sunSensor_state_out->filteredSunVector_Sen_m[0];
+  p_sunSensor_state_out->previousFilteredSunVector_Sen_m[0] =
+      p_sunSensor_state_out->filteredSunVector_Sen_m[1];
+  p_sunSensor_state_out->previousFilteredSunVector_Sen_m[0] =
+      p_sunSensor_state_out->filteredSunVector_Sen_m[2];
+
   /* Write archive */
   SunSensor_archiveData(p_sunSensor_state_out);
 

@@ -28,7 +28,7 @@ extern "C" {
 /* None */
 
 /* Generic Libraries */
-/* None */
+#include "GArchive/GArchive.h"
 
 typedef struct JamSail_StateStruct
 {
@@ -74,7 +74,118 @@ typedef struct JamSail_StateStruct
    */
   double trueMagneticFieldVector_m_bod[3];
 
-  /* ------2------------------------------------------------------------------ *
+  /* ------------------------------------------------------------------------ *
+   * EKF State Members
+   * ------------------------------------------------------------------------ */
+
+  /*!
+   * @brief     Member which holds the kalman gain of the EKF.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double kalmanGain[7][3];
+
+  /*!
+   * @brief     Member which holds the estimate of the measurement of the EKF.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double measurementEstimate[3];
+
+  /*!
+   * @brief     Member which holds the sensor measurements of the EKF.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double sensorMeasurement[3];
+
+  /*!
+   * @brief     Member which holds the error covariance matrix of the EKF.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double errorCovariance[7][7];
+
+  /*!
+   * @brief     Member which holds the error covariance derivitive matrix of the
+   *            EKF.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double errorCovarianceDerivitive[7][7];
+
+  /*!
+   * @brief     Member which holds the measurement jacobian of the EKF.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double measurementJacobian[3][7];
+
+  /*!
+   * @brief     Member which holds the state jacobian of the EKS.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double stateJacobian[7][7];
+
+  /*!
+   * @brief     Member which holds the state estimation of the quaternion from
+   *            the EKf.
+   *
+   * @frame     Fixed Frame to Body Frame
+   * @units     N/A
+   */
+  double quaternionEstimate_InertCenToBod[4];
+
+  /*!
+   * @brief     Member which holds the state estimation of the angular velocity
+   *            from the EKf.
+   *
+   * @frame     Body Frame
+   * @units     radians per second
+   */
+  double angularVelocityEstimate_Bod_rads[3];
+
+  // /*!
+  //  * @brief     Member which holds the state estimation of earths magnetic
+  //  field
+  //  *            from the EKf in the body frame.
+  //  *
+  //  * @frame     Body Frame
+  //  * @units     Nano Teslas
+  //  */
+  // double magneticFieldEstimate_Bod_nT[3];
+
+  // /*!
+  //  * @brief     Member which holds the state estimation of the first order
+  //  *            derivitive of earths magnetic field from the EKf in the body
+  //  *            frame.
+  //  *
+  //  * @frame     Body Frame
+  //  * @units     Nano Teslas Per Second
+  //  */
+  // double magneticFieldFirstDerivitiveEstimate_Bod_nT[3];
+
+  // /*!
+  //  * @brief     Member which holds the state estimation of the second order
+  //  *            derivitive of earths magnetic field from the EKf in the body
+  //  *            frame.
+  //  *
+  //  * @frame     Body Frame
+  //  * @units     Nano Teslas Per Second Squared
+  //  */
+  // double magneticFieldSecondDerivitiveEstimate_Bod_nT[3];
+
+  GArchive ekfArchive;
+
+  /* ------------------------------------------------------------------------ *
    * Sensor State Structs
    * ------------------------------------------------------------------------ */
 

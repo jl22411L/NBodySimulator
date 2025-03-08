@@ -10,6 +10,7 @@
 /* Function Includes */
 #include "CelestialBody/PublicFunctions/CelestialBody_PublicFunctions.h"
 #include "Igrf/PublicFunctions/Igrf_PublicFunctions.h"
+#include "SensorFilters/PublicFunctions/SensorFilter_PublicFunctions.h"
 #include "Sensors/Magnetometer/PrivateFunctions/Magnetometer_PrivateFunctions.h"
 
 /* Structure Include */
@@ -91,10 +92,10 @@ int Magnetometer_step(Magnetometer_Params *p_magnetometer_params_in,
                   &(sensorPositionRelBody_Fix_m[0]),
                   &(bodyPositionRelInertialCentric_Fix_m[0]));
 
-  /* Find the quaternion representing rotation from InertCen to GeoCen frame */
+  /* Find the quaternion representing rotation from InertCen to fixed frame */
   GMath_quaternionConjugate(
       &(quaternion_InertCenToFix[0]),
-      &(p_magneticFieldCelestialBody_in->quaternion_FixToCenInert[0]));
+      &(p_magneticFieldCelestialBody_in->quaternion_FixToInertCen[0]));
 
   /* Find the quaternion which is from InertCen to GeoCen frame */
   GMath_quaternionMul(&(quaternion_InertCenToGeoCen[0]),
@@ -102,11 +103,9 @@ int Magnetometer_step(Magnetometer_Params *p_magnetometer_params_in,
                             .quaternion_FixToBody[0]),
                       &(quaternion_InertCenToFix[0]));
 
-  /* Check that quaternion from InertCen to GeoCen is correct */
-  CelestialBody_checkRotationAngle(
-      &(quaternion_InertCenToGeoCen[0]),
-      (p_magneticFieldCelestialBody_in->sideRealTime_s),
-      simTime_s_in);
+  /* Make sure quaternion is a unit quaternion */
+  GMath_findUnitQuaternion(&(quaternion_InertCenToGeoCen[0]),
+                           &(quaternion_InertCenToGeoCen[0]));
 
   /* Find the position of point in Geo-Centric frame */
   GMath_quaternionFrameRotation(
@@ -190,6 +189,14 @@ int Magnetometer_step(Magnetometer_Params *p_magnetometer_params_in,
       p_magnetometer_state_out->trueMagneticFieldMeasurement_Sen_nT[2] +
       p_magnetometer_state_out->externalMagneticFieldNoise_Sen_nT[2] +
       p_magnetometer_state_out->sensorMagneticFieldNoise_Sen_nT[2];
+
+  /* Move old sensor reading to previous reading (Used in low pass filter ) */
+  p_magnetometer_state_out->previousFilteredMagneticField_Sen_nT[0] =
+      p_magnetometer_state_out->filteredMagneticField_Sen_nT[0];
+  p_magnetometer_state_out->previousFilteredMagneticField_Sen_nT[1] =
+      p_magnetometer_state_out->filteredMagneticField_Sen_nT[1];
+  p_magnetometer_state_out->previousFilteredMagneticField_Sen_nT[2] =
+      p_magnetometer_state_out->filteredMagneticField_Sen_nT[2];
 
   /* Archive data */
   Magnetometer_archiveData(p_magnetometer_state_out);

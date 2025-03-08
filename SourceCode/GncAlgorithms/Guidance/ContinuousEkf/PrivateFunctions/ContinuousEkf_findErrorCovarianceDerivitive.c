@@ -25,11 +25,11 @@
 #include "GZero/GZero.h"
 
 int ContinuousEkf_findCovarianceDerivitive(
-    double *p_stateJacobianMatrix_in,
-    double *p_systemCovariance_in,
-    double *p_stateNoiseCovariance_in,
+    double *p_stateJacobian_in,
+    double *p_errorCovariance_in,
+    double *p_systemNoiseCovariance_in,
     uint8_t ekfOrderN_in,
-    double *p_systemCovarianceDerivitive_out)
+    double *p_errorCovarianceDerivitive_out)
 {
   /* Declare local variables */
   uint8_t i;
@@ -37,13 +37,13 @@ int ContinuousEkf_findCovarianceDerivitive(
   uint8_t k;
 
   /* Clear variables */
-  GZero(p_systemCovarianceDerivitive_out, double[ekfOrderN_in][ekfOrderN_in]);
+  GZero(p_errorCovarianceDerivitive_out, double[ekfOrderN_in][ekfOrderN_in]);
 
   /*!
    * This is effectively a custom builr matrix multiplier. The equation which is
    * being used to find the covariance derivitive is:
    *
-   *    dP = FP * PF^T + Q
+   *    dP = F*P + P*F^T + Q
    *
    * Where, ^T means that the matrix is transpose. Essentially, when multiplying
    * two matricies, you takw the ith row of the first matrix and dot product it
@@ -57,12 +57,12 @@ int ContinuousEkf_findCovarianceDerivitive(
     {
       for (k = 0; k < ekfOrderN_in; k++)
       {
-        *(p_systemCovarianceDerivitive_out + ekfOrderN_in * i + j) +=
-            ((*(p_stateJacobianMatrix_in + ekfOrderN_in * i + k)) *
-                 (*(p_systemCovariance_in + ekfOrderN_in * k + j)) +
-             (*(p_systemCovariance_in + ekfOrderN_in * i + k)) *
-                 (*(p_stateJacobianMatrix_in + ekfOrderN_in * j + k)) +
-             *(p_stateNoiseCovariance_in + ekfOrderN_in * i + j));
+        *(p_errorCovarianceDerivitive_out + ekfOrderN_in * i + j) +=
+            ((*(p_stateJacobian_in + ekfOrderN_in * i + k)) *
+                 (*(p_errorCovariance_in + ekfOrderN_in * k + j)) +
+             (*(p_errorCovariance_in + ekfOrderN_in * i + k)) *
+                 (*(p_stateJacobian_in + ekfOrderN_in * j + k)) +
+             *(p_systemNoiseCovariance_in + ekfOrderN_in * i + j));
       }
     }
   }

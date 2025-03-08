@@ -16,6 +16,7 @@ set(LIB_LIST
   SunSensor
   Magnetometer
   Igrf
+  GArchive
 )
 
 target_link_libraries(JamSailSimulation ${LIB_LIST})

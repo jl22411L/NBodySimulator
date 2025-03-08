@@ -80,6 +80,12 @@ int Magnetometer_createArchives(Magnetometer_Params *p_magnetometer_params_in,
                   3,
                   1);
 
+  /* Add columns which represent the filtered output of the sensor */
+  GArchive_addCol(&p_magnetometer_state_in->magnetometerArchive,
+                  "filteredMagneticField_Sen_nT",
+                  3,
+                  1);
+
   /* Write the header of the archive */
   GArchive_writeHeader(&p_magnetometer_state_in->magnetometerArchive);
 

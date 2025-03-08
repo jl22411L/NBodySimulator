@@ -48,19 +48,19 @@ int GMath_quaternionRateCalc(double *p_quaternionRate_out,
    * [ref:https://www.euclideanspace.com/physics/kinematics/angularvelocity/QuaternionDifferentiation2.pdf]
    */
   *(p_quaternionRate_out + 0) =
-      0.5 * (-yQuaternionComponent * angularVelocityZ_rads +
-             zQuaternionComponent * angularVelocityY_rads +
-             sQuaternionComponent * angularVelocityX_rads);
+      0.5 * (sQuaternionComponent * angularVelocityX_rads +
+             yQuaternionComponent * angularVelocityZ_rads -
+             zQuaternionComponent * angularVelocityY_rads);
 
   *(p_quaternionRate_out + 1) =
-      0.5 * (xQuaternionComponent * angularVelocityZ_rads -
-             zQuaternionComponent * angularVelocityX_rads +
-             sQuaternionComponent * angularVelocityY_rads);
+      0.5 * (sQuaternionComponent * angularVelocityY_rads -
+             xQuaternionComponent * angularVelocityZ_rads +
+             zQuaternionComponent * angularVelocityX_rads);
 
   *(p_quaternionRate_out + 2) =
-      0.5 * (-xQuaternionComponent * angularVelocityY_rads +
-             yQuaternionComponent * angularVelocityX_rads +
-             sQuaternionComponent * angularVelocityZ_rads);
+      0.5 * (sQuaternionComponent * angularVelocityZ_rads +
+             xQuaternionComponent * angularVelocityY_rads -
+             yQuaternionComponent * angularVelocityX_rads);
 
   *(p_quaternionRate_out + 3) =
       -0.5 * (xQuaternionComponent * angularVelocityX_rads +

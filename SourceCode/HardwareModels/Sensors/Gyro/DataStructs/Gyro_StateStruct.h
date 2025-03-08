@@ -32,7 +32,7 @@ typedef struct Gyro_StateStruct
    * @brief       True reading of angular velocity of sensor.
    *
    * @frame       Sensor Frame
-   * @unit        radians per second
+   * @units       radians per second
    */
   double trueGyroVector_Sen_rads[3];
 
@@ -40,7 +40,7 @@ typedef struct Gyro_StateStruct
    * @brief       Noise reading of angular velocity of sensor.
    *
    * @frame       Sensor Frame
-   * @unit        radians per second
+   * @units       radians per second
    */
   double noiseGyroVector_Sen_rads[3];
 
@@ -48,9 +48,26 @@ typedef struct Gyro_StateStruct
    * @brief       Measured reading of angular velocity of sensor.
    *
    * @frame       Sensor Frame
-   * @unit        radians per second
+   * @units       radians per second
    */
   double measuredGyroVector_Sen_rads[3];
+
+  /*!
+   * @brief     Measured vector of the sensor from previous timestep. (Used for
+   *            low pass filtering)
+   *
+   * @frame     Sensor
+   * @units     radians per second
+   */
+  double previousFilteredGyroVector_Sen_rads[3];
+
+  /*!
+   * @brief     Filtered vector reading of magnetic field.
+   *
+   * @frame     Sensor
+   * @units     radians per second
+   */
+  double filteredGyroVector_Sen_rads[3];
 
   /*!
    * @brief     Archive member for sensor.

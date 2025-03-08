@@ -38,6 +38,28 @@ typedef struct JamSail_ParamsStruct
   /* None */
 
   /* ------------------------------------------------------------------------ *
+   * EKF Parameters
+   * ------------------------------------------------------------------------ */
+
+  /*!
+   * @brief     Matrix containing the coefficients of the sensor noise
+   *            covariance for the EKF.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
+  double sensorNoiseCovariance[3][3];
+
+  /*!
+   * @brief     Matrix containing the coefficients of the system noise
+   *            covariance for the EKF.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
+  double systemNoiseCovariance[7][7];
+
+  /* ------------------------------------------------------------------------ *
    * Sensor Parameters
    * ------------------------------------------------------------------------ */
 
