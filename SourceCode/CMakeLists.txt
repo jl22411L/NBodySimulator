@@ -57,8 +57,9 @@ add_subdirectory(${GENERIC_PATH}/GTime)
 add_subdirectory(${GENERIC_PATH}/GUtilities)
 
 # GNC Algorithms
-add_subdirectory(${GNC_ALGORITHMS_PATH}/Guidance/TriadAlgorithm)
 add_subdirectory(${GNC_ALGORITHMS_PATH}/Guidance/ContinuousEkf)
+add_subdirectory(${GNC_ALGORITHMS_PATH}/Guidance/KeplarianPropogation)
+add_subdirectory(${GNC_ALGORITHMS_PATH}/Guidance/TriadAlgorithm)
 add_subdirectory(${GNC_ALGORITHMS_PATH}/SensorFilters)
 
 # Physics Modules

@@ -211,7 +211,7 @@ def keplarianToCartesian(massBody1_kg_in: float,
 
   # Check to make sure true anomoly is positive
   if trueAnomoly < 0:
-    trueAnomoly + 2 * PI
+    trueAnomoly += PI
 
   # Find the position magnitude of body 2 with respect to body 1
   orbitalPositionMag_km = ((orbitalAngularMomentum_km2s**2) /

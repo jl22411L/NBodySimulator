@@ -19,12 +19,13 @@ extern "C" {
 
 /* Structure Include */
 #include "Actuators/Magnetorquer/DataStructs/Magnetorquer_ParamsStruct.h"
+#include "Igrf/DataStructs/Igrf_ParamsStruct.h"
 #include "Sensors/Gyro/DataStructs/Gyro_ParamsStruct.h"
 #include "Sensors/Magnetometer/DataStructs/Magnetometer_ParamsStruct.h"
 #include "Sensors/SunSensor/DataStructs/SunSensor_ParamsStruct.h"
 
 /* Data include */
-/* None */
+#include "JamSail/ConstantDefs/JamSail_Const.h"
 
 /* Generic Libraries */
 /* None */
@@ -38,7 +39,7 @@ typedef struct JamSail_ParamsStruct
   /* None */
 
   /* ------------------------------------------------------------------------ *
-   * EKF Parameters
+   * Attitude Determination Parameters
    * ------------------------------------------------------------------------ */
 
   /*!
@@ -48,7 +49,15 @@ typedef struct JamSail_ParamsStruct
    * @frame     N/A
    * @unit      N/A
    */
-  double sensorNoiseCovariance[3][3];
+  double estimationEkfSensorNoiseCovariance[JAMSAIL_ESTIMATION_EKF_DEGREE_M]
+                                           [JAMSAIL_ESTIMATION_EKF_DEGREE_M];
+
+  double semiMajorAxis_km;
+  double eccentricity;
+  double inclination_rad;
+  double argumentOfPerigee_rad;
+  double raans_rad;
+  double timeSincePeriapsis_s;
 
   /*!
    * @brief     Matrix containing the coefficients of the system noise
@@ -57,7 +66,15 @@ typedef struct JamSail_ParamsStruct
    * @frame     N/A
    * @unit      N/A
    */
-  double systemNoiseCovariance[7][7];
+  double systemNoiseCovariance[JAMSAIL_EKF_ORDER_N][JAMSAIL_EKF_ORDER_N];
+
+  /*!
+   * @brief     Params struct for IGRF model.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  Igrf_Params igrfModel_params;
 
   /* ------------------------------------------------------------------------ *
    * Sensor Parameters

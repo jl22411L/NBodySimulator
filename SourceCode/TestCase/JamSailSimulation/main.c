@@ -38,7 +38,6 @@
 #include "GUtilities/GUtilities.h"
 #include "GZero/GZero.h"
 
-
 int main(void)
 {
   /* Declaring local variables */
@@ -108,7 +107,8 @@ int main(void)
                  &jamSail_params,
                  &bodyMgr_state,
                  &igrf_params,
-                 Utilities.simTime_s);
+                 Utilities.simTime_s,
+                 Utilities.simTimeStep_s);
 
     /* Step the bodies */
     BodyMgr_step(&bodyMgr_state);
@@ -140,8 +140,7 @@ int main(void)
   BodyMgr_terminate(&bodyMgr_state);
 
   /* Terminate JamSail */
-  // TODO: Put in a function
-  GArchive_close(&jamSail_state.ekfArchive);
+  JamSail_terminate(&jamSail_state);
 
   return GCONST_EXIT_SUCCESS;
 }

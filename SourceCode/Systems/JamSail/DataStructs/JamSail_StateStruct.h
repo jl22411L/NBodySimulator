@@ -25,7 +25,7 @@ extern "C" {
 #include "Sensors/SunSensor/DataStructs/SunSensor_StateStruct.h"
 
 /* Data include */
-/* None */
+#include "JamSail/ConstantDefs/JamSail_Const.h"
 
 /* Generic Libraries */
 #include "GArchive/GArchive.h"
@@ -84,7 +84,7 @@ typedef struct JamSail_StateStruct
    * @frame     N/A
    * @units     N/A
    */
-  double kalmanGain[7][3];
+  double kalmanGain[JAMSAIL_EKF_ORDER_N][JAMSAIL_ESTIMATION_EKF_DEGREE_M];
 
   /*!
    * @brief     Member which holds the estimate of the measurement of the EKF.
@@ -108,7 +108,7 @@ typedef struct JamSail_StateStruct
    * @frame     N/A
    * @units     N/A
    */
-  double errorCovariance[7][7];
+  double errorCovariance[JAMSAIL_EKF_ORDER_N][JAMSAIL_EKF_ORDER_N];
 
   /*!
    * @brief     Member which holds the error covariance derivitive matrix of the
@@ -117,7 +117,7 @@ typedef struct JamSail_StateStruct
    * @frame     N/A
    * @units     N/A
    */
-  double errorCovarianceDerivitive[7][7];
+  double errorCovarianceDerivitive[JAMSAIL_EKF_ORDER_N][JAMSAIL_EKF_ORDER_N];
 
   /*!
    * @brief     Member which holds the measurement jacobian of the EKF.
@@ -125,7 +125,17 @@ typedef struct JamSail_StateStruct
    * @frame     N/A
    * @units     N/A
    */
-  double measurementJacobian[3][7];
+  double estimationEkfMeasurementJacobian[JAMSAIL_ESTIMATION_EKF_DEGREE_M]
+                                         [JAMSAIL_EKF_ORDER_N];
+
+  /*!
+   * @brief     Member which holds the measurement jacobian of the EKF.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double measuringEkfMeasurementJacobian[JAMSAIL_MEASURING_EKF_DEGREE_M]
+                                        [JAMSAIL_EKF_ORDER_N];
 
   /*!
    * @brief     Member which holds the state jacobian of the EKS.
@@ -133,7 +143,7 @@ typedef struct JamSail_StateStruct
    * @frame     N/A
    * @units     N/A
    */
-  double stateJacobian[7][7];
+  double stateJacobian[JAMSAIL_EKF_ORDER_N][JAMSAIL_EKF_ORDER_N];
 
   /*!
    * @brief     Member which holds the state estimation of the quaternion from
@@ -153,37 +163,25 @@ typedef struct JamSail_StateStruct
    */
   double angularVelocityEstimate_Bod_rads[3];
 
-  // /*!
-  //  * @brief     Member which holds the state estimation of earths magnetic
-  //  field
-  //  *            from the EKf in the body frame.
-  //  *
-  //  * @frame     Body Frame
-  //  * @units     Nano Teslas
-  //  */
-  // double magneticFieldEstimate_Bod_nT[3];
+  /*!
+   * @brief     Flag to indicate if the attitude was measured or estimated by
+   *            the attitude determination algorithm.
+   *
+   *            GCONST_TRUE  = Attitude was Measured
+   *            GCONST_FALSE = Attitude was Estimated
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  uint8_t attitudeMeasuredFlag : 1;
 
-  // /*!
-  //  * @brief     Member which holds the state estimation of the first order
-  //  *            derivitive of earths magnetic field from the EKf in the body
-  //  *            frame.
-  //  *
-  //  * @frame     Body Frame
-  //  * @units     Nano Teslas Per Second
-  //  */
-  // double magneticFieldFirstDerivitiveEstimate_Bod_nT[3];
-
-  // /*!
-  //  * @brief     Member which holds the state estimation of the second order
-  //  *            derivitive of earths magnetic field from the EKf in the body
-  //  *            frame.
-  //  *
-  //  * @frame     Body Frame
-  //  * @units     Nano Teslas Per Second Squared
-  //  */
-  // double magneticFieldSecondDerivitiveEstimate_Bod_nT[3];
-
-  GArchive ekfArchive;
+  /*!
+   * @brief     Archive member for ekf.
+   *
+   * @unit      N/A
+   * @frame     N/A
+   */
+  GArchive attitudeDeterminationArchive;
 
   /* ------------------------------------------------------------------------ *
    * Sensor State Structs

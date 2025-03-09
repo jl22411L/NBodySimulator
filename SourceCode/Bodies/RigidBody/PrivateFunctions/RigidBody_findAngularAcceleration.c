@@ -41,7 +41,7 @@ int RigidBody_findAngularAcceleration(RigidBody_State *p_rigidBody_state_in)
                3);
 
   /* Find the angular momentum of the rigid body */
-  GMath_matMul(&invInertiaMatrix[0][0],
+  GMath_matMul(&p_rigidBody_state_in->inertiaMatrix_Bod_kgm2[0][0],
                3,
                3,
                &p_rigidBody_state_in->angularVelocity_rads_Bod[0],

@@ -107,6 +107,15 @@ int Magnetometer_step(Magnetometer_Params *p_magnetometer_params_in,
   GMath_findUnitQuaternion(&(quaternion_InertCenToGeoCen[0]),
                            &(quaternion_InertCenToGeoCen[0]));
 
+  // TODO: THe simulated rotation angle does not match up with the theoretical.
+  //       This may be due to dirft of the numerical integration. To get around
+  //       this, some runge-kutta integration method may need to be applied.
+  //   /* Check the rotation angle of the earth matches up */
+  //   CelestialBody_checkRotationAngle(
+  //       &(quaternion_InertCenToGeoCen[0]),
+  //       p_magneticFieldCelestialBody_in->sideRealTime_s,
+  //       simTime_s_in);
+
   /* Find the position of point in Geo-Centric frame */
   GMath_quaternionFrameRotation(
       &(sensorPoint_GeoCen_m[0]),

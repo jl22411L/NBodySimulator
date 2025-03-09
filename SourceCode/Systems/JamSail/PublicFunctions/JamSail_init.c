@@ -14,6 +14,8 @@
 /* Function Includes */
 #include "Actuators/Magnetorquer/PublicFunctions/Magnetorquer_PublicFunctions.h"
 #include "BodyMgr/PublicFunctions/BodyMgr_PublicFunctions.h"
+#include "Igrf/PublicFunctions/Igrf_PublicFunctions.h"
+#include "JamSail/PrivateFunctions/JamSail_PrivateFunctions.h"
 #include "Sensors/Gyro/PublicFunctions/Gyro_PublicFunctions.h"
 #include "Sensors/Magnetometer/PublicFunctions/Magnetometer_PublicFunctions.h"
 #include "Sensors/SunSensor/PublicFunctions/SunSensor_PublicFunctions.h"
@@ -24,7 +26,7 @@
 #include "JamSail/DataStructs/JamSail_StateStruct.h"
 
 /* Data include */
-/* None */
+#include "JamSail/ConstantDefs/JamSail_Const.h"
 
 /* Generic Libraries */
 #include "GArchive/GArchive.h"
@@ -38,14 +40,12 @@ int JamSail_init(JamSail_State  *p_jamSail_state_out,
                  BodyMgr_State  *p_bodyMgr_state_in)
 {
   /* Define Local Variables */
-  char          parameterBuffer[64];
   dictionary   *p_dic;
   GParser_State GParser_state;
   int           i;
 
   /* Clear Variables */
   GZero(&GParser_state, GParser_State);
-  GZero(&parameterBuffer, char[64]);
   p_dic = NULL;
 
   /* ------------------------------------------------------------------------ *
@@ -63,10 +63,9 @@ int JamSail_init(JamSail_State  *p_jamSail_state_out,
     GError("Satellite body was not asssigned to JamSail state correctly");
   }
 
-  /* ------------------------------------------------------------------------
-   * * Sensor Initialization
-   * ------------------------------------------------------------------------
-   */
+  /* ------------------------------------------------------------------------ *
+   * Sensor Initialization
+   * ------------------------------------------------------------------------ */
 
   /* Initialize Sun Sensor */
   SunSensor_init("Parameters/SunSensor.ini",
@@ -107,100 +106,17 @@ int JamSail_init(JamSail_State  *p_jamSail_state_out,
   // TODO
 
   /* ------------------------------------------------------------------------ *
-   * EKF Initialize
+   * ADCS Initialize
    * ------------------------------------------------------------------------ */
 
-  // TODO: Move all this to own function in JamSail_initEkf
-  /* Load parameters */
-  p_dic = GParser_loadParams(&GParser_state, "Parameters/JamSail.ini");
+  /* Initialize Attitude Determination of JamSail */
+  JamSail_initAttitudeDetermination(p_jamSail_state_out, p_jamSail_params_out);
 
-  /* Check that the parameters from the sensor have been loaded */
-  if (p_dic == NULL)
-  {
-    GError("Failed to load parameters for Gyro: %s", "Parameters/JamSail.ini");
-  }
-
-  /* Load parameters for EKF system noise covariance matricies */
-  for (i = 0; i < 7; i++)
-  {
-    /* Load name of parameter into buffer */
-    sprintf(&(parameterBuffer[0]),
-            "EkfProperties:systemNoiseCovariance[%d][%d]",
-            i,
-            i);
-
-    /* Load parameter into member of JamSails params struct */
-    GParser_loadDouble(&GParser_state,
-                       p_dic,
-                       &(p_jamSail_params_out->systemNoiseCovariance[i][i]),
-                       &(parameterBuffer[0]));
-
-    /* Clear buffer */
-    GZero(&parameterBuffer, char[64]);
-  }
-
-  /* Load parameters for EKF sensor noise covariance matricies */
-  for (i = 0; i < 3; i++)
-  {
-    /* Load name of parameter into buffer */
-    sprintf(&(parameterBuffer[0]),
-            "EkfProperties:sensorNoiseCovariance[%d][%d]",
-            i,
-            i);
-
-    /* Load parameter into member of JamSails params struct */
-    GParser_loadDouble(&GParser_state,
-                       p_dic,
-                       &(p_jamSail_params_out->sensorNoiseCovariance[i][i]),
-                       &(parameterBuffer[0]));
-
-    /* Clear buffer */
-    GZero(&parameterBuffer, char[32]);
-  }
-
-  /* Set initial condition of quaternion. (All other elements are zero) */
-  (p_jamSail_state_out->quaternionEstimate_InertCenToBod[3]) = 1.0;
-
-  /* Set initial condition for error covariance */
-  for (i = 0; i < 7; i++)
-  {
-    p_jamSail_state_out->errorCovariance[i][i] = 1.0;
-  }
-
-  /* Load the measurement jacobian matrix for the EKF with coefficient */
-  for (i = 0; i < 3; i++)
-  {
-    (p_jamSail_state_out->measurementJacobian[i][i + 4]) = 1.0;
-  }
-
-  /* Close parameters */
-  GParser_closeParams(&GParser_state, p_dic);
-
-  /* Init Archives */
-  // TODO: put in own function
-  GArchive_init(&p_jamSail_state_out->ekfArchive,
-                "Bodies/JamSail/ArchiveData/ContinuousEkf");
-
-  /* Add column */
-  GArchive_addCol(&p_jamSail_state_out->ekfArchive,
-                  "quaternionEstimate_InertCenToBod",
-                  4,
-                  1);
-
-  /* Add column */
-  GArchive_addCol(&p_jamSail_state_out->ekfArchive,
-                  "angularVelocityEstimate_Bod_rads",
-                  3,
-                  1);
-
-  // /* Add column */
-  // GArchive_addCol(&p_jamSail_state_out->ekfArchive,
-  //                 "magneticFieldEstimate_Bod_nT",
-  //                 3,
-  //                 1);
-
-  /* Write header for archive */
-  GArchive_writeHeader(&p_jamSail_state_out->ekfArchive);
+  /* Init IGRF model */
+  Igrf_init(&(p_jamSail_params_out->igrfModel_params),
+            "Parameters/IgrfParameters.ini",
+            13,
+            13);
 
   return GCONST_TRUE;
 }

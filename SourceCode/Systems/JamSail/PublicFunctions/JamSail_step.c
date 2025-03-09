@@ -37,7 +37,8 @@ int JamSail_step(JamSail_State  *p_jamSail_state_out,
                  JamSail_Params *p_jamSail_params_in,
                  BodyMgr_State  *p_bodyMgr_state_in,
                  Igrf_Params    *p_igrf_params_in,
-                 double          simTime_s_in)
+                 double          simTime_s_in,
+                 double          simTimeStep_s_in)
 {
   /* Declare local variables */
   CelestialBody_State *p_sunCelestialBody;
@@ -144,7 +145,8 @@ int JamSail_step(JamSail_State  *p_jamSail_state_out,
   /* Step Determination Algorithm */
   JamSail_attitudeDetermination(p_jamSail_state_out,
                                 p_jamSail_params_in,
-                                Utilities.simTimeStep_s);
+                                simTime_s_in,
+                                simTimeStep_s_in);
 
   /* ------------------------------------------------------------------------ *
    * Step Control Algorithms

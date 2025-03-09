@@ -10,6 +10,7 @@
  */
 
 #include <math.h>
+#include <stdint.h>
 #include <stdio.h>
 
 /* Function Includes */
@@ -32,17 +33,31 @@ int CelestialBody_checkRotationAngle(double *p_quaternion_InertCenToGeoCen_in,
                                      double  simTime_s_in)
 {
   /* Declare local variables */
-  double unitQuaternion_InertCenToGeoCen[4];
-  double simulatedRotatedAngle_rad;
-  double theoreticalRotatedAngle_rad;
-  double angularSpeed_rads;
-  double error_rad;
+  double  unitQuaternion_InertCenToGeoCen[4];
+  double  simulatedRotatedAngle_rad;
+  double  theoreticalRotatedAngle_rad;
+  double  angularSpeed_rads;
+  double  error_rad;
+  uint8_t i;
 
   /* Clear variables */
   GZero(&(unitQuaternion_InertCenToGeoCen[0]), double[4]);
 
+  /* Set numbers below toelrance to zero */
+  for (i = 0; i < 4; i++)
+  {
+    if ((*(p_quaternion_InertCenToGeoCen_in + i)) *
+            (*(p_quaternion_InertCenToGeoCen_in + i)) >
+        CELESTIALBODY_ROTATION_ANGLE_TOLERANCE_RAD *
+            CELESTIALBODY_ROTATION_ANGLE_TOLERANCE_RAD)
+    {
+      unitQuaternion_InertCenToGeoCen[i] =
+          *(p_quaternion_InertCenToGeoCen_in + i);
+    }
+  }
+
   /* Find unit quaternion */
-  GMath_findUnitQuaternion(p_quaternion_InertCenToGeoCen_in,
+  GMath_findUnitQuaternion(&(unitQuaternion_InertCenToGeoCen[0]),
                            &(unitQuaternion_InertCenToGeoCen[0]));
 
   /* Find simulated rotated angle from the quaternion in range 0-2*PI*/
