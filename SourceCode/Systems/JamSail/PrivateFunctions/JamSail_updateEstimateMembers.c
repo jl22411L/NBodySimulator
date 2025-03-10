@@ -35,7 +35,7 @@ int JamSail_updateEstimateMembers(double        *p_stateVector_in,
         *(p_stateVector_in + i);
   }
 
-  /* Extracta the angular velocity from the state vector */
+  /* Extract the angular velocity from the state vector */
   for (i = 0; i < 3; i++)
   {
     (p_jamSail_state_out->angularVelocityEstimate_Bod_rads[i]) =

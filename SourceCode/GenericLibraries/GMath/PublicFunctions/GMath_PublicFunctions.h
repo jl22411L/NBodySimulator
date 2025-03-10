@@ -706,10 +706,10 @@ extern int GMath_vectorMag(double *outputValue_out,
  * @brief       Finds the unit vector from an input vector. Output should be
  *              the same size as the input vector.
  *
- * @param[out]  outputVector_out
+ * @param[out]  p_outputVector_out
  *              Address to double array where norm vector will be stored
  *
- * @param[in]   vector_in
+ * @param[in]   p_vector_in
  *              Address to double vector which norm vector will be found from.
  *
  * @param[in]   vectorSize_in
@@ -719,8 +719,8 @@ extern int GMath_vectorMag(double *outputValue_out,
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GMath_vectorNorm(double *outputVector_out,
-                            double *vector_in,
+extern int GMath_vectorNorm(double *p_outputVector_out,
+                            double *p_vector_in,
                             int     vectorSize_in);
 
 /*!

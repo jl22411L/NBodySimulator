@@ -58,8 +58,8 @@ int KeplarianPropogation_findPositionInInertCen(
                &(vectorBuffer1[0]));
 
   /* Create euler angle vector for inclination */
-  rotationEul123[0] = 0.0;
-  rotationEul123[1] = -inclintaion_rad_in;
+  rotationEul123[0] = -inclintaion_rad_in;
+  rotationEul123[1] = 0.0;
   rotationEul123[2] = 0.0;
 
   /* Find rotation DCM for argument of periapsis */

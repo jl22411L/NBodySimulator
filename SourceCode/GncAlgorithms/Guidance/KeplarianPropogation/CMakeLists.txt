@@ -5,7 +5,7 @@ add_library(KeplarianPropogation
 )
 
 set(LIB_LIST
-
+  GMath
 )
 
 target_link_libraries(KeplarianPropogation ${LIB_LIST})

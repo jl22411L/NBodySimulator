@@ -2,7 +2,8 @@ add_library(JamSail
   PrivateFunctions/JamSail_archiveData.c
   PrivateFunctions/JamSail_attitudeDetermination.c
   PrivateFunctions/JamSail_attitudeEstimation.c
-  PrivateFunctions/JamSail_estimationEkf_loadStateVector.c
+  PrivateFunctions/JamSail_estimationEkfLoadStateVector.c
+  PrivateFunctions/JamSail_fillObservationJacobian.c
   PrivateFunctions/JamSail_fillStateJacobian.c
   PrivateFunctions/JamSail_findStateDerivitive.c
   PrivateFunctions/JamSail_initAttitudeDetermination.c

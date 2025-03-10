@@ -34,7 +34,7 @@ extern "C" {
  * @frame       N/A
  * @units       N/A
  */
-#define KEPLARIAN_PROPOGATION_ECCENTRIC_ANOMOLY_MAX_ITERATIONS (1000)
+#define KEPLARIAN_PROPOGATION_ECCENTRIC_ANOMOLY_MAX_ITERATIONS (10000)
 
 /*!
  * @brief       Constant used to define the tolerance of the eccentric anomoly

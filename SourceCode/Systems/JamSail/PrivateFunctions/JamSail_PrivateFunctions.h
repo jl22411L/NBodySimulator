@@ -120,11 +120,24 @@ extern int JamSail_attitudeEstimation(JamSail_State  *p_jamSail_state_inout,
  *                function will return a GCONST_FALSE
  */
 extern int
-    JamSail_estimationEkf_loadVectors(double *p_stateEstimateVector_out,
-                                      double *p_measurementEstimateVector_out,
-                                      double *p_measurementSensorVector_out,
-                                      JamSail_State  *p_jamSail_state_in,
-                                      JamSail_Params *p_jamSail_params_in);
+    JamSail_estimationEkfLoadVectors(double *p_stateEstimateVector_out,
+                                     double *p_measurementEstimateVector_out,
+                                     double *p_measurementSensorVector_out,
+                                     JamSail_State  *p_jamSail_state_in,
+                                     JamSail_Params *p_jamSail_params_in);
+
+/*!
+ * @brief         Fills the observation matrix for the EKF.
+
+ * @param[in]     p_jamSail_state_out
+ *                Pointer containing the address of the struct of JamSail's
+ *                state.
+ *
+ * @return        Upon a successful completion, the fucntion will return a
+ *                GCONST_TRUE. If an error in the codes execution occurs, the
+ *                function will return a GCONST_FALSE
+ */
+extern int JamSail_fillObservationJacobian(JamSail_State *p_jamSail_state_out);
 
 /*!
  * @brief         Function which will fill the state jacobian manually. This

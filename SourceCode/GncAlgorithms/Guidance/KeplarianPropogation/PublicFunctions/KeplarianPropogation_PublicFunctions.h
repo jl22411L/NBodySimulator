@@ -54,7 +54,10 @@ extern "C" {
  *                Right Acension of Ascending Nodes in radians.
  *
  * @param[in]     timeSincePeriapsis_s_in
- *                Time since periapsis of orbit.
+ *                Time since periapsis of orbit in unix time.
+ *
+ * @param[in]     simTime_s_in
+ *                Current sim time, in unix time.
  *
  * @param[out]    p_orbitalPosition_InertCen_out
  *                Pointer to vector where the position of body 2 with respect
@@ -74,6 +77,7 @@ extern int KeplarianPropogation_keplarianToCartesian(
     double  argOfPeriapsis_rad_in,
     double  raans_rad_in,
     double  timeSincePeriapsis_s_in,
+    double  simTime_s_in,
     double *p_orbitalPosition_InertCen_out);
 
 #ifdef __cplusplus

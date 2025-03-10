@@ -84,7 +84,7 @@ typedef struct JamSail_StateStruct
    * @frame     N/A
    * @units     N/A
    */
-  double kalmanGain[JAMSAIL_EKF_ORDER_N][JAMSAIL_ESTIMATION_EKF_DEGREE_M];
+  double kalmanGain[JAMSAIL_EKF_ORDER_N][JAMSAIL_EKF_DEGREE_M];
 
   /*!
    * @brief     Member which holds the estimate of the measurement of the EKF.
@@ -125,17 +125,7 @@ typedef struct JamSail_StateStruct
    * @frame     N/A
    * @units     N/A
    */
-  double estimationEkfMeasurementJacobian[JAMSAIL_ESTIMATION_EKF_DEGREE_M]
-                                         [JAMSAIL_EKF_ORDER_N];
-
-  /*!
-   * @brief     Member which holds the measurement jacobian of the EKF.
-   *
-   * @frame     N/A
-   * @units     N/A
-   */
-  double measuringEkfMeasurementJacobian[JAMSAIL_MEASURING_EKF_DEGREE_M]
-                                        [JAMSAIL_EKF_ORDER_N];
+  double observationJacobian[JAMSAIL_EKF_DEGREE_M][JAMSAIL_EKF_ORDER_N];
 
   /*!
    * @brief     Member which holds the state jacobian of the EKS.
@@ -162,6 +152,41 @@ typedef struct JamSail_StateStruct
    * @units     radians per second
    */
   double angularVelocityEstimate_Bod_rads[3];
+
+  /*!
+   * @brief     Member which holds the estimation of the magnetic field in
+   *            the inertial centric frame. This vector should be normalised as
+   *            the magnitude does not contain any information relating to
+   *            attitude.
+   *
+   * @frame     Inertial Centric
+   * @units     Nano Teslas
+   */
+  double magneticFieldEstimateNorm_InertCen_nT[3];
+
+  /*!
+   * @brief     Member which holds the estimation of the magnetic field in
+   *            the body. This vector should be normalised as
+   *            the magnitude does not contain any information relating to
+   *            attitude.
+   *
+   *            This is found using the estimate of the quaternion from the
+   *            EKF. This is then compared to the body magnetic field found
+   *            from the magnetometer.
+   *
+   * @frame     Body
+   * @units     Nano Teslas
+   */
+  double magneticFieldEstimateNorm_Bod_nT[3];
+
+  /*!
+   * @brief     Member which holds the estimation of the position of JamSail in
+   *            the inertial centric frame
+   *
+   * @frame     Inertial Centric
+   * @units     Meters
+   */
+  double positionEstimate_InertCen_m[3];
 
   /*!
    * @brief     Flag to indicate if the attitude was measured or estimated by

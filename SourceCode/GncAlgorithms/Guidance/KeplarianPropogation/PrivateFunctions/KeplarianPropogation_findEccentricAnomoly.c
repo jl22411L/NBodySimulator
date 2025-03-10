@@ -28,10 +28,10 @@ int KeplarianPropogation_findEccentricAnomoly(
     double *p_eccentricAnomoly_rad_out)
 {
   /* Declare local variables */
-  double   eccentricAnomolyIterable_rad;
-  double   ecentricAnomolyFunctionDerivitive;
-  double   eccentricAnomolyFuctionError_rad;
-  uint16_t i;
+  double  eccentricAnomolyIterable_rad;
+  double  ecentricAnomolyFunctionDerivitive;
+  double  eccentricAnomolyFuctionError_rad;
+  int16_t i;
 
   /* Set first guess of ecentric anomoly to mean anomoly */
   eccentricAnomolyIterable_rad = meanAnomoly_rad_in;
@@ -53,8 +53,9 @@ int KeplarianPropogation_findEccentricAnomoly(
         eccentricAnomolyFuctionError_rad / ecentricAnomolyFunctionDerivitive;
 
     /* If the tolreance has been reached by function output, break loop */
-    if (eccentricAnomolyFuctionError_rad <
-        KEPLARIAN_PROPOGATION_ECCENTRIC_ANOMOLY_TOLERANCE_RAD)
+    if (eccentricAnomolyFuctionError_rad * eccentricAnomolyFuctionError_rad <
+        KEPLARIAN_PROPOGATION_ECCENTRIC_ANOMOLY_TOLERANCE_RAD *
+            KEPLARIAN_PROPOGATION_ECCENTRIC_ANOMOLY_TOLERANCE_RAD)
     {
       break;
     }

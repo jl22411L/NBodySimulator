@@ -49,14 +49,89 @@ typedef struct JamSail_ParamsStruct
    * @frame     N/A
    * @unit      N/A
    */
-  double estimationEkfSensorNoiseCovariance[JAMSAIL_ESTIMATION_EKF_DEGREE_M]
-                                           [JAMSAIL_ESTIMATION_EKF_DEGREE_M];
+  double estimationEkfSensorNoiseCovariance[JAMSAIL_EKF_DEGREE_M]
+                                           [JAMSAIL_EKF_DEGREE_M];
 
+  /*!
+   * @brief     Mass of earth. Used in keplarian propogation.
+   *
+   * @frame     N/A
+   * @unit      Kilograms
+   */
+  double earthMass_kg;
+
+  /*!
+   * @brief     Side real time of earth.
+   *
+   * @frame     N/A
+   * @unit      Seconds
+   */
+  double earthSideRealTime_s;
+
+  /*!
+   * @brief     Parameter which contains the magnitude of the average rotation
+   *            speed of the earth.
+   *
+   * @frame     N/A
+   * @unit      Radians per Seconds
+   */
+  double averageEarthRotationalSpeedMag_rads;
+
+  /*!
+   * @brief     Parameter which contains the equatorial radius of the earth.
+   *
+   * @frame     N/A
+   * @unit      Meters
+   */
+  double earthEqutorialRadius_m;
+
+  /*!
+   * @brief     Semi major axis of JamSail
+   *
+   * @frame     N/A
+   * @unit      Kilometers
+   */
   double semiMajorAxis_km;
+
+  /*!
+   * @brief     Eccentricity of JamSail
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
   double eccentricity;
+
+  /*!
+   * @brief     Inclination of JamSail
+   *
+   * @frame     N/A
+   * @unit      Radians
+   */
   double inclination_rad;
+
+  /*!
+   * @brief     Argument of Perigee of JamSail
+   *
+   * @frame     N/A
+   * @unit      Radians
+   */
   double argumentOfPerigee_rad;
+
+  /*!
+   * @brief     Right Acension of Accending Nodes of JamSail
+   *
+   * @frame     N/A
+   * @unit      Radians
+   */
   double raans_rad;
+
+  /*!
+   * @brief     Matrix containing the coefficients of the sensor noise
+   *            covariance for the EKF.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
   double timeSincePeriapsis_s;
 
   /*!

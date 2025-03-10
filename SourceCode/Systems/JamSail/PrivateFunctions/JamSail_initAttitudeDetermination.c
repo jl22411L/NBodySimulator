@@ -33,6 +33,7 @@ int JamSail_initAttitudeDetermination(JamSail_State  *p_jamSail_state_out,
   char          parameterBuffer[64];
   GParser_State GParser_state;
   uint8_t       i;
+  uint8_t       j;
 
   /* Clear Variables */
   GZero(&GParser_state, GParser_State);
@@ -49,42 +50,48 @@ int JamSail_initAttitudeDetermination(JamSail_State  *p_jamSail_state_out,
   }
 
   /* Load parameters for EKF system noise covariance matricies */
-  for (i = 0; i < 7; i++)
+  for (i = 0; i < JAMSAIL_EKF_ORDER_N; i++)
   {
-    /* Load name of parameter into buffer */
-    sprintf(&(parameterBuffer[0]),
-            "EkfProperties:systemNoiseCovariance[%d][%d]",
-            i,
-            i);
+    for (j = 0; j < JAMSAIL_EKF_ORDER_N; j++)
+    {
+      /* Load name of parameter into buffer */
+      sprintf(&(parameterBuffer[0]),
+              "EkfProperties:systemNoiseCovariance[%d][%d]",
+              i,
+              j);
 
-    /* Load parameter into member of JamSails params struct */
-    GParser_loadDouble(&GParser_state,
-                       p_dic,
-                       &(p_jamSail_params_out->systemNoiseCovariance[i][i]),
-                       &(parameterBuffer[0]));
+      /* Load parameter into member of JamSails params struct */
+      GParser_loadDouble(&GParser_state,
+                         p_dic,
+                         &(p_jamSail_params_out->systemNoiseCovariance[i][j]),
+                         &(parameterBuffer[0]));
 
-    /* Clear buffer */
-    GZero(&parameterBuffer, char[64]);
+      /* Clear buffer */
+      GZero(&parameterBuffer, char[64]);
+    }
   }
 
   /* Load parameters for EKF sensor noise covariance matricies */
-  for (i = 0; i < 3; i++)
+  for (i = 0; i < JAMSAIL_EKF_DEGREE_M; i++)
   {
-    /* Load name of parameter into buffer */
-    sprintf(&(parameterBuffer[0]),
-            "EkfProperties:estimationEkfSensorNoiseCovariance[%d][%d]",
-            i,
-            i);
+    for (j = 0; j < JAMSAIL_EKF_DEGREE_M; j++)
+    {
+      /* Load name of parameter into buffer */
+      sprintf(&(parameterBuffer[0]),
+              "EkfProperties:estimationEkfSensorNoiseCovariance[%d][%d]",
+              i,
+              j);
 
-    /* Load parameter into member of JamSails params struct */
-    GParser_loadDouble(
-        &GParser_state,
-        p_dic,
-        &(p_jamSail_params_out->estimationEkfSensorNoiseCovariance[i][i]),
-        &(parameterBuffer[0]));
+      /* Load parameter into member of JamSails params struct */
+      GParser_loadDouble(
+          &GParser_state,
+          p_dic,
+          &(p_jamSail_params_out->estimationEkfSensorNoiseCovariance[i][j]),
+          &(parameterBuffer[0]));
 
-    /* Clear buffer */
-    GZero(&parameterBuffer, char[32]);
+      /* Clear buffer */
+      GZero(&parameterBuffer, char[32]);
+    }
   }
 
   /* Set initial condition of quaternion. (All other elements are zero) */
@@ -96,11 +103,67 @@ int JamSail_initAttitudeDetermination(JamSail_State  *p_jamSail_state_out,
     p_jamSail_state_out->errorCovariance[i][i] = 1.0;
   }
 
-  /* Load the measurement jacobian matrix for the EKF with coefficient */
-  for (i = 0; i < JAMSAIL_ESTIMATION_EKF_DEGREE_M; i++)
-  {
-    (p_jamSail_state_out->estimationEkfMeasurementJacobian[i][i + 4]) = 1.0;
-  }
+  /* ------------------------------------------------------------------------ *
+   * KEPLARIAN ELEMENTS
+   * ------------------------------------------------------------------------ */
+
+  /* Load semi major axis */
+  GParser_loadDouble(&GParser_state,
+                     p_dic,
+                     &(p_jamSail_params_out->semiMajorAxis_km),
+                     "OrbitalElements:semiMajorAxis_km");
+
+  /* Load eccentricity */
+  GParser_loadDouble(&GParser_state,
+                     p_dic,
+                     &(p_jamSail_params_out->eccentricity),
+                     "OrbitalElements:eccentricity");
+
+  /* Load inclination */
+  GParser_loadDouble(&GParser_state,
+                     p_dic,
+                     &(p_jamSail_params_out->inclination_rad),
+                     "OrbitalElements:inclination_rad");
+
+  /* Load argument of periapsis */
+  GParser_loadDouble(&GParser_state,
+                     p_dic,
+                     &(p_jamSail_params_out->argumentOfPerigee_rad),
+                     "OrbitalElements:argumentOfPerigee_rad");
+
+  /* Load RAANS */
+  GParser_loadDouble(&GParser_state,
+                     p_dic,
+                     &(p_jamSail_params_out->raans_rad),
+                     "OrbitalElements:raans_rad");
+
+  /* Load time since periapsis */
+  GParser_loadDouble(&GParser_state,
+                     p_dic,
+                     &(p_jamSail_params_out->timeSincePeriapsis_s),
+                     "OrbitalElements:timeSincePeriapsis_s");
+
+  /* Load earth mass parameter */
+  GParser_loadDouble(&GParser_state,
+                     p_dic,
+                     &(p_jamSail_params_out->earthMass_kg),
+                     "EarthProperties:earthMass_kg");
+
+  /* Load earth side real time parameter */
+  GParser_loadDouble(&GParser_state,
+                     p_dic,
+                     &(p_jamSail_params_out->earthSideRealTime_s),
+                     "EarthProperties:earthSideRealTime_s");
+
+  /* Find average rotaional speed of the earth */
+  (p_jamSail_params_out->averageEarthRotationalSpeedMag_rads) =
+      2 * GCONST_PI / (p_jamSail_params_out->earthSideRealTime_s);
+
+  /* Load earth side real time parameter */
+  GParser_loadDouble(&GParser_state,
+                     p_dic,
+                     &(p_jamSail_params_out->earthEqutorialRadius_m),
+                     "EarthProperties:earthEqutorialRadius_m");
 
   /* Close parameters */
   GParser_closeParams(&GParser_state, p_dic);

@@ -31,7 +31,7 @@ int GMath_findUnitQuaternion(double *p_inputQuaternion_in,
   /* Find the magnitude of the quaternion */
   GMath_vectorMag(&quaternionMagnitude, p_inputQuaternion_in, 4);
 
-  /* Sscale quaternion to make it a unit quaternion */
+  /* Scale quaternion to make it a unit quaternion */
   for (i = 0; i < 4; i++)
   {
     if (*(p_inputQuaternion_in + 3) < 0.0)

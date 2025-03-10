@@ -26,17 +26,18 @@
 int KeplarianPropogation_keplarianToCartesian(
     double  massBody1_kg_in,
     double  massBody2_kg_in,
-    double  semiMajorAxis_km_in,
+    double  semiMajorAxis_m_in,
     double  eccentricity_in,
     double  inclintaion_rad_in,
     double  argOfPeriapsis_rad_in,
     double  raans_rad_in,
     double  timeSincePeriapsis_s_in,
+    double  simTime_s_in,
     double *p_orbitalPosition_InertCen_out)
 {
   /* Declare local variables */
-  double gravitationalParameter_km3kg2s2;
-  double orbitalAngularMomentum_km2s;
+  double gravitationalParameter_m3kg2s2;
+  double orbitalAngularMomentum_m2s;
   double orbitalTimePeriod_s;
   double averageAngularRate_rads;
   double meanAnomoly_rad;
@@ -45,32 +46,37 @@ int KeplarianPropogation_keplarianToCartesian(
   double orbitalPositionMag_m;
   double orbitalPosition_Per_m[3];
   double orbitalPosition_InertCen_m[3];
+  double changeInTime_s;
 
   /* Clar Variables */
   GZero(&(orbitalPosition_Per_m[0]), double[3]);
   GZero(&(orbitalPosition_InertCen_m[0]), double[3]);
 
   /* Find standard gravitational parameter (mu) */
-  gravitationalParameter_km3kg2s2 = GRAVITY_UNIVERSAL_GRAVITATIONAL_CONSTANT *
-                                    (massBody1_kg_in + massBody2_kg_in);
-
-  /* Find the angular momentum of the orbit */
-  orbitalAngularMomentum_km2s =
-      sqrt(semiMajorAxis_km_in * gravitationalParameter_km3kg2s2 *
-           (1 - eccentricity_in * eccentricity_in));
+  gravitationalParameter_m3kg2s2 = GRAVITY_UNIVERSAL_GRAVITATIONAL_CONSTANT *
+                                   (massBody1_kg_in + massBody2_kg_in);
 
   /* Find the period of the orbit */
-  orbitalTimePeriod_s = (2 * GCONST_PI * pow(semiMajorAxis_km_in, 3 / 2)) /
-                        sqrt(gravitationalParameter_km3kg2s2);
+  orbitalTimePeriod_s =
+      (2 * GCONST_PI *
+       sqrt(pow(semiMajorAxis_m_in, 3) / gravitationalParameter_m3kg2s2));
 
   /* Find the time since periapsis */
-  timeSincePeriapsis_s_in = fmod(timeSincePeriapsis_s_in, orbitalTimePeriod_s);
+  changeInTime_s =
+      fmod(simTime_s_in - timeSincePeriapsis_s_in, orbitalTimePeriod_s);
+
+  /* If the change in time is negative add the time period to make it positive
+   */
+  if (changeInTime_s < 0.0)
+  {
+    changeInTime_s += orbitalTimePeriod_s;
+  }
 
   /* Find average angular rate of orbiting body (body 2) */
   averageAngularRate_rads = 2 * GCONST_PI / orbitalTimePeriod_s;
 
   /* Find the mean anomoly */
-  meanAnomoly_rad = averageAngularRate_rads * timeSincePeriapsis_s_in;
+  meanAnomoly_rad = averageAngularRate_rads * changeInTime_s;
 
   /* Find the Eccentric Anomoly */
   KeplarianPropogation_findEccentricAnomoly(meanAnomoly_rad,
@@ -79,8 +85,8 @@ int KeplarianPropogation_keplarianToCartesian(
 
   /* Find the True Anomoly */
   trueAnomoly_rad =
-      atan2(sqrt(1 + eccentricity_in) * tan(eccentricAnomoly_rad / 2),
-            sqrt(1 - eccentricity_in));
+      2 * atan2(sqrt(1 + eccentricity_in) * tan(eccentricAnomoly_rad / 2),
+                sqrt(1 - eccentricity_in));
 
   /* Make sure True Anomoly is Positive */
   if (trueAnomoly_rad < 0)
@@ -90,14 +96,12 @@ int KeplarianPropogation_keplarianToCartesian(
 
   /* Find the magnitude of the position of body 2 with respect to body 1 */
   orbitalPositionMag_m =
-      1000 * ((orbitalAngularMomentum_km2s * orbitalAngularMomentum_km2s) /
-              (gravitationalParameter_km3kg2s2 *
-               (1 + eccentricity_in * cos(trueAnomoly_rad))));
+      semiMajorAxis_m_in * (1 - eccentricity_in * cos(eccentricAnomoly_rad));
 
   /* Find position of body 2 with respect to body 1 in the Perifocal Frame   */
   orbitalPosition_Per_m[0] = orbitalPositionMag_m * cos(trueAnomoly_rad);
-  orbitalPosition_Per_m[0] = orbitalPositionMag_m * sin(trueAnomoly_rad);
-  orbitalPosition_Per_m[0] = 0.0;
+  orbitalPosition_Per_m[1] = orbitalPositionMag_m * sin(trueAnomoly_rad);
+  orbitalPosition_Per_m[2] = 0.0;
 
   /* Find the position of body 2 with respect to body 1 */
   KeplarianPropogation_findPositionInInertCen(&(orbitalPosition_Per_m[0]),

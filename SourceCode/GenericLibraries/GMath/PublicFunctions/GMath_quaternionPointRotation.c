@@ -60,7 +60,7 @@ int GMath_quaternionPointRotation(double *p_rotatedVector_out,
 
   /*
    * Note: The rotation is defined as;
-   *              outputVector = quaternionConjufate * inputVector * quaternion
+   *              outputVector = quaternion * inputVector * quaternionConjugate
    *
    *              quaternionBuffer = quaternionConjugate * inputVector
    *
@@ -72,13 +72,13 @@ int GMath_quaternionPointRotation(double *p_rotatedVector_out,
 
   /* Find Quaternion Buffer for itermediate multiplication */
   GMath_quaternionMul(&quaternionBuffer[0],
-                      &quaternionConjugate[0],
-                      &inputPureQuaternion[0]);
+                      &inputPureQuaternion[0],
+                      &quaternionConjugate[0]);
 
   /* Find output pure quaternion */
   GMath_quaternionMul(&outputPureQuaternion[0],
-                      &quaternionBuffer[0],
-                      p_quaternion_in);
+                      p_quaternion_in,
+                      &quaternionBuffer[0]);
 
   /* Find the unit quaternion of the output */
   GMath_findUnitQuaternion(&(outputPureQuaternion[0]),
