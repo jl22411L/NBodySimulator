@@ -78,16 +78,15 @@ int JamSail_initAttitudeDetermination(JamSail_State  *p_jamSail_state_out,
     {
       /* Load name of parameter into buffer */
       sprintf(&(parameterBuffer[0]),
-              "EkfProperties:estimationEkfSensorNoiseCovariance[%d][%d]",
+              "EkfProperties:sensorNoiseCovariance[%d][%d]",
               i,
               j);
 
       /* Load parameter into member of JamSails params struct */
-      GParser_loadDouble(
-          &GParser_state,
-          p_dic,
-          &(p_jamSail_params_out->estimationEkfSensorNoiseCovariance[i][j]),
-          &(parameterBuffer[0]));
+      GParser_loadDouble(&GParser_state,
+                         p_dic,
+                         &(p_jamSail_params_out->sensorNoiseCovariance[i][j]),
+                         &(parameterBuffer[0]));
 
       /* Clear buffer */
       GZero(&parameterBuffer, char[32]);

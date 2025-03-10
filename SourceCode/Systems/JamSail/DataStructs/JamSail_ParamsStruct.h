@@ -49,8 +49,7 @@ typedef struct JamSail_ParamsStruct
    * @frame     N/A
    * @unit      N/A
    */
-  double estimationEkfSensorNoiseCovariance[JAMSAIL_EKF_DEGREE_M]
-                                           [JAMSAIL_EKF_DEGREE_M];
+  double sensorNoiseCovariance[JAMSAIL_EKF_DEGREE_M][JAMSAIL_EKF_DEGREE_M];
 
   /*!
    * @brief     Mass of earth. Used in keplarian propogation.

@@ -36,9 +36,9 @@ int JamSail_fillStateJacobian(JamSail_State *p_jamSail_state_out,
   (p_jamSail_state_out->stateJacobian[0][3]) =
       0.5 * (p_jamSail_state_out->angularVelocityEstimate_Bod_rads[0]);
   (p_jamSail_state_out->stateJacobian[1][0]) =
-      0.5 * (p_jamSail_state_out->angularVelocityEstimate_Bod_rads[2]);
+      -0.5 * (p_jamSail_state_out->angularVelocityEstimate_Bod_rads[2]);
   (p_jamSail_state_out->stateJacobian[1][2]) =
-      -0.5 * (p_jamSail_state_out->angularVelocityEstimate_Bod_rads[0]);
+      0.5 * (p_jamSail_state_out->angularVelocityEstimate_Bod_rads[0]);
   (p_jamSail_state_out->stateJacobian[1][3]) =
       0.5 * (p_jamSail_state_out->angularVelocityEstimate_Bod_rads[1]);
   (p_jamSail_state_out->stateJacobian[2][0]) =
@@ -92,7 +92,7 @@ int JamSail_fillStateJacobian(JamSail_State *p_jamSail_state_out,
       -(p_jamSail_state_out->angularVelocityEstimate_Bod_rads[0]) *
       (xxInertia_Bod_kgm2_in - zzInertia_Bod_kgm2_in) / yyInertia_Bod_kgm2_in;
   (p_jamSail_state_out->stateJacobian[6][4]) =
-      -(p_jamSail_state_out->angularVelocityEstimate_Bod_rads[2]) *
+      -(p_jamSail_state_out->angularVelocityEstimate_Bod_rads[1]) *
       (yyInertia_Bod_kgm2_in - xxInertia_Bod_kgm2_in) / zzInertia_Bod_kgm2_in;
   (p_jamSail_state_out->stateJacobian[6][5]) =
       -(p_jamSail_state_out->angularVelocityEstimate_Bod_rads[0]) *

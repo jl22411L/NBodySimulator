@@ -47,7 +47,7 @@ int JamSail_fillObservationJacobian(JamSail_State *p_jamSail_state_out)
   rotationMatrix[2][1] =
       -2 * (p_jamSail_state_out->quaternionEstimate_InertCenToBod[3]);
   rotationMatrix[2][2] =
-      -2 * (p_jamSail_state_out->quaternionEstimate_InertCenToBod[1]);
+      -2 * (p_jamSail_state_out->quaternionEstimate_InertCenToBod[0]);
 
   GMath_matMul(&(rotationMatrix[0][0]),
                3,

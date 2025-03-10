@@ -21,7 +21,6 @@
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
-#include "GZero/GZero.h"
 
 int ContinuousEkf_stateCorrection(double *p_kalmanGain_in,
                                   double *p_sensorMeasurement_in,

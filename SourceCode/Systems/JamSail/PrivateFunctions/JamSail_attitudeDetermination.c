@@ -144,10 +144,6 @@ int JamSail_attitudeDetermination(JamSail_State  *p_jamSail_state_inout,
   //   p_jamSail_state_inout->attitudeMeasuredFlag = GCONST_TRUE;
   // }
 
-  GMath_findUnitQuaternion(
-      &(p_jamSail_state_inout->quaternionEstimate_InertCenToBod[0]),
-      &(p_jamSail_state_inout->quaternionEstimate_InertCenToBod[0]));
-
   double quaternion_InertToBod[4];
   double quaternion_InertToFix[4];
 
@@ -164,44 +160,34 @@ int JamSail_attitudeDetermination(JamSail_State  *p_jamSail_state_inout,
   GMath_findUnitQuaternion(&(quaternion_InertToBod[0]),
                            &(quaternion_InertToBod[0]));
 
-  int i;
-  printf("[");
-  for (i = 0; i < 4; i++)
-  {
-    printf("%+10.8lf ",
-           p_jamSail_state_inout->quaternionEstimate_InertCenToBod[i]);
-  }
-  for (i = 0; i < 3; i++)
-  {
-    printf("%+10.8lf ",
-           p_jamSail_state_inout->angularVelocityEstimate_Bod_rads[i]);
-  }
-  for (i = 0; i < 3; i++)
-  {
-    printf("%+10.8lf ",
-           p_jamSail_state_inout->magneticFieldEstimateNorm_Bod_nT[i]);
-  }
-  printf("] [");
-  for (i = 0; i < 4; i++)
-  {
-    printf("%+10.8lf ", quaternion_InertToBod[i]);
-  }
-  for (i = 0; i < 3; i++)
-  {
-    printf("%+10.8lf ",
-           p_jamSail_state_inout->p_satelliteBody_state->rigidBody_state
-               .angularVelocity_rads_Bod[i]);
-  }
+  int    i;
   double vector[3];
   GMath_vectorNorm(&vector[0],
                    &p_jamSail_state_inout->magnetometer_state
                         .trueMagneticFieldMeasurement_Sen_nT[0],
                    3);
+
+  printf("[");
+  for (i = 0; i < 4; i++)
+  {
+    printf("%+10.8lf %+10.8lf ",
+           p_jamSail_state_inout->quaternionEstimate_InertCenToBod[i],
+           quaternion_InertToBod[i]);
+  }
   for (i = 0; i < 3; i++)
   {
-    printf("%+10.8lf ", vector[i]);
+    printf("%+10.8lf %+10.8lf ",
+           p_jamSail_state_inout->angularVelocityEstimate_Bod_rads[i],
+           p_jamSail_state_inout->p_satelliteBody_state->rigidBody_state
+               .angularVelocity_rads_Bod[i]);
   }
-  printf("]\n");
+  for (i = 0; i < 3; i++)
+  {
+    printf("%+10.8lf %+10.8lf ",
+           p_jamSail_state_inout->magneticFieldEstimateNorm_Bod_nT[i],
+           vector[i]);
+  }
+  printf("] \n");
 
   /* Archive attitude determination results */
   JamSail_archiveData(p_jamSail_state_inout);

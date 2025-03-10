@@ -45,7 +45,7 @@ int JamSail_estimationEkfLoadVectors(double *p_stateEstimateVector_out,
   /* Load the angular velocity estimate into the state vector */
   for (i = 0; i < 3; i++)
   {
-    *(p_stateEstimateVector_out + i) =
+    *(p_stateEstimateVector_out + i + 4) =
         (p_jamSail_state_in->angularVelocityEstimate_Bod_rads[i]);
   }
 
