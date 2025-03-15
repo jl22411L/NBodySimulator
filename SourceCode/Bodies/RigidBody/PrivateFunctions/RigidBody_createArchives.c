@@ -46,7 +46,7 @@ int RigidBody_createArchives(RigidBody_State *p_rigidBody_state_in)
 
   /* Add inertia matrix columns */
   GArchive_addCol(&p_rigidBody_state_in->rigidBodyArchive,
-                  "inertiaMatrix_kgm2_Bod",
+                  "inertiaMatrix_Bod_kgm2",
                   3,
                   3);
 
@@ -100,7 +100,7 @@ int RigidBody_createArchives(RigidBody_State *p_rigidBody_state_in)
 
   /* Add quaternion rate columns */
   GArchive_addCol(&p_rigidBody_state_in->rigidBodyArchive,
-                  "quaternionRate_FixedToBody",
+                  "quaternionRate_FixToBody",
                   4,
                   1);
 

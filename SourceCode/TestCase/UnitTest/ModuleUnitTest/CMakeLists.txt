@@ -7,7 +7,7 @@ add_executable(ModuleUnitTest
 )
 
 set(LIB_LIST
-  GRand
+  GMath
 )
 
 target_link_libraries(ModuleUnitTest ${LIB_LIST})

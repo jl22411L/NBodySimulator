@@ -25,10 +25,10 @@ extern "C" {
 #include "Sensors/SunSensor/DataStructs/SunSensor_StateStruct.h"
 
 /* Data include */
-/* None */
+#include "JamSail/ConstantDefs/JamSail_Const.h"
 
 /* Generic Libraries */
-/* None */
+#include "GArchive/GArchive.h"
 
 typedef struct JamSail_StateStruct
 {
@@ -74,7 +74,141 @@ typedef struct JamSail_StateStruct
    */
   double trueMagneticFieldVector_m_bod[3];
 
-  /* ------2------------------------------------------------------------------ *
+  /* ------------------------------------------------------------------------ *
+   * EKF State Members
+   * ------------------------------------------------------------------------ */
+
+  /*!
+   * @brief     Member which holds the kalman gain of the EKF.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double kalmanGain[JAMSAIL_EKF_ORDER_N][JAMSAIL_EKF_DEGREE_M];
+
+  /*!
+   * @brief     Member which holds the estimate of the measurement of the EKF.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double measurementEstimate[3];
+
+  /*!
+   * @brief     Member which holds the sensor measurements of the EKF.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double sensorMeasurement[3];
+
+  /*!
+   * @brief     Member which holds the error covariance matrix of the EKF.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double errorCovariance[JAMSAIL_EKF_ORDER_N][JAMSAIL_EKF_ORDER_N];
+
+  /*!
+   * @brief     Member which holds the error covariance derivitive matrix of the
+   *            EKF.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double errorCovarianceDerivitive[JAMSAIL_EKF_ORDER_N][JAMSAIL_EKF_ORDER_N];
+
+  /*!
+   * @brief     Member which holds the measurement jacobian of the EKF.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double observationJacobian[JAMSAIL_EKF_DEGREE_M][JAMSAIL_EKF_ORDER_N];
+
+  /*!
+   * @brief     Member which holds the state jacobian of the EKS.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double stateJacobian[JAMSAIL_EKF_ORDER_N][JAMSAIL_EKF_ORDER_N];
+
+  /*!
+   * @brief     Member which holds the state estimation of the quaternion from
+   *            the EKf.
+   *
+   * @frame     Fixed Frame to Body Frame
+   * @units     N/A
+   */
+  double quaternionEstimate_InertCenToBod[4];
+
+  /*!
+   * @brief     Member which holds the state estimation of the angular velocity
+   *            from the EKf.
+   *
+   * @frame     Body Frame
+   * @units     radians per second
+   */
+  double angularVelocityEstimate_Bod_rads[3];
+
+  /*!
+   * @brief     Member which holds the estimation of the magnetic field in
+   *            the inertial centric frame. This vector should be normalised as
+   *            the magnitude does not contain any information relating to
+   *            attitude.
+   *
+   * @frame     Inertial Centric
+   * @units     Nano Teslas
+   */
+  double magneticFieldEstimateNorm_InertCen_nT[3];
+
+  /*!
+   * @brief     Member which holds the estimation of the magnetic field in
+   *            the body. This vector should be normalised as
+   *            the magnitude does not contain any information relating to
+   *            attitude.
+   *
+   *            This is found using the estimate of the quaternion from the
+   *            EKF. This is then compared to the body magnetic field found
+   *            from the magnetometer.
+   *
+   * @frame     Body
+   * @units     Nano Teslas
+   */
+  double magneticFieldEstimateNorm_Bod_nT[3];
+
+  /*!
+   * @brief     Member which holds the estimation of the position of JamSail in
+   *            the inertial centric frame
+   *
+   * @frame     Inertial Centric
+   * @units     Meters
+   */
+  double positionEstimate_InertCen_m[3];
+
+  /*!
+   * @brief     Flag to indicate if the attitude was measured or estimated by
+   *            the attitude determination algorithm.
+   *
+   *            GCONST_TRUE  = Attitude was Measured
+   *            GCONST_FALSE = Attitude was Estimated
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  uint8_t attitudeMeasuredFlag : 1;
+
+  /*!
+   * @brief     Archive member for ekf.
+   *
+   * @unit      N/A
+   * @frame     N/A
+   */
+  GArchive attitudeDeterminationArchive;
+
+  /* ------------------------------------------------------------------------ *
    * Sensor State Structs
    * ------------------------------------------------------------------------ */
 

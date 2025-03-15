@@ -10,6 +10,7 @@
  */
 
 #include <math.h>
+#include <stdint.h>
 #include <stdio.h>
 
 /* Function Includes */
@@ -32,21 +33,36 @@ int CelestialBody_checkRotationAngle(double *p_quaternion_InertCenToGeoCen_in,
                                      double  simTime_s_in)
 {
   /* Declare local variables */
-  double unitQuaternion_InertCenToGeoCen[4];
-  double simulatedRotatedAngle_rad;
-  double theoreticalRotatedAngle_rad;
-  double angularSpeed_rads;
-  double error_rad;
+  double  unitQuaternion_InertCenToGeoCen[4];
+  double  simulatedRotatedAngle_rad;
+  double  theoreticalRotatedAngle_rad;
+  double  angularSpeed_rads;
+  double  error_rad;
+  uint8_t i;
 
   /* Clear variables */
   GZero(&(unitQuaternion_InertCenToGeoCen[0]), double[4]);
 
+  /* Set numbers below toelrance to zero */
+  for (i = 0; i < 4; i++)
+  {
+    if ((*(p_quaternion_InertCenToGeoCen_in + i)) *
+            (*(p_quaternion_InertCenToGeoCen_in + i)) >
+        CELESTIALBODY_ROTATION_ANGLE_TOLERANCE_RAD *
+            CELESTIALBODY_ROTATION_ANGLE_TOLERANCE_RAD)
+    {
+      unitQuaternion_InertCenToGeoCen[i] =
+          *(p_quaternion_InertCenToGeoCen_in + i);
+    }
+  }
+
   /* Find unit quaternion */
-  GMath_findUnitQuaternion(p_quaternion_InertCenToGeoCen_in,
+  GMath_findUnitQuaternion(&(unitQuaternion_InertCenToGeoCen[0]),
                            &(unitQuaternion_InertCenToGeoCen[0]));
 
-  /* Find the rotated angle from the quaternion that is being simulated */
-  simulatedRotatedAngle_rad = 2 * acos(unitQuaternion_InertCenToGeoCen[3]);
+  /* Find simulated rotated angle from the quaternion in range 0-2*PI*/
+  simulatedRotatedAngle_rad =
+      2 * GCONST_PI - 2 * acos(unitQuaternion_InertCenToGeoCen[3]);
 
   /* Find the angular speed of the body */
   angularSpeed_rads = 2 * GCONST_PI / celestialBodySideRealTime_s_in;
@@ -62,6 +78,12 @@ int CelestialBody_checkRotationAngle(double *p_quaternion_InertCenToGeoCen_in,
   /* Find the absolute value of the error */
   GMath_abs(theoreticalRotatedAngle_rad - simulatedRotatedAngle_rad,
             &error_rad);
+
+  printf("%lf, %lf, %lf, %lf\n",
+         simTime_s_in,
+         error_rad,
+         theoreticalRotatedAngle_rad,
+         simulatedRotatedAngle_rad);
 
   /* Compare results to make sure they are within tolerance */
   if (error_rad > CELESTIALBODY_ROTATION_ANGLE_TOLERANCE_RAD)

@@ -85,6 +85,18 @@ typedef struct Magnetometer_ParamsStruct
    */
   double noiseAmplitude_Sen_nT[3];
 
+  /* ------------------------------------------------------------------------ *
+   * Sensor Filter Coefficients
+   * ------------------------------------------------------------------------ */
+
+  /*!
+   * @brief     Cutoff frequency for low pass filter.
+   *
+   * @frame     N/A
+   * @units     Hz
+   */
+  double lowPassCutoffFrequency_Hz;
+
 } Magnetometer_Params;
 
 #ifdef __cplusplus

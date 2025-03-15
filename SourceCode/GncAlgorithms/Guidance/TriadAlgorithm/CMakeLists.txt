@@ -5,5 +5,5 @@ add_library(TriadAlgorithm
 
 
 target_link_libraries(TriadAlgorithm
-  PUBLIC GMath
+  PRIVATE GMath
 )

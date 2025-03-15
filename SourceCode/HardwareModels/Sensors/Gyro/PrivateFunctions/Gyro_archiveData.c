@@ -48,6 +48,13 @@ int Gyro_archiveData(Gyro_State *p_gyro_state_in)
                     p_gyro_state_in->measuredGyroVector_Sen_rads[i]);
   }
 
+  /* Add measured value to archive */
+  for (i = 0; i < 3; i++)
+  {
+    GArchive_addVal(&(p_gyro_state_in->gyroArchive),
+                    p_gyro_state_in->filteredGyroVector_Sen_rads[i]);
+  }
+
   /* Write data to archive */
   GArchive_writeLine(&(p_gyro_state_in->gyroArchive));
 

@@ -38,7 +38,7 @@ int RigidBody_archiveData(RigidBody_State *p_rigidBody_state_in)
     for (j = 0; j < 3; j++)
     {
       GArchive_addVal(&p_rigidBody_state_in->rigidBodyArchive,
-                      p_rigidBody_state_in->inertiaMatrix_kgm2_Bod[i][j]);
+                      p_rigidBody_state_in->inertiaMatrix_Bod_kgm2[i][j]);
     }
   }
 
@@ -102,7 +102,7 @@ int RigidBody_archiveData(RigidBody_State *p_rigidBody_state_in)
   for (i = 0; i < 4; i++)
   {
     GArchive_addVal(&p_rigidBody_state_in->rigidBodyArchive,
-                    p_rigidBody_state_in->quaternionRate_FixedToBody[i]);
+                    p_rigidBody_state_in->quaternionRate_FixToBody[i]);
   }
 
   /* Writing quaternion to archive */

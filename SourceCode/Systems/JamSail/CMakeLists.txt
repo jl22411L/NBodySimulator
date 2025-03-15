@@ -1,14 +1,33 @@
 add_library(JamSail
+  PrivateFunctions/JamSail_archiveData.c
+  PrivateFunctions/JamSail_attitudeDetermination.c
+  PrivateFunctions/JamSail_attitudeEstimation.c
+  PrivateFunctions/JamSail_estimationEkfLoadStateVector.c
+  PrivateFunctions/JamSail_fillObservationJacobian.c
+  PrivateFunctions/JamSail_fillStateJacobian.c
+  PrivateFunctions/JamSail_findStateDerivitive.c
+  PrivateFunctions/JamSail_initAttitudeDetermination.c
+  PrivateFunctions/JamSail_updateEstimateMembers.c
   PublicFunctions/JamSail_init.c
   PublicFunctions/JamSail_step.c
+  PublicFunctions/JamSail_terminate.c
 )
 
 set(LIB_LIST
   PRIVATE BodyMgr
+  PRIVATE CelestialBody
+  PRIVATE SatelliteBody
   PRIVATE SunSensor
   PRIVATE Magnetometer
   PRIVATE Gyro
   PRIVATE Magnetorquer
+  PRIVATE GParser
+  PRIVATE GMath
+  PRIVATE ContinuousEkf
+  PRIVATE GRand
+  PRIVATE SensorFilters
+  PRIVATE TriadAlgorithm
+  PRIVATE KeplarianPropogation
 )
 
 target_link_libraries(JamSail ${LIB_LIST})

@@ -101,6 +101,12 @@ int Magnetometer_init(const char          *p_magnetometerParamFilename_in,
                           3,
                           1);
 
+  /* Load Cutoff Frequency for sensor */
+  GParser_loadDouble(&GParser_state,
+                     p_dic,
+                     &(p_magnetometerParams_out->lowPassCutoffFrequency_Hz),
+                     "FilterParameters:lowPassCutoffFrequency_Hz");
+
   /* Close parameters */
   GParser_closeParams(&GParser_state, p_dic);
 

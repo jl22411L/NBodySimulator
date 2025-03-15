@@ -7,13 +7,12 @@ import configparser
 import argparse
 import yaml
 
+# [ref:https://downloads.rene-schwarz.com/download/M001-Keplerian_Orbit_Elements_to_Cartesian_State_Vectors.pdf]
+
 
 # ----------------------------------------------------------------------------- #
 # CONSTANTS
 # ----------------------------------------------------------------------------- #
-
-# Conversion Constants
-DEG_TO_RAD = PI / 180
 
 # Universal Gravitation Constant
 UNIVERSAL_GRAVITATIONAL_CONSTANT_KM3KGS2 = 6.6743 * 10**-20
@@ -50,11 +49,11 @@ def quaternionFrameRotation(quaternion_in: np.ndarray, vector_in: np.ndarray):
 
   # Perform first multiplication
   intermediateQuaternion = quaternionMultiplication(
-    quaternion_in, pureQuaternion)
+    pureQuaternion, quaternion_in)
 
   # Perform second multiplication
   pureQuaternionOutput = quaternionMultiplication(
-    intermediateQuaternion, quaternionConj)
+    quaternionConj, intermediateQuaternion)
 
   # Check that output is a pure quaternion
   if pureQuaternionOutput[3] > GMATH_QUATERNION_ZERO_TOLERANCE:
@@ -91,7 +90,7 @@ def quaternionConjugate(quaternion_in: np.ndarray):
 
 def quaternionMultiplication(pQuaternion_in: np.ndarray, qQuaternion_in: np.ndarray):
   """
-  @details      Function which performs quaternion multiplication of two 
+  @details      Function which performs quaternion multiplication of two
                 elements. The format of the result is:
                 outputQuaternion_out = p*q
 
@@ -134,7 +133,8 @@ def keplarianToCartesian(massBody1_kg_in: float,
                          inclintaion_rad_in: float,
                          argOfPeriapsis_rad_in: float,
                          raans_rad_in: float,
-                         timeSincePeriapsis_s_in: float) -> tuple:
+                         timeSincePeriapsis_s_in: float,
+                         simTime_s_in) -> tuple:
   """
   @details      Function which finds the initial conditions of two bodies in a
                 cartesian frame from the keplarian elements relative to body 1.
@@ -169,9 +169,15 @@ def keplarianToCartesian(massBody1_kg_in: float,
   @param[in]    timeSincePeriapsis_s_in
                 Time since periapsis of the orbit
 
+  @param[in]    simTime_s_in
+                Current time of simulation.
+
   @return       (orbitalPositionRelFix_Bod1_km_out,
                 orbitalVelocityRelFix_Bod1_km_out)
   """
+
+  # Find change in time
+  changeInTime_s = simTime_s_in - timeSincePeriapsis_s_in
 
   # Find standard gravitational parameters (mu)
   # https://en.wikipedia.org/wiki/Standard_gravitational_parameter
@@ -180,26 +186,24 @@ def keplarianToCartesian(massBody1_kg_in: float,
                                      UNIVERSAL_GRAVITATIONAL_CONSTANT_KM3KGS2 *
                                      massBody2_kg_in)
 
-  # Find the angular momentum of the orbit
-  orbitalAngularMomentum_km2s = np.sqrt(semiMajorAxis_km_in *
-                                        gravitationalParameter_km3kg2s2 *
-                                        (1 - eccentricity_in**2))
-
   # Find time period of orbit
   orbitalTimePeriod_s = (2 * PI *
                          semiMajorAxis_km_in ** (3 / 2) /
                          np.sqrt(gravitationalParameter_km3kg2s2))
 
   # Find the time since periapsis
-  while timeSincePeriapsis_s_in > orbitalTimePeriod_s:
+  while changeInTime_s > orbitalTimePeriod_s:
     # Keep subtracting orbital time period until time is less then a period
-    timeSincePeriapsis_s_in -= orbitalTimePeriod_s
+    changeInTime_s -= orbitalTimePeriod_s
+  while changeInTime_s < 0:
+    # Keep adding orbital time period until time greater than 0
+    changeInTime_s += orbitalTimePeriod_s
 
   # Find the average angular rate of body 2
   averageAngularRate_rads = 2 * PI / orbitalTimePeriod_s
 
   # Find the mean anomonly
-  meanAnomoly = averageAngularRate_rads * timeSincePeriapsis_s_in
+  meanAnomoly = averageAngularRate_rads * changeInTime_s
 
   # Find the eccentric anomoly
   eccentricAnomoly = findEccentricAnomoly(meanAnomoly, eccentricity_in)
@@ -209,14 +213,9 @@ def keplarianToCartesian(massBody1_kg_in: float,
                                np.tan(eccentricAnomoly / 2),
                                np.sqrt(1 - eccentricity_in))
 
-  # Check to make sure true anomoly is positive
-  if trueAnomoly < 0:
-    trueAnomoly + 2 * PI
-
   # Find the position magnitude of body 2 with respect to body 1
-  orbitalPositionMag_km = ((orbitalAngularMomentum_km2s**2) /
-                           gravitationalParameter_km3kg2s2 /
-                           (1 + eccentricity_in * np.cos(trueAnomoly)))
+  orbitalPositionMag_km = semiMajorAxis_km_in * (
+    1 - eccentricity_in * np.cos(eccentricAnomoly))
 
   # Find the position vector of body 2 with respect to body 1 in the orbit frame
   orbitalPosition_Per_km = orbitalPositionMag_km * np.array([
@@ -226,41 +225,41 @@ def keplarianToCartesian(massBody1_kg_in: float,
   ])
 
   # Find the velocity magnitude of the orbit
-  orbitalVelocityMag_kms = (gravitationalParameter_km3kg2s2 /
-                            orbitalAngularMomentum_km2s)
+  orbitalVelocityMag_kms = (np.sqrt(
+    gravitationalParameter_km3kg2s2 * semiMajorAxis_km_in) / orbitalPositionMag_km)
 
   # Find the velocity vector of body 2 with respect to body 1 in the orbit frame
   orbitalVelocity_Per_kms = orbitalVelocityMag_kms * np.array([
-      -np.sin(trueAnomoly),
-      eccentricity_in + np.cos(trueAnomoly),
+      -np.sin(eccentricAnomoly),
+      np.sqrt(1 - eccentricity_in**2) * np.cos(eccentricAnomoly),
       0
   ])
 
   # Create dcm for rotation around z axis for raans
   zRaansRotationDcm = np.array([
-      [np.cos(raans_rad_in), np.sin(raans_rad_in), 0],
-      [-np.sin(raans_rad_in), np.cos(raans_rad_in), 0],
+      [np.cos(-raans_rad_in), np.sin(-raans_rad_in), 0],
+      [-np.sin(-raans_rad_in), np.cos(-raans_rad_in), 0],
       [0, 0, 1]
   ])
 
   # Create dcm for rotation around x axis for inclination
   xInclinationDcm = np.array([
       [1, 0, 0],
-      [0, np.cos(inclintaion_rad_in), np.sin(inclintaion_rad_in)],
-      [0, -np.sin(inclintaion_rad_in), np.cos(inclintaion_rad_in)]
+      [0, np.cos(-inclintaion_rad_in), np.sin(-inclintaion_rad_in)],
+      [0, -np.sin(-inclintaion_rad_in), np.cos(-inclintaion_rad_in)]
   ])
 
   # Create dcm for rotation around z axis for argument of periapsis
   zArgumentOfPeriapsisDcm = np.array([
-      [np.cos(argOfPeriapsis_rad_in), np.sin(argOfPeriapsis_rad_in), 0],
-      [-np.sin(argOfPeriapsis_rad_in), np.cos(argOfPeriapsis_rad_in), 0],
+      [np.cos(-argOfPeriapsis_rad_in), np.sin(-argOfPeriapsis_rad_in), 0],
+      [-np.sin(-argOfPeriapsis_rad_in), np.cos(-argOfPeriapsis_rad_in), 0],
       [0, 0, 1]
   ])
 
   # Find rotation matrix from Perifocal frame to Bod1 frame
-  perToBod1Dcm = (zArgumentOfPeriapsisDcm @
+  perToBod1Dcm = (zRaansRotationDcm @
                   xInclinationDcm @
-                  zRaansRotationDcm).transpose()
+                  zArgumentOfPeriapsisDcm)
 
   # Find the position of body 2 in body1 frame relative to the fixed frame
   orbitalPositionRelFix_Bod1_km_out = perToBod1Dcm @ orbitalPosition_Per_km
@@ -304,8 +303,8 @@ def findEccentricAnomoly(meanAnomly_rad_in: float,
                       np.sin(eccentricAnomoly_rad_out) - meanAnomly_rad_in)
 
     # Find the tangent line value of the ecentric anomoly
-    tangentFuntcionOutput = 1 - eccentricity_in * \
-        np.cos(eccentricAnomoly_rad_out)
+    tangentFuntcionOutput = (1 - eccentricity_in *
+                             np.cos(eccentricAnomoly_rad_out))
 
     # Update guess for ecentric anomoly
     eccentricAnomoly_rad_out -= functionOutput / tangentFuntcionOutput
@@ -346,6 +345,8 @@ def saveSatelliteState(initialPosition_km_in: np.ndarray,
   if fileDir_in.is_file() is not True:
     raise RuntimeError(f'"{fileDir_in}" can not be found to save inputs')
 
+  print(fileDir_in)
+
   with open(fileDir_in, 'r') as paramFile:
     # Initiate variable to keep track of file contents
     fileContent = ''
@@ -356,22 +357,22 @@ def saveSatelliteState(initialPosition_km_in: np.ndarray,
     # Iterate through file until reaching end of file
     while line:
       # Check line represents initial position and if update to new position
-      if line[0:23] == 'fixedFramePosition_m[0]':
-        line = f'fixedFramePosition_m[0] = {initialPosition_km_in[0] * 1000}\n'
-      elif line[0:23] == 'fixedFramePosition_m[1]':
-        line = f'fixedFramePosition_m[1] = {initialPosition_km_in[1] * 1000}\n'
-      elif line[0:23] == 'fixedFramePosition_m[2]':
-        line = f'fixedFramePosition_m[2] = {initialPosition_km_in[2] * 1000}\n'
+      if line[0:27] == 'fixedFramePosition_m_Fix[0]':
+        line = f'fixedFramePosition_m_Fix[0] = {initialPosition_km_in[0] * 1000}\n'
+      elif line[0:27] == 'fixedFramePosition_m_Fix[1]':
+        line = f'fixedFramePosition_m_Fix[1] = {initialPosition_km_in[1] * 1000}\n'
+      elif line[0:27] == 'fixedFramePosition_m_Fix[2]':
+        line = f'fixedFramePosition_m_Fix[2] = {initialPosition_km_in[2] * 1000}\n'
 
       # Check line represents initial velocity and if update to new velocity
-      if line[0:24] == 'fixedFrameVelocity_ms[0]':
-        line = (f'fixedFrameVelocity_ms[0] = '
+      if line[0:28] == 'fixedFrameVelocity_ms_Fix[0]':
+        line = (f'fixedFrameVelocity_ms_Fix[0] = '
                 f'{initialVelocity_kms_in[0] * 1000}\n')
-      elif line[0:24] == 'fixedFrameVelocity_ms[1]':
-        line = (f'fixedFrameVelocity_ms[1] = '
+      elif line[0:28] == 'fixedFrameVelocity_ms_Fix[1]':
+        line = (f'fixedFrameVelocity_ms_Fix[1] = '
                 f'{initialVelocity_kms_in[1] * 1000}\n')
-      elif line[0:24] == 'fixedFrameVelocity_ms[2]':
-        line = (f'fixedFrameVelocity_ms[2] = '
+      elif line[0:28] == 'fixedFrameVelocity_ms_Fix[2]':
+        line = (f'fixedFrameVelocity_ms_Fix[2] = '
                 f'{initialVelocity_kms_in[2] * 1000}\n')
 
       # Add line to file content
@@ -459,6 +460,12 @@ def satellitePreProcessing(configFile_in: Path):
     if currBodDir.is_file() is False:
       raise RuntimeError(f'"{currBodDir}" can not be found')
 
+    # Find current time of simulation
+    with open(parameterRootDir / 'SimulationParameters.ini', 'r') as simulationFile:
+      iniParser.read_file(simulationFile)
+
+    currentSimTime_s = float(iniParser['TimeParameters']['simTimeInitial'])
+
     # Open body i-i parameter file
     with open(prevBodDir, 'r') as prevBodyFile:
       # Load parameters from file of previous body
@@ -480,15 +487,16 @@ def satellitePreProcessing(configFile_in: Path):
                              currBodyMass,
                              semiMajorAxis_km,
                              eccentricity,
-                             inclinateion_deg * DEG_TO_RAD,
-                             argumentOfPerigee_deg * DEG_TO_RAD,
-                             raans_deg * DEG_TO_RAD,
-                             timeSincePeriapsis_s))
+                             np.deg2rad(inclinateion_deg),
+                             np.deg2rad(argumentOfPerigee_deg),
+                             np.deg2rad(raans_deg),
+                             timeSincePeriapsis_s,
+                             currentSimTime_s))
 
     if i > 1:
       # Find quaternion from fix frame to body frame of previous body parameters
       quaternion_PrevBodyToCurBody = parameters[(f'keplarianElementsBody{
-                                                 i - 2}ToBody{i - 1}')][(f'quaternion_Body{i - 2}FrameToBody{i - 1}Frame')]
+          i - 2}ToBody{i - 1}')][(f'quaternion_Body{i - 2}FrameToBody{i - 1}Frame')]
     else:
       quaternion_PrevBodyToCurBody = np.array([0.0, 0.0, 0.0, 1.0])
 

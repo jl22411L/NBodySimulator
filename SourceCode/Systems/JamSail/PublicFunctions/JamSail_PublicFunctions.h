@@ -74,6 +74,9 @@ extern int JamSail_init(JamSail_State  *p_jamSail_state_out,
  * @param[in]   simTime_s_in
  *              Time of simulation in Unix time in seconds.
  *
+ * @param[in]   simTimeStep_s_in
+ *              Time step of simulation in seconds.
+ *
  * @return      Upon a successful completion, the fucntion will return a
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
@@ -82,7 +85,20 @@ extern int JamSail_step(JamSail_State  *p_jamSail_state_out,
                         JamSail_Params *p_jamSail_params_in,
                         BodyMgr_State  *p_bodyMgr_state_in,
                         Igrf_Params    *p_igrf_params_in,
-                        double          simTime_s_in);
+                        double          simTime_s_in,
+                        double          simTimeStep_s_in);
+
+/*!
+ * @brief       Function which will terminte JamSail
+
+ * @param[in]   p_bodyMgr_state_in
+ *              Pointer containing the address of bodyMgr state struct.
+ *
+ * @return      Upon a successful completion, the fucntion will return a
+ *              GCONST_TRUE. If an error in the codes execution occurs, the
+ *              function will return a GCONST_FALSE
+ */
+extern int JamSail_terminate(JamSail_State *p_jamSail_state_out);
 
 #ifdef __cplusplus
 }

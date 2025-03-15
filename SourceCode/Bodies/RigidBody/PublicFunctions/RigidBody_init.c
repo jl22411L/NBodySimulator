@@ -51,7 +51,7 @@ int RigidBody_init(RigidBody_State *p_rigidBody_state_in,
   /* Load Inertia matrix into body */
   GParser_loadDoubleArray(&GParser_state,
                           dic,
-                          &(p_rigidBody_state_in->inertiaMatrix_kgm2_Bod[0][0]),
+                          &(p_rigidBody_state_in->inertiaMatrix_Bod_kgm2[0][0]),
                           "InertiaProperties:Inertia_kgm2",
                           3,
                           3);

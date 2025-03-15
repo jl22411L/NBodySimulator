@@ -20,27 +20,47 @@
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
-#include "GRand/GRand.h"
+#include "GMath/GMath.h"
 
 int main(void)
 {
   /* Declare local variables */
-  FILE *p_outputFile;
-  int   i;
+  int ekfOrderN_in  = 3;
+  int ekfDegreeM_in = 2;
+  int i;
+  int j;
+  int k;
+  int l;
 
-  p_outputFile = fopen("data.csv", "w");
+  double P[3][3]        = {{1, 2, 3}, {3, 4, 5}, {6, 7, 8}};
+  double H[2][3]        = {{7, 8, 9}, {10, 11, 12}};
+  double updatedP[3][3] = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
+  double K[3][2]        = {{1, 2}, {3, 4}, {5, 6}};
 
-  fprintf(p_outputFile, "uniformDistributed,gaussianDistributed\n");
-
-  for (i = 0; i < 100000; i++)
+  for (i = 0; i < ekfOrderN_in; i++)
   {
-    fprintf(p_outputFile,
-            "%lf,%lf\n",
-            GRand_uniformDistributon(),
-            GRand_gaussianDistribution(5, 10));
+    for (j = 0; j < ekfOrderN_in; j++)
+    {
+      for (k = 0; k < ekfDegreeM_in; k++)
+      {
+        for (l = 0; l < ekfOrderN_in; l++)
+        {
+          updatedP[i][j] -= K[i][k] * H[k][l] * P[l][j];
+        }
+      }
+
+      updatedP[i][j] += P[i][j];
+    }
   }
 
-  fclose(p_outputFile);
+  for (i = 0; i < ekfOrderN_in; i++)
+  {
+    for (j = 0; j < ekfOrderN_in; j++)
+    {
+      printf("%lf ", updatedP[i][j]);
+    }
+    printf("\n");
+  }
 
   return GCONST_EXIT_SUCCESS;
 }

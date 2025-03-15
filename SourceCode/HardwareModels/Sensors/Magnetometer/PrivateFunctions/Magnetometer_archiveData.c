@@ -58,6 +58,13 @@ int Magnetometer_archiveData(Magnetometer_State *p_magnetometer_state_in)
                     p_magnetometer_state_in->measuredMagneticField_Sen_nT[i]);
   }
 
+  /* Archive measured magnetic field */
+  for (i = 0; i < 3; i++)
+  {
+    GArchive_addVal(&(p_magnetometer_state_in->magnetometerArchive),
+                    p_magnetometer_state_in->filteredMagneticField_Sen_nT[i]);
+  }
+
   /* Write data to archive */
   GArchive_writeLine(&(p_magnetometer_state_in->magnetometerArchive));
 
