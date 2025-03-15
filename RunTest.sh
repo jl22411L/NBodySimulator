@@ -18,6 +18,15 @@ set -e
 # TODO: Write a documentation string of how the bash script works and will
 #       display when a -h flag is parsed.
 
+# Import fucntions
+source Scripts/SaveTestRun.sh
+
+trap ctr_c INT
+
+function ctr_c {
+  SaveTestRun ${PATH_TO_TEST_RUN} ${TEST_RUN} ${PATH_TO_ROOT}
+  exit 0;
+}
 
 #------------------------------- SET VARIABLES -------------------------------#
 
@@ -131,10 +140,13 @@ esac
 # Getting current timestamp
 TEST_DATE="`date +%Y_%m_%d_%H_%M_%S`"
 
+# Create variable with test run name
+TEST_RUN="${TEST_CASE}_${TEST_DATE}"
+
 # Defining path variables
 PATH_TO_ROOT=${PWD}
 PATH_TO_TEST_EXECUTABLE="BuildEnvironment/TestCase/${RELATIVE_PATH_TO_TEST}/${EXECUTABLE_NAME}"
-PATH_TO_TEST_RUN="TestRuns/${RELATIVE_PATH_TO_TEST}/${TEST_CASE}_${TEST_DATE}/"
+PATH_TO_TEST_RUN="TestRuns/${RELATIVE_PATH_TO_TEST}/${TEST_RUN}/"
 
 # Checking path to Build Code exists
 if [ ! -x "${PATH_TO_TEST_EXECUTABLE}" ]; then
@@ -212,3 +224,6 @@ else
 fi
 
 echo "[MSG] # --------------------------------- TEST COMPLETE -------------------------------- #"
+
+# Save test runs
+SaveTestRun ${PATH_TO_TEST_RUN} ${TEST_RUN} ${PATH_TO_ROOT}

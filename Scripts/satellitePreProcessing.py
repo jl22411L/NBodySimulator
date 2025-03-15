@@ -12,9 +12,6 @@ import yaml
 # CONSTANTS
 # ----------------------------------------------------------------------------- #
 
-# Conversion Constants
-DEG_TO_RAD = PI / 180
-
 # Universal Gravitation Constant
 UNIVERSAL_GRAVITATIONAL_CONSTANT_KM3KGS2 = 6.6743 * 10**-20
 
@@ -213,10 +210,6 @@ def keplarianToCartesian(massBody1_kg_in: float,
   trueAnomoly = 2 * np.arctan2(np.sqrt(1 + eccentricity_in) *
                                np.tan(eccentricAnomoly / 2),
                                np.sqrt(1 - eccentricity_in))
-
-  # Check to make sure true anomoly is positive
-  if trueAnomoly < 0:
-    trueAnomoly += PI
 
   # Find the position magnitude of body 2 with respect to body 1
   orbitalPositionMag_km = semiMajorAxis_km_in * (
@@ -492,9 +485,9 @@ def satellitePreProcessing(configFile_in: Path):
                              currBodyMass,
                              semiMajorAxis_km,
                              eccentricity,
-                             inclinateion_deg * DEG_TO_RAD,
-                             argumentOfPerigee_deg * DEG_TO_RAD,
-                             raans_deg * DEG_TO_RAD,
+                             np.deg2rad(inclinateion_deg),
+                             np.deg2rad(argumentOfPerigee_deg),
+                             np.deg2rad(raans_deg),
                              timeSincePeriapsis_s,
                              currentSimTime_s))
 
