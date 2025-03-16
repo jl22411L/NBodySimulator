@@ -32,7 +32,8 @@ int JamSail_estimationEkfLoadVectors(double *p_stateEstimateVector_out,
 {
   /* Declare local variables */
   double  filteredAngularVelocity_Bod_rads[3];
-  double  filteredMagneticFieldNorm_Bod_nT[3];
+  double  filteredMagneticFieldNorm_Bod[3];
+  double  filteredSunVectorNormRelToSen_Bod[3];
   uint8_t i;
 
   /* Load the quaternion estimate into the state vector */
@@ -53,9 +54,11 @@ int JamSail_estimationEkfLoadVectors(double *p_stateEstimateVector_out,
   for (i = 0; i < 3; i++)
   {
     *(p_measurementEstimateVector_out + i) =
-        (p_jamSail_state_in->magneticFieldEstimateNorm_Bod_nT[i]);
-    *(p_measurementEstimateVector_out + i + 3) =
         (p_jamSail_state_in->angularVelocityEstimate_Bod_rads[i]);
+    *(p_measurementEstimateVector_out + i + 3) =
+        (p_jamSail_state_in->magneticFieldEstimateNorm_Bod[i]);
+    *(p_measurementEstimateVector_out + i + 6) =
+        (p_jamSail_state_in->sunVectorEstimateNorm_Bod[i]);
   }
 
   /* Find the measured angular velocity in the body frame */
@@ -66,21 +69,28 @@ int JamSail_estimationEkfLoadVectors(double *p_stateEstimateVector_out,
 
   /* Find the measured magnetic field in the body frame */
   GMath_quaternionPointRotation(
-      &(filteredMagneticFieldNorm_Bod_nT[0]),
-      &(p_jamSail_state_in->magnetometer_state.measuredMagneticField_Sen_nT[0]),
+      &(filteredMagneticFieldNorm_Bod[0]),
+      &(p_jamSail_state_in->magnetometer_state.filteredMagneticField_Sen_nT[0]),
       &(p_jamSail_params_in->magnetometer_params.sensorQuaternion_BodToSen[0]));
 
   /* Find norm of magnetic field */
-  GMath_vectorNorm(&(filteredMagneticFieldNorm_Bod_nT[0]),
-                   &(filteredMagneticFieldNorm_Bod_nT[0]),
+  GMath_vectorNorm(&(filteredMagneticFieldNorm_Bod[0]),
+                   &(filteredMagneticFieldNorm_Bod[0]),
                    3);
+
+  /* Find the measured sun sensor vector in the body frame */
+  GMath_quaternionFrameRotation(
+      &(filteredSunVectorNormRelToSen_Bod[0]),
+      &(p_jamSail_state_in->sunSensor_state.filteredSunVector_Sen_m[0]),
+      &(p_jamSail_params_in->sunSensor_params.sensorQuaternion_BodToSen[0]));
 
   /* Fill measurement sensor vector */
   for (i = 0; i < 3; i++)
   {
-    *(p_measurementSensorVector_out + i) = filteredMagneticFieldNorm_Bod_nT[i];
-    *(p_measurementSensorVector_out + i + 3) =
-        filteredAngularVelocity_Bod_rads[i];
+    *(p_measurementSensorVector_out + i) = filteredAngularVelocity_Bod_rads[i];
+    *(p_measurementSensorVector_out + i + 3) = filteredMagneticFieldNorm_Bod[i];
+    *(p_measurementSensorVector_out + i + 6) =
+        filteredSunVectorNormRelToSen_Bod[i];
   }
 
   return GCONST_TRUE;

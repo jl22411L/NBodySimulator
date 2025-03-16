@@ -52,12 +52,37 @@ typedef struct JamSail_ParamsStruct
   double sensorNoiseCovariance[JAMSAIL_EKF_DEGREE_M][JAMSAIL_EKF_DEGREE_M];
 
   /*!
+   * @brief     Mass of Sun. Used in keplarian propogation.
+   *
+   * @frame     N/A
+   * @unit      Kilograms
+   */
+  double sunMass_kg;
+
+  /*!
    * @brief     Mass of earth. Used in keplarian propogation.
    *
    * @frame     N/A
    * @unit      Kilograms
    */
   double earthMass_kg;
+
+  /*!
+   * @brief     Quaternion which represents the rotation form the fix frame to
+   *            earths inertical centric frame.
+   *
+   * @frame     N/A
+   * @unit      n/A
+   */
+  double quaternion_FixToInertCen[4];
+
+  /*!
+   * @brief     Mass of jamSail. Used in keplarian propogation.
+   *
+   * @frame     N/A
+   * @unit      Kilograms
+   */
+  double jamSailMass_kg;
 
   /*!
    * @brief     Side real time of earth.

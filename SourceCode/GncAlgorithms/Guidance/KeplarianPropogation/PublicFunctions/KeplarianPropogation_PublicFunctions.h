@@ -38,7 +38,7 @@ extern "C" {
  * @param[in]     massBody2_kg_in
  *                Mass of the body orbiting body 1.
  *
- * @param[in]     semiMajorAxis_km_in
+ * @param[in]     semiMajorAxis_m_in
  *                Semi major axis of orbit in kilometers.
  *
  * @param[in]     eccentricity_in
@@ -71,7 +71,7 @@ extern "C" {
 extern int KeplarianPropogation_keplarianToCartesian(
     double  massBody1_kg_in,
     double  massBody2_kg_in,
-    double  semiMajorAxis_km_in,
+    double  semiMajorAxis_m_in,
     double  eccentricity_in,
     double  inclintaion_rad_in,
     double  argOfPeriapsis_rad_in,

@@ -145,14 +145,26 @@ int JamSail_initAttitudeDetermination(JamSail_State  *p_jamSail_state_out,
   /* Load earth mass parameter */
   GParser_loadDouble(&GParser_state,
                      p_dic,
+                     &(p_jamSail_params_out->sunMass_kg),
+                     "KeplarianPropogation:sunMass_kg");
+
+  /* Load earth mass parameter */
+  GParser_loadDouble(&GParser_state,
+                     p_dic,
                      &(p_jamSail_params_out->earthMass_kg),
-                     "EarthProperties:earthMass_kg");
+                     "KeplarianPropogation:earthMass_kg");
+
+  /* Load earth mass parameter */
+  GParser_loadDouble(&GParser_state,
+                     p_dic,
+                     &(p_jamSail_params_out->jamSailMass_kg),
+                     "KeplarianPropogation:jamSailMass_kg");
 
   /* Load earth side real time parameter */
   GParser_loadDouble(&GParser_state,
                      p_dic,
                      &(p_jamSail_params_out->earthSideRealTime_s),
-                     "EarthProperties:earthSideRealTime_s");
+                     "KeplarianPropogation:earthSideRealTime_s");
 
   /* Find average rotaional speed of the earth */
   (p_jamSail_params_out->averageEarthRotationalSpeedMag_rads) =
@@ -162,7 +174,15 @@ int JamSail_initAttitudeDetermination(JamSail_State  *p_jamSail_state_out,
   GParser_loadDouble(&GParser_state,
                      p_dic,
                      &(p_jamSail_params_out->earthEqutorialRadius_m),
-                     "EarthProperties:earthEqutorialRadius_m");
+                     "KeplarianPropogation:earthEqutorialRadius_m");
+
+  /* Load quaternio from fix to inertial centric frame */
+  GParser_loadDoubleArray(&GParser_state,
+                          p_dic,
+                          &(p_jamSail_params_out->quaternion_FixToInertCen[0]),
+                          "KeplarianPropogation:quaternion_FixToInertCen",
+                          4,
+                          1);
 
   /* Close parameters */
   GParser_closeParams(&GParser_state, p_dic);

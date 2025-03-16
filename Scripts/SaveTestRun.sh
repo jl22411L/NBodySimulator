@@ -30,7 +30,7 @@ function SaveTestRun() {
   SAVED_TEST_RUN_FOLDER_DIR="${PATH_TO_ROOT}/TestRunsSaved"
 
   # Reading input and removing files, do nothing, or exit with error
-  if [ ${userInput} == "" ]; then
+  if [[ ${userInput} == "" ]]; then
     # Test run has no name. hence do nothing
     exit 0;
   else

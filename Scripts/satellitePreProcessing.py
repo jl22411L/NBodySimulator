@@ -266,6 +266,7 @@ def keplarianToCartesian(massBody1_kg_in: float,
 
   # Find the velocity of body 2 in body1 frame relative to the fixed frame
   orbitalVelocityRelFix_Bod1_km_out = perToBod1Dcm @ orbitalVelocity_Per_kms
+  print(orbitalPositionRelFix_Bod1_km_out)
 
   return (orbitalPositionRelFix_Bod1_km_out, orbitalVelocityRelFix_Bod1_km_out)
 

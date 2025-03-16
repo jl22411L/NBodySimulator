@@ -33,7 +33,7 @@ int KeplarianPropogation_keplarianToCartesian(
     double  raans_rad_in,
     double  timeSincePeriapsis_s_in,
     double  simTime_s_in,
-    double *p_orbitalPosition_InertCen_out)
+    double *p_orbitalPosition_InertCen_m_out)
 {
   /* Declare local variables */
   double gravitationalParameter_m3kg2s2;
@@ -88,12 +88,6 @@ int KeplarianPropogation_keplarianToCartesian(
       2 * atan2(sqrt(1 + eccentricity_in) * tan(eccentricAnomoly_rad / 2),
                 sqrt(1 - eccentricity_in));
 
-  /* Make sure True Anomoly is Positive */
-  if (trueAnomoly_rad < 0)
-  {
-    trueAnomoly_rad += GCONST_PI;
-  }
-
   /* Find the magnitude of the position of body 2 with respect to body 1 */
   orbitalPositionMag_m =
       semiMajorAxis_m_in * (1 - eccentricity_in * cos(eccentricAnomoly_rad));
@@ -108,7 +102,7 @@ int KeplarianPropogation_keplarianToCartesian(
                                               inclintaion_rad_in,
                                               argOfPeriapsis_rad_in,
                                               raans_rad_in,
-                                              p_orbitalPosition_InertCen_out);
+                                              p_orbitalPosition_InertCen_m_out);
 
   return GCONST_TRUE;
 }

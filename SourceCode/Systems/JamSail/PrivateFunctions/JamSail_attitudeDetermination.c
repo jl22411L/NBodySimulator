@@ -8,6 +8,7 @@
  */
 
 #include <math.h>
+#include <stdint.h>
 #include <stdio.h>
 
 /* Function Includes */
@@ -34,13 +35,17 @@ int JamSail_attitudeDetermination(JamSail_State  *p_jamSail_state_inout,
                                   double          timeStep_s_in)
 {
   /* Declare local variables */
-  double jamSailPositionCartesian_GeoCen_m[3];
-  double jamSailPositionSpherical_GeoCen_m[3];
-  double quaternion_InertCenToGeoCen[4];
-  double euler_GeoCenToNed_123[3];
-  double magneticFieldVector_Ned_nT[3];
-  double magneticFieldVector_GeoCen_nT[3];
-  double quaternion_GeoCenToNed[4];
+  double  jamSailPositionCartesian_GeoCen_m[3];
+  double  jamSailPositionSpherical_GeoCen_m[3];
+  double  quaternion_InertCenToGeoCen[4];
+  double  euler_GeoCenToNed_123[3];
+  double  magneticFieldVector_Ned_nT[3];
+  double  magneticFieldVector_GeoCen_nT[3];
+  double  quaternion_GeoCenToNed[4];
+  double  earthPosition_Fix_m[3];
+  double  earthPosition_InertCen_m[3];
+  double  sunPosition_InertCen_m[3];
+  uint8_t i;
 
   /* Clear variables */
   GZero(&(jamSailPositionSpherical_GeoCen_m[0]), double[3]);
@@ -48,11 +53,13 @@ int JamSail_attitudeDetermination(JamSail_State  *p_jamSail_state_inout,
   GZero(&(quaternion_GeoCenToNed[0]), double[4]);
   GZero(&(magneticFieldVector_Ned_nT[0]), double[3]);
   GZero(&(magneticFieldVector_GeoCen_nT[0]), double[3]);
+  GZero(&(earthPosition_Fix_m[0]), double[3]);
+  GZero(&(earthPosition_InertCen_m[0]), double[3]);
+  GZero(&(sunPosition_InertCen_m[0]), double[3]);
 
   /* Perform keplarian propogation to find position of JamSail */
   KeplarianPropogation_keplarianToCartesian(
-      (p_jamSail_state_inout->p_satelliteBody_state->rigidBody_state
-           .rigidBodyMass_kg),
+      (p_jamSail_params_in->jamSailMass_kg),
       (p_jamSail_params_in->earthMass_kg),
       (p_jamSail_params_in->semiMajorAxis_km) * GCONST_KM_TOLERANCE,
       (p_jamSail_params_in->eccentricity),
@@ -106,21 +113,68 @@ int JamSail_attitudeDetermination(JamSail_State  *p_jamSail_state_inout,
 
   /* Rotate magnetic field from Geo-Centric to ECI frame */
   GMath_quaternionPointRotation(
-      &(p_jamSail_state_inout->magneticFieldEstimateNorm_InertCen_nT[0]),
+      &(p_jamSail_state_inout->magneticFieldEstimateNorm_InertCen[0]),
       &(magneticFieldVector_GeoCen_nT[0]),
       &(quaternion_InertCenToGeoCen[0]));
 
   /* Find norm of magnetic field  */
   GMath_vectorNorm(
-      &(p_jamSail_state_inout->magneticFieldEstimateNorm_InertCen_nT[0]),
-      &(p_jamSail_state_inout->magneticFieldEstimateNorm_InertCen_nT[0]),
+      &(p_jamSail_state_inout->magneticFieldEstimateNorm_InertCen[0]),
+      &(p_jamSail_state_inout->magneticFieldEstimateNorm_InertCen[0]),
       3);
 
   /* Find an estiamte of the magnetic field in the body frame */
   GMath_quaternionFrameRotation(
-      &(p_jamSail_state_inout->magneticFieldEstimateNorm_Bod_nT[0]),
-      &(p_jamSail_state_inout->magneticFieldEstimateNorm_InertCen_nT[0]),
+      &(p_jamSail_state_inout->magneticFieldEstimateNorm_Bod[0]),
+      &(p_jamSail_state_inout->magneticFieldEstimateNorm_InertCen[0]),
       &(p_jamSail_state_inout->quaternionEstimate_InertCenToBod[0]));
+
+  /* Find the position of the sun in the fixed frame */
+  KeplarianPropogation_keplarianToCartesian(
+      (p_jamSail_params_in->earthMass_kg),
+      (p_jamSail_params_in->sunMass_kg),
+      JAMSAIL_EARTH_SUN_SEMI_MAJOR_AXIS_M,
+      JAMSAIL_EARTH_SUN_ECCENTRICITY,
+      JAMSAIL_EARTH_SUN_INCLINATION,
+      JAMSAIL_EARTH_SUN_ARGUMENT_OF_PERIGEE_RAD,
+      JAMSAIL_EARTH_SUN_RAANS_RAD,
+      JAMSAIL_EARTH_SUN_TIME_SINCE_PERIAPSIS_S,
+      simTime_s_in,
+      &(earthPosition_Fix_m[0]));
+
+  /* Find the position of the sun in the Inertical Centric frame */
+  GMath_quaternionFrameRotation(
+      &(earthPosition_InertCen_m[0]),
+      &(earthPosition_Fix_m[0]),
+      &(p_jamSail_params_in->quaternion_FixToInertCen[0]));
+
+  /* Find position of sun relative to JamSail in inertical centric fram */
+  GMath_vectorAdd(&(earthPosition_InertCen_m[0]),
+                  &(p_jamSail_state_inout->positionEstimate_InertCen_m[0]),
+                  &(sunPosition_InertCen_m[0]));
+
+  /* Find the negative of the sun position so that it is from JamSail to sun */
+  for (i = 0; i < 3; i++)
+  {
+    sunPosition_InertCen_m[i] *= -1.0;
+  }
+
+  /* Rotate the sun vector to body frame */
+  GMath_quaternionFrameRotation(
+      &(p_jamSail_state_inout->sunVectorEstimateNorm_Bod[0]),
+      &(sunPosition_InertCen_m[0]),
+      &p_jamSail_state_inout->quaternionEstimate_InertCenToBod[0]);
+
+  /* Subtract the vector from the body frame to the sensor frame */
+  GMath_vectorSub(
+      &(p_jamSail_state_inout->sunVectorEstimateNorm_Bod[0]),
+      &(p_jamSail_params_in->sunSensor_params.sensorPosition_Bod_m[0]),
+      &(p_jamSail_state_inout->sunVectorEstimateNorm_Bod[0]));
+
+  /* Find the norm of the sun vector */
+  GMath_vectorNorm(&(p_jamSail_state_inout->sunVectorEstimateNorm_Bod[0]),
+                   &(p_jamSail_state_inout->sunVectorEstimateNorm_Bod[0]),
+                   3);
 
   /* Measure JamSail's attitude */
   JamSail_attitudeEstimation(p_jamSail_state_inout,
@@ -144,7 +198,75 @@ int JamSail_attitudeDetermination(JamSail_State  *p_jamSail_state_inout,
   //   /* Set flag to indicate that measurement was taken for timestep */
   //   p_jamSail_state_inout->attitudeMeasuredFlag = GCONST_TRUE;
   // }
-  printf("%lf\n", Utilities.simTime_s);
+
+  // Find the attiude of JamSail
+  double quaternion_InertCenToBod[4];
+  double quaternion_InertCenToFix[4];
+  double magneticFieldNorm[3];
+
+  GMath_vectorNorm(&(magneticFieldNorm[0]),
+                   &(p_jamSail_state_inout->magnetometer_state
+                         .trueMagneticFieldMeasurement_Sen_nT[0]),
+                   3);
+
+  GMath_quaternionConjugate(
+      &(quaternion_InertCenToFix[0]),
+      &(p_jamSail_params_in->quaternion_FixToInertCen[0]));
+
+  GMath_quaternionMul(&(quaternion_InertCenToBod[0]),
+                      &(p_jamSail_state_inout->p_satelliteBody_state
+                            ->rigidBody_state.quaternion_FixToBody[0]),
+                      &(quaternion_InertCenToFix[0]));
+
+  printf("%lf [", Utilities.simTime_s);
+
+  for (i = 0; i < 4; i++)
+  {
+    printf(", %lf",
+           quaternion_InertCenToBod[i] -
+               (p_jamSail_state_inout->quaternionEstimate_InertCenToBod[i]));
+  }
+  for (i = 0; i < 3; i++)
+  {
+    printf(", %lf",
+           (p_jamSail_state_inout->p_satelliteBody_state->rigidBody_state
+                .angularVelocity_rads_Bod[i]) -
+               (p_jamSail_state_inout->angularVelocityEstimate_Bod_rads[i]));
+  }
+  for (i = 0; i < 3; i++)
+  {
+    printf(", %lf",
+           (magneticFieldNorm[i]) -
+               (p_jamSail_state_inout->magneticFieldEstimateNorm_Bod[i]));
+  }
+  for (i = 0; i < 3; i++)
+  {
+    printf(", %lf",
+           (p_jamSail_state_inout->sunSensor_state.trueSunVector_Sen_m[i]) -
+               (p_jamSail_state_inout->sunVectorEstimateNorm_Bod[i]));
+  }
+  printf("]\n");
+
+  // for (i = 0; i < 4; i++)
+  // {
+  //   printf(", %lf",
+  //          (p_jamSail_state_inout->quaternionEstimate_InertCenToBod[i]));
+  // }
+  // for (i = 0; i < 3; i++)
+  // {
+  //   printf(", %lf",
+  //          (p_jamSail_state_inout->angularVelocityEstimate_Bod_rads[i]));
+  // }
+  // for (i = 0; i < 3; i++)
+  // {
+  //   printf(", %lf",
+  //   (p_jamSail_state_inout->magneticFieldEstimateNorm_Bod[i]));
+  // }
+  // for (i = 0; i < 3; i++)
+  // {
+  //   printf(", %lf", (p_jamSail_state_inout->sunVectorEstimateNorm_Bod[i]));
+  // }
+  // printf("]\n");
 
   /* Archive attitude determination results */
   JamSail_archiveData(p_jamSail_state_inout);

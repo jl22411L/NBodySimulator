@@ -160,13 +160,13 @@ typedef struct JamSail_StateStruct
    *            attitude.
    *
    * @frame     Inertial Centric
-   * @units     Nano Teslas
+   * @units     N/A (As is a normalised vector)
    */
-  double magneticFieldEstimateNorm_InertCen_nT[3];
+  double magneticFieldEstimateNorm_InertCen[3];
 
   /*!
    * @brief     Member which holds the estimation of the magnetic field in
-   *            the body. This vector should be normalised as
+   *            the body frame. This vector should be normalised as
    *            the magnitude does not contain any information relating to
    *            attitude.
    *
@@ -175,9 +175,35 @@ typedef struct JamSail_StateStruct
    *            from the magnetometer.
    *
    * @frame     Body
-   * @units     Nano Teslas
+   * @units     N/A (As is a normalised vector)
    */
-  double magneticFieldEstimateNorm_Bod_nT[3];
+  double magneticFieldEstimateNorm_Bod[3];
+
+  /*!
+   * @brief     Member which holds the estimation of the sun vector in
+   *            the inertial centric frame. This vector should be normalised as
+   *            the magnitude does not contain any information relating to
+   *            attitude.
+   *
+   * @frame     Inertial Centric
+   * @units     N/A (As is a normalised vector)
+   */
+  double sunVectorEstimateNorm_InertCen[3];
+
+  /*!
+   * @brief     Member which holds the estimation of the sun vecto in
+   *            the body frame. This vector should be normalised as
+   *            the magnitude does not contain any information relating to
+   *            attitude.
+   *
+   *            This is found using the estimate of the quaternion from the
+   *            EKF. This is then compared to the body magnetic field found
+   *            from the magnetometer.
+   *
+   * @frame     Body
+   * @units     N/A (As is a normalised vector)
+   */
+  double sunVectorEstimateNorm_Bod[3];
 
   /*!
    * @brief     Member which holds the estimation of the position of JamSail in
