@@ -39,12 +39,14 @@ typedef struct Magnetorquer_StateStruct
   double inputCurrent_Sen_A[3];
 
   /*!
-   * @brief       Dipole moment of the coils
+   * @brief       Dipole moment of the coils. The reason the units are in
+   *              Giga Am^2 is so that they can cell out the nano in nano
+   *              teslas.
    *
    * @frame       Sensor Frame
-   * @units       Ampers - Meters Squared
+   * @units       Giga Ampers - Meters Squared
    */
-  double dipoleMoment_Sen_Am2[3];
+  double dipoleMoment_Sen_GAm2[3];
 
   /*!
    * @brief       Magnetic field experienced by the Magnetorquer which will

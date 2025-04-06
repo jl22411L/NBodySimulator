@@ -20,7 +20,7 @@ body2: JamSail
 mainBody: body0
 
 # Keplarian elements of body 2 with relation to body 1
-# [Ref: https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.htmlf]
+# [Ref: https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html]
 #
 # Note: timeSincePeriapsis_s was found from taking the mean longitude and using
 #       the equation: 

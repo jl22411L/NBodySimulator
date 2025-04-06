@@ -157,15 +157,15 @@ int Magnetorquer_step(Magnetorquer_State  *p_magnetorquer_state_out,
   /* Find the dipole moment in the sensor frame */
   for (i = 0; i < 3; i++)
   {
-    p_magnetorquer_state_out->dipoleMoment_Sen_Am2[i] =
+    p_magnetorquer_state_out->dipoleMoment_Sen_GAm2[i] =
         (p_magnetorquer_state_out->inputCurrent_Sen_A[i]) *
         (p_magnetorquer_params_in->coilTurns_Sen[i]) *
         (p_magnetorquer_params_in->coilArea_Sen_m2[i]) * GCONST_GM_TOLERANCE;
   }
 
-  /* Find the true magnetic torque of the actuatr */
+  /* Find the true magnetic torque of the actuator */
   GMath_crossProduct(
-      &(p_magnetorquer_state_out->dipoleMoment_Sen_Am2[0]),
+      &(p_magnetorquer_state_out->dipoleMoment_Sen_GAm2[0]),
       &(p_magnetorquer_state_out->externalMagneticField_Sen_nT[0]),
       &(p_magnetorquer_state_out->trueMagnetorquerTorque_Sen_Nm[0]));
 
@@ -173,7 +173,7 @@ int Magnetorquer_step(Magnetorquer_State  *p_magnetorquer_state_out,
   {
     /*!
      * Find the system noise of the actuator. If current is below threshold, set
-     * the system noise to zero. OTherwise, apply a gaussian noise.
+     * the system noise to zero. Otherwise, apply a gaussian noise.
      */
     if ((p_magnetorquer_state_out->inputCurrent_Sen_A[i]) <
         MAGNETORQUER_MIN_CURRENT_THRESHOLD_A)

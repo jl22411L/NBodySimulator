@@ -25,6 +25,7 @@ extern "C" {
 #include "Sensors/SunSensor/DataStructs/SunSensor_StateStruct.h"
 
 /* Data include */
+#include "JamSail/ConstantDefs/JamSail_AdcsStateEnum.h"
 #include "JamSail/ConstantDefs/JamSail_Const.h"
 
 /* Generic Libraries */
@@ -278,12 +279,28 @@ typedef struct JamSail_StateStruct
   Magnetorquer_State magnetorquer_state;
 
   /* ------------------------------------------------------------------------ *
+   * JamSail Generic Members
+   * ------------------------------------------------------------------------ */
+
+  /*!
+   * @brief     Member which contains the state for JamSail's ADCS state
+   *            machine.
+   *
+   * @frame    N/A
+   * @units    N/A
+   */
+  JamSail_AdcsState adcsState;
+
+  /* ------------------------------------------------------------------------ *
    * Simulation Members
    * ------------------------------------------------------------------------ */
 
   /*!
-   * @details   This member contains the address to the satellite body struct
+   * @brief     This member contains the address to the satellite body struct
    *            for JamSail.
+   *
+   * @frame    N/A
+   * @units    N/A
    */
   SatelliteBody_State *p_satelliteBody_state;
 
