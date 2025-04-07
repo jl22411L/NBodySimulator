@@ -160,7 +160,7 @@ int Magnetorquer_step(Magnetorquer_State  *p_magnetorquer_state_out,
     p_magnetorquer_state_out->dipoleMoment_Sen_GAm2[i] =
         (p_magnetorquer_state_out->inputCurrent_Sen_A[i]) *
         (p_magnetorquer_params_in->coilTurns_Sen[i]) *
-        (p_magnetorquer_params_in->coilArea_Sen_m2[i]) * GCONST_GM_TOLERANCE;
+        (p_magnetorquer_params_in->coilArea_Sen_m2[i]) * GCONST_NM_TOLERANCE;
   }
 
   /* Find the true magnetic torque of the actuator */

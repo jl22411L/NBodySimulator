@@ -230,7 +230,25 @@ int JamSail_initAttitudeDetermination(JamSail_State  *p_jamSail_state_out,
 
   /* Add column */
   GArchive_addCol(&p_jamSail_state_out->attitudeDeterminationArchive,
+                  "requiredQuaternion_InertCenToBod",
+                  4,
+                  1);
+
+  /* Add column */
+  GArchive_addCol(&p_jamSail_state_out->attitudeDeterminationArchive,
                   "angularVelocityEstimate_Bod_rads",
+                  3,
+                  1);
+
+  /* Add column */
+  GArchive_addCol(&p_jamSail_state_out->attitudeDeterminationArchive,
+                  "positionEstimate_InertCen_m",
+                  3,
+                  1);
+
+  /* Add column */
+  GArchive_addCol(&p_jamSail_state_out->attitudeDeterminationArchive,
+                  "controlTorque_Bod_Nm",
                   3,
                   1);
 

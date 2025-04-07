@@ -64,7 +64,7 @@ int Magnetorquer_createArchives(Magnetorquer_Params *p_magnetorquer_params_in,
 
   /* Add columns for input currents of magnetorquer */
   GArchive_addCol(&p_magnetorquer_state_in->magnetorquerArchive,
-                  "dipoleMoment_Sen_Am2",
+                  "dipoleMoment_Sen_GAm2",
                   3,
                   1);
 

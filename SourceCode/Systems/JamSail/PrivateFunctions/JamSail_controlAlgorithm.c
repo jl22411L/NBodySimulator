@@ -35,8 +35,17 @@ int JamSail_controlAlgorithm(JamSail_State  *p_jamSail_state_out,
   }
   else if (p_jamSail_state_out->adcsState == NOMINAL)
   {
+    /* Find required quaternion */
+    JamSail_findRequiredQuaternion(
+        p_jamSail_state_out,
+        p_jamSail_params_in,
+        &(p_jamSail_state_out->requiredQuaternion_InertCenToBod[0]));
+
     /* Apply nominal control algorithm */
-    // TODO
+    JamSail_nominalAlgorithm(
+        p_jamSail_state_out,
+        p_jamSail_params_in,
+        &(p_jamSail_state_out->requiredQuaternion_InertCenToBod[0]));
   }
 
   return GCONST_TRUE;

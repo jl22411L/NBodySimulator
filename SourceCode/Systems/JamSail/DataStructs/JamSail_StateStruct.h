@@ -140,10 +140,19 @@ typedef struct JamSail_StateStruct
    * @brief     Member which holds the state estimation of the quaternion from
    *            the EKf.
    *
-   * @frame     Fixed Frame to Body Frame
+   * @frame     Inertial Centric Frame to Body Frame
    * @units     N/A
    */
   double quaternionEstimate_InertCenToBod[4];
+
+  /*!
+   * @brief     Member which holds the required quaternion from the inertial
+   *            centric frame to the body frame.
+   *
+   * @frame     Inertial Centric Frame to Body Frame
+   * @units     N/A
+   */
+  double requiredQuaternion_InertCenToBod[4];
 
   /*!
    * @brief     Member which holds the state estimation of the angular velocity
@@ -215,6 +224,22 @@ typedef struct JamSail_StateStruct
    */
   double positionEstimate_InertCen_m[3];
 
+  /* ------------------------------------------------------------------------ *
+   * Control Members
+   * ------------------------------------------------------------------------ */
+
+  /*!
+   * @brief     Member which contains the ideal torque to be produced by the
+   *            actuatour.
+   *
+   * @frame     Body Frame
+   * @units     Newton Meters
+   */
+  double controlTorque_Bod_Nm[3];
+
+  /* ------------------------------------------------------------------------ *
+   * Miscelaneous Members
+   * ------------------------------------------------------------------------ */
   /*!
    * @brief     Flag to indicate if the attitude was measured or estimated by
    *            the attitude determination algorithm.

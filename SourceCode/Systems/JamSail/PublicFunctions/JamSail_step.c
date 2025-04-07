@@ -153,7 +153,7 @@ int JamSail_step(JamSail_State  *p_jamSail_state_out,
    * ------------------------------------------------------------------------ */
 
   /* Step Control Algorithm */
-  // TODO
+  JamSail_controlAlgorithm(p_jamSail_state_out, p_jamSail_params_in);
 
   /* ------------------------------------------------------------------------ *
    * Step Actuators

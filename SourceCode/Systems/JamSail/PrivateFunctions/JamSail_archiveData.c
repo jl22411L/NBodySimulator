@@ -33,11 +33,32 @@ int JamSail_archiveData(JamSail_State *p_jamSail_state_in)
                     (p_jamSail_state_in->quaternionEstimate_InertCenToBod)[i]);
   }
 
+  /* Archive the required quaternion estimate elements */
+  for (i = 0; i < 4; i++)
+  {
+    GArchive_addVal(&(p_jamSail_state_in->attitudeDeterminationArchive),
+                    (p_jamSail_state_in->requiredQuaternion_InertCenToBod)[i]);
+  }
+
   /* Archive the estimated angular velocity */
   for (i = 0; i < 3; i++)
   {
     GArchive_addVal(&(p_jamSail_state_in->attitudeDeterminationArchive),
                     (p_jamSail_state_in->angularVelocityEstimate_Bod_rads)[i]);
+  }
+
+  /* Archive the estimated position of JamSail */
+  for (i = 0; i < 3; i++)
+  {
+    GArchive_addVal(&(p_jamSail_state_in->attitudeDeterminationArchive),
+                    (p_jamSail_state_in->positionEstimate_InertCen_m)[i]);
+  }
+
+  /* Archive the control Torque */
+  for (i = 0; i < 3; i++)
+  {
+    GArchive_addVal(&(p_jamSail_state_in->attitudeDeterminationArchive),
+                    (p_jamSail_state_in->controlTorque_Bod_Nm)[i]);
   }
 
   /* Archive the flag to indicate if attitude was estimated or measured */

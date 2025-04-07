@@ -78,7 +78,7 @@ int Magnetorquer_init(const char          *p_magnetorquerParamFilename_in,
       4,
       1);
 
-  /* Load position of actuator relative to COG */
+  /* Load area of coil in each sensor axis */
   GParser_loadDoubleArray(&GParser_state,
                           p_dic,
                           &(p_magnetorquerParams_out->coilArea_Sen_m2[0]),
@@ -86,11 +86,19 @@ int Magnetorquer_init(const char          *p_magnetorquerParamFilename_in,
                           3,
                           1);
 
-  /* Load position of actuator relative to COG */
+  /* Load number of coil turns in each sensor axis */
   GParser_loadDoubleArray(&GParser_state,
                           p_dic,
                           &(p_magnetorquerParams_out->coilTurns_Sen[0]),
                           "ActuatorCharecteristics:coilTurns_Sen",
+                          3,
+                          1);
+
+  /* Load peak current along each sensor axis */
+  GParser_loadDoubleArray(&GParser_state,
+                          p_dic,
+                          &(p_magnetorquerParams_out->maxCurrent_Sen_A[0]),
+                          "ActuatorCharecteristics:maxCurrent_Sen_A",
                           3,
                           1);
 

@@ -92,6 +92,25 @@ extern int JamSail_attitudeEstimation(JamSail_State  *p_jamSail_state_inout,
                                       double          timeStep_s_in);
 
 /*!
+ * @brief         Function which finds the required quaternion along with the
+ *                control currents to the magnetorquer.
+ *
+ * @param[out]    p_jamSail_state_out
+ *                Pointer containing the address of the struct of JamSail's
+ *                state.
+ *
+ * @param[in]     p_jamSail_params_in
+ *                Pointer to the params struct of JamSail filled with correct
+ *                coefficients.
+ *
+ * @return        Upon a successful completion, the fucntion will return a
+ *                GCONST_TRUE. If an error in the codes execution occurs, the
+ *                function will return a GCONST_FALSE
+ */
+extern int JamSail_controlAlgorithm(JamSail_State  *p_jamSail_state_out,
+                                    JamSail_Params *p_jamSail_params_in);
+
+/*!
  * @brief         Function which finds the control currents to send to the
  *                magnetorquer, when in detumbling mode.
  *
@@ -183,6 +202,30 @@ extern int JamSail_fillStateJacobian(JamSail_State *p_jamSail_state_out,
                                      double         zzInertia_Bod_kgm2_in);
 
 /*!
+ * @brief         Finds the required quaternion to make it nadir pointing.
+ *
+ * @param[in]     p_jamSail_state_in
+ *                Pointer containing the address of the struct of JamSail's
+ *                state.
+ *
+ * @param[in]     p_jamSail_params_in
+ *                Pointer to the params struct of JamSail filled with correct
+ *                coefficients.
+ *
+ * @param[out]    p_requiredQuaternion_InertCenToBod_out
+ *                Pointer containing the address for the required quaternion to
+ *                be outputted.
+ *
+ * @return        Upon a successful completion, the fucntion will return a
+ *                GCONST_TRUE. If an error in the codes execution occurs, the
+ *                function will return a GCONST_FALSE
+ */
+extern int JamSail_findRequiredQuaternion(
+    JamSail_State  *p_jamSail_state_in,
+    JamSail_Params *p_jamSail_params_in,
+    double         *p_requiredQuaternion_InertCenToBod_out);
+
+/*!
  * @brief         Function which finds the derivitive of the state vector.
  *
  *                stateVector = [
@@ -224,6 +267,29 @@ extern int JamSail_findStateDerivitive(JamSail_State *p_jamSail_state_in,
                                        double         yyInertia_Bod_kgm2_in,
                                        double         zzInertia_Bod_kgm2_in,
                                        double *p_stateDerivitiveVector_out);
+
+/*!
+ * @brief         Funciton which runs nominal control algorithm.
+ *
+ * @param[in,out] p_jamSail_state_inout
+ *                Pointer containing the address of the struct of JamSail's
+ *                state.
+ *
+ * @param[in]     p_jamSail_params_in
+ *                Pointer to the params struct of JamSail filled with correct
+ *                coefficients.
+ *
+ * @param[in]     p_requiredQuaternion_InertCenToBod_in
+ *                Pointer containng the required quaternion of JamSail.
+ *
+ * @return        Upon a successful completion, the fucntion will return a
+ *                GCONST_TRUE. If an error in the codes execution occurs, the
+ *                function will return a GCONST_FALSE
+ */
+extern int
+    JamSail_nominalAlgorithm(JamSail_State  *p_jamSail_state_inout,
+                             JamSail_Params *p_jamSail_params_in,
+                             double *p_requiredQuaternion_InertCenToBod_in);
 
 /*!
  * @brief         Private function which will init JamSail's attitude

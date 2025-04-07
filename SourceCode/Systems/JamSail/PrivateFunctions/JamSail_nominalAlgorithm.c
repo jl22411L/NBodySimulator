@@ -17,7 +17,7 @@
 #include "JamSail/DataStructs/JamSail_StateStruct.h"
 
 /* Data include */
-#include "JamSail/ConstantDefs/JamSail_AdcsStateEnum.h"
+/* None */
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
@@ -30,7 +30,6 @@ int JamSail_nominalAlgorithm(JamSail_State  *p_jamSail_state_inout,
 {
   /* Declare local variables */
   double  angularVelocitiesError_rads[3];
-  double  controlTorque_Bod_Nm[3];
   double  controlDipole_Bod_NmpT[3];
   double  controlDipole_Sen_NmpT[3];
   double  measuredMagneticField_Bod_nT[3];
@@ -40,7 +39,6 @@ int JamSail_nominalAlgorithm(JamSail_State  *p_jamSail_state_inout,
 
   /* Clear local variables */
   GZero(&(angularVelocitiesError_rads[0]), double[3]);
-  GZero(&(controlTorque_Bod_Nm[0]), double[3]);
   GZero(&(controlDipole_Bod_NmpT[0]), double[3]);
   GZero(&(controlDipole_Sen_NmpT[0]), double[3]);
   GZero(&(measuredMagneticField_Bod_nT[0]), double[3]);
@@ -101,7 +99,7 @@ int JamSail_nominalAlgorithm(JamSail_State  *p_jamSail_state_inout,
   /* Find control torque */
   for (i = 0; i < 3; i++)
   {
-    controlTorque_Bod_Nm[i] =
+    (p_jamSail_state_inout->controlTorque_Bod_Nm[i]) =
         (p_jamSail_params_in->nominalProportionalCoefficient[i]) *
             errorQuaternion_InertCenToBod[i] +
         (p_jamSail_params_in->nominalDerivitiveCoefficient[i]) *
@@ -122,7 +120,7 @@ int JamSail_nominalAlgorithm(JamSail_State  *p_jamSail_state_inout,
 
   /* Find cross product of magnetic field and control torques */
   GMath_crossProduct(&(measuredMagneticField_Bod_nT[0]),
-                     &controlTorque_Bod_Nm[0],
+                     &(p_jamSail_state_inout->controlTorque_Bod_Nm[0]),
                      &controlDipole_Bod_NmpT[0]);
 
   /* Find control dipoles */
