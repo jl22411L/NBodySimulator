@@ -184,6 +184,37 @@ int JamSail_initAttitudeDetermination(JamSail_State  *p_jamSail_state_out,
                           4,
                           1);
 
+  /* ------------------------------------------------------------------------ *
+   * Control Parameters
+   * ------------------------------------------------------------------------ */
+
+  /* Load vector with proportional coefficients for detumbling control */
+  GParser_loadDoubleArray(
+      &GParser_state,
+      p_dic,
+      &(p_jamSail_params_out->detumblingProportionalCoefficient[0]),
+      "ControlProperties:detumblingProportionalCoefficient",
+      3,
+      1);
+
+  /* Load vector with proportional coefficients for nominal control */
+  GParser_loadDoubleArray(
+      &GParser_state,
+      p_dic,
+      &(p_jamSail_params_out->detumblingProportionalCoefficient[0]),
+      "ControlProperties:nominalProportionalCoefficient",
+      3,
+      1);
+
+  /* Load vector with derivitive coefficients for nominal control */
+  GParser_loadDoubleArray(
+      &GParser_state,
+      p_dic,
+      &(p_jamSail_params_out->detumblingProportionalCoefficient[0]),
+      "ControlProperties:nominalDerivitiveCoefficient",
+      3,
+      1);
+
   /* Close parameters */
   GParser_closeParams(&GParser_state, p_dic);
 

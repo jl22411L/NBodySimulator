@@ -9,9 +9,10 @@
  */
 
 /* Function Includes */
-/* None */
+#include "JamSail/PrivateFunctions/JamSail_PrivateFunctions.h"
 
 /* Structure Include */
+#include "JamSail/DataStructs/JamSail_ParamsStruct.h"
 #include "JamSail/DataStructs/JamSail_StateStruct.h"
 
 /* Data include */
@@ -19,18 +20,22 @@
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
+#include "GZero/GZero.h"
 
-int JamSail_controlAlgorithm(JamSail_State *p_jamSail_state_in)
+int JamSail_controlAlgorithm(JamSail_State  *p_jamSail_state_out,
+                             JamSail_Params *p_jamSail_params_in)
 {
   /* Declare local variables */
   /* None */
 
-  if (p_jamSail_state_in->adcsState == DETUMBLING)
+  if (p_jamSail_state_out->adcsState == DETUMBLING)
   {
-    // TODO
+    /* Apply detumbling control algorithm */
+    JamSail_detumblingAlgorithm(p_jamSail_state_out, p_jamSail_params_in);
   }
-  else if (p_jamSail_state_in->adcsState == NOMINAL)
+  else if (p_jamSail_state_out->adcsState == NOMINAL)
   {
+    /* Apply nominal control algorithm */
     // TODO
   }
 

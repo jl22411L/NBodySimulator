@@ -99,6 +99,15 @@ typedef struct Magnetorquer_ParamsStruct
    * @units       Newton Meters
    */
   double systemNoiseAmplitude_Sen_Nm[3];
+
+  /*!
+   * @brief       Member which contains the max currents for each of the sensor
+   *              axis.
+   *
+   * @frame       Sensor Frame
+   * @units       Amperes
+   */
+  double maxCurrent_Sen_A[3];
 } Magnetorquer_Params;
 
 #ifdef __cplusplus

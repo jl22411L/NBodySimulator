@@ -92,6 +92,22 @@ extern int JamSail_attitudeEstimation(JamSail_State  *p_jamSail_state_inout,
                                       double          timeStep_s_in);
 
 /*!
+ * @brief         Function which finds the control currents to send to the
+ *                magnetorquer, when in detumbling mode.
+ *
+ * @param[in,out] p_jamSail_state_inout
+ *                Pointer which contains the JamSail state struct.
+ *
+ * @param[in]     p_jamSail_params_in
+ *                Pointer which contains the JamSail params struct.
+ *
+ * @return        Upon a successful completion, the fucntion will return a
+ *                GCONST_TRUE. If an error in the codes execution occurs, the
+ *                function will return a GCONST_FALSE
+ */
+extern int JamSail_detumblingAlgorithm(JamSail_State  *p_jamSail_state_inout,
+                                       JamSail_Params *p_jamSail_params_in);
+/*!
  * @brief         Loads the state, measurement estimation and measurement
  *                sensor vectors for EKF when it is in estimation mode.
  *

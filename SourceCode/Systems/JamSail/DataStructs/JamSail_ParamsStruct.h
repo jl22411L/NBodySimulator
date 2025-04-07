@@ -176,6 +176,34 @@ typedef struct JamSail_ParamsStruct
   Igrf_Params igrfModel_params;
 
   /* ------------------------------------------------------------------------ *
+   * Attitude Control Parameters
+   * ------------------------------------------------------------------------ */
+
+  /*!
+   * @brief     Proportional coefficient for detumbling control.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double detumblingProportionalCoefficient[3];
+
+  /*!
+   * @brief     Proportional coefficient for nominal control.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double nominalProportionalCoefficient[3];
+
+  /*!
+   * @brief     Derivitive coefficient for nominal control.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double nominalDerivitiveCoefficient[3];
+
+  /* ------------------------------------------------------------------------ *
    * Sensor Parameters
    * ------------------------------------------------------------------------ */
 

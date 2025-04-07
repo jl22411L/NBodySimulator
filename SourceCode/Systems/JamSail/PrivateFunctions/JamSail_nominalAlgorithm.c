@@ -1,9 +1,9 @@
-/*!
- *    @File:         JamSail_detumblingAlgorithm.c
+/*
+ *    @File:         JamSail_nominalAlgorithm.c
  *
- *    @Brief:        File which contains detumbling algorithm for JamSail.
+ *    @Brief:        Function definition for nominal control of JamSail
  *
- *    @Date:         06/04/2025
+ *    @Date:         07/04/2025
  *
  */
 
@@ -24,8 +24,9 @@
 #include "GMath/GMath.h"
 #include "GZero/GZero.h"
 
-int JamSail_detumblingAlgorithm(JamSail_State  *p_jamSail_state_inout,
-                                JamSail_Params *p_jamSail_params_in)
+int JamSail_nominalAlgorithm(JamSail_State  *p_jamSail_state_inout,
+                             JamSail_Params *p_jamSail_params_in,
+                             double *p_requiredQuaternion_InertCenToBod_in)
 {
   /* Declare local variables */
   double  angularVelocitiesError_rads[3];
@@ -33,6 +34,7 @@ int JamSail_detumblingAlgorithm(JamSail_State  *p_jamSail_state_inout,
   double  controlDipole_Bod_NmpT[3];
   double  controlDipole_Sen_NmpT[3];
   double  measuredMagneticField_Bod_nT[3];
+  double  errorQuaternion_InertCenToBod[4];
   double  magneticFieldMagnitude_nT;
   uint8_t i;
 
@@ -42,6 +44,11 @@ int JamSail_detumblingAlgorithm(JamSail_State  *p_jamSail_state_inout,
   GZero(&(controlDipole_Bod_NmpT[0]), double[3]);
   GZero(&(controlDipole_Sen_NmpT[0]), double[3]);
   GZero(&(measuredMagneticField_Bod_nT[0]), double[3]);
+  GZero(&(errorQuaternion_InertCenToBod[0]), double[4]);
+
+  /* ------------------------------------------------------------------------ *
+   * Error Vector Calcaultions
+   * ------------------------------------------------------------------------ */
 
   /* Find error in angular velocity */
   for (i = 0; i < 3; i++)
@@ -50,12 +57,55 @@ int JamSail_detumblingAlgorithm(JamSail_State  *p_jamSail_state_inout,
         0.0 - (p_jamSail_state_inout->angularVelocityEstimate_Bod_rads[i]);
   }
 
+  /* Find the error quaternion */
+  errorQuaternion_InertCenToBod[0] =
+      (p_requiredQuaternion_InertCenToBod_in[3]) *
+          (p_jamSail_state_inout->quaternionEstimate_InertCenToBod[0]) +
+      (p_requiredQuaternion_InertCenToBod_in[2]) *
+          (p_jamSail_state_inout->quaternionEstimate_InertCenToBod[1]) -
+      (p_requiredQuaternion_InertCenToBod_in[1]) *
+          (p_jamSail_state_inout->quaternionEstimate_InertCenToBod[2]) -
+      (p_requiredQuaternion_InertCenToBod_in[0]) *
+          (p_jamSail_state_inout->quaternionEstimate_InertCenToBod[3]);
+
+  errorQuaternion_InertCenToBod[1] =
+      -(p_requiredQuaternion_InertCenToBod_in[2]) *
+          (p_jamSail_state_inout->quaternionEstimate_InertCenToBod[0]) +
+      (p_requiredQuaternion_InertCenToBod_in[3]) *
+          (p_jamSail_state_inout->quaternionEstimate_InertCenToBod[1]) +
+      (p_requiredQuaternion_InertCenToBod_in[0]) *
+          (p_jamSail_state_inout->quaternionEstimate_InertCenToBod[2]) -
+      (p_requiredQuaternion_InertCenToBod_in[1]) *
+          (p_jamSail_state_inout->quaternionEstimate_InertCenToBod[3]);
+
+  errorQuaternion_InertCenToBod[2] =
+      (p_requiredQuaternion_InertCenToBod_in[1]) *
+          (p_jamSail_state_inout->quaternionEstimate_InertCenToBod[0]) -
+      (p_requiredQuaternion_InertCenToBod_in[0]) *
+          (p_jamSail_state_inout->quaternionEstimate_InertCenToBod[1]) +
+      (p_requiredQuaternion_InertCenToBod_in[3]) *
+          (p_jamSail_state_inout->quaternionEstimate_InertCenToBod[2]) -
+      (p_requiredQuaternion_InertCenToBod_in[2]) *
+          (p_jamSail_state_inout->quaternionEstimate_InertCenToBod[3]);
+
+  errorQuaternion_InertCenToBod[3] =
+      (p_requiredQuaternion_InertCenToBod_in[0]) *
+          (p_jamSail_state_inout->quaternionEstimate_InertCenToBod[0]) +
+      (p_requiredQuaternion_InertCenToBod_in[1]) *
+          (p_jamSail_state_inout->quaternionEstimate_InertCenToBod[1]) +
+      (p_requiredQuaternion_InertCenToBod_in[2]) *
+          (p_jamSail_state_inout->quaternionEstimate_InertCenToBod[2]) +
+      (p_requiredQuaternion_InertCenToBod_in[3]) *
+          (p_jamSail_state_inout->quaternionEstimate_InertCenToBod[3]);
+
   /* Find control torque */
   for (i = 0; i < 3; i++)
   {
     controlTorque_Bod_Nm[i] =
-        (p_jamSail_params_in->detumblingProportionalCoefficient[i]) *
-        angularVelocitiesError_rads[i];
+        (p_jamSail_params_in->nominalProportionalCoefficient[i]) *
+            errorQuaternion_InertCenToBod[i] +
+        (p_jamSail_params_in->nominalDerivitiveCoefficient[i]) *
+            angularVelocitiesError_rads[i];
   }
 
   /* Find magnetic field in the body frame */
