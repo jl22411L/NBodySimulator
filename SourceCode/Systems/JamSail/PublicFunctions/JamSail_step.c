@@ -26,7 +26,7 @@
 #include "JamSail/DataStructs/JamSail_StateStruct.h"
 
 /* Data include */
-/* None */
+#include "JamSail/ConstantDefs/JamSail_AdcsStateEnum.h"
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
@@ -105,55 +105,33 @@ int JamSail_step(JamSail_State  *p_jamSail_state_out,
                   ->rigidBody_state.quaternion_FixToBody[0]));
 
   /* ------------------------------------------------------------------------ *
-   * Step Determination Algorithms
+   * JamSail's ADCS
    * ------------------------------------------------------------------------ */
+
+  /* Check and update step of JamSail */
+  JamSail_updateState(p_jamSail_state_out, p_jamSail_params_in);
+
+  /* ----------------------- Determination Algorithm ------------------------ */
 
   /* Step Low-High Pass Filter */
-  // TODO: Put all in a private function
-  for (i = 0; i < 3; i++)
-  {
-    /* Apply low pass filter to Gyro */
-    SensorFilter_lowPassFilter(
-        (p_jamSail_params_in->gyro_params.lowPassCutoffFrequency_Hz),
-        Utilities.simTimeStep_s,
-        (p_jamSail_state_out->gyro_state.measuredGyroVector_Sen_rads[i]),
-        (p_jamSail_state_out->gyro_state
-             .previousFilteredGyroVector_Sen_rads[i]),
-        &(p_jamSail_state_out->gyro_state.filteredGyroVector_Sen_rads[i]));
-
-    /* Apply low pass filter to Magnetometer */
-    SensorFilter_lowPassFilter(
-        (p_jamSail_params_in->magnetometer_params.lowPassCutoffFrequency_Hz),
-        Utilities.simTimeStep_s,
-        (p_jamSail_state_out->magnetometer_state
-             .measuredMagneticField_Sen_nT[i]),
-        (p_jamSail_state_out->magnetometer_state
-             .previousFilteredMagneticField_Sen_nT[i]),
-        &(p_jamSail_state_out->magnetometer_state
-              .filteredMagneticField_Sen_nT[i]));
-
-    /* Apply low pass filter to Sun Sensor */
-    SensorFilter_lowPassFilter(
-        (p_jamSail_params_in->sunSensor_params.lowPassCutoffFrequency_Hz),
-        Utilities.simTimeStep_s,
-        (p_jamSail_state_out->sunSensor_state.measuredSunVector_Sen_m[i]),
-        (p_jamSail_state_out->sunSensor_state
-             .previousFilteredSunVector_Sen_m[i]),
-        &(p_jamSail_state_out->sunSensor_state.filteredSunVector_Sen_m[i]));
-  }
+  JamSail_filterSensors(p_jamSail_state_out, p_jamSail_params_in);
 
   /* Step Determination Algorithm */
-  JamSail_attitudeDetermination(p_jamSail_state_out,
-                                p_jamSail_params_in,
-                                simTime_s_in,
-                                simTimeStep_s_in);
+  if (p_jamSail_state_out->adcsState != JAMSAIL_ADCSSTATE_STARTUP)
+  {
+    JamSail_attitudeDetermination(p_jamSail_state_out,
+                                  p_jamSail_params_in,
+                                  simTime_s_in,
+                                  simTimeStep_s_in);
+  }
 
-  /* ------------------------------------------------------------------------ *
-   * Step Control Algorithms
-   * ------------------------------------------------------------------------ */
+  /* -------------------------- Control Algorithm --------------------------- */
 
   /* Step Control Algorithm */
-  JamSail_controlAlgorithm(p_jamSail_state_out, p_jamSail_params_in);
+  if (p_jamSail_state_out->adcsState != JAMSAIL_ADCSSTATE_STARTUP)
+  {
+    JamSail_controlAlgorithm(p_jamSail_state_out, p_jamSail_params_in);
+  }
 
   /* ------------------------------------------------------------------------ *
    * Step Actuators

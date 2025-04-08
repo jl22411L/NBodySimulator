@@ -65,6 +65,10 @@ int JamSail_archiveData(JamSail_State *p_jamSail_state_in)
   GArchive_addVal(&(p_jamSail_state_in->attitudeDeterminationArchive),
                   (double)(p_jamSail_state_in->attitudeMeasuredFlag));
 
+  /* Archive ADCS state */
+  GArchive_addVal(&(p_jamSail_state_in->attitudeDeterminationArchive),
+                  (double)(p_jamSail_state_in->adcsState));
+
   /* Write row for archive*/
   GArchive_writeLine(&(p_jamSail_state_in->attitudeDeterminationArchive));
 

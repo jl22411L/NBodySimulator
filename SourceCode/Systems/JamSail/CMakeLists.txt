@@ -7,11 +7,13 @@ add_library(JamSail
   PrivateFunctions/JamSail_estimationEkfLoadStateVector.c
   PrivateFunctions/JamSail_fillObservationJacobian.c
   PrivateFunctions/JamSail_fillStateJacobian.c
+  PrivateFunctions/JamSail_filterSensors.c
   PrivateFunctions/JamSail_findRequiredQuaternion.c
   PrivateFunctions/JamSail_findStateDerivitive.c
   PrivateFunctions/JamSail_initAttitudeDetermination.c
   PrivateFunctions/JamSail_nominalAlgorithm.c
   PrivateFunctions/JamSail_updateEstimateMembers.c
+  PrivateFunctions/JamSail_updateState.c
   PublicFunctions/JamSail_init.c
   PublicFunctions/JamSail_step.c
   PublicFunctions/JamSail_terminate.c

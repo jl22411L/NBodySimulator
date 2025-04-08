@@ -30,15 +30,23 @@ extern "C" {
 typedef enum JamSail_AdcsStateEnum
 {
   /*!
+   * @brief     State of JamSail when it is at start up. This state should only
+   *            be set when JamSail is turned on for the first time or
+   *            restarted.
+   */
+
+  JAMSAIL_ADCSSTATE_STARTUP = 0,
+
+  /*!
    * @brief     State of JamSail when the angular velocities are too high
    *            and hence, JamSail needs to detumble.
    */
-  DETUMBLING,
+  JAMSAIL_ADCSSTATE_DETUMBLING = 1,
 
   /*!
    * @brief     State of JamSail when nominal operations are being performed.
    */
-  NOMINAL,
+  JAMSAIL_ADCSSTATE_NOMINAL = 2,
 } JamSail_AdcsState;
 
 #ifdef __cplusplus

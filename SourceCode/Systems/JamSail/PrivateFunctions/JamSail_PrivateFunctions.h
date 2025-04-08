@@ -202,6 +202,24 @@ extern int JamSail_fillStateJacobian(JamSail_State *p_jamSail_state_out,
                                      double         zzInertia_Bod_kgm2_in);
 
 /*!
+ * @brief         Filters the sensor data on JamSail, using a low-pass filter.
+ *
+ * @param[out]    p_jamSail_state_out
+ *                Pointer containing the address of the struct of JamSail's
+ *                state.
+ *
+ * @param[in]     p_jamSail_params_in
+ *                Pointer to the params struct of JamSail filled with correct
+ *                coefficients.
+ *
+ * @return        Upon a successful completion, the fucntion will return a
+ *                GCONST_TRUE. If an error in the codes execution occurs, the
+ *                function will return a GCONST_FALSE
+ */
+extern int JamSail_filterSensors(JamSail_State  *p_jamSail_state_out,
+                                 JamSail_Params *p_jamSail_params_in);
+
+/*!
  * @brief         Finds the required quaternion to make it nadir pointing.
  *
  * @param[in]     p_jamSail_state_in
@@ -328,6 +346,24 @@ extern int
  */
 extern int JamSail_updateEstimateMembers(double        *p_stateVector_in,
                                          JamSail_State *p_jamSail_state_out);
+
+/*!
+ * @brief         Update the ADCS state of JamSail.
+
+ * @param         p_jamSail_state_out
+ *                Pointer containing the address of the struct of JamSail's
+ *                state.
+ *
+ * @param         p_jamSail_params_in
+ *                Pointer to the params struct of JamSail filled with correct
+ *                coefficients.
+ *
+ * @return        Upon a successful completion, the fucntion will return a
+ *                GCONST_TRUE. If an error in the codes execution occurs, the
+ *                function will return a GCONST_FALSE
+ */
+extern int JamSail_updateState(JamSail_State  *p_jamSail_state_out,
+                               JamSail_Params *p_jamSail_params_in);
 
 #ifdef __cplusplus
 }

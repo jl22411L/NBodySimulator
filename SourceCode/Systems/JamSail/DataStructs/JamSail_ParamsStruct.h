@@ -204,6 +204,38 @@ typedef struct JamSail_ParamsStruct
   double nominalDerivitiveCoefficient[3];
 
   /* ------------------------------------------------------------------------ *
+   * Miscelaneous Parameters
+   * ------------------------------------------------------------------------ */
+
+  /*!
+   * @brief     Time which JamSail was switched on. Primariy used for
+   * determining when the start up phase has complete.
+   *
+   * @frame     N/A
+   * @units     Seconds
+   */
+  double startTime_s;
+
+  /*!
+   * @brief     Parameter which is used to determine if the angular velocity of
+   *            JamSail is too high and should be put into detumbling mode.
+   *
+   * @frame     N/A
+   * @units     Radians Per Seconds
+   */
+  double nominalToDetumblingModeAngularVelocityCutoff_radps;
+
+  /*!
+   * @brief     Parameter which is used to determine if the angular velocity of
+   *            JamSail is low enough to switch from detumbling mode to nominal
+   *            mode.
+   *
+   * @frame     N/A
+   * @units     Radians Per Seconds
+   */
+  double detumblingToNominalModeAngularVelocityCutoff_radps;
+
+  /* ------------------------------------------------------------------------ *
    * Sensor Parameters
    * ------------------------------------------------------------------------ */
 

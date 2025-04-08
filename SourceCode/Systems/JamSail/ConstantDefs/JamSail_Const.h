@@ -91,9 +91,18 @@ extern "C" {
  * @brief     Constant used to define the semi major axis of the earth sun pair.
  *
  * @frame     N/A
- * @units
+ * @units     Seconds
  */
 #define JAMSAIL_EARTH_SUN_TIME_SINCE_PERIAPSIS_S  (931362709)
+
+/*!
+ * @brief     Time in seconds from start of simulation before JamSail's ADCS is
+ *            turned on.
+ *
+ * @frame     N/A
+ * @units     Seconds
+ */
+#define JAMSAIL_STARTUP_PROCESS_TIME_S            (120)
 
 #ifdef __cplusplus
 }

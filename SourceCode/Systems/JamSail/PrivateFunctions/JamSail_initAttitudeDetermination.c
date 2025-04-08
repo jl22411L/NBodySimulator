@@ -17,12 +17,13 @@
 #include "JamSail/DataStructs/JamSail_StateStruct.h"
 
 /* Data include */
-/* None */
+#include "JamSail/ConstantDefs/JamSail_AdcsStateEnum.h"
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
 #include "GLog/GLog.h"
 #include "GParser/GParser.h"
+#include "GUtilities/GUtilities.h"
 #include "GZero/GZero.h"
 
 int JamSail_initAttitudeDetermination(JamSail_State  *p_jamSail_state_out,
@@ -48,6 +49,10 @@ int JamSail_initAttitudeDetermination(JamSail_State  *p_jamSail_state_out,
   {
     GError("Failed to load parameters for Gyro: %s", "Parameters/JamSail.ini");
   }
+
+  /* ------------------------------------------------------------------------ *
+   * EKF Parameters
+   * ------------------------------------------------------------------------ */
 
   /* Load parameters for EKF system noise covariance matricies */
   for (i = 0; i < JAMSAIL_EKF_ORDER_N; i++)
@@ -215,8 +220,38 @@ int JamSail_initAttitudeDetermination(JamSail_State  *p_jamSail_state_out,
       3,
       1);
 
+  /* ------------------------------------------------------------------------ *
+   * Miscelaneous Parameters
+   * ------------------------------------------------------------------------ */
+
+  /* Set the initial state to start up */
+  p_jamSail_state_out->adcsState = JAMSAIL_ADCSSTATE_STARTUP;
+
+  /* Set the initial start time of JamSail */
+  p_jamSail_params_out->startTime_s = Utilities.simTime_s;
+
+  /* Load cutoff from detumbling to nominal mode */
+  GParser_loadDouble(
+      &GParser_state,
+      p_dic,
+      &(p_jamSail_params_out
+            ->detumblingToNominalModeAngularVelocityCutoff_radps),
+      "ControlProperties:detumblingToNominalModeAngularVelocityCutoff_radps");
+
+  /* Load cutoff from nominal to detumbling mode */
+  GParser_loadDouble(
+      &GParser_state,
+      p_dic,
+      &(p_jamSail_params_out
+            ->nominalToDetumblingModeAngularVelocityCutoff_radps),
+      "ControlProperties:nominalToDetumblingModeAngularVelocityCutoff_radps");
+
   /* Close parameters */
   GParser_closeParams(&GParser_state, p_dic);
+
+  /* ------------------------------------------------------------------------ *
+   * Initialize Archive
+   * ------------------------------------------------------------------------ */
 
   /* Initialze archive */
   GArchive_init(&p_jamSail_state_out->attitudeDeterminationArchive,
@@ -257,6 +292,9 @@ int JamSail_initAttitudeDetermination(JamSail_State  *p_jamSail_state_out,
                   "attitudeMeasuredFlag",
                   1,
                   1);
+
+  /* Add column */
+  GArchive_addCol(&p_jamSail_state_out->adcsState, "adcsState", 1, 1);
 
   /* Write header for archive */
   GArchive_writeHeader(&p_jamSail_state_out->attitudeDeterminationArchive);

@@ -32,7 +32,6 @@
 /* None */
 
 /* Generic Libraries */
-#include "GArchive/GArchive.h" // TODO: Complete todo at bottom of function and remove
 #include "GConst/GConst.h"
 #include "GLog/GLog.h"
 #include "GUtilities/GUtilities.h"
