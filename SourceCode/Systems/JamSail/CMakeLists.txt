@@ -12,6 +12,8 @@ add_library(JamSail
   PrivateFunctions/JamSail_findStateDerivitive.c
   PrivateFunctions/JamSail_initAttitudeDetermination.c
   PrivateFunctions/JamSail_nominalAlgorithm.c
+  PrivateFunctions/JamSail_sunSearchingControl.c
+  PrivateFunctions/JamSail_sunTrackingControl.c
   PrivateFunctions/JamSail_updateEstimateMembers.c
   PrivateFunctions/JamSail_updateState.c
   PublicFunctions/JamSail_init.c

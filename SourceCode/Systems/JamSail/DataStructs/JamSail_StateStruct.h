@@ -229,6 +229,14 @@ typedef struct JamSail_StateStruct
    * ------------------------------------------------------------------------ */
 
   /*!
+   * @brief     Error quaternion used for quaternion feedback control.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double errorQuaternion_InertCenToBod[4];
+
+  /*!
    * @brief     Member which contains the ideal torque to be produced by the
    *            actuatour.
    *
@@ -315,6 +323,22 @@ typedef struct JamSail_StateStruct
    * @units    N/A
    */
   JamSail_AdcsState adcsState;
+
+  /*!
+   * @brief     Time since the last successful measurement from the sun sensor.
+   *
+   * @frame     N/A
+   * @units     Seconds
+   */
+  double timeOfLastMeasurement_s;
+
+  /*!
+   * @brief    Time which the sun has been tracked.
+   *
+   * @frame     N/A
+   * @units     Seconds
+   */
+  double trackingTimeOfSun_s;
 
   /* ------------------------------------------------------------------------ *
    * Simulation Members

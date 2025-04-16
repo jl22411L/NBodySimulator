@@ -9,6 +9,7 @@
  */
 
 #include <math.h>
+#include <stdint.h>
 
 /* Function Includes */
 /* None */
@@ -23,14 +24,13 @@
 #include "GConst/GConst.h"
 #include "GZero/GZero.h"
 
-int GLegPoly_associatedLegendreArrayPolynomials(
-    double *p_legPolyArray_out,
-    double  inputValue_in,
-    int     maxDegreeN_in)
+int GLegPoly_associatedLegendreArrayPolynomials(double *p_legPolyArray_out,
+                                                double  inputValue_in,
+                                                uint8_t maxDegreeN_in)
 {
   /* Declare local variables */
-  int n;
-  int m;
+  uint8_t n;
+  uint8_t m;
 
   /* Clear array  */
   GZero(p_legPolyArray_out, double[maxDegreeN_in + 1][maxDegreeN_in + 1]);
@@ -59,9 +59,12 @@ int GLegPoly_associatedLegendreArrayPolynomials(
         *(p_legPolyArray_out + (maxDegreeN_in + 1) * (m - 1) + (m - 1));
 
     /* Find the value below the diagnol */
-    *(p_legPolyArray_out + (maxDegreeN_in + 1) * (m + 1) + (m)) =
-        ((double)(2 * m + 1)) * inputValue_in *
-        *(p_legPolyArray_out + (maxDegreeN_in + 1) * m + m);
+    if (m != maxDegreeN_in)
+    {
+      *(p_legPolyArray_out + (maxDegreeN_in + 1) * (m + 1) + (m)) =
+          ((double)(2 * m + 1)) * inputValue_in *
+          *(p_legPolyArray_out + (maxDegreeN_in + 1) * m + m);
+    }
 
     /* Find the rest of the values in the column */
     for (n = m + 2; n <= maxDegreeN_in; n++)

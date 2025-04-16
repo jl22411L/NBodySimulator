@@ -28,13 +28,25 @@ int JamSail_controlAlgorithm(JamSail_State  *p_jamSail_state_out,
   /* Declare local variables */
   /* None */
 
-  if (p_jamSail_state_out->adcsState == DETUMBLING)
+  switch (p_jamSail_state_out->adcsState)
   {
+  case (JAMSAIL_ADCSSTATE_STARTUP):
     /* Apply detumbling control algorithm */
     JamSail_detumblingAlgorithm(p_jamSail_state_out, p_jamSail_params_in);
-  }
-  else if (p_jamSail_state_out->adcsState == NOMINAL)
-  {
+    break;
+  case (JAMSAIL_ADCSSTATE_DETUMBLING):
+    /* Apply detumbling control algorithm */
+    JamSail_detumblingAlgorithm(p_jamSail_state_out, p_jamSail_params_in);
+    break;
+  case (JAMSAIL_ADCSSTATE_SUN_SEARCHING):
+    /* Apply control algorithm to search for the sun */
+    JamSail_sunSearchingControl(p_jamSail_state_out, p_jamSail_params_in);
+    break;
+  case (JAMSAIL_ADCSSTATE_SUN_TRACKING):
+    /* Apply control algorithm to track the sun */
+    JamSail_sunTrackingControl(p_jamSail_state_out, p_jamSail_params_in);
+    break;
+  case (JAMSAIL_ADCSSTATE_NOMINAL):
     /* Find required quaternion */
     JamSail_findRequiredQuaternion(
         p_jamSail_state_out,
@@ -46,6 +58,11 @@ int JamSail_controlAlgorithm(JamSail_State  *p_jamSail_state_out,
         p_jamSail_state_out,
         p_jamSail_params_in,
         &(p_jamSail_state_out->requiredQuaternion_InertCenToBod[0]));
+    break;
+  default:
+    /* If state is unknown put into detumbling mode */
+    p_jamSail_state_out->adcsState = JAMSAIL_ADCSSTATE_DETUMBLING;
+    break;
   }
 
   return GCONST_TRUE;

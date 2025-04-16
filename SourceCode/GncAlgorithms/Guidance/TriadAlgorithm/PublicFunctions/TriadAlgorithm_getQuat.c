@@ -117,5 +117,8 @@ int TriadAlgorithm_getQuat(double *p_vector1_Bod_in,
   /* Convert the dcm to a quaternion */
   GMath_dcm2Quat(&dcm_bodToFix[0][0], p_quat_FixToBod_out);
 
+  /* The quaternion is from bod to fix. Find conjugate to find Fix to Bod */
+  GMath_quaternionConjugate(p_quat_FixToBod_out, p_quat_FixToBod_out);
+
   return GCONST_TRUE;
 }

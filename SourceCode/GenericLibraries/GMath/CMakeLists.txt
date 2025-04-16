@@ -22,10 +22,10 @@ add_library(GMath
   PublicFunctions/GMath_quaternion2Dcm.c
   PublicFunctions/GMath_quaternion2Eul.c
   PublicFunctions/GMath_quaternionConjugate.c
+  PublicFunctions/GMath_quaternionFrameRateCalc.c
   PublicFunctions/GMath_quaternionFrameRotation.c
   PublicFunctions/GMath_quaternionMul.c
   PublicFunctions/GMath_quaternionPointRotation.c
-  PublicFunctions/GMath_quaternionRateCalc.c
   PublicFunctions/GMath_vectorAdd.c
   PublicFunctions/GMath_vectorMag.c
   PublicFunctions/GMath_vectorNorm.c

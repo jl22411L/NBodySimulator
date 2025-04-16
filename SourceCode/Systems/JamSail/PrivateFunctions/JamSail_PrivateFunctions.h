@@ -163,16 +163,20 @@ extern int
 
 /*!
  * @brief         Fills the observation matrix for the EKF.
-
+ *
  * @param[in]     p_jamSail_state_out
  *                Pointer containing the address of the struct of JamSail's
  *                state.
+ *
+ * @param[in]     isSunReadingInvalid_in
+ *                Flag to indiacte if their is a valid sun sensor reading.
  *
  * @return        Upon a successful completion, the fucntion will return a
  *                GCONST_TRUE. If an error in the codes execution occurs, the
  *                function will return a GCONST_FALSE
  */
-extern int JamSail_fillObservationJacobian(JamSail_State *p_jamSail_state_out);
+extern int JamSail_fillObservationJacobian(JamSail_State *p_jamSail_state_out,
+                                           int isSunReadingInvalid_in);
 
 /*!
  * @brief         Function which will fill the state jacobian manually. This
@@ -279,11 +283,12 @@ extern int JamSail_findRequiredQuaternion(
  *                GCONST_TRUE. If an error in the codes execution occurs, the
  *                function will return a GCONST_FALSE
  */
-extern int JamSail_findStateDerivitive(JamSail_State *p_jamSail_state_in,
-                                       double        *p_stateVector_in,
-                                       double         xxInertia_Bod_kgm2_in,
-                                       double         yyInertia_Bod_kgm2_in,
-                                       double         zzInertia_Bod_kgm2_in,
+extern int JamSail_findStateDerivitive(JamSail_State  *p_jamSail_state_in,
+                                       JamSail_Params *p_jamSail_params_in,
+                                       double         *p_stateVector_in,
+                                       double          xxInertia_Bod_kgm2_in,
+                                       double          yyInertia_Bod_kgm2_in,
+                                       double          zzInertia_Bod_kgm2_in,
                                        double *p_stateDerivitiveVector_out);
 
 /*!
@@ -308,6 +313,42 @@ extern int
     JamSail_nominalAlgorithm(JamSail_State  *p_jamSail_state_inout,
                              JamSail_Params *p_jamSail_params_in,
                              double *p_requiredQuaternion_InertCenToBod_in);
+
+/*!
+ * @brief         Funciton which runs to search for the sun.
+ *
+ * @param[in,out] p_jamSail_state_inout
+ *                Pointer containing the address of the struct of JamSail's
+ *                state.
+ *
+ * @param[in]     p_jamSail_params_in
+ *                Pointer to the params struct of JamSail filled with correct
+ *                coefficients.
+ *
+ * @return        Upon a successful completion, the fucntion will return a
+ *                GCONST_TRUE. If an error in the codes execution occurs, the
+ *                function will return a GCONST_FALSE
+ */
+extern int JamSail_sunSearchingControl(JamSail_State  *p_jamSail_state_inout,
+                                       JamSail_Params *p_jamSail_params_in);
+
+/*!
+ * @brief         Funciton which runs to tracking cnotrol the sun control.
+ *
+ * @param[in,out] p_jamSail_state_inout
+ *                Pointer containing the address of the struct of JamSail's
+ *                state.
+ *
+ * @param[in]     p_jamSail_params_in
+ *                Pointer to the params struct of JamSail filled with correct
+ *                coefficients.
+ *
+ * @return        Upon a successful completion, the fucntion will return a
+ *                GCONST_TRUE. If an error in the codes execution occurs, the
+ *                function will return a GCONST_FALSE
+ */
+extern int JamSail_sunTrackingControl(JamSail_State  *p_jamSail_state_inout,
+                                      JamSail_Params *p_jamSail_params_in);
 
 /*!
  * @brief         Private function which will init JamSail's attitude

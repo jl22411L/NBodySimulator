@@ -40,6 +40,12 @@ int RigidBody_step(RigidBody_State *p_rigidBody_state_in)
   /* Find angular acceleration of the rigid body */
   RigidBody_findAngularAcceleration(p_rigidBody_state_in);
 
+  /* Find quaternion rate from angular velocities */
+  GMath_quaternionFrameRateCalc(
+      &p_rigidBody_state_in->quaternionRate_FixToBody[0],
+      &p_rigidBody_state_in->quaternion_FixToBody[0],
+      &p_rigidBody_state_in->angularVelocity_rads_Bod[0]);
+
   /*--------------------------------------------------------------------------*
    *                                  ARCHIVE                                 *
    *--------------------------------------------------------------------------*/
@@ -58,11 +64,6 @@ int RigidBody_step(RigidBody_State *p_rigidBody_state_in)
   GIntegral_3x1Double(&p_rigidBody_state_in->velocity_ms_Fix[0],
                       &p_rigidBody_state_in->acceleration_ms2_Fix[0],
                       Utilities.simTimeStep_s);
-
-  /* Find quaternion rate from angular velocities */
-  GMath_quaternionRateCalc(&p_rigidBody_state_in->quaternionRate_FixToBody[0],
-                           &p_rigidBody_state_in->quaternion_FixToBody[0],
-                           &p_rigidBody_state_in->angularVelocity_rads_Bod[0]);
 
   /* Integrate quaternion vector */
   GIntegral_4x1Double(&p_rigidBody_state_in->quaternion_FixToBody[0],

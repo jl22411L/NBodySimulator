@@ -44,9 +44,19 @@ typedef enum JamSail_AdcsStateEnum
   JAMSAIL_ADCSSTATE_DETUMBLING = 1,
 
   /*!
+   * @brief     State which is used to track the sun.
+   */
+  JAMSAIL_ADCSSTATE_SUN_SEARCHING = 2,
+
+  /*!
+   * @brief     State which is used to track the sun.
+   */
+  JAMSAIL_ADCSSTATE_SUN_TRACKING = 3,
+
+  /*!
    * @brief     State of JamSail when nominal operations are being performed.
    */
-  JAMSAIL_ADCSSTATE_NOMINAL = 2,
+  JAMSAIL_ADCSSTATE_NOMINAL = 4,
 } JamSail_AdcsState;
 
 #ifdef __cplusplus

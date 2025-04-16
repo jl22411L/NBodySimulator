@@ -15,6 +15,8 @@
 extern "C" {
 #endif
 
+#include <stdint.h>
+
 /* Function Includes */
 /* None */
 
@@ -51,7 +53,7 @@ extern "C" {
 extern int GLegPoly_associatedLegendreArrayPolynomials(
     double *p_assocatedLegPolyArray_out,
     double  inputValue_in,
-    int     maxDegreeN_in);
+    uint8_t maxDegreeN_in);
 
 /*!
  * @brief       Finds the derivitive associated legendre polynomial and fills
@@ -82,7 +84,7 @@ extern int GLegPoly_associatedLegendreArrayPolynomialsDerivitive(
     double *p_legPolyDerivitiveArray_out,
     double *p_legPolyArray_in,
     double  inputValue_in,
-    int     maxDegreeN_in);
+    uint8_t maxDegreeN_in);
 
 /*!
  * @brief       Finds the coefficients to apply to the schmidt quasi
@@ -115,9 +117,9 @@ extern int GLegPoly_associatedLegendreArrayPolynomialsDerivitive(
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GLegPoly_findSchmidtQuasiNormFactors(
-    double *p_schmidtQuasiNormFactors_out,
-    uint8_t maxDegreeN_in);
+extern int
+    GLegPoly_findSchmidtQuasiNormFactors(double *p_schmidtQuasiNormFactors_out,
+                                         uint8_t maxDegreeN_in);
 
 /*!
  * @brief       Function which fills an array with coefficients for the
@@ -137,10 +139,9 @@ extern int GLegPoly_findSchmidtQuasiNormFactors(
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GLegPoly_legendreArrayPolynomials(
-    double *p_outputArray_out,
-    double  inputValue_in,
-    int     degreeN_in);
+extern int GLegPoly_legendreArrayPolynomials(double *p_outputArray_out,
+                                             double  inputValue_in,
+                                             uint8_t degreeN_in);
 
 /*!
  * @brief       Function which finds the output a single output for the Legendre
@@ -159,10 +160,9 @@ extern int GLegPoly_legendreArrayPolynomials(
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GLegPoly_legendrePolynomial(
-    double *p_outputValue_out,
-    double  inputValue_in,
-    int     degreeN_in);
+extern int GLegPoly_legendrePolynomial(double *p_outputValue_out,
+                                       double  inputValue_in,
+                                       uint8_t degreeN_in);
 
 #ifdef __cplusplus
 }

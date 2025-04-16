@@ -8,6 +8,8 @@
  *
  */
 
+#include <stdint.h>
+
 /* Function Includes */
 /* None */
 
@@ -27,12 +29,12 @@ int GLegPoly_associatedLegendreArrayPolynomialsDerivitive(
     double *p_legPolyDerivitiveArray_out,
     double *p_legPolyArray_in,
     double  inputValue_in,
-    int     maxDegreeN_in)
+    uint8_t maxDegreeN_in)
 {
   /* Declare local variables */
-  double absDenominator;
-  int    n;
-  int    m;
+  double  absDenominator;
+  uint8_t n;
+  uint8_t m;
 
   /* Finds the absolute value of the denominator for the recursive formula */
   GMath_abs(inputValue_in * inputValue_in - 1.0, &absDenominator);
@@ -48,9 +50,8 @@ int GLegPoly_associatedLegendreArrayPolynomialsDerivitive(
   }
 
   /* Clear array */
-  GZero(
-      p_legPolyDerivitiveArray_out,
-      double[maxDegreeN_in + 1][maxDegreeN_in + 1]);
+  GZero(p_legPolyDerivitiveArray_out,
+        double[maxDegreeN_in + 1][maxDegreeN_in + 1]);
 
   /* Set initial value */
   *(p_legPolyDerivitiveArray_out + (maxDegreeN_in + 1) * 0 + 0) = 0;

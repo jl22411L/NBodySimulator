@@ -56,19 +56,6 @@ int Magnetometer_step(Magnetometer_Params *p_magnetometer_params_in,
   double  magneticFieldVector_Ned_nT[3];
   double  magneticFieldVector_GeoCen_nT[3];
   double  magneticFieldVector_InertCen_nT[3];
-  //   double  sensorPositionRelBody_Fix_m[3];
-  //   double  bodyPositionRelInertialCentric_Fix_m[3];
-  //   double  sensorPointRelInerticalCentric_Fix_m[3];
-  //   double  sensorPoint_GeoCen_m[3];
-  //   double  quaternion_FixToSen[4];
-  //   double  quaternion_InertCenToGeoCen[4];
-  //   double  quaternion_InertCenToFix[4];
-  //   double  quaternion_FixToGeoCen[4];
-  //   double  quaternion_GeoCenToNed[4];
-  //   double  euler123_GeoCenToNed[3];
-  //   double  magneticFieldVector_GeoCen_nT[3];
-  //   double  magneticFieldVector_InertCen_nT[3];
-  //   double  magneticFieldVector_Fix_nT[3];
   uint8_t i;
 
   /* Clear Variables */
@@ -88,19 +75,6 @@ int Magnetometer_step(Magnetometer_Params *p_magnetometer_params_in,
   GZero(&(magneticFieldVector_Ned_nT[0]), double[3]);
   GZero(&(magneticFieldVector_GeoCen_nT[0]), double[3]);
   GZero(&(magneticFieldVector_InertCen_nT[0]), double[3]);
-  //   GZero(&(sensorPositionRelBody_Fix_m[0]), double[3]);
-  //   GZero(&(bodyPositionRelInertialCentric_Fix_m[0]), double[3]);
-  //   GZero(&(sensorPointRelInerticalCentric_Fix_m[0]), double[3]);
-  //   GZero(&(sensorPoint_GeoCen_m[0]), double[3]);
-  //   GZero(&(quaternion_FixToSen[0]), double[4]);
-  //   GZero(&(quaternion_InertCenToGeoCen[0]), double[4]);
-  //   GZero(&(quaternion_FixToGeoCen[0]), double[4]);
-  //   GZero(&(quaternion_InertCenToFix[0]), double[4]);
-  //   GZero(&(euler123_GeoCenToNed[0]), double[3]);
-  //   GZero(&(quaternion_GeoCenToNed[0]), double[4]);
-  //   GZero(&(magneticFieldVector_GeoCen_nT[0]), double[3]);
-  //   GZero(&(magneticFieldVector_InertCen_nT[0]), double[3]);
-  //   GZero(&(magneticFieldVector_Fix_nT[0]), double[3]);
 
   /* Find the position of JamSail relative to the Inertical Centric Frame */
   GMath_vectorSub(
@@ -139,11 +113,15 @@ int Magnetometer_step(Magnetometer_Params *p_magnetometer_params_in,
   quaternion_InertCenToGeoCen[0] = 0.0;
   quaternion_InertCenToGeoCen[1] = 0.0;
   quaternion_InertCenToGeoCen[2] =
-      sin((2 * GCONST_PI / (p_magneticFieldCelestialBody_in->sideRealTime_s)) *
-          (simTime_s_in - GCONST_J2000_UNIX_TIME_S) / 2);
+      sin((GCONST_PI / (p_magneticFieldCelestialBody_in->sideRealTime_s)) *
+          (simTime_s_in - GCONST_J2000_UNIX_TIME_S));
   quaternion_InertCenToGeoCen[3] =
-      cos((2 * GCONST_PI / (p_magneticFieldCelestialBody_in->sideRealTime_s)) *
-          (simTime_s_in - GCONST_J2000_UNIX_TIME_S) / 2);
+      cos((GCONST_PI / (p_magneticFieldCelestialBody_in->sideRealTime_s)) *
+          (simTime_s_in - GCONST_J2000_UNIX_TIME_S));
+
+  /* Stabalize quaternion */
+  GMath_findUnitQuaternion(&(quaternion_InertCenToGeoCen[0]),
+                           &(quaternion_InertCenToGeoCen[0]));
 
   /* Find the position of the sensor in the Geo Centric frame */
   GMath_quaternionFrameRotation(&(sensorPosition_GeoCen_m[0]),

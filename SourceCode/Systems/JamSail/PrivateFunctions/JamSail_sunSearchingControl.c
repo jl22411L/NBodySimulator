@@ -1,9 +1,9 @@
-/*!
- *    @File:         JamSail_detumblingAlgorithm.c
+/*
+ *    @File:         JamSail_sunSearchingControl.c
  *
- *    @Brief:        File which contains detumbling algorithm for JamSail.
+ *    @Brief:        Funciton definition for snu trakcking control.
  *
- *    @Date:         06/04/2025
+ *    @Date:         13/04/2025
  *
  */
 
@@ -17,14 +17,14 @@
 #include "JamSail/DataStructs/JamSail_StateStruct.h"
 
 /* Data include */
-#include "JamSail/ConstantDefs/JamSail_AdcsStateEnum.h"
+/* None */
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
 #include "GMath/GMath.h"
 #include "GZero/GZero.h"
 
-int JamSail_detumblingAlgorithm(JamSail_State  *p_jamSail_state_inout,
+int JamSail_sunSearchingControl(JamSail_State  *p_jamSail_state_inout,
                                 JamSail_Params *p_jamSail_params_in)
 {
   /* Declare local variables */
@@ -61,17 +61,32 @@ int JamSail_detumblingAlgorithm(JamSail_State  *p_jamSail_state_inout,
 
   /* Find control torque */
   (p_jamSail_state_inout->controlTorque_Bod_Nm[0]) =
-      -(p_jamSail_params_in->detumblingProportionalCoefficient[0]) *
-          (p_jamSail_state_inout->angularVelocityEstimate_Bod_rads[0]) +
+      (p_jamSail_params_in->detumblingProportionalCoefficient[0]) *
+          (0.087266 -
+           (p_jamSail_state_inout->angularVelocityEstimate_Bod_rads[0])) +
       crossRotationalMoments_Nm_Bod[0];
+
   (p_jamSail_state_inout->controlTorque_Bod_Nm[1]) =
       -(p_jamSail_params_in->detumblingProportionalCoefficient[1]) *
           (p_jamSail_state_inout->angularVelocityEstimate_Bod_rads[1]) +
       crossRotationalMoments_Nm_Bod[1];
+
   (p_jamSail_state_inout->controlTorque_Bod_Nm[2]) =
       -(p_jamSail_params_in->detumblingProportionalCoefficient[2]) *
           (p_jamSail_state_inout->angularVelocityEstimate_Bod_rads[2]) +
       crossRotationalMoments_Nm_Bod[2];
+
+  for (i = 0; i < 3; i++)
+  {
+    if (p_jamSail_state_inout->controlTorque_Bod_Nm[i] > 0.01)
+    {
+      p_jamSail_state_inout->controlTorque_Bod_Nm[i] = 0.01;
+    }
+    else if (p_jamSail_state_inout->controlTorque_Bod_Nm[i] < -0.01)
+    {
+      p_jamSail_state_inout->controlTorque_Bod_Nm[i] = -0.01;
+    }
+  }
 
   // /* Find magnetic field in the body frame */
   // GMath_quaternionPointRotation(

@@ -11,7 +11,7 @@
 #include <stdint.h>
 
 /* Function Includes */
-/* None */
+#include "SensorFilters/PublicFunctions/SensorFilter_PublicFunctions.h"
 
 /* Structure Include */
 #include "JamSail/DataStructs/JamSail_ParamsStruct.h"
@@ -22,12 +22,14 @@
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
+#include "GMath/GMath.h"
 #include "GUtilities/GUtilities.h"
 
 int JamSail_filterSensors(JamSail_State  *p_jamSail_state_out,
                           JamSail_Params *p_jamSail_params_in)
 {
   /* Declare local variables */
+  double  sunSensorMagnitude;
   uint8_t i;
 
   /* Apply low pass filter to sensors */
@@ -61,6 +63,20 @@ int JamSail_filterSensors(JamSail_State  *p_jamSail_state_out,
         (p_jamSail_state_out->sunSensor_state
              .previousFilteredSunVector_Sen_m[i]),
         &(p_jamSail_state_out->sunSensor_state.filteredSunVector_Sen_m[i]));
+  }
+
+  /* Find magnitude of sun sensor */
+  GMath_vectorMag(
+      &sunSensorMagnitude,
+      &(p_jamSail_state_out->sunSensor_state.filteredSunVector_Sen_m[0]),
+      3);
+
+  /* If magnitude is greater than 0, make unit vector */
+  if (sunSensorMagnitude > GCONST_MM_TOLERANCE)
+  {
+    GMath_findUnitVector(
+        &(p_jamSail_state_out->sunSensor_state.filteredSunVector_Sen_m[0]),
+        &(p_jamSail_state_out->sunSensor_state.filteredSunVector_Sen_m[0]));
   }
 
   return GCONST_TRUE;

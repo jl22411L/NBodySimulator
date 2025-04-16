@@ -40,7 +40,8 @@ int SunSensor_checkWithinFov(SunSensor_State  *p_sunSensor_state_inout,
   sunVectorAngle_rad = acos(p_sunSensor_state_inout->trueSunVector_Sen_m[0]);
 
   /* Check if vector is outside FOV of sensor */
-  if (sunVectorAngle_rad >= p_sunSensor_params_in->sensorFov_rad)
+  if ((sunVectorAngle_rad > p_sunSensor_params_in->sensorFov_rad / 2) ||
+      (p_sunSensor_state_inout->trueSunVector_Sen_m[0] < 0))
   {
     /* If so, set invalid reading flag to GCONST_TRUE */
     p_sunSensor_state_inout->isSensorReadingInvalid = GCONST_TRUE;

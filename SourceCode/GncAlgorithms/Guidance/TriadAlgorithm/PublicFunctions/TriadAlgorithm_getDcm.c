@@ -24,12 +24,11 @@
 #include "GMath/GMath.h"
 #include "GZero/GZero.h"
 
-int TriadAlgorithm_getDcm(
-    double *p_vector1_bod_in,
-    double *p_vector1_fix_in,
-    double *p_vector2_bod_in,
-    double *p_vector2_fix_in,
-    double *p_dcm_fixToBod_out)
+int TriadAlgorithm_getDcm(double *p_vector1_bod_in,
+                          double *p_vector1_fix_in,
+                          double *p_vector2_bod_in,
+                          double *p_vector2_fix_in,
+                          double *p_dcm_fixToBod_out)
 {
   /*
    * Declare Local Variables. Note that the buffers for the vectors are so that
@@ -40,6 +39,7 @@ int TriadAlgorithm_getDcm(
    */
   double  bodToIntermediateDcm[3][3];
   double  intermediateToFixDcm[3][3];
+  double  bodToFix[3][3];
   double  vector1Buffer_bod[3];
   double  vector1Buffer_fix[3];
   double  vector2Buffer_bod[3];
@@ -52,6 +52,7 @@ int TriadAlgorithm_getDcm(
   GZero(p_dcm_fixToBod_out, double[3][3]);
   GZero(&bodToIntermediateDcm[0], double[3][3]);
   GZero(&intermediateToFixDcm, double[3][3]);
+  GZero(&bodToFix, double[3][3]);
   GZero(&bodVectorBuffer[0], double[3]);
   GZero(&fixVectorBuffer[0], double[3]);
   GZero(&vector1Buffer_bod[0], double[3]);
@@ -73,15 +74,13 @@ int TriadAlgorithm_getDcm(
   }
 
   /* Find the cross produce between the two vectors into buffers */
-  GMath_crossProduct(
-      &vector1Buffer_bod[0],
-      &vector2Buffer_bod[0],
-      &bodVectorBuffer[0]);
+  GMath_crossProduct(&vector1Buffer_bod[0],
+                     &vector2Buffer_bod[0],
+                     &bodVectorBuffer[0]);
 
-  GMath_crossProduct(
-      &vector1Buffer_fix[0],
-      &vector2Buffer_fix[0],
-      &fixVectorBuffer[0]);
+  GMath_crossProduct(&vector1Buffer_fix[0],
+                     &vector2Buffer_fix[0],
+                     &fixVectorBuffer[0]);
 
   /* Find the unit vectors of the cross produce */
   GMath_findUnitVector(&bodVectorBuffer[0], &bodVectorBuffer[0]);
@@ -96,15 +95,13 @@ int TriadAlgorithm_getDcm(
 
   /* Find the cross product between the first vector and the buffer and load
    * results into buffer */
-  GMath_crossProduct(
-      &vector1Buffer_bod[0],
-      &bodVectorBuffer[0],
-      &bodVectorBuffer[0]);
+  GMath_crossProduct(&vector1Buffer_bod[0],
+                     &bodVectorBuffer[0],
+                     &bodVectorBuffer[0]);
 
-  GMath_crossProduct(
-      &vector1Buffer_fix[0],
-      &fixVectorBuffer[0],
-      &fixVectorBuffer[0]);
+  GMath_crossProduct(&vector1Buffer_fix[0],
+                     &fixVectorBuffer[0],
+                     &fixVectorBuffer[0]);
 
   /* Load the buffer into DCM's */
   for (i = 0; i < 3; i++)
@@ -114,10 +111,11 @@ int TriadAlgorithm_getDcm(
   }
 
   /* Multiply the DCM's together and output into the output DCM */
-  GMath_matMul3x3by3x3(
-      &bodToIntermediateDcm[0][0],
-      &intermediateToFixDcm[0][0],
-      p_dcm_fixToBod_out);
+  GMath_matMul3x3by3x3(&bodToIntermediateDcm[0][0],
+                       &intermediateToFixDcm[0][0],
+                       &bodToFix[0][0]);
+
+  GMath_invMat(&bodToFix[0][0], p_dcm_fixToBod_out, 3);
 
   return GCONST_TRUE;
 }

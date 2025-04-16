@@ -65,8 +65,7 @@ int KeplarianPropogation_keplarianToCartesian(
   changeInTime_s =
       fmod(simTime_s_in - timeSincePeriapsis_s_in, orbitalTimePeriod_s);
 
-  /* If the change in time is negative add the time period to make it positive
-   */
+  /* If the change in time is negative, add a time period to make positive */
   if (changeInTime_s < 0.0)
   {
     changeInTime_s += orbitalTimePeriod_s;

@@ -23,12 +23,23 @@
 #include "GMath/GMath.h"
 #include "GZero/GZero.h"
 
-int JamSail_fillObservationJacobian(JamSail_State *p_jamSail_state_out)
+int JamSail_fillObservationJacobian(JamSail_State *p_jamSail_state_out,
+                                    int            isSunReadingInvalid_in)
 {
   /* Declare local variables */
   double  rotationMatrix[3][3];
   double  vectorBuffer[3];
+  double  magneticFieldNorm_Bod[3];
   uint8_t i;
+
+  /* Clear local variables */
+  GZero(&(rotationMatrix[0]), double[3][3]);
+  GZero(&(vectorBuffer[0]), double[3]);
+
+  /* Find unit vector of magnetic field */
+  GMath_findUnitVector(
+      &(p_jamSail_state_out->magneticFieldEstimateNorm_InertCen[0]),
+      &(magneticFieldNorm_Bod[0]));
 
   /* Load the vectors due to the angular valocity */
   for (i = 0; i < 3; i++)
@@ -58,7 +69,7 @@ int JamSail_fillObservationJacobian(JamSail_State *p_jamSail_state_out)
   GMath_matMul(&(rotationMatrix[0][0]),
                3,
                3,
-               &(p_jamSail_state_out->magneticFieldEstimateNorm_InertCen[0]),
+               &(magneticFieldNorm_Bod[0]),
                3,
                1,
                &(vectorBuffer[0]));
@@ -101,7 +112,7 @@ int JamSail_fillObservationJacobian(JamSail_State *p_jamSail_state_out)
   GMath_matMul(&(rotationMatrix[0][0]),
                3,
                3,
-               &(p_jamSail_state_out->magneticFieldEstimateNorm_InertCen[0]),
+               &(magneticFieldNorm_Bod[0]),
                3,
                1,
                &(vectorBuffer[0]));
@@ -144,7 +155,7 @@ int JamSail_fillObservationJacobian(JamSail_State *p_jamSail_state_out)
   GMath_matMul(&(rotationMatrix[0][0]),
                3,
                3,
-               &(p_jamSail_state_out->magneticFieldEstimateNorm_InertCen[0]),
+               &(magneticFieldNorm_Bod[0]),
                3,
                1,
                &(vectorBuffer[0]));
@@ -187,7 +198,7 @@ int JamSail_fillObservationJacobian(JamSail_State *p_jamSail_state_out)
   GMath_matMul(&(rotationMatrix[0][0]),
                3,
                3,
-               &(p_jamSail_state_out->magneticFieldEstimateNorm_InertCen[0]),
+               &(magneticFieldNorm_Bod[0]),
                3,
                1,
                &(vectorBuffer[0]));

@@ -20,6 +20,7 @@
 #include "JamSail/ConstantDefs/JamSail_AdcsStateEnum.h"
 
 /* Generic Libraries */
+#include "GArchive/GArchive.h"
 #include "GConst/GConst.h"
 #include "GLog/GLog.h"
 #include "GParser/GParser.h"
@@ -91,6 +92,28 @@ int JamSail_initAttitudeDetermination(JamSail_State  *p_jamSail_state_out,
       GParser_loadDouble(&GParser_state,
                          p_dic,
                          &(p_jamSail_params_out->sensorNoiseCovariance[i][j]),
+                         &(parameterBuffer[0]));
+
+      /* Clear buffer */
+      GZero(&parameterBuffer, char[32]);
+    }
+  }
+
+  /* Load parameters for EKF sensor noise covariance matricies */
+  for (i = 0; i < JAMSAIL_EKF_DEGREE_M - 3; i++)
+  {
+    for (j = 0; j < JAMSAIL_EKF_DEGREE_M - 3; j++)
+    {
+      /* Load name of parameter into buffer */
+      sprintf(&(parameterBuffer[0]),
+              "EkfProperties:sensorNoiseCovariance[%d][%d]",
+              i,
+              j);
+
+      /* Load parameter into member of JamSails params struct */
+      GParser_loadDouble(&GParser_state,
+                         p_dic,
+                         &(p_jamSail_params_out->sensorNoiseCovariance2[i][j]),
                          &(parameterBuffer[0]));
 
       /* Clear buffer */
@@ -206,7 +229,7 @@ int JamSail_initAttitudeDetermination(JamSail_State  *p_jamSail_state_out,
   GParser_loadDoubleArray(
       &GParser_state,
       p_dic,
-      &(p_jamSail_params_out->detumblingProportionalCoefficient[0]),
+      &(p_jamSail_params_out->nominalProportionalCoefficient[0]),
       "ControlProperties:nominalProportionalCoefficient",
       3,
       1);
@@ -215,7 +238,7 @@ int JamSail_initAttitudeDetermination(JamSail_State  *p_jamSail_state_out,
   GParser_loadDoubleArray(
       &GParser_state,
       p_dic,
-      &(p_jamSail_params_out->detumblingProportionalCoefficient[0]),
+      &(p_jamSail_params_out->nominalDerivitiveCoefficient[0]),
       "ControlProperties:nominalDerivitiveCoefficient",
       3,
       1);
@@ -271,6 +294,12 @@ int JamSail_initAttitudeDetermination(JamSail_State  *p_jamSail_state_out,
 
   /* Add column */
   GArchive_addCol(&p_jamSail_state_out->attitudeDeterminationArchive,
+                  "errorQuaternion_InertCenToBod",
+                  4,
+                  1);
+
+  /* Add column */
+  GArchive_addCol(&p_jamSail_state_out->attitudeDeterminationArchive,
                   "angularVelocityEstimate_Bod_rads",
                   3,
                   1);
@@ -289,12 +318,21 @@ int JamSail_initAttitudeDetermination(JamSail_State  *p_jamSail_state_out,
 
   /* Add column */
   GArchive_addCol(&p_jamSail_state_out->attitudeDeterminationArchive,
+                  "inputCurrent_Sen_A",
+                  3,
+                  1);
+
+  /* Add column */
+  GArchive_addCol(&p_jamSail_state_out->attitudeDeterminationArchive,
                   "attitudeMeasuredFlag",
                   1,
                   1);
 
   /* Add column */
-  GArchive_addCol(&p_jamSail_state_out->adcsState, "adcsState", 1, 1);
+  GArchive_addCol(&p_jamSail_state_out->attitudeDeterminationArchive,
+                  "adcsState",
+                  1,
+                  1);
 
   /* Write header for archive */
   GArchive_writeHeader(&p_jamSail_state_out->attitudeDeterminationArchive);

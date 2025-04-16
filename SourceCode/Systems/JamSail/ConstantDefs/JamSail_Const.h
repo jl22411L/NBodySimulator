@@ -102,7 +102,7 @@ extern "C" {
  * @frame     N/A
  * @units     Seconds
  */
-#define JAMSAIL_STARTUP_PROCESS_TIME_S            (120)
+#define JAMSAIL_STARTUP_PROCESS_TIME_S            (600)
 
 #ifdef __cplusplus
 }

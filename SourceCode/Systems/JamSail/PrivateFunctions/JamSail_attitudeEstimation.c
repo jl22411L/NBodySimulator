@@ -32,14 +32,16 @@ int JamSail_attitudeEstimation(JamSail_State  *p_jamSail_state_inout,
                                double          timeStep_s_in)
 {
   /* Declare local variables */
-  double  xxInertiaComponent_Bod_kgm2;
-  double  yyInertiaComponent_Bod_kgm2;
-  double  zzInertiaComponent_Bod_kgm2;
-  double  stateEstimateVector[JAMSAIL_EKF_ORDER_N];
-  double  stateEstimateDerivitiveVector[JAMSAIL_EKF_ORDER_N];
-  double  measurementEstimateVector[JAMSAIL_EKF_DEGREE_M];
-  double  measurementSensorVector[JAMSAIL_EKF_DEGREE_M];
-  double  intermediateKalmanGain[JAMSAIL_EKF_DEGREE_M][JAMSAIL_EKF_DEGREE_M];
+  double xxInertiaComponent_Bod_kgm2;
+  double yyInertiaComponent_Bod_kgm2;
+  double zzInertiaComponent_Bod_kgm2;
+  double stateEstimateVector[JAMSAIL_EKF_ORDER_N];
+  double stateEstimateDerivitiveVector[JAMSAIL_EKF_ORDER_N];
+  double measurementEstimateVector[JAMSAIL_EKF_DEGREE_M];
+  double measurementSensorVector[JAMSAIL_EKF_DEGREE_M];
+  double intermediateKalmanGain[JAMSAIL_EKF_DEGREE_M][JAMSAIL_EKF_DEGREE_M];
+  double intermediateKalmanGain2[JAMSAIL_EKF_DEGREE_M - 3]
+                                [JAMSAIL_EKF_DEGREE_M - 3];
   double  errorCovarianceBuffer[JAMSAIL_EKF_ORDER_N][JAMSAIL_EKF_ORDER_N];
   uint8_t i;
 
@@ -50,8 +52,18 @@ int JamSail_attitudeEstimation(JamSail_State  *p_jamSail_state_inout,
   GZero(&(measurementSensorVector), double[JAMSAIL_EKF_DEGREE_M]);
   GZero(&(intermediateKalmanGain),
         double[JAMSAIL_EKF_DEGREE_M][JAMSAIL_EKF_DEGREE_M]);
+  GZero(&(intermediateKalmanGain2),
+        double[JAMSAIL_EKF_DEGREE_M - 3][JAMSAIL_EKF_DEGREE_M - 3]);
   GZero(&(errorCovarianceBuffer),
         double[JAMSAIL_EKF_ORDER_N][JAMSAIL_EKF_ORDER_N]);
+  GZero(&(p_jamSail_state_inout->stateJacobian[0][0]),
+        double[JAMSAIL_EKF_ORDER_N][JAMSAIL_EKF_ORDER_N]);
+  GZero(&(p_jamSail_state_inout->observationJacobian[0][0]),
+        double[JAMSAIL_EKF_DEGREE_M][JAMSAIL_EKF_ORDER_N]);
+  GZero(&(p_jamSail_state_inout->errorCovarianceDerivitive[0][0]),
+        double[JAMSAIL_EKF_ORDER_N][JAMSAIL_EKF_ORDER_N]);
+  GZero(&(p_jamSail_state_inout->kalmanGain[0][0]),
+        double[JAMSAIL_EKF_ORDER_N][JAMSAIL_EKF_DEGREE_M]);
 
   /* Extract diagnol of inertia components */
   xxInertiaComponent_Bod_kgm2 =
@@ -78,9 +90,32 @@ int JamSail_attitudeEstimation(JamSail_State  *p_jamSail_state_inout,
                             zzInertiaComponent_Bod_kgm2);
 
   /* Fill observation jacobian */
-  JamSail_fillObservationJacobian(p_jamSail_state_inout);
+  JamSail_fillObservationJacobian(
+      p_jamSail_state_inout,
+      p_jamSail_state_inout->sunSensor_state.isSensorReadingInvalid);
 
-  /* Step EKF */
+  /* Step EKF, based on if sun sensor reading is valid */
+  // if (p_jamSail_state_inout->sunSensor_state.isSensorReadingInvalid)
+  // {
+  //   ContinuousEkf_step(
+  //       &(p_jamSail_state_inout->stateJacobian[0][0]),
+  //       &(p_jamSail_state_inout->observationJacobian2[0][0]),
+  //       &(errorCovarianceBuffer[0][0]),
+  //       &(p_jamSail_state_inout->errorCovarianceDerivitive[0][0]),
+  //       &(p_jamSail_params_in->systemNoiseCovariance[0][0]),
+  //       &(p_jamSail_params_in->sensorNoiseCovariance2[0][0]),
+  //       &(p_jamSail_state_inout->kalmanGain2[0][0]),
+  //       &(intermediateKalmanGain2[0][0]),
+  //       &(measurementEstimateVector[0]),
+  //       &(measurementSensorVector[0]),
+  //       JAMSAIL_EKF_ORDER_N,
+  //       JAMSAIL_EKF_DEGREE_M - 3,
+  //       timeStep_s_in,
+  //       &(p_jamSail_state_inout->errorCovariance[0][0]),
+  //       &(stateEstimateVector[0]));
+  // }
+  // else
+  // {
   ContinuousEkf_step(&(p_jamSail_state_inout->stateJacobian[0][0]),
                      &(p_jamSail_state_inout->observationJacobian[0][0]),
                      &(errorCovarianceBuffer[0][0]),
@@ -96,9 +131,11 @@ int JamSail_attitudeEstimation(JamSail_State  *p_jamSail_state_inout,
                      timeStep_s_in,
                      &(p_jamSail_state_inout->errorCovariance[0][0]),
                      &(stateEstimateVector[0]));
+  // }
 
   /* Find derivitive of state */
   JamSail_findStateDerivitive(p_jamSail_state_inout,
+                              p_jamSail_params_in,
                               &stateEstimateVector[0],
                               xxInertiaComponent_Bod_kgm2,
                               yyInertiaComponent_Bod_kgm2,

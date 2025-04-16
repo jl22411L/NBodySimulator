@@ -13,6 +13,7 @@
 #include "Actuators/Magnetorquer/PublicFunctions/Magnetorquer_PublicFunctions.h"
 #include "BodyMgr/PublicFunctions/BodyMgr_PublicFunctions.h"
 #include "Guidance/ContinuousEkf/PublicFunctions/ContinuousEkf_PublicFunctions.h"
+#include "Guidance/KeplarianPropogation/PublicFunctions/KeplarianPropogation_PublicFunctions.h"
 #include "JamSail/PrivateFunctions/JamSail_PrivateFunctions.h"
 #include "SensorFilters/PublicFunctions/SensorFilter_PublicFunctions.h"
 #include "Sensors/Gyro/PublicFunctions/Gyro_PublicFunctions.h"
@@ -100,9 +101,7 @@ int JamSail_step(JamSail_State  *p_jamSail_state_out,
   Gyro_step(&(p_jamSail_params_in->gyro_params),
             &(p_jamSail_state_out->gyro_state),
             &((p_jamSail_state_out->p_satelliteBody_state)
-                  ->rigidBody_state.angularVelocity_rads_Bod[0]),
-            &((p_jamSail_state_out->p_satelliteBody_state)
-                  ->rigidBody_state.quaternion_FixToBody[0]));
+                  ->rigidBody_state.angularVelocity_rads_Bod[0]));
 
   /* ------------------------------------------------------------------------ *
    * JamSail's ADCS
@@ -111,27 +110,35 @@ int JamSail_step(JamSail_State  *p_jamSail_state_out,
   /* Check and update step of JamSail */
   JamSail_updateState(p_jamSail_state_out, p_jamSail_params_in);
 
-  /* ----------------------- Determination Algorithm ------------------------ */
-
   /* Step Low-High Pass Filter */
   JamSail_filterSensors(p_jamSail_state_out, p_jamSail_params_in);
 
-  /* Step Determination Algorithm */
-  if (p_jamSail_state_out->adcsState != JAMSAIL_ADCSSTATE_STARTUP)
-  {
-    JamSail_attitudeDetermination(p_jamSail_state_out,
-                                  p_jamSail_params_in,
-                                  simTime_s_in,
-                                  simTimeStep_s_in);
-  }
-
-  /* -------------------------- Control Algorithm --------------------------- */
+  /* Perform keplarian propogation to find position of JamSail */
+  KeplarianPropogation_keplarianToCartesian(
+      (p_jamSail_params_in->jamSailMass_kg),
+      (p_jamSail_params_in->earthMass_kg),
+      (p_jamSail_params_in->semiMajorAxis_km) * GCONST_KM_TOLERANCE,
+      (p_jamSail_params_in->eccentricity),
+      (p_jamSail_params_in->inclination_rad),
+      (p_jamSail_params_in->argumentOfPerigee_rad),
+      (p_jamSail_params_in->raans_rad),
+      (p_jamSail_params_in->timeSincePeriapsis_s),
+      simTime_s_in,
+      &(p_jamSail_state_out->positionEstimate_InertCen_m[0]));
 
   /* Step Control Algorithm */
-  if (p_jamSail_state_out->adcsState != JAMSAIL_ADCSSTATE_STARTUP)
-  {
-    JamSail_controlAlgorithm(p_jamSail_state_out, p_jamSail_params_in);
-  }
+  JamSail_controlAlgorithm(p_jamSail_state_out, p_jamSail_params_in);
+
+  /* Step Determination Algorithm */
+  JamSail_attitudeDetermination(p_jamSail_state_out,
+                                p_jamSail_params_in,
+                                simTime_s_in,
+                                simTimeStep_s_in);
+
+  /* ----------------------------- Archive Data ---------------------------- */
+
+  /* Archive attitude determination results */
+  JamSail_archiveData(p_jamSail_state_out);
 
   /* ------------------------------------------------------------------------ *
    * Step Actuators
@@ -152,8 +159,13 @@ int JamSail_step(JamSail_State  *p_jamSail_state_out,
    * Find resultant loads
    * ------------------------------------------------------------------------ */
 
-  /* Find the resultant force on */
-  // TODO
+  /* Find the resultant Torque on JamSail */
+  for (i = 0; i < 3; i++)
+  {
+    (p_jamSail_state_out->p_satelliteBody_state->rigidBody_state
+         .resultantMoment_Nm_Bod[i]) =
+        (p_jamSail_state_out->controlTorque_Bod_Nm[i]);
+  }
 
   return GCONST_TRUE;
 }

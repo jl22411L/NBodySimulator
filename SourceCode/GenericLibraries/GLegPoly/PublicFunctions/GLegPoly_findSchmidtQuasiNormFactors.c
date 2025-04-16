@@ -32,9 +32,9 @@ int GLegPoly_findSchmidtQuasiNormFactors(double *p_schmidtQuasiNormFactors_out,
   uint16_t factoraialValue;
   double   factorialRatio;
   double   sign;
-  int      n;
-  int      m;
-  int      i;
+  uint8_t  n;
+  uint8_t  m;
+  uint8_t  i;
 
   /* Clear array  */
   GZero(p_schmidtQuasiNormFactors_out,

@@ -52,6 +52,16 @@ typedef struct JamSail_ParamsStruct
   double sensorNoiseCovariance[JAMSAIL_EKF_DEGREE_M][JAMSAIL_EKF_DEGREE_M];
 
   /*!
+   * @brief     Matrix containing the coefficients of the sensor noise
+   *            covariance for the EKF.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
+  double sensorNoiseCovariance2[JAMSAIL_EKF_DEGREE_M - 3]
+                               [JAMSAIL_EKF_DEGREE_M - 3];
+
+  /*!
    * @brief     Mass of Sun. Used in keplarian propogation.
    *
    * @frame     N/A
