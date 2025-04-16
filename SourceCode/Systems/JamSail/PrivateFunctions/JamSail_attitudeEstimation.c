@@ -94,28 +94,7 @@ int JamSail_attitudeEstimation(JamSail_State  *p_jamSail_state_inout,
       p_jamSail_state_inout,
       p_jamSail_state_inout->sunSensor_state.isSensorReadingInvalid);
 
-  /* Step EKF, based on if sun sensor reading is valid */
-  // if (p_jamSail_state_inout->sunSensor_state.isSensorReadingInvalid)
-  // {
-  //   ContinuousEkf_step(
-  //       &(p_jamSail_state_inout->stateJacobian[0][0]),
-  //       &(p_jamSail_state_inout->observationJacobian2[0][0]),
-  //       &(errorCovarianceBuffer[0][0]),
-  //       &(p_jamSail_state_inout->errorCovarianceDerivitive[0][0]),
-  //       &(p_jamSail_params_in->systemNoiseCovariance[0][0]),
-  //       &(p_jamSail_params_in->sensorNoiseCovariance2[0][0]),
-  //       &(p_jamSail_state_inout->kalmanGain2[0][0]),
-  //       &(intermediateKalmanGain2[0][0]),
-  //       &(measurementEstimateVector[0]),
-  //       &(measurementSensorVector[0]),
-  //       JAMSAIL_EKF_ORDER_N,
-  //       JAMSAIL_EKF_DEGREE_M - 3,
-  //       timeStep_s_in,
-  //       &(p_jamSail_state_inout->errorCovariance[0][0]),
-  //       &(stateEstimateVector[0]));
-  // }
-  // else
-  // {
+  /* Step the Extended Kalman Filter */
   ContinuousEkf_step(&(p_jamSail_state_inout->stateJacobian[0][0]),
                      &(p_jamSail_state_inout->observationJacobian[0][0]),
                      &(errorCovarianceBuffer[0][0]),
@@ -131,7 +110,6 @@ int JamSail_attitudeEstimation(JamSail_State  *p_jamSail_state_inout,
                      timeStep_s_in,
                      &(p_jamSail_state_inout->errorCovariance[0][0]),
                      &(stateEstimateVector[0]));
-  // }
 
   /* Find derivitive of state */
   JamSail_findStateDerivitive(p_jamSail_state_inout,
