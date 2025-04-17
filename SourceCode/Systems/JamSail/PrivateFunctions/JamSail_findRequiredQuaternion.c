@@ -34,9 +34,12 @@ int JamSail_findRequiredQuaternion(
   double  rotationAxis[3];
   double  pointingAxis_InertCen[3];
   double  pointingDirection_InertCen[3];
-  double  intermediateRequiredQuaternion_InertCenToBod[4];
+  double  intermediateRequiredQuaternion1_InertCenToBod[4];
   double  intermediateRequiredQuaternion2_InertCenToBod[4];
   double  sunVector_Bod[3];
+  double  sunVectorNorm_InertmediateFrame[3];
+  double  zAxis_IntermediateFrame[3];
+  double  zAxis_InertCen[3];
   double  crossProductMagnitude;
   double  pointingAxisMagnitude;
   double  pointingDirectionMagnitude;
@@ -48,9 +51,12 @@ int JamSail_findRequiredQuaternion(
   GZero(&(rotationAxis), double[3]);
   GZero(&(pointingAxis_InertCen), double[3]);
   GZero(&(pointingDirection_InertCen), double[3]);
-  GZero(&(intermediateRequiredQuaternion_InertCenToBod), double[4]);
+  GZero(&(intermediateRequiredQuaternion1_InertCenToBod), double[4]);
   GZero(&(intermediateRequiredQuaternion2_InertCenToBod), double[4]);
   GZero(&(sunVector_Bod), double[3]);
+  GZero(&(sunVectorNorm_InertmediateFrame), double[3]);
+  GZero(&(zAxis_IntermediateFrame), double[3]);
+  GZero(&(zAxis_InertCen), double[3]);
 
   /*!
    * Set pointing axis
@@ -97,58 +103,92 @@ int JamSail_findRequiredQuaternion(
       acos(dotProduct / pointingAxisMagnitude / pointingDirectionMagnitude);
 
   /* Find required quaternion */
-  intermediateRequiredQuaternion_InertCenToBod[0] =
+  intermediateRequiredQuaternion1_InertCenToBod[0] =
       sin(rotationAngle_rad / 2) * rotationAxis[0] / crossProductMagnitude;
-  intermediateRequiredQuaternion_InertCenToBod[1] =
+  intermediateRequiredQuaternion1_InertCenToBod[1] =
       sin(rotationAngle_rad / 2) * rotationAxis[1] / crossProductMagnitude;
-  intermediateRequiredQuaternion_InertCenToBod[2] =
+  intermediateRequiredQuaternion1_InertCenToBod[2] =
       sin(rotationAngle_rad / 2) * rotationAxis[2] / crossProductMagnitude;
-  intermediateRequiredQuaternion_InertCenToBod[3] = cos(rotationAngle_rad / 2);
+  intermediateRequiredQuaternion1_InertCenToBod[3] = cos(rotationAngle_rad / 2);
 
   /* Make sure quaternion is unique */
-  GMath_findUnitQuaternion(&(intermediateRequiredQuaternion_InertCenToBod[0]),
-                           &(intermediateRequiredQuaternion_InertCenToBod[0]));
+  GMath_findUnitQuaternion(&(intermediateRequiredQuaternion1_InertCenToBod[0]),
+                           &(intermediateRequiredQuaternion1_InertCenToBod[0]));
 
   /* Find the rotating axis */
-  rotationAxis[0] = 1.0;
-  rotationAxis[1] = 0.0;
-  rotationAxis[2] = 0.0;
+  rotationAxis[0]   = 1.0;
+  rotationAxis[1]   = 0.0;
+  rotationAxis[2]   = 0.0;
+  zAxis_InertCen[0] = 0;
+  zAxis_InertCen[1] = 0;
+  zAxis_InertCen[2] = 1;
 
-  /* If sun sensor is detected, find rotation angle using sun sensor */
-  if (p_jamSail_state_in->sunSensor_state.isSensorReadingInvalid ==
-      GCONST_FALSE)
-  {
-    /* FInd sun vector in body frame */
-    GMath_quaternionPointRotation(
-        &(sunVector_Bod[0]),
-        &(p_jamSail_state_in->sunSensor_state.filteredSunVector_Sen_m[0]),
-        &(p_jamSail_params_in->sunSensor_params.sensorQuaternion_BodToSen[0]));
+  /* Find the position of the sun in the intermediate frame */
+  GMath_quaternionPointRotation(
+      &(sunVectorNorm_InertmediateFrame[0]),
+      &(p_jamSail_state_in->sunVectorEstimateNorm_InertCen[0]),
+      &(intermediateRequiredQuaternion1_InertCenToBod[0]));
 
-    /* Find rotation angle */
-    rotationAngle_rad = atan2(-sunVector_Bod[1], sunVector_Bod[2]);
-  }
-  /* Else, use estiamte of sun position */
-  else
+  /* z-axis in intermediate frame */
+  GMath_quaternionPointRotation(
+      &(zAxis_IntermediateFrame[0]),
+      &(zAxis_InertCen[0]),
+      &(intermediateRequiredQuaternion1_InertCenToBod[0]));
+
+  /* Set z component of sun vector to 0 */
+  sunVectorNorm_InertmediateFrame[2] = 0.0;
+
+  /* Find the dot product */
+  dotProduct = 0.0;
+  for (i = 0; i < 3; i++)
   {
-    /* Find rotation angle */
-    rotationAngle_rad = atan2(-p_jamSail_state_in->sunVectorEstimateNorm_Bod[1],
-                              p_jamSail_state_in->sunVectorEstimateNorm_Bod[2]);
+    dotProduct +=
+        sunVectorNorm_InertmediateFrame[i] * zAxis_IntermediateFrame[i];
   }
+
+  /* Find rotation angle */
+  rotationAngle_rad = acos(dotProduct);
+
+  //   /* If sun sensor is detected, find rotation angle using sun sensor */
+  //   if (p_jamSail_state_in->sunSensor_state.isSensorReadingInvalid ==
+  //       GCONST_FALSE)
+  //   {
+
+  //     /* FInd rotation angle */
+
+  //     // /* FInd sun vector in body frame */
+  //     // GMath_quaternionPointRotation(
+  //     //     &(sunVector_Bod[0]),
+  //     // &(p_jamSail_state_in->sunSensor_state.filteredSunVector_Sen_m[0]),
+  //     //
+  //     &(p_jamSail_params_in->sunSensor_params.sensorQuaternion_BodToSen[0]));
+
+  //     // /* Find rotation angle */
+  //     // rotationAngle_rad = atan2(-sunVector_Bod[1], sunVector_Bod[2]);
+  //   }
+  //   /* Else, use estiamte of sun position */
+  //   else
+  //   {
+  //     /* Find rotation angle */
+  //     rotationAngle_rad =
+  //     atan2(-p_jamSail_state_in->sunVectorEstimateNorm_Bod[1],
+  //                               p_jamSail_state_in->sunVectorEstimateNorm_Bod[2]);
+  //   }
 
   /* Find required quaternion */
   intermediateRequiredQuaternion2_InertCenToBod[0] =
-      sin(rotationAngle_rad / 2) * rotationAxis[0];
+      -sin(rotationAngle_rad / 2) * rotationAxis[0];
   intermediateRequiredQuaternion2_InertCenToBod[1] =
-      sin(rotationAngle_rad / 2) * rotationAxis[1];
+      -sin(rotationAngle_rad / 2) * rotationAxis[1];
   intermediateRequiredQuaternion2_InertCenToBod[2] =
-      sin(rotationAngle_rad / 2) * rotationAxis[2];
+      -sin(rotationAngle_rad / 2) * rotationAxis[2];
   intermediateRequiredQuaternion2_InertCenToBod[3] = cos(rotationAngle_rad / 2);
 
   /* Find resultant quaternion */
   GMath_quaternionMul(
       &(p_jamSail_state_in->requiredQuaternion_InertCenToBod[0]),
-      &(intermediateRequiredQuaternion2_InertCenToBod[0]),
-      &(intermediateRequiredQuaternion_InertCenToBod[0]));
+      &(intermediateRequiredQuaternion1_InertCenToBod[0]),
+      &(intermediateRequiredQuaternion2_InertCenToBod[0]));
 
   /* Stabalise requiered quaternion */
   GMath_findUnitQuaternion(

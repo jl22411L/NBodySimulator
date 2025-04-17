@@ -120,5 +120,8 @@ int TriadAlgorithm_getQuat(double *p_vector1_Bod_in,
   /* The quaternion is from bod to fix. Find conjugate to find Fix to Bod */
   GMath_quaternionConjugate(p_quat_FixToBod_out, p_quat_FixToBod_out);
 
+  /* Make quaternion a unit quaternion */
+  GMath_findUnitQuaternion(p_quat_FixToBod_out, p_quat_FixToBod_out);
+
   return GCONST_TRUE;
 }

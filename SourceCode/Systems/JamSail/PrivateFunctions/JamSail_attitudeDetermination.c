@@ -22,7 +22,7 @@
 #include "JamSail/DataStructs/JamSail_StateStruct.h"
 
 /* Data include */
-/* None */
+#include "JamSail/ConstantDefs/JamSail_AdcsStateEnum.h"
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
@@ -66,7 +66,7 @@ int JamSail_attitudeDetermination(JamSail_State  *p_jamSail_state_inout,
   GMath_quaternionPointRotation(
       &(magneticFieldVector_Bod_nT[0]),
       &(p_jamSail_state_inout->magnetometer_state
-            .measuredMagneticField_Sen_nT[0]),
+            .filteredMagneticField_Sen_nT[0]),
       &(p_jamSail_params_in->magnetometer_params.sensorQuaternion_BodToSen[0]));
 
   /* Find quaternion from inertial centric frame to geocentric frame */

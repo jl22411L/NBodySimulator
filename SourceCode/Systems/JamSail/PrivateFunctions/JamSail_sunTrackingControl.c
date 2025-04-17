@@ -78,8 +78,17 @@ int JamSail_sunTrackingControl(JamSail_State  *p_jamSail_state_inout,
   xError_rad = atan2(-sunVector_Bod[1], sunVector_Bod[2]);
   yError_rad = atan2(sunVector_Bod[0], sunVector_Bod[2]);
 
-  derivitiveX_radps = (xError_rad - previousX_rad) / 0.01;
-  derivitiveY_radps = (yError_rad - previousY_rad) / 0.01;
+  /* Find derivitive of tracking angle */
+  if (p_jamSail_state_inout->trackingTimeOfSun_s == 0.0)
+  {
+    derivitiveX_radps = 0.0;
+    derivitiveY_radps = 0.0;
+  }
+  else
+  {
+    derivitiveX_radps = (xError_rad - previousX_rad) / 0.01;
+    derivitiveY_radps = (yError_rad - previousY_rad) / 0.01;
+  }
 
   previousX_rad = xError_rad;
   previousY_rad = yError_rad;
@@ -100,18 +109,6 @@ int JamSail_sunTrackingControl(JamSail_State  *p_jamSail_state_inout,
       -(p_jamSail_params_in->nominalDerivitiveCoefficient[2]) *
           (p_jamSail_state_inout->angularVelocityEstimate_Bod_rads[2]) +
       crossRotationalMoments_Bod_Nm[2];
-
-  for (i = 0; i < 3; i++)
-  {
-    if (p_jamSail_state_inout->controlTorque_Bod_Nm[i] > 0.1)
-    {
-      (p_jamSail_state_inout->controlTorque_Bod_Nm[i]) = 0.1;
-    }
-    else if (p_jamSail_state_inout->controlTorque_Bod_Nm[i] < -0.1)
-    {
-      (p_jamSail_state_inout->controlTorque_Bod_Nm[i]) = -0.1;
-    }
-  }
 
   // /* Find magnetic field in the body frame */
   // GMath_quaternionPointRotation(
