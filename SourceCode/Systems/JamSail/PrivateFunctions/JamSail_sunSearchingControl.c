@@ -76,18 +76,6 @@ int JamSail_sunSearchingControl(JamSail_State  *p_jamSail_state_inout,
           (p_jamSail_state_inout->angularVelocityEstimate_Bod_rads[2]) +
       crossRotationalMoments_Nm_Bod[2];
 
-  for (i = 0; i < 3; i++)
-  {
-    if (p_jamSail_state_inout->controlTorque_Bod_Nm[i] > 0.01)
-    {
-      p_jamSail_state_inout->controlTorque_Bod_Nm[i] = 0.01;
-    }
-    else if (p_jamSail_state_inout->controlTorque_Bod_Nm[i] < -0.01)
-    {
-      p_jamSail_state_inout->controlTorque_Bod_Nm[i] = -0.01;
-    }
-  }
-
   // /* Find magnetic field in the body frame */
   // GMath_quaternionPointRotation(
   //     &(measuredMagneticField_Bod_nT[0]),

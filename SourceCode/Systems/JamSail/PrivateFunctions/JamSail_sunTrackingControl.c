@@ -96,13 +96,17 @@ int JamSail_sunTrackingControl(JamSail_State  *p_jamSail_state_inout,
   (p_jamSail_state_inout->controlTorque_Bod_Nm[0]) =
       (p_jamSail_params_in->nominalProportionalCoefficient[0]) * xError_rad +
       (p_jamSail_params_in->detumblingProportionalCoefficient[0]) *
-          (derivitiveX_radps) +
+          (derivitiveX_radps) -
+      (p_jamSail_params_in->detumblingProportionalCoefficient[0]) *
+          (p_jamSail_state_inout->angularVelocityEstimate_Bod_rads[0]) +
       crossRotationalMoments_Bod_Nm[0];
 
   (p_jamSail_state_inout->controlTorque_Bod_Nm[1]) =
       (p_jamSail_params_in->nominalProportionalCoefficient[1]) * yError_rad +
       (p_jamSail_params_in->detumblingProportionalCoefficient[1]) *
-          (derivitiveY_radps) +
+          (derivitiveY_radps) -
+      (p_jamSail_params_in->detumblingProportionalCoefficient[1]) *
+          (p_jamSail_state_inout->angularVelocityEstimate_Bod_rads[1]) +
       crossRotationalMoments_Bod_Nm[1];
 
   (p_jamSail_state_inout->controlTorque_Bod_Nm[2]) =

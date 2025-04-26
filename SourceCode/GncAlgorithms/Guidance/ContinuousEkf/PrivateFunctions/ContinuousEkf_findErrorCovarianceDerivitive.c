@@ -64,6 +64,9 @@ int ContinuousEkf_findCovarianceDerivitive(
                  (*(p_stateJacobian_in + ekfOrderN_in * j + k)) +
              *(p_systemNoiseCovariance_in + ekfOrderN_in * i + j));
       }
+
+      *(p_errorCovarianceDerivitive_out + ekfOrderN_in * i + j) +=
+          *(p_systemNoiseCovariance_in + ekfOrderN_in * i + j);
     }
   }
 

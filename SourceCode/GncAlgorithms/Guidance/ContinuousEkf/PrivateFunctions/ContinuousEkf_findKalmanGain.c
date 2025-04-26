@@ -34,72 +34,60 @@ int ContinuousEkf_findKalmanGain(double *p_intermediateKalmanGain_in,
                                  double *p_kalmanGain_out)
 {
   /* Declare local variables */
+  double  intermediateKalmanGain[9][9];
+  double  buffer1[9][7];
+  double  buffer2[7][9];
+  double  buffer3[9][9];
+  double  buffer4[9][9];
+  double  buffer5[7][9];
   uint8_t i;
-  uint8_t k;
-  uint8_t l;
   uint8_t j;
 
-  /* Clear Variables */
-  GZero(p_intermediateKalmanGain_in, double[ekfDegreeM_in][ekfDegreeM_in]);
-  GZero(p_kalmanGain_out, double[ekfOrderN_in][ekfDegreeM_in]);
+  /* Clear variables */
+  GZero(&intermediateKalmanGain[0][0], double[9][9]);
+  GZero(&buffer1[0][0], double[9][9]);
+  GZero(&buffer2[0][0], double[7][9]);
+  GZero(&buffer3[0][0], double[9][9]);
+  GZero(&buffer4[0][0], double[9][9]);
+  GZero(&buffer5[0][0], double[7][9]);
 
-  /*!
-   * Find the intermediate matrix of the kalman gain .
-   *
-   * This essentially performs the matrix operation:
-   *          K = Pk*(H^T)*(H*P*H^T + R)^-1
-   *
-   * The reason it has 4 for loops is this acts as a custom matrix multiplier.
-   * While the 4 for loops is bad practice it does work and does remove the need
-   * for having a buffer or dynamically allocating memory.
-   *
-   * TODO: It may be possible to put the k & l for loop into its own function,
-   *       taking i & j as input parameters. This would clean up the code and
-   *       make it easier to follow.
-   */
-  for (i = 0; i < ekfDegreeM_in; i++)
+  GMath_matMul(p_measurementJacobian_in,
+               9,
+               7,
+               p_errorCovariance_in,
+               7,
+               7,
+               &buffer1[0][0]);
+
+  for (i = 0; i < 7; i++)
   {
-    for (j = 0; j < ekfDegreeM_in; j++)
+    for (j = 0; j < 9; j++)
     {
-      for (k = 0; k < ekfOrderN_in; k++)
-      {
-        for (l = 0; l < ekfOrderN_in; l++)
-        {
-          *(p_intermediateKalmanGain_in + ekfDegreeM_in * i + j) +=
-              (*(p_measurementJacobian_in + ekfOrderN_in * i + l)) *
-              (*(p_errorCovariance_in + ekfOrderN_in * l + k)) *
-              (*(p_measurementJacobian_in + ekfOrderN_in * j + k));
-        }
-      }
-
-      *(p_intermediateKalmanGain_in + ekfDegreeM_in * i + j) +=
-          *(p_sensorNoiseCovariance_in + ekfDegreeM_in * i + j);
+      buffer2[i][j] = *(p_measurementJacobian_in + 7 * j + i);
     }
   }
 
-  /* Find the inverse of the intermediate kalman gain */
-  GMath_invMat(p_intermediateKalmanGain_in,
-               p_intermediateKalmanGain_in,
-               ekfDegreeM_in);
+  GMath_matMul(&buffer1[0][0], 9, 7, &buffer2[0][0], 7, 9, &buffer3[0][0]);
 
-  /* Find the kalman gain */
-  // TODO: Should break two for loops into functions to remove the 4 for loops
-  for (i = 0; i < ekfOrderN_in; i++)
+  for (i = 0; i < 9; i++)
   {
-    for (j = 0; j < ekfDegreeM_in; j++)
+    for (j = 0; j < 9; j++)
     {
-      for (k = 0; k < ekfDegreeM_in; k++)
-      {
-        for (l = 0; l < ekfOrderN_in; l++)
-        {
-          *(p_kalmanGain_out + ekfDegreeM_in * i + j) +=
-              (*(p_errorCovariance_in + ekfOrderN_in * i + l)) *
-              (*(p_measurementJacobian_in + ekfOrderN_in * k + l)) *
-              (*(p_intermediateKalmanGain_in + ekfDegreeM_in * k + j));
-        }
-      }
+      buffer3[i][j] += *(p_sensorNoiseCovariance_in + 9 * i + j);
     }
   }
+
+  GMath_invMat(&buffer3[0][0], &buffer4[0][0], 9);
+
+  GMath_matMul(&buffer2[0][0], 7, 9, &buffer4[0][0], 9, 9, &buffer5[0][0]);
+
+  GMath_matMul(p_errorCovariance_in,
+               7,
+               7,
+               &buffer5[0][0],
+               7,
+               9,
+               p_kalmanGain_out);
 
   return GCONST_TRUE;
 }

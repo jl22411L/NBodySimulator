@@ -20,6 +20,7 @@
 
 /* Generic Libraries */
 #include "GConst/GConst.h"
+#include "GMath/GMath.h"
 #include "GZero/GZero.h"
 
 int ContinuousEkf_findUpdatedErrorCovariance(
@@ -31,56 +32,52 @@ int ContinuousEkf_findUpdatedErrorCovariance(
     uint8_t ekfDegreeM_in)
 {
   /* Declare local variables */
+  double  buffer1[7][7];
+  double  buffer2[7][7];
   uint8_t i;
   uint8_t j;
-  uint8_t k;
-  uint8_t l;
 
   /* Clear variables */
-  GZero(p_updatedErrorCovarianceBuffer_in, double[ekfOrderN_in][ekfOrderN_in]);
+  GZero(&buffer1[0][0], double[7][7]);
+  GZero(&buffer2[0][0], double[7][7]);
 
-  /*!
-   * Update the error covariance matrix.
-   *
-   * This essentially performs the matrix operation:
-   *          P_updated = P - K*H*P
-   *          (which is the expanded form of the equation (P = (I-K*H*P)))
-   *
-   * The reason it has 4 for loops is this acts as a custom matrix multiplier.
-   * WHile the 4 for loops is bad practice it does work and does remove the need
-   * for having a buffer or dynamically allocating memory.
-   *
-   * TODO: It may be possible to put the k & l for loop into its own function,
-   *       taking i & j as input parameters. This would clean up the code and
-   *       make it easier to follow.
-   */
-  for (i = 0; i < ekfOrderN_in; i++)
+  GMath_matMul(p_kalmanGain_in,
+               7,
+               9,
+               p_measurementJacobian_in,
+               9,
+               7,
+               &buffer1[0][0]);
+
+  for (i = 0; i < 7; i++)
   {
-    for (j = 0; j < ekfOrderN_in; j++)
+    for (j = 0; j < 7; j++)
     {
-      for (k = 0; k < ekfDegreeM_in; k++)
+      if (i == j)
       {
-        for (l = 0; l < ekfOrderN_in; l++)
-        {
-          *(p_updatedErrorCovarianceBuffer_in + ekfOrderN_in * i + j) -=
-              (*(p_kalmanGain_in + ekfDegreeM_in * i + k)) *
-              (*(p_measurementJacobian_in + ekfOrderN_in * k + l)) *
-              (*(p_errorCovariance_inout + ekfOrderN_in * l + j));
-        }
+        buffer2[i][j] = 1 - buffer1[i][j];
       }
-
-      *(p_updatedErrorCovarianceBuffer_in + ekfOrderN_in * i + j) +=
-          *(p_errorCovariance_inout + ekfOrderN_in * i + j);
+      else
+      {
+        buffer2[i][j] = -buffer1[i][j];
+      }
     }
   }
 
-  /* Replace the values in the error covariance with the updated covariance */
-  for (i = 0; i < ekfOrderN_in; i++)
+  GMath_matMul(&buffer2[i][j],
+               7,
+               7,
+               p_errorCovariance_inout,
+               7,
+               7,
+               p_updatedErrorCovarianceBuffer_in);
+
+  for (i = 0; i < 7; i++)
   {
-    for (j = 0; j < ekfOrderN_in; j++)
+    for (j = 0; j < 7; j++)
     {
-      *(p_errorCovariance_inout + ekfOrderN_in * i + j) =
-          *(p_updatedErrorCovarianceBuffer_in + ekfOrderN_in * i + j);
+      *(p_errorCovariance_inout + 7 * i + j) =
+          *(p_updatedErrorCovarianceBuffer_in + 7 * i + j);
     }
   }
 

@@ -126,26 +126,11 @@ int JamSail_step(JamSail_State  *p_jamSail_state_out,
       simTime_s_in,
       &(p_jamSail_state_out->positionEstimate_InertCen_m[0]));
 
-  /* Step Control Algorithm */
-  JamSail_controlAlgorithm(p_jamSail_state_out, p_jamSail_params_in);
-
   /* Step Determination Algorithm */
   JamSail_attitudeDetermination(p_jamSail_state_out,
                                 p_jamSail_params_in,
                                 simTime_s_in,
                                 simTimeStep_s_in);
-
-  for (i = 0; i < 3; i++)
-  {
-    if (p_jamSail_state_out->controlTorque_Bod_Nm[i] > 0.0001)
-    {
-      (p_jamSail_state_out->controlTorque_Bod_Nm[i]) = 0.0001;
-    }
-    else if (p_jamSail_state_out->controlTorque_Bod_Nm[i] < -0.0001)
-    {
-      (p_jamSail_state_out->controlTorque_Bod_Nm[i]) = -0.0001;
-    }
-  }
 
   /* ----------------------------- Archive Data ---------------------------- */
 
