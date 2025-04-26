@@ -61,6 +61,8 @@ int JamSail_attitudeEstimation(JamSail_State  *p_jamSail_state_inout,
   GZero(&(differenceVector), double[JAMSAIL_EKF_DEGREE_M]);
   GZero(&(stateJacobian[0][0]),
         double[JAMSAIL_EKF_ORDER_N][JAMSAIL_EKF_ORDER_N]);
+  GZero(&(observationJacobian[0][0]),
+        double[JAMSAIL_EKF_DEGREE_M][JAMSAIL_EKF_ORDER_N]);
   GZero(&(errorCovarianceBuffer[0][0]),
         double[JAMSAIL_EKF_ORDER_N][JAMSAIL_EKF_ORDER_N]);
   GZero(&(errorCovarianceDerivitive[0][0]),
@@ -103,24 +105,33 @@ int JamSail_attitudeEstimation(JamSail_State  *p_jamSail_state_inout,
   }
 
   /* Load measurement vector */
-  measurementSensorVector[0] =
-      p_jamSail_state_inout->gyro_state.filteredGyroVector_Sen_rads[0];
-  measurementSensorVector[1] =
-      p_jamSail_state_inout->gyro_state.filteredGyroVector_Sen_rads[1];
-  measurementSensorVector[2] =
-      p_jamSail_state_inout->gyro_state.filteredGyroVector_Sen_rads[2];
-  measurementSensorVector[3] =
-      p_jamSail_state_inout->magnetometer_state.filteredMagneticField_Sen_nT[0];
-  measurementSensorVector[4] =
-      p_jamSail_state_inout->magnetometer_state.filteredMagneticField_Sen_nT[1];
-  measurementSensorVector[5] =
-      p_jamSail_state_inout->magnetometer_state.filteredMagneticField_Sen_nT[2];
-  measurementSensorVector[6] =
-      p_jamSail_state_inout->sunSensor_state.filteredSunVector_Sen_m[0];
-  measurementSensorVector[7] =
-      p_jamSail_state_inout->sunSensor_state.filteredSunVector_Sen_m[1];
-  measurementSensorVector[8] =
-      p_jamSail_state_inout->sunSensor_state.filteredSunVector_Sen_m[2];
+  GMath_quaternionPointRotation(
+      &measurementSensorVector[0],
+      &p_jamSail_state_inout->gyro_state.filteredGyroVector_Sen_rads[0],
+      &p_jamSail_params_in->gyro_params.sensorQuaternion_BodToSen[0]);
+  GMath_quaternionPointRotation(
+      &measurementSensorVector[3],
+      &p_jamSail_state_inout->magnetometer_state
+           .filteredMagneticField_Sen_nT[0],
+      &p_jamSail_params_in->magnetometer_params.sensorQuaternion_BodToSen[0]);
+
+  if (p_jamSail_state_inout->sunSensor_state.isSensorReadingInvalid ==
+      GCONST_TRUE)
+  {
+    measurementSensorVector[6] =
+        p_jamSail_state_inout->sunVectorEstimateNorm_Bod[0];
+    measurementSensorVector[7] =
+        p_jamSail_state_inout->sunVectorEstimateNorm_Bod[1];
+    measurementSensorVector[8] =
+        p_jamSail_state_inout->sunVectorEstimateNorm_Bod[2];
+  }
+  else
+  {
+    GMath_quaternionPointRotation(
+        &measurementSensorVector[6],
+        &p_jamSail_state_inout->sunSensor_state.filteredSunVector_Sen_m[0],
+        &p_jamSail_params_in->sunSensor_params.sensorQuaternion_BodToSen[0]);
+  }
 
   /* Load measurement vector */
   measurementEstimateVector[0] =
@@ -135,26 +146,12 @@ int JamSail_attitudeEstimation(JamSail_State  *p_jamSail_state_inout,
       p_jamSail_state_inout->magneticFieldEstimateNorm_Bod[1];
   measurementEstimateVector[5] =
       p_jamSail_state_inout->magneticFieldEstimateNorm_Bod[2];
-
-  if (p_jamSail_state_inout->sunSensor_state.isSensorReadingInvalid ==
-      GCONST_FALSE)
-  {
-    measurementEstimateVector[6] =
-        p_jamSail_state_inout->sunVectorEstimateNorm_Bod[0];
-    measurementEstimateVector[7] =
-        p_jamSail_state_inout->sunVectorEstimateNorm_Bod[1];
-    measurementEstimateVector[8] =
-        p_jamSail_state_inout->sunVectorEstimateNorm_Bod[2];
-  }
-  else
-  {
-    measurementEstimateVector[6] =
-        p_jamSail_state_inout->sunSensor_state.filteredSunVector_Sen_m[0];
-    measurementEstimateVector[7] =
-        p_jamSail_state_inout->sunSensor_state.filteredSunVector_Sen_m[1];
-    measurementEstimateVector[8] =
-        p_jamSail_state_inout->sunSensor_state.filteredSunVector_Sen_m[2];
-  }
+  measurementEstimateVector[6] =
+      p_jamSail_state_inout->sunVectorEstimateNorm_Bod[0];
+  measurementEstimateVector[7] =
+      p_jamSail_state_inout->sunVectorEstimateNorm_Bod[1];
+  measurementEstimateVector[8] =
+      p_jamSail_state_inout->sunVectorEstimateNorm_Bod[2];
 
   GMath_findUnitVector(&measurementSensorVector[3],
                        &measurementSensorVector[3]);

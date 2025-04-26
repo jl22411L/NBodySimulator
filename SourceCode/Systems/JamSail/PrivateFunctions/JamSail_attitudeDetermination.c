@@ -122,10 +122,10 @@ int JamSail_attitudeDetermination(JamSail_State  *p_jamSail_state_inout,
       &(magneticFieldVector_GeoCen_nT[0]),
       &(quaternion_InertCenToGeoCen[0]));
 
-  //   /* Find unit vector of magnetic field */
-  //   GMath_findUnitVector(
-  //       &(p_jamSail_state_inout->magneticFieldEstimateNorm_InertCen[0]),
-  //       &(p_jamSail_state_inout->magneticFieldEstimateNorm_InertCen[0]));
+  /* Find unit vector of magnetic field */
+  GMath_findUnitVector(
+      &(p_jamSail_state_inout->magneticFieldEstimateNorm_InertCen[0]),
+      &(p_jamSail_state_inout->magneticFieldEstimateNorm_InertCen[0]));
 
   /* Find an estimate of the magnetic field in the body frame */
   GMath_quaternionFrameRotation(
