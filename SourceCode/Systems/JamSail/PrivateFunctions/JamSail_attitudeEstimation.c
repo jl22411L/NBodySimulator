@@ -177,9 +177,9 @@ int JamSail_attitudeEstimation(JamSail_State  *p_jamSail_state_inout,
   stateJacobian[0][3] =
       0.5 * (p_jamSail_state_inout->angularVelocityEstimate_Bod_rads[0]);
   stateJacobian[1][0] =
-      0.5 * (p_jamSail_state_inout->angularVelocityEstimate_Bod_rads[2]);
+      -0.5 * (p_jamSail_state_inout->angularVelocityEstimate_Bod_rads[2]);
   stateJacobian[1][2] =
-      -0.5 * (p_jamSail_state_inout->angularVelocityEstimate_Bod_rads[0]);
+      0.5 * (p_jamSail_state_inout->angularVelocityEstimate_Bod_rads[0]);
   stateJacobian[1][3] =
       0.5 * (p_jamSail_state_inout->angularVelocityEstimate_Bod_rads[1]);
   stateJacobian[2][0] =
@@ -435,9 +435,9 @@ int JamSail_attitudeEstimation(JamSail_State  *p_jamSail_state_inout,
                             &p_jamSail_params_in->quaternion_FixToInertCen[0]);
 
   GMath_quaternionMul(&quaternion_InertCenToBod[0],
+                      &quaternion_InertCenToFix[0],
                       &p_jamSail_state_inout->p_satelliteBody_state
-                           ->rigidBody_state.quaternion_FixToBody[0],
-                      &quaternion_InertCenToFix[0]);
+                           ->rigidBody_state.quaternion_FixToBody[0]);
 
   printf("[");
   for (i = 0; i < 4; i++)

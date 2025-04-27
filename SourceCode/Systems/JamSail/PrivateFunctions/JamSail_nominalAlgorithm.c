@@ -58,9 +58,9 @@ int JamSail_nominalAlgorithm(JamSail_State  *p_jamSail_state_inout,
       &(p_jamSail_params_in->quaternion_FixToInertCen[0]));
 
   GMath_quaternionMul(&(quaternion_InertCenToBod[0]),
+                      &(quaternion_InertCenToFix[0]),
                       &(p_jamSail_state_inout->p_satelliteBody_state
-                            ->rigidBody_state.quaternion_FixToBody[0]),
-                      &(quaternion_InertCenToFix[0]));
+                            ->rigidBody_state.quaternion_FixToBody[0]));
 
   /* Find error quaternion */
   p_jamSail_state_inout->errorQuaternion_InertCenToBod[0] =
@@ -129,10 +129,7 @@ int JamSail_nominalAlgorithm(JamSail_State  *p_jamSail_state_inout,
   {
     (p_jamSail_state_inout->controlTorque_Bod_Nm[i]) =
         -(p_jamSail_params_in->nominalProportionalCoefficient[i]) *
-            (p_jamSail_state_inout->errorQuaternion_InertCenToBod[i]) /
-            (p_jamSail_state_inout->errorQuaternion_InertCenToBod[3] *
-             p_jamSail_state_inout->errorQuaternion_InertCenToBod[3] *
-             p_jamSail_state_inout->errorQuaternion_InertCenToBod[3]) -
+            (p_jamSail_state_inout->errorQuaternion_InertCenToBod[i]) -
         (p_jamSail_params_in->nominalDerivitiveCoefficient[i]) *
             (p_jamSail_state_inout->angularVelocityEstimate_Bod_rads[i]) +
         crossRotationalMoments_Nm_Bod[i];
@@ -140,13 +137,13 @@ int JamSail_nominalAlgorithm(JamSail_State  *p_jamSail_state_inout,
 
   for (i = 0; i < 3; i++)
   {
-    if (p_jamSail_state_inout->controlTorque_Bod_Nm[i] > 1)
+    if (p_jamSail_state_inout->controlTorque_Bod_Nm[i] > 0.001)
     {
-      p_jamSail_state_inout->controlTorque_Bod_Nm[i] = 1;
+      p_jamSail_state_inout->controlTorque_Bod_Nm[i] = 0.001;
     }
-    else if (p_jamSail_state_inout->controlTorque_Bod_Nm[i] < -1)
+    else if (p_jamSail_state_inout->controlTorque_Bod_Nm[i] < -0.001)
     {
-      p_jamSail_state_inout->controlTorque_Bod_Nm[i] = -1;
+      p_jamSail_state_inout->controlTorque_Bod_Nm[i] = -0.001;
     }
   }
 
