@@ -32,6 +32,7 @@
 /* Generic Libraries */
 #include "GConst/GConst.h"
 #include "GLog/GLog.h"
+#include "GRand/GRand.h"
 #include "GUtilities/GUtilities.h"
 
 int JamSail_step(JamSail_State  *p_jamSail_state_out,
@@ -75,6 +76,17 @@ int JamSail_step(JamSail_State  *p_jamSail_state_out,
   /* ------------------------------------------------------------------------ *
    * Step Sensors
    * ------------------------------------------------------------------------ */
+
+  for (i = 0; i < 3; i++)
+  {
+    p_jamSail_state_out->magnetometer_state
+        .externalMagneticFieldNoise_Sen_nT[i] =
+        GRand_gaussianDistribution(0, 1000);
+    p_jamSail_state_out->magnetorquer_state
+        .externalMagneticFieldNoise_Sen_nT[i] =
+        p_jamSail_state_out->magnetometer_state
+            .externalMagneticFieldNoise_Sen_nT[i];
+  }
 
   /* Step Sun Sensor */
   SunSensor_step(&((p_jamSail_state_out->p_satelliteBody_state)
@@ -161,7 +173,7 @@ int JamSail_step(JamSail_State  *p_jamSail_state_out,
   {
     (p_jamSail_state_out->p_satelliteBody_state->rigidBody_state
          .resultantMoment_Nm_Bod[i]) =
-        (p_jamSail_state_out->controlTorque_Bod_Nm[i]);
+        (p_jamSail_state_out->magnetorquer_state.totalTorque_Bod_Nm[i]);
   }
 
   return GCONST_TRUE;

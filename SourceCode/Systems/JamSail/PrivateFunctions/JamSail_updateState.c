@@ -118,7 +118,7 @@ int JamSail_updateState(JamSail_State  *p_jamSail_state_out,
   case (JAMSAIL_ADCSSTATE_NOMINAL):
     /* IF we havn't measured the sun for some time, go searching for it */
     if ((Utilities.simTime_s - (p_jamSail_state_out->timeOfLastMeasurement_s) >
-         300) &&
+         30) &&
         (angularVelocityMagnitude_radps <
          p_jamSail_params_in
              ->nominalToDetumblingModeAngularVelocityCutoff_radps))

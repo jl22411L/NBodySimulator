@@ -224,6 +224,34 @@ extern int JamSail_filterSensors(JamSail_State  *p_jamSail_state_out,
                                  JamSail_Params *p_jamSail_params_in);
 
 /*!
+ * @brief         Function which finds the magnetic field in the NED frame.
+ *
+ * @param[in]     p_igrfModel_params_in
+ *                // TODO
+ *
+ * @param[in]     p_jamSail_params_in
+ *                // TODO
+ *
+ * @param[in]     p_sphericalCoordinates_GeoCen_m_in
+ *                // TODO
+ *
+ * @param[in]     simTime_s_in
+ *                // TODO
+ *
+ * @param[out]    p_magneticField_Ned_nT_out
+ *                // TODO
+ *
+ * @return        Upon a successful completion, the fucntion will return a
+ *                GCONST_TRUE. If an error in the codes execution occurs, the
+ *                function will return a GCONST_FALSE
+ */
+extern int JamSail_findMagneticField(Igrf_Params    *p_igrfModel_params_in,
+                                     JamSail_Params *p_jamSail_params_in,
+                                     double *p_sphericalCoordinates_GeoCen_m_in,
+                                     double  simTime_s_in,
+                                     double *p_magneticField_Ned_nT_out);
+
+/*!
  * @brief         Finds the required quaternion to make it nadir pointing.
  *
  * @param[in]     p_jamSail_state_in

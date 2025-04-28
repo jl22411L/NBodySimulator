@@ -62,7 +62,7 @@ int JamSail_sunSearchingControl(JamSail_State  *p_jamSail_state_inout,
   /* Find control torque */
   (p_jamSail_state_inout->controlTorque_Bod_Nm[0]) =
       (p_jamSail_params_in->detumblingProportionalCoefficient[0]) *
-          (0.087266 -
+          (0.034907 -
            (p_jamSail_state_inout->angularVelocityEstimate_Bod_rads[0])) +
       crossRotationalMoments_Nm_Bod[0];
 

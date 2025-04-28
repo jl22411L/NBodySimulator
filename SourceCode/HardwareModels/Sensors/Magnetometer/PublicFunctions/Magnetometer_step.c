@@ -95,8 +95,8 @@ int Magnetometer_step(Magnetometer_Params *p_magnetometer_params_in,
   /* Find quaternion from body to Inertial Centric frame */
   GMath_quaternionMul(
       &(quaternion_BodToInertCen[0]),
-      &(p_magneticFieldCelestialBody_in->quaternion_FixToInertCen[0]),
-      &(quaternion_BodToFix[0]));
+      &(quaternion_BodToFix[0]),
+      &(p_magneticFieldCelestialBody_in->quaternion_FixToInertCen[0]));
 
   /* Find the position of the sensor in the Inertical Centric frame */
   GMath_quaternionFrameRotation(
@@ -178,9 +178,10 @@ int Magnetometer_step(Magnetometer_Params *p_magnetometer_params_in,
                             &(quaternion_BodToInertCen[0]));
 
   /* Find quaternion from inertial centric frame to sensor frame */
-  GMath_quaternionMul(&(quaternion_InertCenToSen[0]),
-                      &(p_magnetometer_params_in->sensorQuaternion_BodToSen[0]),
-                      &(quaternion_InertCenToBod[0]));
+  GMath_quaternionMul(
+      &(quaternion_InertCenToSen[0]),
+      &(quaternion_InertCenToBod[0]),
+      &(p_magnetometer_params_in->sensorQuaternion_BodToSen[0]));
 
   /* Convert magnetic field from inertial centric frame to sensor frame */
   GMath_quaternionFrameRotation(

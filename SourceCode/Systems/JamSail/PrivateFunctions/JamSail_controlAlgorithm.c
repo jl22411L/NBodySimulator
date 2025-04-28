@@ -8,6 +8,8 @@
  *
  */
 
+#include <math.h> // REMOVE
+
 /* Function Includes */
 #include "JamSail/PrivateFunctions/JamSail_PrivateFunctions.h"
 
@@ -63,6 +65,15 @@ int JamSail_controlAlgorithm(JamSail_State  *p_jamSail_state_out,
     /* If state is unknown put into detumbling mode */
     p_jamSail_state_out->adcsState = JAMSAIL_ADCSSTATE_DETUMBLING;
     break;
+  }
+
+  int i;
+  for (i = 0; i < 3; i++)
+  {
+    if (isnan(p_jamSail_state_out->controlTorque_Bod_Nm[i]))
+    {
+      printf("hell");
+    }
   }
 
   return GCONST_TRUE;

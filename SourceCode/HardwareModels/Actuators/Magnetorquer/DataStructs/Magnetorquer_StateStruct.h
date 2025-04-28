@@ -58,6 +58,14 @@ typedef struct Magnetorquer_StateStruct
   double externalMagneticField_Sen_nT[3];
 
   /*!
+   * @brief       Noise caused to the external magnetic field.
+   *
+   * @frame       Sensor Frame
+   * @units       nT
+   */
+  double externalMagneticFieldNoise_Sen_nT[3];
+
+  /*!
    * @brief       True torque that is expected from the actuator, excluding any
    *              system noise.
    *

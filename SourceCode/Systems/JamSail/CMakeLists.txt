@@ -8,6 +8,7 @@ add_library(JamSail
   PrivateFunctions/JamSail_fillObservationJacobian.c
   PrivateFunctions/JamSail_fillStateJacobian.c
   PrivateFunctions/JamSail_filterSensors.c
+  PrivateFunctions/JamSail_findMagneticField.c
   PrivateFunctions/JamSail_findRequiredQuaternion.c
   PrivateFunctions/JamSail_findStateDerivitive.c
   PrivateFunctions/JamSail_initAttitudeDetermination.c
