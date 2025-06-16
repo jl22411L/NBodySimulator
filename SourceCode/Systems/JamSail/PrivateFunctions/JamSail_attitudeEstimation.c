@@ -8,7 +8,7 @@
  *
  */
 
-#include <math.h> // REMOVE
+#include <math.h>
 #include <stdint.h>
 #include <stdio.h> // REMOVE
 
@@ -27,6 +27,7 @@
 /* Generic Libraries */
 #include "GConst/GConst.h"
 #include "GMath/GMath.h"
+#include "GUtilities/GUtilities.h"
 #include "GZero/GZero.h"
 
 int JamSail_attitudeEstimation(JamSail_State  *p_jamSail_state_inout,
@@ -54,9 +55,8 @@ int JamSail_attitudeEstimation(JamSail_State  *p_jamSail_state_inout,
   double  controlDipole_Bod_NmpT[3];
   double  controlDipole_Sen_NmpT[3];
   double  measuredMagneticField_Bod_T[3];
-  double  dipoleEstimate_m2A[3];
   double  magneticFieldMagnitude_T;
-  double  currentMagnitude_A;
+  double  maxCurrent_A;
   uint8_t i;
   uint8_t j;
 
@@ -86,7 +86,6 @@ int JamSail_attitudeEstimation(JamSail_State  *p_jamSail_state_inout,
   GZero(&(controlDipole_Bod_NmpT[0]), double[3]);
   GZero(&(controlDipole_Sen_NmpT[0]), double[3]);
   GZero(&(measuredMagneticField_Bod_T[0]), double[3]);
-  GZero(&(dipoleEstimate_m2A[0]), double[3]);
 
   /* Extract diagnol of inertia components */
   xxInertiaComponent_Bod_kgm2 =
@@ -99,11 +98,6 @@ int JamSail_attitudeEstimation(JamSail_State  *p_jamSail_state_inout,
       (p_jamSail_state_inout->p_satelliteBody_state->rigidBody_state
            .inertiaMatrix_Bod_kgm2[2][2]);
 
-  /* Load state vector */
-  //   GMath_quaternionConjugate(
-  //       &(stateEstimateVector[0]),
-  //       &(p_jamSail_state_inout->quaternionEstimate_InertCenToBod[0]));
-
   for (i = 0; i < 4; i++)
   {
     stateEstimateVector[i] =
@@ -111,8 +105,17 @@ int JamSail_attitudeEstimation(JamSail_State  *p_jamSail_state_inout,
   }
   for (i = 0; i < 3; i++)
   {
-    stateEstimateVector[i + 4] =
-        p_jamSail_state_inout->angularVelocityEstimate_Bod_rads[i];
+    if (Utilities.simTime_s - p_jamSail_params_in->startTime_s >
+        Utilities.simTimeStep_s)
+    {
+      stateEstimateVector[i + 4] =
+          p_jamSail_state_inout->angularVelocityEstimate_Bod_rads[i];
+    }
+    else
+    {
+      stateEstimateVector[i + 4] =
+          p_jamSail_state_inout->gyro_state.filteredGyroVector_Sen_rads[i];
+    }
   }
 
   /* Load measurement vector */
@@ -453,100 +456,148 @@ int JamSail_attitudeEstimation(JamSail_State  *p_jamSail_state_inout,
   printf("[");
   for (i = 0; i < 4; i++)
   {
-    printf("%lf ",
+    printf("%+lf ",
            p_jamSail_state_inout->quaternionEstimate_InertCenToBod[i] -
                quaternion_InertCenToBod[i]);
   }
-  printf("]");
+  printf("] [");
+  for (i = 0; i < 3; i++)
+  {
+    printf("%+lf ", p_jamSail_state_inout->angularVelocityEstimate_Bod_rads[i]);
+  }
+  printf("] %d", p_jamSail_state_inout->adcsState);
 
   /* Step Control Algorithm */
   JamSail_controlAlgorithm(p_jamSail_state_inout, p_jamSail_params_in);
 
-  /* Find magnetic field in the body frame */
-  GMath_quaternionPointRotation(
-      &(measuredMagneticField_Bod_T[0]),
-      &(p_jamSail_state_inout->magnetometer_state
-            .measuredMagneticField_Sen_nT[0]),
-      &(p_jamSail_params_in->magnetometer_params.sensorQuaternion_BodToSen[0]));
+  //   /* Find magnetic field in the body frame */
+  //   GMath_quaternionPointRotation(
+  //       &(measuredMagneticField_Bod_T[0]),
+  //       &(p_jamSail_state_inout->magnetometer_state
+  //             .filteredMagneticField_Sen_nT[0]),
+  //       &(p_jamSail_params_in->magnetometer_params.sensorQuaternion_BodToSen[0]));
 
-  /* Scale the measured magnetic field into Tesla */
+  //   /* Scale the measured magnetic field into Tesla */
+  //   for (i = 0; i < 3; i++)
+  //   {
+  //     measuredMagneticField_Bod_T[i] *= GCONST_NM_TOLERANCE;
+  //   }
+
+  //   /* Find magnetic field magnitude */
+  //   GMath_vectorMag(&magneticFieldMagnitude_T,
+  //                   &(measuredMagneticField_Bod_T[0]),
+  //                   3);
+
+  //   /* Find cross product of magnetic field and control torques */
+  //   GMath_crossProduct(&(measuredMagneticField_Bod_T[0]),
+  //                      &(p_jamSail_state_inout->controlTorque_Bod_Nm[0]),
+  //                      &controlDipole_Bod_NmpT[0]);
+
+  //   /* Find control dipoles */
+  //   for (i = 0; i < 3; i++)
+  //   {
+  //     /* Divide by the magnitude of the magnetic field squared */
+  //     controlDipole_Bod_NmpT[i] =
+  //         controlDipole_Bod_NmpT[i] /
+  //         (magneticFieldMagnitude_T * magneticFieldMagnitude_T);
+
+  //     /* Flatten Dipole */
+  //     if (controlDipole_Bod_NmpT[i] >
+  //         p_jamSail_params_in->magnetorquer_params.maxCurrent_Sen_A[i] *
+  //             p_jamSail_params_in->magnetorquer_params.coilTurns_Sen[i] *
+  //             p_jamSail_params_in->magnetorquer_params.coilArea_Sen_m2[i])
+  //     {
+  //       controlDipole_Bod_NmpT[i] =
+  //           p_jamSail_params_in->magnetorquer_params.maxCurrent_Sen_A[i] *
+  //           p_jamSail_params_in->magnetorquer_params.coilTurns_Sen[i] *
+  //           p_jamSail_params_in->magnetorquer_params.coilArea_Sen_m2[i];
+  //     }
+  //     else if (controlDipole_Bod_NmpT[i] <
+  //              -p_jamSail_params_in->magnetorquer_params.maxCurrent_Sen_A[i]
+  //              *
+  //                  p_jamSail_params_in->magnetorquer_params.coilTurns_Sen[i]
+  //                  *
+  //                  p_jamSail_params_in->magnetorquer_params.coilArea_Sen_m2[i])
+  //     {
+  //       controlDipole_Bod_NmpT[i] =
+  //           -p_jamSail_params_in->magnetorquer_params.maxCurrent_Sen_A[i] *
+  //           p_jamSail_params_in->magnetorquer_params.coilTurns_Sen[i] *
+  //           p_jamSail_params_in->magnetorquer_params.coilArea_Sen_m2[i];
+  //     }
+  //   }
+
+  //   /* Find the control dipole in the sensor frame */
+  //   GMath_quaternionFrameRotation(
+  //       &(controlDipole_Sen_NmpT[0]),
+  //       &(controlDipole_Bod_NmpT[0]),
+  //       &(p_jamSail_params_in->magnetometer_params.sensorQuaternion_BodToSen[0]));
+
+  //   /* Find control currents */
+  //   for (i = 0; i < 3; i++)
+  //   {
+  //     /* Find the ideal control current */
+  //     (p_jamSail_state_inout->magnetorquer_state.inputCurrent_Sen_A[i]) =
+  //         controlDipole_Sen_NmpT[i] /
+  //         (p_jamSail_params_in->magnetorquer_params.coilArea_Sen_m2[i] *
+  //          p_jamSail_params_in->magnetorquer_params.coilTurns_Sen[i]);
+  //   }
+
+  //   for (i = 0; i < 3; i++)
+  //   {
+  //     /* Flatten ideal current to be within peak tolerances */
+  //     if ((p_jamSail_state_inout->magnetorquer_state.inputCurrent_Sen_A[i]) >
+  //             (p_jamSail_params_in->magnetorquer_params.maxCurrent_Sen_A[i])
+  //             ||
+  //         (p_jamSail_state_inout->magnetorquer_state.inputCurrent_Sen_A[i]) <
+  //             -(p_jamSail_params_in->magnetorquer_params.maxCurrent_Sen_A[i]))
+  //     {
+  //       /* Find max current */
+  //       maxCurrent_A =
+  //           p_jamSail_state_inout->magnetorquer_state.inputCurrent_Sen_A[0];
+  //       for (j = 1; j < 3; j++)
+  //       {
+  //         if (p_jamSail_state_inout->magnetorquer_state.inputCurrent_Sen_A[j]
+  //         *
+  //                 p_jamSail_state_inout->magnetorquer_state
+  //                     .inputCurrent_Sen_A[j] >
+  //             maxCurrent_A * maxCurrent_A)
+  //         {
+  //           maxCurrent_A = sqrt(
+  //               p_jamSail_state_inout->magnetorquer_state.inputCurrent_Sen_A[j]
+  //               *
+  //               p_jamSail_state_inout->magnetorquer_state.inputCurrent_Sen_A[j]);
+  //         }
+  //       }
+
+  //       for (j = 0; j < 3; j++)
+  //       {
+  //         (p_jamSail_state_inout->magnetorquer_state.inputCurrent_Sen_A[j]) =
+  //             (p_jamSail_state_inout->magnetorquer_state.inputCurrent_Sen_A[j])
+  //             *
+  //             ((p_jamSail_params_in->magnetorquer_params.maxCurrent_Sen_A[j])
+  //             /
+  //              maxCurrent_A);
+  //       }
+  //       break;
+  //     }
+  //   }
+
+  //   /* Find estimate for control torque */
+  //   GMath_crossProduct(&controlDipole_Sen_NmpT[0],
+  //                      &measuredMagneticField_Bod_T[0],
+  //                      &p_jamSail_state_inout->controlTorque_Bod_Nm[0]);
+
   for (i = 0; i < 3; i++)
   {
-    measuredMagneticField_Bod_T[i] *= GCONST_NM_TOLERANCE;
-  }
-
-  /* Find magnetic field magnitude */
-  GMath_vectorMag(&magneticFieldMagnitude_T,
-                  &(measuredMagneticField_Bod_T[0]),
-                  3);
-
-  /* Find cross product of magnetic field and control torques */
-  GMath_crossProduct(&(measuredMagneticField_Bod_T[0]),
-                     &(p_jamSail_state_inout->controlTorque_Bod_Nm[0]),
-                     &controlDipole_Bod_NmpT[0]);
-
-  /* Find control dipoles */
-  for (i = 0; i < 3; i++)
-  {
-    /* Divide by the magnitude of the magnetic field squared */
-    controlDipole_Bod_NmpT[i] /=
-        (magneticFieldMagnitude_T * magneticFieldMagnitude_T);
-  }
-
-  /* Find the control dipole in the sensor frame */
-  GMath_quaternionFrameRotation(
-      &(controlDipole_Sen_NmpT[0]),
-      &(controlDipole_Bod_NmpT[0]),
-      &(p_jamSail_params_in->magnetometer_params.sensorQuaternion_BodToSen[0]));
-
-  /* Find control currents */
-  for (i = 0; i < 3; i++)
-  {
-    /* Find the ideal control current */
-    (p_jamSail_state_inout->magnetorquer_state.inputCurrent_Sen_A[i]) =
-        controlDipole_Sen_NmpT[i] /
-        (p_jamSail_params_in->magnetorquer_params.coilArea_Sen_m2[i] *
-         p_jamSail_params_in->magnetorquer_params.coilTurns_Sen[i]);
-  }
-
-  /* Find magnitude of currents */
-  GMath_vectorMag(
-      &currentMagnitude_A,
-      &p_jamSail_state_inout->magnetorquer_state.inputCurrent_Sen_A[0],
-      3);
-
-  for (i = 0; i < 3; i++)
-  {
-    /* Flatten ideal current to be within peak tolerances */
-    if ((p_jamSail_state_inout->magnetorquer_state.inputCurrent_Sen_A[i]) >
-            (p_jamSail_params_in->magnetorquer_params.maxCurrent_Sen_A[i]) ||
-        (p_jamSail_state_inout->magnetorquer_state.inputCurrent_Sen_A[i]) <
-            -(p_jamSail_params_in->magnetorquer_params.maxCurrent_Sen_A[i]))
+    if (p_jamSail_state_inout->controlTorque_Bod_Nm[i] > 0.0005)
     {
-      for (j = 0; j < 3; j++)
-      {
-        (p_jamSail_state_inout->magnetorquer_state.inputCurrent_Sen_A[j]) =
-            (p_jamSail_state_inout->magnetorquer_state.inputCurrent_Sen_A[j]) *
-            ((p_jamSail_params_in->magnetorquer_params.maxCurrent_Sen_A[j]) /
-             currentMagnitude_A);
-      }
-      break;
+      p_jamSail_state_inout->controlTorque_Bod_Nm[i] = 0.0005;
+    }
+    else if (p_jamSail_state_inout->controlTorque_Bod_Nm[i] < -0.0005)
+    {
+      p_jamSail_state_inout->controlTorque_Bod_Nm[i] = -0.0005;
     }
   }
-
-  /* Find estimate of control dipoles */
-  for (i = 0; i < 3; i++)
-  {
-    dipoleEstimate_m2A[i] =
-        p_jamSail_state_inout->magnetorquer_state.inputCurrent_Sen_A[i] *
-        p_jamSail_params_in->magnetorquer_params.coilArea_Sen_m2[i] *
-        p_jamSail_params_in->magnetorquer_params.coilTurns_Sen[i];
-  }
-
-  /* Find estimate for control torque */
-  GMath_crossProduct(&dipoleEstimate_m2A[0],
-                     &measuredMagneticField_Bod_T[0],
-                     &p_jamSail_state_inout->controlTorque_Bod_Nm[0]);
 
   /* Find state derivitive */
   stateEstimateDerivitiveVector[4] =

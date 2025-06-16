@@ -100,7 +100,7 @@ int JamSail_updateState(JamSail_State  *p_jamSail_state_out,
     }
 
     /* If suns been tracked for sufficient amount of time, start nominal mode */
-    if ((p_jamSail_state_out->trackingTimeOfSun_s > 600) &&
+    if ((p_jamSail_state_out->trackingTimeOfSun_s > 180.0) &&
         (angularVelocityMagnitude_radps <
          p_jamSail_params_in
              ->nominalToDetumblingModeAngularVelocityCutoff_radps))
@@ -118,7 +118,7 @@ int JamSail_updateState(JamSail_State  *p_jamSail_state_out,
   case (JAMSAIL_ADCSSTATE_NOMINAL):
     /* IF we havn't measured the sun for some time, go searching for it */
     if ((Utilities.simTime_s - (p_jamSail_state_out->timeOfLastMeasurement_s) >
-         30) &&
+         300) &&
         (angularVelocityMagnitude_radps <
          p_jamSail_params_in
              ->nominalToDetumblingModeAngularVelocityCutoff_radps))

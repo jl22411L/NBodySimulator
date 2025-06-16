@@ -114,17 +114,5 @@ int JamSail_nominalAlgorithm(JamSail_State  *p_jamSail_state_inout,
         crossRotationalMoments_Nm_Bod[i];
   }
 
-  for (i = 0; i < 3; i++)
-  {
-    if (p_jamSail_state_inout->controlTorque_Bod_Nm[i] > 0.001)
-    {
-      p_jamSail_state_inout->controlTorque_Bod_Nm[i] = 0.001;
-    }
-    else if (p_jamSail_state_inout->controlTorque_Bod_Nm[i] < -0.001)
-    {
-      p_jamSail_state_inout->controlTorque_Bod_Nm[i] = -0.001;
-    }
-  }
-
   return GCONST_TRUE;
 }

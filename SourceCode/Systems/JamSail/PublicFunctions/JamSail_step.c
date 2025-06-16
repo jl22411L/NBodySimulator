@@ -173,7 +173,18 @@ int JamSail_step(JamSail_State  *p_jamSail_state_out,
   {
     (p_jamSail_state_out->p_satelliteBody_state->rigidBody_state
          .resultantMoment_Nm_Bod[i]) =
-        (p_jamSail_state_out->magnetorquer_state.totalTorque_Bod_Nm[i]);
+        (p_jamSail_state_out->controlTorque_Bod_Nm[i]);
+
+    if (Utilities.simTime_s - p_jamSail_params_in->startTime_s > 2500 &&
+        Utilities.simTime_s - p_jamSail_params_in->startTime_s < 2800)
+    {
+      (p_jamSail_state_out->p_satelliteBody_state->rigidBody_state
+           .resultantMoment_Nm_Bod[0]) += 0.001;
+      (p_jamSail_state_out->p_satelliteBody_state->rigidBody_state
+           .resultantMoment_Nm_Bod[1]) += 0.001;
+      (p_jamSail_state_out->p_satelliteBody_state->rigidBody_state
+           .resultantMoment_Nm_Bod[2]) += 0.0005;
+    }
   }
 
   return GCONST_TRUE;

@@ -67,14 +67,5 @@ int JamSail_controlAlgorithm(JamSail_State  *p_jamSail_state_out,
     break;
   }
 
-  int i;
-  for (i = 0; i < 3; i++)
-  {
-    if (isnan(p_jamSail_state_out->controlTorque_Bod_Nm[i]))
-    {
-      printf("hell");
-    }
-  }
-
   return GCONST_TRUE;
 }

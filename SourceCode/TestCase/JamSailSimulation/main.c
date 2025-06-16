@@ -120,7 +120,7 @@ int main(void)
      * Check End Conditions
      * ---------------------------------------------------------------------- */
 
-    GLog("Sim Time = %lf", Utilities.simTime_s);
+    GLog("Sim Time = %lf", Utilities.simTime_s - jamSail_params.startTime_s);
 
     /* Check if the simulation duration has been reached */
     // TODO: Should make this its own function in GUtilities
