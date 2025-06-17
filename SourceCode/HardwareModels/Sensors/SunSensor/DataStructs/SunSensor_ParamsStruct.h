@@ -93,6 +93,18 @@ typedef struct SunSensor_ParamsStruct
    */
   double noiseAmplitude_Sen_rads[3];
 
+  /* ------------------------------------------------------------------------ *
+   * Sensor Filter Coefficients
+   * ------------------------------------------------------------------------ */
+
+  /*!
+   * @brief     Cutoff frequency for low pass filter.
+   *
+   * @frame     N/A
+   * @units     Hz
+   */
+  double lowPassCutoffFrequency_Hz;
+
 } SunSensor_Params;
 
 #ifdef __cplusplus

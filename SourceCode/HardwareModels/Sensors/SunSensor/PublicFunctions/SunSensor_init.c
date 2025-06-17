@@ -110,6 +110,12 @@ int SunSensor_init(const char       *p_sunSensorParamFilename_in,
                           3,
                           1);
 
+  /* Load Cutoff Frequency for sensor */
+  GParser_loadDouble(&GParser_state,
+                     p_dic,
+                     &(p_sunSensor_params_out->lowPassCutoffFrequency_Hz),
+                     "FilterParameters:lowPassCutoffFrequency_Hz");
+
   /* Close parameters */
   GParser_closeParams(&GParser_state, p_dic);
 

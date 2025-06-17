@@ -60,7 +60,7 @@ int SunSensor_createArchives(SunSensor_Params *p_sunSensor_params_in,
 
   /* Add columns for true value of sun vector */
   GArchive_addCol(&p_sunSensor_state_in->sunSensorArchive,
-                  "trueSunVector_Bod_m",
+                  "trueSunVector_Sen_m",
                   3,
                   1);
 
@@ -72,13 +72,19 @@ int SunSensor_createArchives(SunSensor_Params *p_sunSensor_params_in,
 
   /* Add columns for noise vector od sensor */
   GArchive_addCol(&p_sunSensor_state_in->sunSensorArchive,
-                  "noiseVector_Bod_m",
+                  "noiseVector_Sen_m",
                   3,
                   1);
 
   /* Add columns which represent the measured output of the sensor */
   GArchive_addCol(&p_sunSensor_state_in->sunSensorArchive,
-                  "measuredSunVector_Bod_m",
+                  "measuredSunVector_Sen_m",
+                  3,
+                  1);
+
+  /* Add columns which represent the filtered output of the sensor */
+  GArchive_addCol(&p_sunSensor_state_in->sunSensorArchive,
+                  "filteredSunVector_Sen_m",
                   3,
                   1);
 

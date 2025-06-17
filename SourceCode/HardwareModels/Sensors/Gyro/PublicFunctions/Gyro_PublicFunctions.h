@@ -73,22 +73,17 @@ extern int Gyro_init(const char  *p_gyroParamFilename_in,
  * @param[out]  p_gyro_state_out
  *              Pointer containing the address of a gyro state struct.
  *
- * @param[in]   p_angularVelocity_Fix_rads_in
+ * @param[in]   p_angularVelocity_Bod_rads_in
  *              Pointer containing the address of angular velocity vector
- *              in the fix frame.
- *
- * @param[in]   p_quaternion_FixToBod_in
- *              Pointer containing the address of quaternion representing the
- *              rotation from fix to body frame.
+ *              in the body frame.
  *
  * @return      Upon a successful completion, the fucntion will return a
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE.
  */
-extern int Gyro_step(Gyro_Params *p_gyro_params_in,
-                     Gyro_State  *p_gyro_state_out,
-                     double      *p_angularVelocity_Fix_rads_in,
-                     double      *p_quaternion_FixToBod_in);
+extern Gyro_step(Gyro_Params *p_gyro_params_in,
+                 Gyro_State  *p_gyro_state_out,
+                 double      *p_angularVelocity_Bod_rads_in);
 
 #ifdef __cplusplus
 }

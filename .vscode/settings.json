@@ -1,4 +1,10 @@
 {
+    "editor.rulers": [
+        {
+            "column": 80,
+            "color": "#1ce863"
+        }
+    ],
     "cmake.sourceDirectory": "${workspaceFolder}/SourceCode",
     "cmake.buildDirectory": "${workspaceFolder}/BuildEnvironment",
     "[c]": {
@@ -53,6 +59,6 @@
     ],
     "C_Cpp.simplifyStructuredComments": false,
     "editor.formatOnSave": true,
-    "clang-format.executable": "C:/Users/jason/Desktop/Projects/NBodySimulator/.Configuration/Clang/clang-format.exe",
+    "clang-format.executable": "C:/Users/richar_j/Desktop/Projects/NBodySimulator/.Configuration/Clang/clang-format.exe",
     "cmake.configureOnOpen": true
 }

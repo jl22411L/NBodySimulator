@@ -53,7 +53,7 @@ typedef struct CelestialBody_StateStruct
    * @frame     FixToCenInert
    * @unit      N/A
    */
-  double quaternion_FixToCenInert[4];
+  double quaternion_FixToInertCen[4];
 
   /*!
    * @brief     Double which represents the sidereal time of the body.

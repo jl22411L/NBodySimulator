@@ -20,7 +20,7 @@ body2: JamSail
 mainBody: body0
 
 # Keplarian elements of body 2 with relation to body 1
-# [Ref: https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.htmlf]
+# [Ref: https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html]
 #
 # Note: timeSincePeriapsis_s was found from taking the mean longitude and using
 #       the equation: 
@@ -42,9 +42,9 @@ keplarianElementsBody0ToBody1:
 # Keplarian elements of body 3 with relation to body 2
 keplarianElementsBody1ToBody2:
   semiMajorAxis_km: 7000
-  eccentricity: 0.2
-  inclination_deg: 55
-  argumentOfPerigee_deg: 60
+  eccentricity: 0.1
+  inclination_deg: 98
+  argumentOfPerigee_deg: 0
   raans_deg: 0
   timeSincePeriapsis_s: 1740830400
   quaternion_Body1FrameToBody2Frame: [0.0, 0.0, 0.0, 1.0]

@@ -8,6 +8,7 @@
  *
  */
 
+#include <math.h>
 #include <signal.h>
 #include <stdio.h>
 
@@ -26,6 +27,7 @@
 #include "Gravity/DataStructs/Gravity_ParamsStruct.h"
 #include "Igrf/DataStructs/Igrf_ParamsStruct.h"
 #include "JamSail/DataStructs/JamSail_StateStruct.h"
+#include "SatelliteBody/DataStructs/SatelliteBody_StateStruct.h"
 
 /* Data include */
 /* None */
@@ -33,7 +35,6 @@
 /* Generic Libraries */
 #include "GConst/GConst.h"
 #include "GLog/GLog.h"
-#include "GMath/GMath.h"
 #include "GUtilities/GUtilities.h"
 #include "GZero/GZero.h"
 
@@ -106,7 +107,8 @@ int main(void)
                  &jamSail_params,
                  &bodyMgr_state,
                  &igrf_params,
-                 Utilities.simTime_s);
+                 Utilities.simTime_s,
+                 Utilities.simTimeStep_s);
 
     /* Step the bodies */
     BodyMgr_step(&bodyMgr_state);
@@ -117,6 +119,8 @@ int main(void)
     /* ---------------------------------------------------------------------- *
      * Check End Conditions
      * ---------------------------------------------------------------------- */
+
+    GLog("Sim Time = %lf", Utilities.simTime_s - jamSail_params.startTime_s);
 
     /* Check if the simulation duration has been reached */
     // TODO: Should make this its own function in GUtilities
@@ -136,6 +140,9 @@ int main(void)
 
   /* Terminate BodyMgr */
   BodyMgr_terminate(&bodyMgr_state);
+
+  /* Terminate JamSail */
+  JamSail_terminate(&jamSail_state);
 
   return GCONST_EXIT_SUCCESS;
 }

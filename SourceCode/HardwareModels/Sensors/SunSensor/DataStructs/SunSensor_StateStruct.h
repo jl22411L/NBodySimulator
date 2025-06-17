@@ -35,7 +35,7 @@ typedef struct SunSensor_StateStruct
    * @brief     Vector which contains the true value for which the sensor is
    *            reading.
    *
-   * @unit      m
+   * @units     m
    * @frame     Sensor
    */
   double trueSunVector_Sen_m[3];
@@ -44,8 +44,8 @@ typedef struct SunSensor_StateStruct
    * @brief     Vector which repressents the bias caused to the measurement from
    *            albedo effects of other celestial bodies.
    *
-   * @unit      m
    * @frame     Sensor
+   * @units     m
    */
   double albedoComponentNoise_Sen_m[3];
 
@@ -53,18 +53,35 @@ typedef struct SunSensor_StateStruct
    * @brief     Vector which contains the noise reading of the vector. This is
    *            just random noise.
    *
-   * @unit      m
-   * @frame     sensor
+   * @frame     Sensor
+   * @units     m
    */
   double noiseVector_Sen_m[3];
 
   /*!
    * @brief     Measured vector of the sensor.
    *
-   * @unit      m
    * @frame     Sensor
+   * @units     m
    */
   double measuredSunVector_Sen_m[3];
+
+  /*!
+   * @brief     Measured vector of the sensor from previous timestep. (Used for
+   *            low pass filtering)
+   *
+   * @frame     Sensor
+   * @units     m
+   */
+  double previousFilteredSunVector_Sen_m[3];
+
+  /*!
+   * @brief     Filtered vector reading of sun sensor.
+   *
+   * @frame     Sensor
+   * @units     m
+   */
+  double filteredSunVector_Sen_m[3];
 
   /*!
    * @brief     Flag which indicates if the sun sensor can detect the sun. If
@@ -79,7 +96,7 @@ typedef struct SunSensor_StateStruct
   /*!
    * @brief     Archive member for sensor.
    *
-   * @unit      N/A
+   * @units     N/A
    * @frame     N/A
    */
   GArchive sunSensorArchive;

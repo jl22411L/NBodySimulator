@@ -7,8 +7,8 @@ add_library(BodyMgr
 )
 
 target_link_libraries(BodyMgr
-  PRIVATE CelestialBody
-  PRIVATE SatelliteBody
-  PRIVATE UavBody
-  PRIVATE RigidBody
+  PUBLIC CelestialBody
+  PUBLIC SatelliteBody
+  PUBLIC UavBody
+  PUBLIC RigidBody
 )

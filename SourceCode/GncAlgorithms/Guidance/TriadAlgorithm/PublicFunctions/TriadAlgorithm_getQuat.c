@@ -23,12 +23,11 @@
 #include "GMath/GMath.h"
 #include "GZero/GZero.h"
 
-int TriadAlgorithm_getQuat(
-    double *p_vector1_bod_in,
-    double *p_vector1_fix_in,
-    double *p_vector2_bod_in,
-    double *p_vector2_fix_in,
-    double *p_quat_fixToBod_out)
+int TriadAlgorithm_getQuat(double *p_vector1_Bod_in,
+                           double *p_vector1_Fix_in,
+                           double *p_vector2_Bod_in,
+                           double *p_vector2_Fix_in,
+                           double *p_quat_FixToBod_out)
 {
   /*
    * Declare Local Variables. Note that the buffers for the vectors are so that
@@ -50,7 +49,7 @@ int TriadAlgorithm_getQuat(
 
   /* Clear Variables */
   GZero(&dcm_bodToFix[0][0], double[3][3]);
-  GZero(p_quat_fixToBod_out, double[4]);
+  GZero(p_quat_FixToBod_out, double[4]);
   GZero(&bodToIntermediateDcm[0], double[3][3]);
   GZero(&intermediateToFixDcm, double[3][3]);
   GZero(&bodVectorBuffer[0], double[3]);
@@ -61,10 +60,10 @@ int TriadAlgorithm_getQuat(
   GZero(&vector2Buffer_fix[0], double[3]);
 
   /* Find the unit vector of the input vectors */
-  GMath_findUnitVector(p_vector1_bod_in, &vector1Buffer_bod[0]);
-  GMath_findUnitVector(p_vector1_fix_in, &vector1Buffer_fix[0]);
-  GMath_findUnitVector(p_vector2_bod_in, &vector2Buffer_bod[0]);
-  GMath_findUnitVector(p_vector2_fix_in, &vector2Buffer_fix[0]);
+  GMath_findUnitVector(p_vector1_Bod_in, &vector1Buffer_bod[0]);
+  GMath_findUnitVector(p_vector1_Fix_in, &vector1Buffer_fix[0]);
+  GMath_findUnitVector(p_vector2_Bod_in, &vector2Buffer_bod[0]);
+  GMath_findUnitVector(p_vector2_Fix_in, &vector2Buffer_fix[0]);
 
   /* Load the first vector into the intermediate DCM's*/
   for (i = 0; i < 3; i++)
@@ -74,15 +73,13 @@ int TriadAlgorithm_getQuat(
   }
 
   /* Find the cross produce between the two vectors into buffers */
-  GMath_crossProduct(
-      &vector1Buffer_bod[0],
-      &vector2Buffer_bod[0],
-      &bodVectorBuffer[0]);
+  GMath_crossProduct(&vector1Buffer_bod[0],
+                     &vector2Buffer_bod[0],
+                     &bodVectorBuffer[0]);
 
-  GMath_crossProduct(
-      &vector1Buffer_fix[0],
-      &vector2Buffer_fix[0],
-      &fixVectorBuffer[0]);
+  GMath_crossProduct(&vector1Buffer_fix[0],
+                     &vector2Buffer_fix[0],
+                     &fixVectorBuffer[0]);
 
   /* Find the unit vectors of the cross produce */
   GMath_findUnitVector(&bodVectorBuffer[0], &bodVectorBuffer[0]);
@@ -97,15 +94,13 @@ int TriadAlgorithm_getQuat(
 
   /* Find the cross product between the first vector and the buffer and load
    * results into buffer */
-  GMath_crossProduct(
-      &vector1Buffer_bod[0],
-      &bodVectorBuffer[0],
-      &bodVectorBuffer[0]);
+  GMath_crossProduct(&vector1Buffer_bod[0],
+                     &bodVectorBuffer[0],
+                     &bodVectorBuffer[0]);
 
-  GMath_crossProduct(
-      &vector1Buffer_fix[0],
-      &fixVectorBuffer[0],
-      &fixVectorBuffer[0]);
+  GMath_crossProduct(&vector1Buffer_fix[0],
+                     &fixVectorBuffer[0],
+                     &fixVectorBuffer[0]);
 
   /* Load the buffer into DCM's */
   for (i = 0; i < 3; i++)
@@ -115,13 +110,18 @@ int TriadAlgorithm_getQuat(
   }
 
   /* Multiply the DCM's together and output into the output DCM */
-  GMath_matMul3x3by3x3(
-      &bodToIntermediateDcm[0][0],
-      &intermediateToFixDcm[0][0],
-      &dcm_bodToFix[0][0]);
+  GMath_matMul3x3by3x3(&bodToIntermediateDcm[0][0],
+                       &intermediateToFixDcm[0][0],
+                       &dcm_bodToFix[0][0]);
 
   /* Convert the dcm to a quaternion */
-  GMath_dcm2Quat(&dcm_bodToFix[0][0], p_quat_fixToBod_out);
+  GMath_dcm2Quat(&dcm_bodToFix[0][0], p_quat_FixToBod_out);
+
+  /* The quaternion is from bod to fix. Find conjugate to find Fix to Bod */
+  GMath_quaternionConjugate(p_quat_FixToBod_out, p_quat_FixToBod_out);
+
+  /* Make quaternion a unit quaternion */
+  GMath_findUnitQuaternion(p_quat_FixToBod_out, p_quat_FixToBod_out);
 
   return GCONST_TRUE;
 }

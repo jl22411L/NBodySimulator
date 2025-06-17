@@ -8,6 +8,8 @@
  *
  */
 
+#include <stdint.h>
+
 /* Function Includes */
 /* None */
 
@@ -20,16 +22,15 @@
 /* Generic Libraries */
 #include "GConst/GConst.h"
 
-int GLegPoly_legendreArrayPolynomials(
-    double *p_outputArray_out,
-    double  inputValue_in,
-    int     degreeN_in)
+int GLegPoly_legendreArrayPolynomials(double *p_outputArray_out,
+                                      double  inputValue_in,
+                                      uint8_t degreeN_in)
 {
   /* Declare local variables */
-  double currentValue;
-  double previousValue1;
-  double previousValue2;
-  int    n;
+  double  currentValue;
+  double  previousValue1;
+  double  previousValue2;
+  uint8_t n;
 
   for (n = 0; n <= degreeN_in; n++)
   {

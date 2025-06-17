@@ -25,10 +25,11 @@ extern "C" {
 #include "Sensors/SunSensor/DataStructs/SunSensor_StateStruct.h"
 
 /* Data include */
-/* None */
+#include "JamSail/ConstantDefs/JamSail_AdcsStateEnum.h"
+#include "JamSail/ConstantDefs/JamSail_Const.h"
 
 /* Generic Libraries */
-/* None */
+#include "GArchive/GArchive.h"
 
 typedef struct JamSail_StateStruct
 {
@@ -74,7 +75,200 @@ typedef struct JamSail_StateStruct
    */
   double trueMagneticFieldVector_m_bod[3];
 
-  /* ------2------------------------------------------------------------------ *
+  /* ------------------------------------------------------------------------ *
+   * EKF State Members
+   * ------------------------------------------------------------------------ */
+
+  /*!
+   * @brief     Member which holds the kalman gain of the EKF.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double kalmanGain[JAMSAIL_EKF_ORDER_N][JAMSAIL_EKF_DEGREE_M];
+
+  /*!
+   * @brief     Member which holds the estimate of the measurement of the EKF.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double measurementEstimate[3];
+
+  /*!
+   * @brief     Member which holds the sensor measurements of the EKF.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double sensorMeasurement[3];
+
+  /*!
+   * @brief     Member which holds the error covariance matrix of the EKF.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double errorCovariance[JAMSAIL_EKF_ORDER_N][JAMSAIL_EKF_ORDER_N];
+
+  /*!
+   * @brief     Member which holds the error covariance derivitive matrix of the
+   *            EKF.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double errorCovarianceDerivitive[JAMSAIL_EKF_ORDER_N][JAMSAIL_EKF_ORDER_N];
+
+  /*!
+   * @brief     Member which holds the measurement jacobian of the EKF.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double observationJacobian[JAMSAIL_EKF_DEGREE_M][JAMSAIL_EKF_ORDER_N];
+
+  /*!
+   * @brief     Member which holds the state jacobian of the EKS.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double stateJacobian[JAMSAIL_EKF_ORDER_N][JAMSAIL_EKF_ORDER_N];
+
+  /*!
+   * @brief     Member which holds the state estimation of the quaternion from
+   *            the EKf.
+   *
+   * @frame     Inertial Centric Frame to Body Frame
+   * @units     N/A
+   */
+  double quaternionEstimate_InertCenToBod[4];
+
+  /*!
+   * @brief     Member which holds the required quaternion from the inertial
+   *            centric frame to the body frame.
+   *
+   * @frame     Inertial Centric Frame to Body Frame
+   * @units     N/A
+   */
+  double requiredQuaternion_InertCenToBod[4];
+
+  /*!
+   * @brief     Member which holds the state estimation of the angular velocity
+   *            from the EKf.
+   *
+   * @frame     Body Frame
+   * @units     radians per second
+   */
+  double angularVelocityEstimate_Bod_rads[3];
+
+  /*!
+   * @brief     Member which holds the estimation of the magnetic field in
+   *            the inertial centric frame. This vector should be normalised as
+   *            the magnitude does not contain any information relating to
+   *            attitude.
+   *
+   * @frame     Inertial Centric
+   * @units     N/A (As is a normalised vector)
+   */
+  double magneticFieldEstimateNorm_InertCen[3];
+
+  /*!
+   * @brief     Member which holds the estimation of the magnetic field in
+   *            the body frame. This vector should be normalised as
+   *            the magnitude does not contain any information relating to
+   *            attitude.
+   *
+   *            This is found using the estimate of the quaternion from the
+   *            EKF. This is then compared to the body magnetic field found
+   *            from the magnetometer.
+   *
+   * @frame     Body
+   * @units     N/A (As is a normalised vector)
+   */
+  double magneticFieldEstimateNorm_Bod[3];
+
+  /*!
+   * @brief     Member which holds the estimation of the sun vector in
+   *            the inertial centric frame. This vector should be normalised as
+   *            the magnitude does not contain any information relating to
+   *            attitude.
+   *
+   * @frame     Inertial Centric
+   * @units     N/A (As is a normalised vector)
+   */
+  double sunVectorEstimateNorm_InertCen[3];
+
+  /*!
+   * @brief     Member which holds the estimation of the sun vecto in
+   *            the body frame. This vector should be normalised as
+   *            the magnitude does not contain any information relating to
+   *            attitude.
+   *
+   *            This is found using the estimate of the quaternion from the
+   *            EKF. This is then compared to the body magnetic field found
+   *            from the magnetometer.
+   *
+   * @frame     Body
+   * @units     N/A (As is a normalised vector)
+   */
+  double sunVectorEstimateNorm_Bod[3];
+
+  /*!
+   * @brief     Member which holds the estimation of the position of JamSail in
+   *            the inertial centric frame
+   *
+   * @frame     Inertial Centric
+   * @units     Meters
+   */
+  double positionEstimate_InertCen_m[3];
+
+  /* ------------------------------------------------------------------------ *
+   * Control Members
+   * ------------------------------------------------------------------------ */
+
+  /*!
+   * @brief     Error quaternion used for quaternion feedback control.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double errorQuaternion_InertCenToBod[4];
+
+  /*!
+   * @brief     Member which contains the ideal torque to be produced by the
+   *            actuatour.
+   *
+   * @frame     Body Frame
+   * @units     Newton Meters
+   */
+  double controlTorque_Bod_Nm[3];
+
+  /* ------------------------------------------------------------------------ *
+   * Miscelaneous Members
+   * ------------------------------------------------------------------------ */
+  /*!
+   * @brief     Flag to indicate if the attitude was measured or estimated by
+   *            the attitude determination algorithm.
+   *
+   *            GCONST_TRUE  = Attitude was Measured
+   *            GCONST_FALSE = Attitude was Estimated
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  uint8_t attitudeMeasuredFlag : 1;
+
+  /*!
+   * @brief     Archive member for ekf.
+   *
+   * @unit      N/A
+   * @frame     N/A
+   */
+  GArchive attitudeDeterminationArchive;
+
+  /* ------------------------------------------------------------------------ *
    * Sensor State Structs
    * ------------------------------------------------------------------------ */
 
@@ -118,12 +312,44 @@ typedef struct JamSail_StateStruct
   Magnetorquer_State magnetorquer_state;
 
   /* ------------------------------------------------------------------------ *
+   * JamSail Generic Members
+   * ------------------------------------------------------------------------ */
+
+  /*!
+   * @brief     Member which contains the state for JamSail's ADCS state
+   *            machine.
+   *
+   * @frame    N/A
+   * @units    N/A
+   */
+  JamSail_AdcsState adcsState;
+
+  /*!
+   * @brief     Time since the last successful measurement from the sun sensor.
+   *
+   * @frame     N/A
+   * @units     Seconds
+   */
+  double timeOfLastMeasurement_s;
+
+  /*!
+   * @brief    Time which the sun has been tracked.
+   *
+   * @frame     N/A
+   * @units     Seconds
+   */
+  double trackingTimeOfSun_s;
+
+  /* ------------------------------------------------------------------------ *
    * Simulation Members
    * ------------------------------------------------------------------------ */
 
   /*!
-   * @details   This member contains the address to the satellite body struct
+   * @brief     This member contains the address to the satellite body struct
    *            for JamSail.
+   *
+   * @frame    N/A
+   * @units    N/A
    */
   SatelliteBody_State *p_satelliteBody_state;
 

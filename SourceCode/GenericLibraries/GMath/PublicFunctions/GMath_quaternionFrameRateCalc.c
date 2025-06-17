@@ -1,5 +1,5 @@
 /*
- *    @File:         GMath_quaternionRateCalc.c
+ *    @File:         GMath_quaternionFrameRateCalc.c
  *
  *    @ Brief:       Finds the quaternion rate from the angular velocity vector
  *
@@ -19,9 +19,9 @@
 /* Generic Libraries */
 #include "GConst/GConst.h"
 
-int GMath_quaternionRateCalc(double *p_quaternionRate_out,
-                             double *p_quaternion_in,
-                             double *p_angularVelocity_in)
+int GMath_quaternionFrameRateCalc(double *p_quaternionRate_out,
+                                  double *p_quaternion_in,
+                                  double *p_angularVelocity_in)
 {
   /* Defining Local Variables */
   double angularVelocityX_rads;
@@ -32,7 +32,13 @@ int GMath_quaternionRateCalc(double *p_quaternionRate_out,
   double zQuaternionComponent;
   double sQuaternionComponent;
 
-  /* Declaring Local Variables */
+  /*!
+   * Extract angular velocities.
+   *
+   * Angular velocities are the rotation of the body in the fix frame. The
+   * quaternion represents the rotation of a vector from one frame to another.
+   * Hence, need to use negatice angular velocities.
+   */
   angularVelocityX_rads = *(p_angularVelocity_in + 0);
   angularVelocityY_rads = *(p_angularVelocity_in + 1);
   angularVelocityZ_rads = *(p_angularVelocity_in + 2);
@@ -48,17 +54,17 @@ int GMath_quaternionRateCalc(double *p_quaternionRate_out,
    * [ref:https://www.euclideanspace.com/physics/kinematics/angularvelocity/QuaternionDifferentiation2.pdf]
    */
   *(p_quaternionRate_out + 0) =
-      0.5 * (-yQuaternionComponent * angularVelocityZ_rads +
+      0.5 * (yQuaternionComponent * angularVelocityZ_rads -
              zQuaternionComponent * angularVelocityY_rads +
              sQuaternionComponent * angularVelocityX_rads);
 
   *(p_quaternionRate_out + 1) =
-      0.5 * (xQuaternionComponent * angularVelocityZ_rads -
+      0.5 * (-xQuaternionComponent * angularVelocityZ_rads +
              zQuaternionComponent * angularVelocityX_rads +
              sQuaternionComponent * angularVelocityY_rads);
 
   *(p_quaternionRate_out + 2) =
-      0.5 * (-xQuaternionComponent * angularVelocityY_rads +
+      0.5 * (xQuaternionComponent * angularVelocityY_rads -
              yQuaternionComponent * angularVelocityX_rads +
              sQuaternionComponent * angularVelocityZ_rads);
 

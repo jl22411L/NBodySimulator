@@ -31,7 +31,7 @@ int GMath_vectorAdd(double *p_vectorA_in,
   /* Iterate through elements of the vector A and B, finding the difference */
   for (i = 0; i < 3; i++)
   {
-    *(p_vectorC_out + i) = *(p_vectorA_in + i) - *(p_vectorB_in + i);
+    *(p_vectorC_out + i) = *(p_vectorA_in + i) + *(p_vectorB_in + i);
   }
 
   return GCONST_TRUE;

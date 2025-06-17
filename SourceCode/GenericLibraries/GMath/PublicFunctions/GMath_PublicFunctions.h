@@ -348,9 +348,10 @@ extern int GMath_matAdd(double *p_matrixA_in,
 /*!
  * @brief       Function which inverts a matrix. Takes input matrix, finds the
  *              LU decomposition and sovles for each column building up an
- *              inverted matrix.
+ *              inverted matrix. This function can have the same array address
+ *              for input and output matrix.
  *
- *              [A][invA] = [I]
+ *              [invA][A] = [I]
  *
  * @param[in]   p_inputMat_in
  *              Pointer containing adderss of first element of matrix A which
@@ -549,10 +550,10 @@ extern int GMath_quaternionConjugate(double *p_outputQuaternion_out,
  * @brief       GMath function which rotates a frame around its origin, leaving
  *              the inputted point where it in the fixed frame. This is useful
  *              for seeing how the perspective of a point shifts in a rotating
- *              frame. This is a passive rotation.
+ *              frame. This is an active rotation.
  *
  *              The operation can be represented as:
- *              outputVector = quaternion * inputVector * quaternionConjugate
+ *              outputVector =  quaternionConjugate * inputVector * quaternion
  *
  *              where * is quaternion multiplication.
  *
@@ -600,10 +601,10 @@ extern int GMath_quaternionMul(double *p_outputQuaternion_out,
 /*!
  * @brief       GMath function which applies a rotation to a point around the
  *              origin of the frame it is represented in, by the input
- *              quaternion. This is an active rotation.
+ *              quaternion. This is a passive rotation.
  *
  *              The operation can be represented as:
- *              outputVector = quaternionConjugate * inputVector * quaternion
+ *              outputVector = quaternion * inputVector * quaternionConjugate
  *
  *              where * is quaternion multiplication.
  *
@@ -653,9 +654,9 @@ extern int GMath_quaternionPointRotation(double *p_rotatedVector_out,
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GMath_quaternionRateCalc(double *p_quaternionRate_out,
-                                    double *p_quaternion_in,
-                                    double *p_angularVelocity_in);
+extern int GMath_quaternionFrameRateCalc(double *p_quaternionRate_out,
+                                         double *p_quaternion_in,
+                                         double *p_angularVelocity_in);
 
 /*!
  * @brief       Finds the addition between two 3x1 vectors. Sums vector B
@@ -705,10 +706,10 @@ extern int GMath_vectorMag(double *outputValue_out,
  * @brief       Finds the unit vector from an input vector. Output should be
  *              the same size as the input vector.
  *
- * @param[out]  outputVector_out
+ * @param[out]  p_outputVector_out
  *              Address to double array where norm vector will be stored
  *
- * @param[in]   vector_in
+ * @param[in]   p_vector_in
  *              Address to double vector which norm vector will be found from.
  *
  * @param[in]   vectorSize_in
@@ -718,8 +719,8 @@ extern int GMath_vectorMag(double *outputValue_out,
  *              GCONST_TRUE. If an error in the codes execution occurs, the
  *              function will return a GCONST_FALSE
  */
-extern int GMath_vectorNorm(double *outputVector_out,
-                            double *vector_in,
+extern int GMath_vectorNorm(double *p_outputVector_out,
+                            double *p_vector_in,
                             int     vectorSize_in);
 
 /*!

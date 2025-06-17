@@ -9,6 +9,7 @@
  */
 
 #include <stdint.h>
+#include <string.h>
 
 /* Function Includes */
 /* None */
@@ -71,6 +72,14 @@ int SunSensor_checkForBlocking(double               *p_sunPosition_Fix_m_in,
 
   for (i = 0; i < nCelestialBodies_in; i++)
   {
+    /* Make sure that the celestiabl body is not the Sun */
+    if (!(strcmp(
+            &((*(p_celestialBodyList_in + i))->rigidBody_state.bodyName[0]),
+            "Sun")))
+    {
+      break;
+    }
+
     /* Extract coefficients of celestial */
     x3 = (*(p_celestialBodyList_in + i))->rigidBody_state.position_Fix_m[0];
     y3 = (*(p_celestialBodyList_in + i))->rigidBody_state.position_Fix_m[1];

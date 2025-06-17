@@ -22,14 +22,13 @@
 #include "GLog/GLog.h"
 #include "GZero/GZero.h"
 
-int GMath_matMul(
-    double *p_matrixA_in,
-    int     rowsA_in,
-    int     colsA_in,
-    double *p_matrixB_in,
-    int     rowsB_in,
-    int     colsB_in,
-    double *p_matrixC_out)
+int GMath_matMul(double *p_matrixA_in,
+                 int     rowsA_in,
+                 int     colsA_in,
+                 double *p_matrixB_in,
+                 int     rowsB_in,
+                 int     colsB_in,
+                 double *p_matrixC_out)
 {
   /* Declaring local variables */
   int i;
@@ -42,14 +41,13 @@ int GMath_matMul(
   /* Check dimensions of matrix are valid */
   if (colsA_in != rowsB_in)
   {
-    GError(
-        "Matrix dimensions are not valid\n"
-        "Matrix A (NxM): %dx%d\n"
-        "Matrix b (NxM): %dx%d\n",
-        rowsA_in,
-        colsA_in,
-        rowsB_in,
-        colsB_in);
+    GError("Matrix dimensions are not valid\n"
+           "Matrix A (NxM): %dx%d\n"
+           "Matrix b (NxM): %dx%d\n",
+           rowsA_in,
+           colsA_in,
+           rowsB_in,
+           colsB_in);
   }
 
   /* Iterate through rows for matrix c */

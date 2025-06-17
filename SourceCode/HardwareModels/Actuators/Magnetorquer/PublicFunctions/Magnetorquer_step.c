@@ -42,7 +42,6 @@ int Magnetorquer_step(Magnetorquer_State  *p_magnetorquer_state_out,
   double  actuatorPointRelInerticalCentric_Fix_m[3];
   double  actuatorPoint_GeoCen_m[3];
   double  quaternion_FixToSen[4];
-  double  quaternion_InertCenToGeoCen[4];
   double  quaternion_InertCenToFix[4];
   double  sphericalPosition_GeoCen_m[3];
   double  magneticFieldVector_Ned_nT[3];
@@ -58,7 +57,6 @@ int Magnetorquer_step(Magnetorquer_State  *p_magnetorquer_state_out,
   GZero(&(actuatorPointRelInerticalCentric_Fix_m[0]), double[3]);
   GZero(&(actuatorPoint_GeoCen_m[0]), double[3]);
   GZero(&(quaternion_FixToSen[0]), double[4]);
-  GZero(&(quaternion_InertCenToGeoCen[0]), double[4]);
   GZero(&(quaternion_InertCenToFix[0]), double[4]);
   GZero(&(sphericalPosition_GeoCen_m[0]), double[3]);
   GZero(&(magneticFieldVector_Ned_nT[0]), double[3]);
@@ -96,19 +94,7 @@ int Magnetorquer_step(Magnetorquer_State  *p_magnetorquer_state_out,
   /* Find the quaternion representing rotation from InertCen to GeoCen frame */
   GMath_quaternionConjugate(
       &(quaternion_InertCenToFix[0]),
-      &(p_magneticFieldCelestialBody_in->quaternion_FixToCenInert[0]));
-
-  /* Find the quaternion which is from InertCen to GeoCen frame */
-  GMath_quaternionMul(&(quaternion_InertCenToGeoCen[0]),
-                      &(p_magneticFieldCelestialBody_in->rigidBody_state
-                            .quaternion_FixToBody[0]),
-                      &(quaternion_InertCenToFix[0]));
-
-  /* Check that quaternion from InertCen to GeoCen is correct */
-  CelestialBody_checkRotationAngle(
-      &(quaternion_InertCenToGeoCen[0]),
-      (p_magneticFieldCelestialBody_in->sideRealTime_s),
-      simTime_s_in);
+      &(p_magneticFieldCelestialBody_in->quaternion_FixToInertCen[0]));
 
   /* Find the position of point in Geo-Centric frame */
   GMath_quaternionFrameRotation(
@@ -151,8 +137,8 @@ int Magnetorquer_step(Magnetorquer_State  *p_magnetorquer_state_out,
   /* Find quaternion which represents from fix to sensor frame */
   GMath_quaternionMul(
       &(quaternion_FixToSen[0]),
-      &(p_magnetorquer_params_in->actuatorQuaternion_BodToSen[0]),
-      p_quaternionToBody_FixToBod_in);
+      p_quaternionToBody_FixToBod_in,
+      &(p_magnetorquer_params_in->actuatorQuaternion_BodToSen[0]));
 
   /* Find the magnetic field vector on the actuator in the sensor frame */
   GMath_quaternionFrameRotation(
@@ -160,18 +146,25 @@ int Magnetorquer_step(Magnetorquer_State  *p_magnetorquer_state_out,
       &(magneticFieldVector_Fix_nT[0]),
       &(quaternion_FixToSen[0]));
 
+  /* Add the noise of the external magnetic field */
+  for (i = 0; i < 3; i++)
+  {
+    p_magnetorquer_state_out->externalMagneticField_Sen_nT[i] +=
+        p_magnetorquer_state_out->externalMagneticFieldNoise_Sen_nT[i];
+  }
+
   /* Find the dipole moment in the sensor frame */
   for (i = 0; i < 3; i++)
   {
-    p_magnetorquer_state_out->dipoleMoment_Sen_Am2[i] =
+    p_magnetorquer_state_out->dipoleMoment_Sen_GAm2[i] =
         (p_magnetorquer_state_out->inputCurrent_Sen_A[i]) *
         (p_magnetorquer_params_in->coilTurns_Sen[i]) *
-        (p_magnetorquer_params_in->coilArea_Sen_m2[i]) * GCONST_GM_TOLERANCE;
+        (p_magnetorquer_params_in->coilArea_Sen_m2[i]) * GCONST_NM_TOLERANCE;
   }
 
-  /* Find the true magnetic torque of the actuatr */
+  /* Find the true magnetic torque of the actuator */
   GMath_crossProduct(
-      &(p_magnetorquer_state_out->dipoleMoment_Sen_Am2[0]),
+      &(p_magnetorquer_state_out->dipoleMoment_Sen_GAm2[0]),
       &(p_magnetorquer_state_out->externalMagneticField_Sen_nT[0]),
       &(p_magnetorquer_state_out->trueMagnetorquerTorque_Sen_Nm[0]));
 
@@ -179,7 +172,7 @@ int Magnetorquer_step(Magnetorquer_State  *p_magnetorquer_state_out,
   {
     /*!
      * Find the system noise of the actuator. If current is below threshold, set
-     * the system noise to zero. OTherwise, apply a gaussian noise.
+     * the system noise to zero. Otherwise, apply a gaussian noise.
      */
     if ((p_magnetorquer_state_out->inputCurrent_Sen_A[i]) <
         MAGNETORQUER_MIN_CURRENT_THRESHOLD_A)

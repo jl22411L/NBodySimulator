@@ -87,9 +87,9 @@ int GMath_dcm2Quat(double *p_dcmMatrix_in, double *p_quaternionVector_out)
   }
   else
   {
-    GError(
-        "All posible conversions are less then tolerance %lf",
-        GMATH_DCM2QUAT_CONVERSION_TOLERANCE);
+    // TODO: Need to figure out what to do on actual processor
+    GError("All posible conversions are less then tolerance %lf",
+           GMATH_DCM2QUAT_CONVERSION_TOLERANCE);
   }
 
   /* Store quaternion components in quaternion */

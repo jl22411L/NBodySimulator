@@ -19,12 +19,13 @@ extern "C" {
 
 /* Structure Include */
 #include "Actuators/Magnetorquer/DataStructs/Magnetorquer_ParamsStruct.h"
+#include "Igrf/DataStructs/Igrf_ParamsStruct.h"
 #include "Sensors/Gyro/DataStructs/Gyro_ParamsStruct.h"
 #include "Sensors/Magnetometer/DataStructs/Magnetometer_ParamsStruct.h"
 #include "Sensors/SunSensor/DataStructs/SunSensor_ParamsStruct.h"
 
 /* Data include */
-/* None */
+#include "JamSail/ConstantDefs/JamSail_Const.h"
 
 /* Generic Libraries */
 /* None */
@@ -36,6 +37,213 @@ typedef struct JamSail_ParamsStruct
    * ------------------------------------------------------------------------ */
 
   /* None */
+
+  /* ------------------------------------------------------------------------ *
+   * Attitude Determination Parameters
+   * ------------------------------------------------------------------------ */
+
+  /*!
+   * @brief     Matrix containing the coefficients of the sensor noise
+   *            covariance for the EKF.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
+  double sensorNoiseCovariance[JAMSAIL_EKF_DEGREE_M][JAMSAIL_EKF_DEGREE_M];
+
+  /*!
+   * @brief     Matrix containing the coefficients of the sensor noise
+   *            covariance for the EKF.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
+  double sensorNoiseCovariance2[JAMSAIL_EKF_DEGREE_M - 3]
+                               [JAMSAIL_EKF_DEGREE_M - 3];
+
+  /*!
+   * @brief     Mass of Sun. Used in keplarian propogation.
+   *
+   * @frame     N/A
+   * @unit      Kilograms
+   */
+  double sunMass_kg;
+
+  /*!
+   * @brief     Mass of earth. Used in keplarian propogation.
+   *
+   * @frame     N/A
+   * @unit      Kilograms
+   */
+  double earthMass_kg;
+
+  /*!
+   * @brief     Quaternion which represents the rotation form the fix frame to
+   *            earths inertical centric frame.
+   *
+   * @frame     N/A
+   * @unit      n/A
+   */
+  double quaternion_FixToInertCen[4];
+
+  /*!
+   * @brief     Mass of jamSail. Used in keplarian propogation.
+   *
+   * @frame     N/A
+   * @unit      Kilograms
+   */
+  double jamSailMass_kg;
+
+  /*!
+   * @brief     Side real time of earth.
+   *
+   * @frame     N/A
+   * @unit      Seconds
+   */
+  double earthSideRealTime_s;
+
+  /*!
+   * @brief     Parameter which contains the magnitude of the average rotation
+   *            speed of the earth.
+   *
+   * @frame     N/A
+   * @unit      Radians per Seconds
+   */
+  double averageEarthRotationalSpeedMag_rads;
+
+  /*!
+   * @brief     Parameter which contains the equatorial radius of the earth.
+   *
+   * @frame     N/A
+   * @unit      Meters
+   */
+  double earthEqutorialRadius_m;
+
+  /*!
+   * @brief     Semi major axis of JamSail
+   *
+   * @frame     N/A
+   * @unit      Kilometers
+   */
+  double semiMajorAxis_km;
+
+  /*!
+   * @brief     Eccentricity of JamSail
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
+  double eccentricity;
+
+  /*!
+   * @brief     Inclination of JamSail
+   *
+   * @frame     N/A
+   * @unit      Radians
+   */
+  double inclination_rad;
+
+  /*!
+   * @brief     Argument of Perigee of JamSail
+   *
+   * @frame     N/A
+   * @unit      Radians
+   */
+  double argumentOfPerigee_rad;
+
+  /*!
+   * @brief     Right Acension of Accending Nodes of JamSail
+   *
+   * @frame     N/A
+   * @unit      Radians
+   */
+  double raans_rad;
+
+  /*!
+   * @brief     Matrix containing the coefficients of the sensor noise
+   *            covariance for the EKF.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
+  double timeSincePeriapsis_s;
+
+  /*!
+   * @brief     Matrix containing the coefficients of the system noise
+   *            covariance for the EKF.
+   *
+   * @frame     N/A
+   * @unit      N/A
+   */
+  double systemNoiseCovariance[JAMSAIL_EKF_ORDER_N][JAMSAIL_EKF_ORDER_N];
+
+  /*!
+   * @brief     Params struct for IGRF model.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  Igrf_Params igrfModel_params;
+
+  /* ------------------------------------------------------------------------ *
+   * Attitude Control Parameters
+   * ------------------------------------------------------------------------ */
+
+  /*!
+   * @brief     Proportional coefficient for detumbling control.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double detumblingProportionalCoefficient[3];
+
+  /*!
+   * @brief     Proportional coefficient for nominal control.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double nominalProportionalCoefficient[3];
+
+  /*!
+   * @brief     Derivitive coefficient for nominal control.
+   *
+   * @frame     N/A
+   * @units     N/A
+   */
+  double nominalDerivitiveCoefficient[3];
+
+  /* ------------------------------------------------------------------------ *
+   * Miscelaneous Parameters
+   * ------------------------------------------------------------------------ */
+
+  /*!
+   * @brief     Time which JamSail was switched on. Primariy used for
+   * determining when the start up phase has complete.
+   *
+   * @frame     N/A
+   * @units     Seconds
+   */
+  double startTime_s;
+
+  /*!
+   * @brief     Parameter which is used to determine if the angular velocity of
+   *            JamSail is too high and should be put into detumbling mode.
+   *
+   * @frame     N/A
+   * @units     Radians Per Seconds
+   */
+  double nominalToDetumblingModeAngularVelocityCutoff_radps;
+
+  /*!
+   * @brief     Parameter which is used to determine if the angular velocity of
+   *            JamSail is low enough to switch from detumbling mode to nominal
+   *            mode.
+   *
+   * @frame     N/A
+   * @units     Radians Per Seconds
+   */
+  double detumblingToNominalModeAngularVelocityCutoff_radps;
 
   /* ------------------------------------------------------------------------ *
    * Sensor Parameters

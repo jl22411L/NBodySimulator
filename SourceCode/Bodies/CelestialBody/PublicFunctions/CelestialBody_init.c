@@ -53,7 +53,7 @@ int CelestialBody_init(CelestialBody_State *p_celestialBody_state_in,
   GParser_loadDoubleArray(
       &GParser_state,
       p_dic,
-      &(p_celestialBody_state_in->quaternion_FixToCenInert[0]),
+      &(p_celestialBody_state_in->quaternion_FixToInertCen[0]),
       "AngularProperties:quaternion_FixToInertCen",
       4,
       1);

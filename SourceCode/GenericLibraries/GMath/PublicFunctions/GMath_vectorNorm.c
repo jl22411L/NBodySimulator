@@ -22,22 +22,21 @@
 #include "GConst/GConst.h"
 #include "GMath/GMath.h"
 
-int GMath_vectorNorm(
-    double *outputVector_out,
-    double *vector_in,
-    int     vectorSize_in)
+int GMath_vectorNorm(double *p_outputVector_out,
+                     double *p_vector_in,
+                     int     vectorSize_in)
 {
   /* Declarinng local variables */
   double magnitude;
   int    i;
 
   /* Find the magnitude of the vector */
-  GMath_vectorMag(&magnitude, vector_in, vectorSize_in);
+  GMath_vectorMag(&magnitude, p_vector_in, vectorSize_in);
 
   /* Cycle through each element in the input array and normalise */
   for (i = 0; i < vectorSize_in; i++)
   {
-    *(outputVector_out + i) = *(vector_in + i) / magnitude;
+    *(p_outputVector_out + i) = *(p_vector_in + i) / magnitude;
   }
 
   return GCONST_TRUE;
