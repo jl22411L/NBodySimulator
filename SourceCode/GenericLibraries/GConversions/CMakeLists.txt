@@ -1,9 +1,0 @@
-add_library(GConversions
-  PublicFunctions/GConversions_string2double.c
-  PublicFunctions/GConversions_string2float.c
-  PublicFunctions/GConversions_string2int8.c
-  PublicFunctions/GConversions_string2int.c
-  PublicFunctions/GConversions_string2uint.c
-  PublicFunctions/GConversions_string2uint8.c
-  PublicFunctions/GConversions_string2uint16.c
-)

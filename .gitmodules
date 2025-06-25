@@ -1,0 +1,3 @@
+[submodule "SourceCode/GenericLibraries"]
+	path = SourceCode/GenericLibraries
+	url = git@github.com:jl22411L/GenericLibraries.git
