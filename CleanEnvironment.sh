@@ -15,6 +15,7 @@
 
 set -e
 
+# Remove items from Build Environment Folder
 if [[ -d BuildEnvironment/CMakeFiles ]]; then
   echo "[MSG] Removing contents within BuildEnvironment..."
   rm -r BuildEnvironment/*
@@ -23,3 +24,8 @@ else
   echo "[MSG] No contents to remove"
   echo "[...] Aborting"
 fi
+
+# Clean branches of git repository
+git switch main &&
+git pull --prune &&
+git branch --format '%(refname:short) %(upstream:track)' | awk '$2 == "[gone]" { print $1 }' | xargs -r git branch -D
